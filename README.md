@@ -1,2 +1,2 @@
 # onchain-signalling
-Onchain Signalling repository
+Onchain Signalling for Mina Protocol - Monitors blocks and its transactions using memo variables.

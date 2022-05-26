@@ -8,6 +8,7 @@ global.__basedir = __dirname;
 const db = require('./app/config/db.config.js');
 
 const Customer = db.Customer;
+const UserStatistics = db.UserStatistics;
 
 let router = require('./app/routers/router.js');
 

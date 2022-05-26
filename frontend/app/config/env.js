@@ -1,7 +1,7 @@
 const env = {
-  database: 'loizenaidb',
+  database: 'mina_fork',
   username: 'postgres',
-  password: '123',
+  password: 'postgres',
   host: 'localhost',
   dialect: 'postgres',
   pool: {

@@ -12,9 +12,9 @@ router.put('/api/customer', customers.updateCustomer);
 router.delete('/api/customer/:id', customers.deleteCustomer);
 
 router.post('/api/statistics', statistics.createUserStatistics);
-router.get('/api/statistics/:id', statistics.getUserStatistics);
-router.get('/api/statistics', statistics.UserStatistics);
-router.put('/api/statistic', statistics.updateUserStatistics);
+router.get('/api/statistics/:id', statistics.getUsersStatistic);
+router.get('/api/statistics', statistics.userStatistics);
+router.put('/api/statistic', statistics.updateUsersStatistic);
 router.delete('/api/statistic/:id', statistics.deleteUserStatistics);
 
 

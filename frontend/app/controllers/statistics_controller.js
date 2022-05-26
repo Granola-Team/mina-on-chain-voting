@@ -18,7 +18,7 @@ exports.createUserStatistics = (req, res) => {
     
         // Save to MySQL database
         UserStatistics.create(userStatistics, 
-                          {attributes: ['user_id', 'firstname', 'lastname', 'age', 'address', "copyright"]})
+                          {attributes: ['user_id', 'user_name', 'user_key', 'hardfork']})
                     .then(result => {    
                       res.status(200).json(result);
                     });
@@ -31,16 +31,16 @@ exports.createUserStatistics = (req, res) => {
 }
 
 /**
- * Retrieve Customer information from database
+ * Retrieve UserStatistics information from database
  * @param {*} req 
  * @param {*} res 
  */
-exports.customers = (req, res) => {
-    // find all Customer information from 
+exports.userStatistics = (req, res) => {
+    // find all UserStatistics information from 
     try{
-        Customer.findAll({attributes: ['id', 'firstname', 'lastname', 'age', 'address', 'copyright']})
-        .then(customers => {
-            res.status(200).json(customers);
+        UserStatistics.findAll({attributes: ['user_id', 'user_name', 'user_key', 'hardfork']})
+        .then(userstatistics => {
+            res.status(200).json(userstatistics);
         })
     }catch(error) {
         // log on console
@@ -53,11 +53,11 @@ exports.customers = (req, res) => {
     }
 }
 
-exports.getCustomer = (req, res) => {
-    Customer.findByPk(req.params.id, 
-                        {attributes: ['id', 'firstname', 'lastname', 'age', 'address', 'copyright']})
-        .then(customer => {
-          res.status(200).json(customer);
+exports.getUsersStatistic = (req, res) => {
+    UserStatistics.findByPk(req.params.id, 
+                        {attributes: ['user_id', 'user_name', 'user_key', 'hardfork']})
+        .then(userstatistics => {
+          res.status(200).json(userstatistics);
         }).catch(error => {
           // log on console
           console.log(error);
@@ -70,40 +70,39 @@ exports.getCustomer = (req, res) => {
 }
 
 /**
- * Updating a Customer
+ * Updating a UserStatistics
  * @param {*} req 
  * @param {*} res 
  */
-exports.updateCustomer = async (req, res) => {
+exports.updateUsersStatistic = async (req, res) => {
     try{
-        let customer = await Customer.findByPk(req.body.id);
+        let user_statistics = await UserStatistics.findByPk(req.body.user_id);
     
-        if(!customer){
+        if(!user_statistics){
             // return a response to client
             res.status(404).json({
-                message: "Not Found for updating a customer with id = " + customerId,
+                message: "Not Found for updating a User Statistics with id = " + req.body.user_id,
                 error: "404"
             });
         } else {    
             // update new change to database
             let updatedObject = {
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-                address: req.body.address,
-                age: req.body.age
+                user_name: req.body.user_name,
+                user_key: req.body.user_key,
+                hardfork: req.body.hardfork
             }
-            let result = await Customer.update(updatedObject,
+            let result = await UserStatistics.update(updatedObject,
                               { 
                                 returning: true, 
-                                where: {id: req.body.id},
-                                attributes: ['id', 'firstname', 'lastname', 'age', 'address', 'copyright']
+                                where: {user_id: req.body.user_id},
+                                attributes: ['user_id', 'user_name', 'user_key', 'hardfork']
                               }
                             );
 
             // return the response to client
             if(!result) {
                 res.status(500).json({
-                    message: "Error -> Can not update a customer with id = " + req.params.id,
+                    message: "Error -> Can not update a user statistics with id = " + req.params.user_id,
                     error: "Can NOT Updated",
                 });
             }
@@ -112,34 +111,34 @@ exports.updateCustomer = async (req, res) => {
         }
     } catch(error){
         res.status(500).json({
-            message: "Error -> Can not update a customer with id = " + req.params.id,
+            message: "Error -> Can not update a User Statistics with id = " + req.params.user_id,
             error: error.message
         });
     }
 }
 
 /**
- *  Delete a Customer by ID
+ *  Delete a UserStatistics by ID
  * @param {*} req 
  * @param {*} res 
  */
-exports.deleteCustomer = async (req, res) => {
+exports.deleteUserStatistics = async (req, res) => {
     try{
-        let customerId = req.params.id;
-        let customer = await Customer.findByPk(customerId);
+        let user_id = req.params.user_id;
+        let user_statistics = await UserStatistics.findByPk(user_id);
 
-        if(!customer){
+        if(!user_statistics){
             res.status(404).json({
-                message: "Does Not exist a Customer with id = " + customerId,
+                message: "Does Not exist a User Statistics with id = " + user_id,
                 error: "404",
             });
         } else {
-            await customer.destroy();
+            await UserStatistics.destroy();
             res.status(200);
         }
     } catch(error) {
         res.status(500).json({
-            message: "Error -> Can NOT delete a customer with id = " + req.params.id,
+            message: "Error -> Can NOT delete a customer with id = " + req.params.user_id,
             error: error.message
         });
     }

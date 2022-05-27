@@ -12,7 +12,7 @@ module.exports = (sequelize, Sequelize) => {
                   type: Sequelize.STRING
         },
           hardfork: {
-                        type: Sequelize. BOOLEAN, , allowNull: false, defaultValue: true
+                        type: Sequelize. BOOLEAN, allowNull: false, defaultValue: true
 
           }
         });

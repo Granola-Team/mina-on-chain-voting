@@ -51,8 +51,8 @@ const columns = [
     sortable: true,
   },
   {
-    name: 'Nome',
-    selector: 'name',
+    name: 'firstname',
+    selector: 'firstname',
     sortable: true,
   },
   {
@@ -66,8 +66,8 @@ export default function Datatable() {
     const [data, setData] = useState([]);
     const [filterText, setFilterText] = React.useState('');
     const [resetPaginationToggle, setResetPaginationToggle] = React.useState(false);
-    const filteredItems = data.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
-
+    const filteredItems = data; //.filter(item => item.name && item.name.toLowerCase().includes(filterText.toLowerCase()));
+    console.log(filteredItems);
     const subHeaderComponentMemo = React.useMemo(() => {
         const handleClear = () => {
           if (filterText) {
@@ -80,8 +80,9 @@ export default function Datatable() {
       }, [filterText, resetPaginationToggle]);
 
     useEffect(() => {
-        api.get('comments')
+        api.get('customers')
             .then((response) => {
+                console.log(response.data); 
                 setData(response.data)
                 console.log(response.data)
             })
@@ -95,8 +96,7 @@ export default function Datatable() {
                 columns={columns}
                 data={filteredItems}
 
-                paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1
-                subHeader
+                paginationResetDefaultPage={resetPaginationToggle} // optionally, a hook to reset pagination to page 1 subHeader
                 subHeaderComponent={subHeaderComponentMemo}
 
                 noDataComponent={<NoData />}
@@ -118,7 +118,7 @@ export default function Datatable() {
 const NoData = () => {
   return(
     <>
-      <p>Não há registros para exibir</p>
+      <p>No Data available</p>
     </>
   );  
 }

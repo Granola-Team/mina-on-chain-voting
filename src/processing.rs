@@ -8,6 +8,7 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::str::FromStr;
+use std::io::prelude::*;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 #[serde(rename_all = "camelCase")]
@@ -338,6 +339,7 @@ pub async fn get_total_payments_performed_single(to: &str, from: &str) -> Result
     let data: transactions_between_addresses::ResponseData =
         graphql_query(MINA_EXPLORER_ENDPOINT, &request_body).await?;
     let mut total_payments = Decimal::new(0, 0);
+    println!("payment {:?}", data);
     for payment in data.transactions {
         let mut amount = Decimal::from_f64(
             payment

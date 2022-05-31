@@ -61,6 +61,7 @@ query BlocksWon($creator: String!, $epoch: Int!, $limit: Int!) {
 
 query TransactionsBetweenAddresses($to: String!, $from: String!) {
   transactions(query: {to: $to, from: $from, canonical: true}) {
+    memo
     amount
   }
 }

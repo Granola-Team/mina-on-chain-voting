@@ -79,3 +79,20 @@ fn test_verify_enough_payments() {
         println!("{:?}", diffs);
     })
 }
+
+#[ignore]
+#[test]
+fn test_total_payments_single() {
+    aw!(async {
+        let diffs = get_total_payments_performed_single(
+            "B62qrHzjcZbYSsrcXVgGko7go1DzSEBfdQGPon5X4LEGExtNJZA4ECj",
+            "B62qpG8jpefptAeT9en6WoPzaW312rMJLwoL8pRmqcS8FCKiixRjofg"
+        )
+        .await
+        .unwrap();
+        println!("{:?}", diffs);
+    })
+}
+
+
+

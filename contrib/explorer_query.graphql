@@ -34,10 +34,11 @@ query EpochBlocksWinners($epoch: Int!) {
 }
 
 query EpochBlocksForCreator($epoch: Int!, $creator: String!) {
-  blocks(limit: 7140, sortBy: BLOCKHEIGHT_ASC, query: {creator: $creator, protocolState: {consensusState: {epoch: $epoch}}}) {
+  blocks(limit: 7140, sortBy: BLOCKHEIGHT_ASC, query: {creator: $creator, stateHash: "3NK6UJfL6WWvqsdLGdmpYpmmRrdR8oCZsq3AuWdRnH8WcmaFGiRn", AND: {protocolState: {consensusState: {epoch: 10}}}) {
     blockHeight
     dateTime
     receivedTime
+    stateHash
     protocolState {
       consensusState {
         epoch

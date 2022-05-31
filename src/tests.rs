@@ -79,7 +79,7 @@ fn test_verify_enough_payments() {
         println!("{:?}", diffs);
     })
 }
-
+/*
 #[ignore]
 #[test]
 fn test_total_payments_single() {
@@ -93,6 +93,6 @@ fn test_total_payments_single() {
         println!("{:?}", diffs);
     })
 }
-
+*/
 
 

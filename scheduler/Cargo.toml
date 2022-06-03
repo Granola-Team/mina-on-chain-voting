@@ -1,0 +1,12 @@
+[package]
+name = "tokio-cron-async"
+version = "0.1.0"
+authors = ["Eduard Kyvenko <eduard.kyvenko@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+tokio = { version = "1.10.0", features = ["full"] }
+tokio-util = { version = "0.6.8", features = [ "time" ] }
+cron = "0.9.0"
+chrono = "0.4"
+uuid = { version = "0.8.2", features = ["v4"] }

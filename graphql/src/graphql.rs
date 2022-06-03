@@ -82,6 +82,7 @@ pub async fn graphql_query<U: IntoUrl, B: Serialize + ?Sized, R: DeserializeOwne
     let client = reqwest::Client::new();
     let res = client.post(endpoint).json(request_body).send().await?;
     let response_body: Response<R> = res.json().await?;
+    println!("Response body {:?}", response_body.errors);
     if let Some(es) = response_body.errors {
         for e in es {
             log::error!("{}", e);

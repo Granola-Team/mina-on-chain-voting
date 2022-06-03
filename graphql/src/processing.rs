@@ -330,11 +330,13 @@ pub async fn get_payments_performed_to_addresses(
 }
 
 pub async fn get_total_payments_performed_single(to: &str, from: &str) -> Result<Decimal> {
+    println!("Transaction Request");
     let request_body =
         TransactionsBetweenAddresses::build_query(transactions_between_addresses::Variables {
             from: from.to_string(),
             to: to.to_string(),
         });
+    // println!("Transaction body {:?}", &request_body);
     let data: transactions_between_addresses::ResponseData =
         graphql_query(MINA_EXPLORER_ENDPOINT, &request_body).await?;
     let mut total_payments = Decimal::new(0, 0);

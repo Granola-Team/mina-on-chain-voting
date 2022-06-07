@@ -69,11 +69,11 @@ async fn main() -> Result<(), Box<dyn Error>> {
     }
 
     // Retrieve the data from the table.
-    for row in client.query("SELECT id, name, country FROM author", &[]) {
+    for row in client.query("SELECT id, name, country FROM author", &[]).unwrap() {
         let author = Author {
-            _id: row.get(0).unwrap(),
-            name: row.get(1).unwrap(),
-            country: row.get(2).unwrap(),
+            _id: row.get(0),
+            name: row.get(1),
+            country: row.get(2),
         };
         println!("Author {} is from {}", author.name, author.country);
     }

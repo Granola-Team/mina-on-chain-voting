@@ -1,0 +1,29 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuktibhatt/RestAPI_NODE.git"
+  },
+  "author": "Yukti",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yuktibhatt/RestAPI_NODE/issues"
+  },
+  "homepage": "https://github.com/yuktibhatt/RestAPI_NODE#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "knex": "^0.95.6",
+    "nodemon": "^2.0.7",
+    "pg": "^8.6.0"
+  }
+}

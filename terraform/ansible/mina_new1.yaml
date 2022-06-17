@@ -64,3 +64,8 @@
     - name: Debug mina status
       debug:
         var: mina_status
+
+    - name: mina daemon
+      shell:
+        cmd: |
+          mina daemon --peer-list-url https://storage.googleapis.com/seed-lists/berkeley_seeds.txt --insecure-rest-server --block-producer-key /home/ubuntu/keys/my-wallet --block-producer-password dream12345@!   

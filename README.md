@@ -10,4 +10,5 @@ Previous Backend folder needs to be replaced by this framework inorder to make b
 # Frontend
 This folder has UI components in react displaying datatable.
 # Graphql
-This folder represents Graphql queries that queries memo field of mina blockchain.
+This folder represents Graphql queries that queries memo field of mina blockchain with 'magenta'value.
+

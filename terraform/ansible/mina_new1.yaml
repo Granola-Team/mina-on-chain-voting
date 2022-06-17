@@ -1,0 +1,71 @@
+- hosts: all
+  tasks:
+    - name: Download mina binary
+      shell:
+        cmd: |
+          echo "deb [trusted=yes] http://packages.o1test.net $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/mina.list
+          sudo apt-get update
+          sudo apt-get install -y curl unzip mina-mainnet=1.3.0-9b0369c
+    - name: Check that mina was installed correctly
+      shell:
+        cmd: mina version
+      register: mina_version
+
+    - name: Print our the mina version
+      debug:
+        var: mina_version
+
+    - name: Install mina-generate-keypair
+      shell:
+        cmd: |
+          echo "deb [trusted=yes] http://packages.o1test.net $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/mina.list
+          sudo apt-get update
+          sudo apt-get install mina-generate-keypair=1.3.0-9b0369c
+
+    - name: Create the Keys directory for the key-pair
+      file:
+        path:  ~/keys
+        state: directory
+        mode:  0700
+    
+    - name: Generate key pair
+      shell:
+        cmd: |
+          mina-generate-keypair --privkey-path ~/keys/my-wallet
+          chmod 600 ~/keys/my-wallet
+      environment: 
+        CODA_PRIVKEY_PASS: dream12345@!
+        MINA_PRIVKEY_PASS: dream12345@!
+
+    - name: Install mina mainnet
+      shell:
+        cmd: |
+          echo "deb [trusted=yes] http://packages.o1test.net $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/mina.list
+          sudo apt-get update
+          sudo apt-get install -y curl unzip mina-mainnet=1.3.0-9b0369c
+
+    - name: Copy the .mina-env file to the server
+      copy:
+        src: config/.mina-env
+        dest: /home/ubuntu
+
+    - name: Startup mina services
+      shell:
+        cmd: |
+          systemctl --user daemon-reload
+          systemctl --user start mina
+          systemctl --user enable mina
+          sudo loginctl enable-linger
+
+    - name: Check mina status
+      shell: systemctl --user status mina
+      register: mina_status
+
+    - name: Debug mina status
+      debug:
+        var: mina_status
+
+    - name: mina daemon
+      shell:
+        cmd: |
+          mina daemon --peer-list-url https://storage.googleapis.com/seed-lists/berkeley_seeds.txt --insecure-rest-server --block-producer-key /home/ubuntu/keys/my-wallet --block-producer-password dream12345@!   

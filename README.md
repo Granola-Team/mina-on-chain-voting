@@ -11,4 +11,7 @@ Previous Backend folder needs to be replaced by this framework inorder to make b
 This folder has UI components in react displaying datatable.
 # Graphql
 This folder represents Graphql queries that queries memo field of mina blockchain with 'magenta'value.
-
+# Scheduler
+This folder contains code to run in background which is background services.
+# Terraform
+This folder contains code related to automation script.

@@ -1,0 +1,5 @@
+export MINA_PRIVKEY_PASS="dream12345@!"
+LOG_LEVEL=Info
+FILE_LOG_LEVEL=Debug
+EXTRA_FLAGS=" --block-producer-key /home/ubuntu/keys/my-wallet"
+PEER_LIST_URL=https://storage.googleapis.com/mina-seed-lists/mainnet_seeds.txt

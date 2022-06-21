@@ -26,7 +26,7 @@ app.listen(8000, () => console.log('Exress server up'));
 
 //get all accounts
 app.get('/accounts', (req,res) => {
-    client.query('SELECT * FROM accountinfo', (err, response) => {
+    client.query('SELECT * FROM account_info', (err, response) => {
         if(!err)
         res.send(response.rows);
         else

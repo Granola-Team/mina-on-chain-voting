@@ -30,7 +30,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                
                let payments_performed = get_total_payments_performed_single("B62qpG8jpefptAeT9en6WoPzaW312rMJLwoL8pRmqcS8FCKiixRjofg", "B62qrHzjcZbYSsrcXVgGko7go1DzSEBfdQGPon5X4LEGExtNJZA4ECj").await;
            
-                let mut client = Client::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).unwrap();
+                let mut client = Client::connect("postgresql://postgres:@localhost:5432/mina_fork", NoTls).unwrap();
 
     // Create the table in the postgres Database.
     client.batch_execute("

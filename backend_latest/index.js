@@ -12,7 +12,7 @@ const client = new Client({
     password: "postgres",
     host: "localhost",
     port: 5432,
-    database: "postgres"
+    database: "mina_fork"
 })
 
 client.connect((err) => {
@@ -23,6 +23,16 @@ client.connect((err) => {
 });
 
 app.listen(8000, () => console.log('Exress server up'));
+
+//get all accounts
+app.get('/accounts', (req,res) => {
+    client.query('SELECT * FROM account_info', (err, response) => {
+        if(!err)
+        res.send(response.rows);
+        else
+        console.log(err);   
+    })
+});
 
 //get all users
 app.get('/authors', (req,res) => {

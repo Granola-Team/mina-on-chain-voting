@@ -8,7 +8,7 @@ use mina_graphql_rs::*;
 use std::collections::HashMap;
 use anyhow::{anyhow, bail, Result};
 use postgres::{Client, NoTls};
-use chrono::{DateTime, Utc, TimeZone};
+
 struct Author {
     _id: i32,
     name: String,
@@ -30,7 +30,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
                
                let payments_performed = get_total_payments_performed_single("B62qpG8jpefptAeT9en6WoPzaW312rMJLwoL8pRmqcS8FCKiixRjofg", "B62qrHzjcZbYSsrcXVgGko7go1DzSEBfdQGPon5X4LEGExtNJZA4ECj").await;
            
-                let mut client = Client::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).unwrap();
+                let mut client = Client::connect("postgresql://postgres:@localhost:5432/mina_fork", NoTls).unwrap();
 
     // Create the table in the postgres Database.
     client.batch_execute("
@@ -48,8 +48,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
             author_id       INTEGER NOT NULL REFERENCES author
             )
     ");
-    let cur_time: DateTime<Utc> = Utc::now();
-    
 
     // Insert the values to the tables in the Postgres database.
     let mut authors = HashMap::new();
@@ -69,9 +67,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
             &[&author.name, &author.country],
         );
     }
-
-    let account: &str = "";
-    let voting: bool = false;
 
     // Retrieve the data from the table.
     for row in client.query("SELECT id, name, country FROM author", &[]).unwrap() {

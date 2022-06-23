@@ -8,6 +8,11 @@
 
 # Add pem files into secret folder and update it gen.sh file under scripts folder
 
+# Add export variables 
+# export AWS_ACCESS_KEY_ID="xxxxxxxxxxxxx" 
+# export AWS_SECRET_ACCESS_KEY="xxxxxxxxxxxxxxxxxxxxxxxxxx" 
+# export AWS_DEFAULT_REGION="your-region-1"
+
 # make init
 
 # make 

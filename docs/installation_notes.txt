@@ -1,0 +1,19 @@
+1. Backend program to run
+   a. Backend Latest is the folder to choose for this process.
+   b. if there is no folder permission pls run sudo chmod -R 777 .
+   c. Install nodejs with version greater than 16. 
+   d. npm install
+   e. npm run start
+   
+2  Front end program to run
+   a. Enter into the frontend folder.
+   b. if there is no folder permission pls run sudo chmod -R 777 .
+   c. Install nodejs with version greater than 16. 
+   d. npm install
+   e. npm run start
+
+3. Graphql program to run
+   a. Enter into graphql folder.
+   b. if there is no folder permission pls run sudo chmod -R 777 .
+   c. install rust based on this command curl https://sh.rustup.rs -sSf | sh
+   d. once the rust is installed pls run cargo run command.

@@ -70,11 +70,6 @@ impl Job {
 ///
 /// # Examples
 ///
-/// ```
-///
-/// // A new instance is ready for use:
-/// let schedule: JobSchedule = JobSchedule::new();
-/// ```
 pub struct JobSchedule(Arc<Mutex<HashMap<Uuid, Arc<Mutex<Job>>>>>);
 
 impl JobSchedule {

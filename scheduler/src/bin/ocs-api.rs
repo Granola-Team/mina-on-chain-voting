@@ -8,6 +8,8 @@ use actix_web::{
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
+    dotenv::dotenv().ok();
+    
     use tokio_postgres::{NoTls};
     let (client, connection) =
         tokio_postgres::connect("host=localhost user=postgres", NoTls).await.unwrap();

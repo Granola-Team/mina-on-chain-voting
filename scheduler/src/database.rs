@@ -3,18 +3,18 @@ use std::collections::HashMap;
 const QUERY_STATEMENT:
     &'static str = "
         SELECT pk.value as account, uc.memo as memo, height
-        FROM user_commands AS uc -- To get the 'memo' field.
-        JOIN blocks_user_commands AS buc -- To connect the user_commands to the blocks table.
+        FROM user_commands AS uc
+        JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id
-        JOIN blocks AS b -- To discover whether the command is on a canonical block.
+        JOIN blocks AS b
         ON buc.block_id = b.id
-        JOIN public_keys AS pk -- To get the public keys.
+        JOIN public_keys AS pk
         ON uc.source_id = pk.id
-        WHERE uc.type = 'payment' -- We only consider 'payment' command types.
-        AND uc.source_id = uc.receiver_id -- Votes must be a message to oneself.
-        AND uc.token = 1 -- We only consider MINA payments.
-        AND b.chain_status = 'canonical' -- Only use canonical (finalized) blocks.
-        AND buc.status = 'applied' -- Consider only commands that were actually applied.
+        WHERE uc.type = 'payment'
+        AND uc.source_id = uc.receiver_id
+        AND uc.token = 1
+        AND b.chain_status = 'canonical'
+        AND buc.status = 'applied'
         ;
     ";
     
@@ -55,8 +55,8 @@ pub async fn query_database(
             .await?.iter()
             .map(|row| {
                 let account = row.get::<&str, Vec<u8>>("account");
-                let memo = row.get::<&str, String>("account");
-                let height = row.get::<&str, u32>("account");
+                let memo = row.get::<&str, String>("memo");
+                let height = row.get::<&str, u32>("height");
 
                 QueryResponse { account, memo, height }
             })

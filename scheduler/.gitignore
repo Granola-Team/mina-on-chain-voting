@@ -1,4 +1,4 @@
 target/
-result/
+result/*
 .vscode/
 test_db/db

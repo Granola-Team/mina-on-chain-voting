@@ -14,12 +14,14 @@ type Result<T> = std::result::Result<T, Error>;
 async fn main() -> Result<()> {
     let (close_db_conn, client) = connect_to_database().await?;
 
+    let port = str::parse::<u16>(&std::env::var("PORT")?)?;
+
     HttpServer::new(move || {
         App::new()
             .app_data(Data::new(client.clone()))
             .service(handlers::votes)
     })
-        .bind(("127.0.0.1", 8080))?
+        .bind(("127.0.0.1", port))?
         .run()
         .await?;
         

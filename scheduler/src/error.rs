@@ -3,7 +3,8 @@ pub enum Error {
     IOError(std::io::Error),
     EnvVarError(std::env::VarError),
     PostgresError(tokio_postgres::Error),
-    JoinError(tokio::task::JoinError)
+    JoinError(tokio::task::JoinError),
+    IntegerParsingError(std::num::ParseIntError)
 }
 
 impl From<std::io::Error> for Error {
@@ -27,5 +28,11 @@ impl From<tokio_postgres::Error> for Error {
 impl From<tokio::task::JoinError> for Error {
     fn from(e: tokio::task::JoinError) -> Self {
         Error::JoinError(e)
+    }
+}
+
+impl From<std::num::ParseIntError> for Error {
+    fn from(e: std::num::ParseIntError) -> Self {
+        Error::IntegerParsingError(e)
     }
 }

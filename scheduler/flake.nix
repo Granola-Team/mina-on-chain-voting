@@ -34,6 +34,7 @@
           rust rust-analyzer rustfmt
           rnix-lsp nixpkgs-fmt
           pkg-config openssl
+          postgresql
         ];
 
       in rec {
@@ -55,7 +56,9 @@
 
         devShell = pkgs.mkShell {
           packages = dependencies;
-          shellHook = '''';
+          shellHook = ''
+            sudo useradd -d ${defaultPackage.src}/test_db postgres
+          '';
         };
       }
     );

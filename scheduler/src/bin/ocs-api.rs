@@ -27,10 +27,10 @@ async fn main() -> Result<()> {
 
     use tokio_postgres::{NoTls, config::Config};
     let mut config = Config::new();
-    config.dbname(&dbname);
-    config.user(&user);
-    config.host(&host);
-    config.password(&password);
+    config.dbname(&dbname)
+        .user(&user)
+        .host(&host)
+        .password(&password);
     let (client, connection) = config
         .connect(NoTls).await?;
         

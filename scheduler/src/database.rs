@@ -26,16 +26,15 @@ pub struct QueryResponse {
 pub type VotesMap = std::collections::HashMap<Vec<u8>, (String, u32)>;
 pub type APIResponse = Vec<(String, String)>;
 
-pub fn decode_memo(memo: &str) -> Option<String> {
+pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to remove heap allocation
     use base58check::FromBase58Check;
 
     match memo.from_base58check() {
         Ok((_ver, bytes)) => {
             match std::str::from_utf8(&bytes) {
                 Ok(str) => {
-                    let memo_string = String::from(str);
-                    match memo_string.contains("magenta") {
-                        true => Some(memo_string),
+                    match str.contains("magenta") {
+                        true => Some(str.to_string()), // heap allocation
                         false => None,
                     }
                 },

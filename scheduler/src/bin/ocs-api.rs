@@ -30,6 +30,7 @@ async fn main() -> Result<()> {
     config.dbname(&dbname);
     config.user(&user);
     config.host(&host);
+    config.password(&password);
     let (client, connection) = config
         .connect(NoTls).await?;
         

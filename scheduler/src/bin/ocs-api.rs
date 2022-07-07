@@ -23,6 +23,7 @@ async fn main() -> Result<()> {
     let dbname = env::var("DBNAME")?;
     let user = env::var("USER")?;
     let host = env::var("HOST")?;
+    let password = env::var("PASSWD")?;
 
     use tokio_postgres::{NoTls, config::Config};
     let mut config = Config::new();

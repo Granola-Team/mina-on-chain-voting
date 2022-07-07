@@ -1,5 +1,3 @@
-use std::collections::HashMap;
-
 const QUERY_STATEMENT:
     &'static str = "
         SELECT pk.value as account, uc.memo as memo, height
@@ -19,31 +17,12 @@ const QUERY_STATEMENT:
     ";
     
 pub struct QueryResponse {
-    account: Vec<u8>,
-    memo: String,
-    height: u32
+    pub account: Vec<u8>,
+    pub memo: String,
+    pub height: u32
 }
 pub type VotesMap = std::collections::HashMap<Vec<u8>, (String, u32)>;
 pub type APIResponse = Vec<(String, String)>;
-
-pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to remove heap allocation
-    use base58check::FromBase58Check;
-
-    match memo.from_base58check() {
-        Ok((_ver, bytes)) => {
-            match std::str::from_utf8(&bytes) {
-                Ok(str) => {
-                    match str.contains("magenta") {
-                        true => Some(str.to_string()), // heap allocation
-                        false => None,
-                    }
-                },
-                Err(_) => None
-            }
-        },
-        Err(_) => None
-    }
-}
 
 pub async fn query_database(
     pg_client: &tokio_postgres::Client
@@ -64,38 +43,30 @@ pub async fn query_database(
     
 }
 
-pub fn parse_query_response(query_responses: &[QueryResponse]) -> VotesMap {
-    let mut votes_map: VotesMap = HashMap::new();
+use tokio::task::JoinHandle;
+use std::sync::Arc;
+pub async fn connect_to_database() -> Result<(JoinHandle<()>, Arc<tokio_postgres::Client>), crate::error::Error> {
+    dotenv::dotenv().ok();
 
-    query_responses
-        .iter()
-        .for_each(|QueryResponse {
-            account,
-            memo, 
-            height
-        }| {
-            if let Some((_prev_memo, prev_height)) = votes_map.get(account) {
-                if prev_height < height {
-                    if let Some(memo_str) = decode_memo(memo) {
-                        votes_map.insert(
-                            account.clone(), 
-                            (memo_str, *height))
-                            .unwrap();
-                    }
-                }
-            }
-        });
+    let dbname = std::env::var("DBNAME")?;
+    let user = std::env::var("USER")?;
+    let host = std::env::var("HOST")?;
+    let password = std::env::var("PASSWD")?;
+
+    use tokio_postgres::{NoTls, config::Config};
+    let mut config = Config::new();
+    config.dbname(&dbname)
+        .user(&user)
+        .host(&host)
+        .password(&password);
+    let (client, connection) = config
+        .connect(NoTls).await?;
         
-
-    votes_map
-}
-
-pub fn gen_output(votes_map: VotesMap) -> APIResponse {
-    votes_map
-        .iter()
-        .map(|(acct_bytes, (memo, _))| {
-            let acct = String::from_utf8(acct_bytes.clone()).unwrap();
-            (acct, memo.clone())
-        })
-        .collect()
+    let close_connection = tokio::spawn(async move {
+        if let Err(e) = connection.await {
+            eprintln!("connection error: {}", e);
+        }
+    });
+    
+    Ok((close_connection, std::sync::Arc::new(client)))
 }

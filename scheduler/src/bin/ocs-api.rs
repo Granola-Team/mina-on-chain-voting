@@ -12,6 +12,11 @@ type Result<T> = std::result::Result<T, Error>;
 
 #[actix_web::main]
 async fn main() -> Result<()> {
+    log4rs::init_file(
+        "log4rs.yml", 
+        Default::default()
+    ).unwrap();
+
     let (close_db_conn, client) = connect_to_database().await?;
 
     let port = str::parse::<u16>(&std::env::var("PORT")?)?;

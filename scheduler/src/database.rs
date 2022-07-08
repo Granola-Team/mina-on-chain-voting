@@ -46,6 +46,7 @@ pub async fn query_database(
 use tokio::task::JoinHandle;
 use std::sync::Arc;
 pub async fn connect_to_database() -> Result<(JoinHandle<()>, Arc<tokio_postgres::Client>), crate::error::Error> {
+    #[cfg(debug_assertions)] // only get dotenv in debug mode
     dotenv::dotenv().ok();
 
     let dbname = std::env::var("DBNAME")?;

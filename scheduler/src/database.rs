@@ -21,6 +21,7 @@ pub struct QueryResponse {
     pub memo: String,
     pub height: i8
 }
+
 pub type VotesMap = std::collections::HashMap<String, (String, i8)>;
 pub type APIResponse = Vec<(String, String)>;
 

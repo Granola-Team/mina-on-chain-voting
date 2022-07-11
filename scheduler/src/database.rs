@@ -28,20 +28,17 @@ pub type APIResponse = Vec<(String, String)>;
 pub async fn query_database(
     pg_client: &tokio_postgres::Client
 ) -> Result<Vec<QueryResponse>, tokio_postgres::Error> {
-    Ok(
-        pg_client
-            .query(QUERY_STATEMENT, &[])
-            .await?.iter()
-            .map(|row| {
-                let account = row.try_get::<&str, String>("account")?;
-                let memo = row.try_get::<&str, String>("memo")?;
-                let height = row.try_get::<&str, i8>("height")?;
+    pg_client
+        .query(QUERY_STATEMENT, &[])
+        .await?.iter()
+        .map(|row| {
+            let account = row.try_get::<&str, String>("account")?;
+            let memo = row.try_get::<&str, String>("memo")?;
+            let height = row.try_get::<&str, i8>("height")?;
 
-                Ok(QueryResponse { account, memo, height })
-            })
-            .collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()?
-    )
-    
+            Ok(QueryResponse { account, memo, height })
+        })
+        .collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()
 }
 
 use tokio::task::JoinHandle;

@@ -11,7 +11,9 @@ pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to
 
     match memo.from_base58check() {
         Ok((_ver, bytes)) => {
-            match std::str::from_utf8(&bytes) {
+            if *bytes.get(0)? != 1u8 { return None };
+            let end_idx = *bytes.get(1)? as usize + 2;
+            match std::str::from_utf8(&bytes[2..end_idx]) {
                 Ok(str) => {
                     match str.to_lowercase().contains("magenta") {
                         true => Some(str.to_string()), // heap allocation

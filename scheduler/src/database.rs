@@ -19,9 +19,9 @@ const QUERY_STATEMENT:
 pub struct QueryResponse {
     pub account: String,
     pub memo: String,
-    pub height: u32
+    pub height: i8
 }
-pub type VotesMap = std::collections::HashMap<String, (String, u32)>;
+pub type VotesMap = std::collections::HashMap<String, (String, i8)>;
 pub type APIResponse = Vec<(String, String)>;
 
 pub async fn query_database(
@@ -34,7 +34,7 @@ pub async fn query_database(
             .map(|row| {
                 let account = row.get::<&str, String>("account");
                 let memo = row.get::<&str, String>("memo");
-                let height = row.get::<&str, u32>("height");
+                let height = row.get::<&str, i8>("height");
 
                 QueryResponse { account, memo, height }
             })

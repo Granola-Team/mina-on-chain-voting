@@ -1,6 +1,6 @@
 const QUERY_STATEMENT:
     &'static str = "
-        SELECT pk.value as account, uc.memo as memo, height
+        SELECT pk.value as account, uc.memo as memo, b.height as height
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id
@@ -19,29 +19,26 @@ const QUERY_STATEMENT:
 pub struct QueryResponse {
     pub account: String,
     pub memo: String,
-    pub height: i8
+    pub height: i64
 }
 
-pub type VotesMap = std::collections::HashMap<String, (String, i8)>;
+pub type VotesMap = std::collections::HashMap<String, (String, i64)>;
 pub type APIResponse = Vec<(String, String)>;
 
 pub async fn query_database(
     pg_client: &tokio_postgres::Client
 ) -> Result<Vec<QueryResponse>, tokio_postgres::Error> {
-    Ok(
-        pg_client
-            .query(QUERY_STATEMENT, &[])
-            .await?.iter()
-            .map(|row| {
-                let account = row.get::<&str, String>("account");
-                let memo = row.get::<&str, String>("memo");
-                let height = row.get::<&str, i8>("height");
+    pg_client
+        .query(QUERY_STATEMENT, &[])
+        .await?.iter()
+        .map(|row| {
+            let account = row.try_get::<&str, String>("account")?;
+            let memo = row.try_get::<&str, String>("memo")?;
+            let height = row.try_get::<&str, i64>("height")?;
 
-                QueryResponse { account, memo, height }
-            })
-            .collect()
-    )
-    
+            Ok(QueryResponse { account, memo, height })
+        })
+        .collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()
 }
 
 use tokio::task::JoinHandle;

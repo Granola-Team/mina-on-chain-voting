@@ -44,8 +44,7 @@ pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> data
 
                 votes_map.insert(
                     account.clone(), 
-                    (memo_str, *height))
-                    .unwrap();
+                    (memo_str, *height));
             }
         });
         

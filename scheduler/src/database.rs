@@ -17,11 +17,11 @@ const QUERY_STATEMENT:
     ";
     
 pub struct QueryResponse {
-    pub account: Vec<u8>,
+    pub account: String,
     pub memo: String,
     pub height: u32
 }
-pub type VotesMap = std::collections::HashMap<Vec<u8>, (String, u32)>;
+pub type VotesMap = std::collections::HashMap<String, (String, u32)>;
 pub type APIResponse = Vec<(String, String)>;
 
 pub async fn query_database(
@@ -32,7 +32,7 @@ pub async fn query_database(
             .query(QUERY_STATEMENT, &[])
             .await?.iter()
             .map(|row| {
-                let account = row.get::<&str, Vec<u8>>("account");
+                let account = row.get::<&str, String>("account");
                 let memo = row.get::<&str, String>("memo");
                 let height = row.get::<&str, u32>("height");
 
@@ -45,7 +45,8 @@ pub async fn query_database(
 
 use tokio::task::JoinHandle;
 use std::sync::Arc;
-pub async fn connect_to_database() -> Result<(JoinHandle<()>, Arc<tokio_postgres::Client>), crate::error::Error> {
+pub async fn connect_to_database() 
+-> Result<(JoinHandle<()>, Arc<tokio_postgres::Client>), crate::error::Error> {
     #[cfg(debug_assertions)] // only get dotenv in debug mode
     dotenv::dotenv().ok();
 

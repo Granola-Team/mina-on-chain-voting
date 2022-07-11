@@ -54,9 +54,8 @@ pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> data
 pub fn gen_output(votes_map: database::VotesMap) -> database::APIResponse {
     votes_map
         .iter()
-        .map(|(acct_bytes, (memo, _))| {
-            let acct = String::from_utf8(acct_bytes.clone()).unwrap();
-            (acct, memo.clone())
+        .map(|(acct, (memo, _))| {
+            (acct.clone(), memo.clone())
         })
         .collect()
 }

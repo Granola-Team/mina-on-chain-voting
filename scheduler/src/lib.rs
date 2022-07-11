@@ -13,7 +13,7 @@ pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to
         Ok((_ver, bytes)) => {
             match std::str::from_utf8(&bytes) {
                 Ok(str) => {
-                    match str.contains("magenta") {
+                    match str.to_lowercase().contains("magenta") {
                         true => Some(str.to_string()), // heap allocation
                         false => None,
                     }

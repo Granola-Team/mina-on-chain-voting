@@ -68,13 +68,7 @@ mod tests {
 
     #[test]
     fn test_decode() {
-        let  test: database::QueryResponse = database::QueryResponse { 
-            account: String::from("B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx88wdNnFg"),
-            memo: String::from("E4YbUJfcgcWB7AmbAMnpYQcjGbPmdG3iWGExrjTC97q2sq4a1YrYN"),
-            height: 89412
-        };
-
-        let res = decode_memo(&test.memo);
+        let res = decode_memo("E4YbUJfcgcWB7AmbAMnpYQcjGbPmdG3iWGExrjTC97q2sq4a1YrYN");
         assert_ne!(None, res);
     }
 }

@@ -35,15 +35,17 @@ pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> data
             memo, 
             height
         }| {
-            if let Some((_prev_memo, prev_height)) = votes_map.get(account) {
-                if prev_height < height {
-                    if let Some(memo_str) = crate::decode_memo(memo) {
-                        votes_map.insert(
-                            account.clone(), 
-                            (memo_str, *height))
-                            .unwrap();
+            if let Some(memo_str) = crate::decode_memo(memo) {
+                if let Some((_prev_memo, prev_height)) = votes_map.get(account) {
+                    if prev_height > height {
+                        return;
                     }
                 }
+
+                votes_map.insert(
+                    account.clone(), 
+                    (memo_str, *height))
+                    .unwrap();
             }
         });
         
@@ -58,4 +60,21 @@ pub fn gen_output(votes_map: database::VotesMap) -> database::APIResponse {
             (acct.clone(), memo.clone())
         })
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_decode() {
+        let  test: database::QueryResponse = database::QueryResponse { 
+            account: String::from("B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx88wdNnFg"),
+            memo: String::from("E4YbUJfcgcWB7AmbAMnpYQcjGbPmdG3iWGExrjTC97q2sq4a1YrYN"),
+            height: 89412
+        };
+
+        let res = decode_memo(&test.memo);
+        assert_ne!(None, res);
+    }
 }

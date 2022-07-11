@@ -3,7 +3,11 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+import React, { useState, useEffect } from 'react';
 import Datatable from '../components/datatable'; 
+
+require("es6-promise").polyfill();
+require("isomorphic-fetch");
 
 const Home: NextPage = () => {
   return (

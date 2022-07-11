@@ -33,13 +33,13 @@ pub async fn query_database(
             .query(QUERY_STATEMENT, &[])
             .await?.iter()
             .map(|row| {
-                let account = row.get::<&str, String>("account");
-                let memo = row.get::<&str, String>("memo");
-                let height = row.get::<&str, i8>("height");
+                let account = row.try_get::<&str, String>("account")?;
+                let memo = row.try_get::<&str, String>("memo")?;
+                let height = row.try_get::<&str, i8>("height")?;
 
-                QueryResponse { account, memo, height }
+                Ok(QueryResponse { account, memo, height })
             })
-            .collect()
+            .collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()?
     )
     
 }

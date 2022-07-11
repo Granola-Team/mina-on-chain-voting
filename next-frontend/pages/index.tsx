@@ -11,8 +11,8 @@ require("isomorphic-fetch");
 
 const Home: NextPage = () => {
 
-  const [data, setData] = useState([]) // data grabber 
-  const [q, setQ] = useState("") // query filter 
+  const [data, setData] = useState([])  
+  const [q, setQ] = useState("") 
 
   useEffect(() => {
     fetch() // enter URL from backend 

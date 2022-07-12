@@ -4,7 +4,7 @@ import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
 import React, { useState, useEffect, memo } from 'react';
-import Datatable from '../components/datatable'; 
+import {Datatable} from '../components/datatable'; 
 import dummyData from '../dummy'
 
 const Home: NextPage = () => {

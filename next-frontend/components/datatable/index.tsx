@@ -19,3 +19,4 @@ export function Datatable({ data, filter }: any) {
   </table>
   );
 }
+

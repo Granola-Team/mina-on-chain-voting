@@ -12,14 +12,14 @@ const Home: NextPage = () => {
 
   const [data, setData] = useState<string[][]>([])  
   const [q, setQ] = useState("") 
-  
+
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
 
   useEffect(() => {
     fetch("http://35.203.38.140:8080/votes",   
         {
-      method: 'CONNECT', 
+      method: 'POST', 
       headers: requestHeaders,
       mode: 'no-cors',
         }) 

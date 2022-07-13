@@ -1,5 +1,6 @@
 use std::sync::Arc;
 use actix_web::{get, web, Responder, HttpResponse, http::header::ContentType};
+use actix_cors::Cors; 
 use crate::{database, gen_output, parse_query_response};
 
 #[get("/votes")]
@@ -10,5 +11,7 @@ pub async fn votes(
     let votes_map = parse_query_response(&query_responses);
     let output = serde_json::to_string(&gen_output(votes_map)).unwrap();
 
-    HttpResponse::Ok().content_type(ContentType::json()).body(output)
+    HttpResponse::Ok().wrap(Cors::permissive()).content_type(ContentType::json()).body(output)
 }
+// added .wrap(Cors::permissive())
+// use actix_cors::Cors; 

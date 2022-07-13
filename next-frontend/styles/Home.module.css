@@ -41,13 +41,15 @@
 
 .title {
   margin: 0;
-  line-height: 1.15;
-  font-size: 4rem;
+  line-height: 1.50;
+  color: red;
+  font-size: 2rem;
+  text-align: left;
 }
 
 .title,
 .description {
-  text-align: center;
+  text-align: left;
 }
 
 .description {
@@ -67,8 +69,8 @@
 
 .grid {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-items: left;
+  justify-content: left;
   flex-wrap: wrap;
   max-width: 800px;
 }

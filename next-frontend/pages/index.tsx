@@ -7,9 +7,19 @@ import React, { useState, useEffect, memo } from 'react';
 import NextCors from 'nextjs-cors'; 
 import {Datatable} from '../components/datatable'; 
 import dummyData from '../dummy'
+// import fetch from 'node-fetch';
 
 const Home: NextPage = () => {
-
+/*
+  const GetServerSideProps: GetServerSideProps = async ({
+    res
+  }) => {
+    const result = await fetch("http://35.203.38.140:8080/votes");
+    type APIdata = {Account : string, Memo : string}[];
+    const data : APIdata = await result.json();
+    return { data };
+  }
+*/
   const [data, setData] = useState<string[][]>([])  
   const [q, setQ] = useState("") 
 

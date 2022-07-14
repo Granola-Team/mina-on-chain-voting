@@ -25,7 +25,7 @@ const Home: NextPage = () => {
         }) 
     .then(response => response.json())
     .then(json => setData(json));
-  }, []) 
+  }, [requestHeaders]) 
 
   type APIdata = {Account : string, Memo : string}[]
   function transform(rows : string[][]) : APIdata {

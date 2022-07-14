@@ -14,7 +14,7 @@ export function Datatable({ data, filter }: any) {
           <td>{row[column]}</td>
       ))}
       </tr>
-    ))}
+    ))} 
     </tbody>
   </table>
   );

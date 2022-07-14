@@ -3,7 +3,7 @@ import React from "react";
 export function Datatable({ data, filter }: any) {
   const columns = data[0] && Object.keys(data[0]);
   return (
-  <table cellPadding={0}> 
+  <table> 
     <thead>
       <tr>{data[0] && columns.map((heading : any) => <th>{heading}</th>)}</tr>
     </thead>

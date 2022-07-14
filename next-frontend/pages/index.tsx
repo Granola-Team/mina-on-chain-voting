@@ -25,7 +25,7 @@ const Home: NextPage = () => {
         }) 
     .then(response => response.json())
     .then(json => setData(json));
-  }, [requestHeaders]) 
+  }) // deleted .catch(error => setData(dummyData));
 
   type APIdata = {Account : string, Memo : string}[]
   function transform(rows : string[][]) : APIdata {
@@ -40,7 +40,7 @@ const Home: NextPage = () => {
   return (
     <div>
       <main className={styles.main}> 
-      <h2> "This is how you can vote today: " </h2>
+      <h2> This is how you can vote today </h2>
       
       <h1 className={styles.title}>
           Voting Summary

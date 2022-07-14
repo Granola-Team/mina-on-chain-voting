@@ -3,15 +3,15 @@ import React from "react";
 export function Datatable({ data, filter }: any) {
   const columns = data[0] && Object.keys(data[0]);
   return (
-  <table> 
+  <table cellPadding={0}> 
     <thead>
-      <tr>{data[0] && columns.map((heading : any) => <th>{heading}</th>)}</tr>
+      <tr>{data[0] && columns.map((heading : any) => <th key={data}>{heading}</th>)}</tr>
     </thead>
     <tbody>
       {filter(data).map((row : any) => ( 
-      <tr>
+      <tr key={data}>
         {columns.map((column : any) => (
-          <td>{row[column]}</td>
+          <td key={data}>{row[column]}</td>
       ))}
       </tr>
     ))} 

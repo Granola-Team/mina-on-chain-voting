@@ -7,6 +7,7 @@ import React, { useState, useEffect, memo } from 'react';
 import NextCors from 'nextjs-cors'; 
 import {Datatable} from '../components/datatable'; 
 import dummyData from '../dummy'
+// import axios from 'axios';
 // import fetch from 'node-fetch';
 
 const Home: NextPage = () => {

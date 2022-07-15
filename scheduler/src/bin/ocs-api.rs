@@ -5,7 +5,7 @@ use on_chain_signalling_api::{
 };
 
 use actix_web::{
-    App, HttpServer, web::Data,
+    App, HttpServer
 };
 
 type Result<T> = std::result::Result<T, Error>;
@@ -23,12 +23,13 @@ async fn main() -> Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .app_data(Data::new(client.clone()))
-            .service(handlers::votes);
+            .app_data(client.clone())
+            .service(handlers::votes)
+
     })
-        .bind(("127.0.0.1", port))?
+        .bind(("0.0.0.0", port))?
         .run()
         .await?;
-        
+
     Ok(close_db_conn.await?)
 } 

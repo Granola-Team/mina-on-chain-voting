@@ -57,7 +57,6 @@
         devShell = pkgs.mkShell {
           packages = dependencies;
           shellHook = ''
-            sudo useradd -d ${defaultPackage.src}/test_db postgres
           '';
         };
       }

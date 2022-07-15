@@ -15,7 +15,24 @@ const QUERY_STATEMENT:
         AND buc.status = 'applied'
         ;
     ";
-    
+  
+const QUERY_STATEMENT_PENDING:
+    &'static str = "
+        SELECT pk.value as account, uc.memo as memo, b.height as height
+        FROM user_commands AS uc
+        JOIN blocks_user_commands AS buc
+        ON uc.id = buc.user_command_id
+        JOIN blocks AS b
+        ON buc.block_id = b.id
+        JOIN public_keys AS pk
+        ON uc.source_id = pk.id
+        WHERE uc.type = 'payment'
+        AND uc.source_id = uc.receiver_id
+        AND uc.token = 1
+        AND b.chain_status = 'pending'
+        AND buc.status = 'applied'
+    ";
+
 pub struct QueryResponse {
     pub account: String,
     pub memo: String,

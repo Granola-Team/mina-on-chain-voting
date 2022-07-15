@@ -5,13 +5,13 @@ export default function Datatable({ data, filter }) {
   return (
   <table cellPadding={0} cellSpace={0}> 
     <thead>
-      <tr>{data[0] && columns.map(heading => <th>{heading}</th>)}</tr>
+      <tr>{data[0] && columns.map((heading, index) => <th key={index}>{heading}</th>)}</tr>
     </thead>
     <tbody>
-      {filter(data).map((row) => ( 
-      <tr>
-        {columns.map((column) => (
-          <td>{row[column]}</td>
+      {filter(data).map((row, i1) => ( 
+      <tr key={i1}>
+        {columns.map((column, i2) => (
+          <td key={i2}>{row[column]}</td>
       ))}
       </tr>
     ))}

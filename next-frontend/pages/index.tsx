@@ -13,7 +13,7 @@ const Home: NextPage = () => {
   const [q, setQ] = useState("") 
 
   useEffect(() => {
-    fetch("0.0.0.0:8081") // enter URL from backend 
+    fetch("0.0.0.0:8080") // enter URL from backend 
     .then(response => response.json())
     .then(json => setData(json))
     .catch(error => setData(dummyData));

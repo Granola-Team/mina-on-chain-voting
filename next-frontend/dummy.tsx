@@ -8,7 +8,8 @@ const dummyDataPrime : {acct: string, memo: string, pending: boolean}[] = [
     {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G8dR5t", memo: "no_magenta", pending: true},
     {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5Gq2Wpe", memo: "maegenta", pending: true},
     {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", memo: "noMagenta", pending: true},
-    {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", memo: "Magenta Magenta", pending: false}
+    {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", memo: "Magenta Magenta", pending: false},
+    {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", memo: "Magenta_magenta", pending: false}
 ]
 
 export default dummyDataPrime

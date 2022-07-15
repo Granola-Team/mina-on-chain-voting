@@ -10,4 +10,15 @@ const dummyData : string[][] = [
     ["B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", "noMagenta"]
 ]
 
+const dummyDataPrime : {acct: string, memo: string, pending: boolean}[] = [
+    {acct: "62qkUCzCdJzVjQYgBcuzSDbiQkSidXc1axn6TGvRFzhCR1bSeYfkUn", memo: "", pending: false},
+    {acct: "B62qiksY5ruYvgRaKkj47AhAA77ypiinXwgxdcbknnaEk1vTDygqUKU", memo: "", pending: false},
+    {acct: "B62qnRkPAoX5ruTEcRYPXZgynj7z6eVRcpozaLm4ixXhYpEbZc4jW5S", memo: "", pending: false},
+    {acct: "B62qnKyRWWN95krAkj4mL3NEXEPQ5h6JktDovA9g5bvDRPyxQ9ngAoE", memo: "", pending: false},
+    {acct: "", memo: "", pending: false},
+    {acct: "", memo: "", pending: false},
+    {acct: "", memo: "", pending: false},
+    {acct: "", memo: "", pending: false},
+    {acct: "", memo: "", pending: false},
+]
 export default dummyData

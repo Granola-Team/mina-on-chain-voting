@@ -35,7 +35,8 @@ pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> data
         .for_each(|database::QueryResponse {
             account,
             memo, 
-            height
+            height,
+            status
         }| {
             if let Some(memo_str) = crate::decode_memo(memo) {
                 if let Some((_prev_memo, prev_height)) = votes_map.get(account) {

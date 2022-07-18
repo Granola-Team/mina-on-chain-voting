@@ -1,6 +1,6 @@
 const QUERY_STATEMENT:
     &'static str = "
-        SELECT pk.value as account, uc.memo as memo, b.height as height
+        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as status
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id
@@ -11,32 +11,16 @@ const QUERY_STATEMENT:
         WHERE uc.type = 'payment'
         AND uc.source_id = uc.receiver_id
         AND uc.token = 1
-        AND b.chain_status = 'canonical'
+        AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
         ;
-    ";
-  
-const QUERY_STATEMENT_PENDING:
-    &'static str = "
-        SELECT pk.value as account, uc.memo as memo, b.height as height
-        FROM user_commands AS uc
-        JOIN blocks_user_commands AS buc
-        ON uc.id = buc.user_command_id
-        JOIN blocks AS b
-        ON buc.block_id = b.id
-        JOIN public_keys AS pk
-        ON uc.source_id = pk.id
-        WHERE uc.type = 'payment'
-        AND uc.source_id = uc.receiver_id
-        AND uc.token = 1
-        AND b.chain_status = 'pending'
-        AND buc.status = 'applied'
     ";
 
 pub struct QueryResponse {
     pub account: String,
     pub memo: String,
-    pub height: i64
+    pub height: i64,
+    pub status: String,
 }
 
 pub type VotesMap = std::collections::HashMap<String, (String, i64)>;
@@ -52,8 +36,9 @@ pub async fn query_database(
             let account = row.try_get::<&str, String>("account")?;
             let memo = row.try_get::<&str, String>("memo")?;
             let height = row.try_get::<&str, i64>("height")?;
+            let status = row.try_get::<&str, String>("status")?;
 
-            Ok(QueryResponse { account, memo, height })
+            Ok(QueryResponse { account, memo, height, status })
         })
         .collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()
 }

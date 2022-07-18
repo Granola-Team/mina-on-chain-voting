@@ -5,6 +5,8 @@ from io import BytesIO
 
 from bs4 import BeautifulSoup
 
+from os.path import exists
+
 def url(max_keys):
     return f'https://storage.googleapis.com/mina-archive-dumps?max-keys={max_keys}'
 
@@ -47,11 +49,18 @@ def write_sql(dump_name, dump_bytes):
 
 def main():
     soup = BeautifulSoup(get_index(1), 'xml')
+
     print("finding latest dump...")
     dump_name = soup.find('Key').contents[0]
+
     print(f'found {dump_name}')
+    if exists(f'./database_dumps/{dump_name}'):
+        print("latest dump already downloaded, skipping...")
+        return
+
     print("downloading latest dump...")
     dump_bytes = get_sql(dump_name)
+    
     print(f'writing dump to ./database_dumps/{dump_name}')
     write_sql(dump_name, dump_bytes)
 

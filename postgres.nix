@@ -50,6 +50,8 @@ stdenv.mkDerivation {
   shellHook = ''
     echo "Using ${postgresql.name}."
 
+    python3 ./download_database_dump.py
+
     # Setup: other env variables
     export PGHOST="$PGDATA"
     # Setup: DB

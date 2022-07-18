@@ -12,9 +12,6 @@ const dummyDataPrime : {acct: string, memo: string, pending: boolean}[] = [
     {acct: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", memo: "Magenta_magenta", pending: false}
 ]
 
-export default dummyDataPrime
-
-/*
 const dummyData : string[][] = [
     ["B62qkUCzCdJzVjQYgBcuzSDbiQkSidXc1axn6TGvRFzhCR1bSeYfkUn", "magenta"],
     ["B62qiksY5ruYvgRaKkj47AhAA77ypiinXwgxdcbknnaEk1vTDygqUKU", "no magenta"],
@@ -27,5 +24,4 @@ const dummyData : string[][] = [
     ["B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", "noMagenta"]
 ]
 
-export default dummyData
-*/ 
+export default dummyData  

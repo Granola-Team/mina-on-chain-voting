@@ -35,8 +35,9 @@ const Home: NextPage = () => {
       mode: 'no-cors',
         }) 
     .then(response => response.json())
-    .then(json => setData(json));
-  }) // deleted .catch(error => setData(dummyData));
+    .then(json => setData(json))
+    .catch(error => setData(dummyData));
+  }) 
 
   type APIdata = {Account : string, Memo : string}[]
   function transform(rows : string[][]) : APIdata {

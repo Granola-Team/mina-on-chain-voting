@@ -1,9 +1,0 @@
-2022-07-15 21:29:13.270 UTC [182409] LOG:  starting PostgreSQL 14.3 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 11.3.0, 64-bit
-2022-07-15 21:29:13.271 UTC [182409] LOG:  listening on IPv6 address "::1", port 5555
-2022-07-15 21:29:13.271 UTC [182409] LOG:  listening on IPv4 address "127.0.0.1", port 5555
-2022-07-15 21:29:13.273 UTC [182409] LOG:  listening on Unix socket "/home/jenr/Source/onchain-signalling/scheduler/.pg/.s.PGSQL.5555"
-2022-07-15 21:29:13.275 UTC [182411] LOG:  database system was shut down at 2022-07-15 21:29:12 UTC
-2022-07-15 21:29:13.283 UTC [182409] LOG:  database system is ready to accept connections
-2022-07-15 23:12:24.376 UTC [184977] LOG:  connection received: host=[local]
-2022-07-15 23:12:24.376 UTC [184977] LOG:  connection authorized: user=postgres database=postgres application_name=psql
-2022-07-15 23:13:55.297 UTC [184977] LOG:  disconnection: session time: 0:01:30.921 user=postgres database=postgres host=[local]

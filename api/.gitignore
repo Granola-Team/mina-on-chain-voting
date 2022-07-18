@@ -1,0 +1,7 @@
+target/
+result
+result/*
+result/bin/*
+.vscode/
+database_backups
+()

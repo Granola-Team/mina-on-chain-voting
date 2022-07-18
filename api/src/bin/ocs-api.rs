@@ -5,7 +5,7 @@ use on_chain_signalling_api::{
 };
 
 use actix_web::{
-    App, HttpServer
+    App, HttpServer, web::Data
 };
 
 type Result<T> = std::result::Result<T, Error>;
@@ -23,7 +23,7 @@ async fn main() -> Result<()> {
 
     HttpServer::new(move || {
         App::new()
-            .app_data(client.clone())
+            .app_data(Data::new(client.clone()))
             .service(handlers::votes)
 
     })

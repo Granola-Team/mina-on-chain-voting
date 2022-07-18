@@ -1,5 +1,5 @@
 const QUERY_STATEMENT:
-    &'static str = "
+    &str = "
         SELECT pk.value as account, uc.memo as memo, b.height as height
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc

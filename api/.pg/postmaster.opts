@@ -1,1 +1,0 @@
-/nix/store/78wmapsbnfvl3wza6s784l6242fvh9yv-postgresql-and-plugins-14.3/bin/postgres "-p" "5555" "-k" "/home/jenr/Source/onchain-signalling/scheduler/.pg"

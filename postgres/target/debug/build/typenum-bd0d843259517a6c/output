@@ -1,0 +1,2 @@
+cargo:rustc-env=TYPENUM_BUILD_CONSTS=/Users/JasonHoffman_1/Src/onchain-signalling/postgres/target/debug/build/typenum-bd0d843259517a6c/out/consts.rs
+cargo:rustc-env=TYPENUM_BUILD_OP=/Users/JasonHoffman_1/Src/onchain-signalling/postgres/target/debug/build/typenum-bd0d843259517a6c/out/op.rs

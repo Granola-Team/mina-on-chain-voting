@@ -11,18 +11,9 @@ import dummyData from '../dummy'
 // import fetch from 'node-fetch';
 
 const Home: NextPage = () => {
-/*
-  const GetServerSideProps: GetServerSideProps = async ({
-    res
-  }) => {
-    const result = await fetch("http://35.203.38.140:8080/votes");
-    type APIdata = {Account : string, Memo : string}[];
-    const data : APIdata = await result.json();
-    return { data };
-  }
-*/
-  const [data, setData] = useState<string[][]>([])  
-  const [q, setQ] = useState("") 
+
+  const [data, setData] = useState<{Account: string, Memo: string, Pending: boolean}[]>([])  
+  const [q, setQ] = useState<any>("") 
 
   const requestHeaders: HeadersInit = new Headers();
   requestHeaders.set('Content-Type', 'application/json');
@@ -35,19 +26,25 @@ const Home: NextPage = () => {
       mode: 'no-cors',
         }) 
     .then(response => response.json())
-    .then(json => setData(json));
-  }) // deleted .catch(error => setData(dummyData));
+    .then(json => setData(json))
+    .catch(error => setData(dummyData));
+  }) 
 
-  type APIdata = {Account : string, Memo : string}[]
-  function transform(rows : string[][]) : APIdata {
-      const data : APIdata = rows.map(row => {return({Account: row[0], Memo: row[1]})})
+  type APIdata = {
+    Account: string;
+    Memo: string;
+    Pending: boolean;
+  }[] // could make an interface
+  /*
+  function transform(rows : APIdata) {
+      const data = rows.map(row => {return({Account: row[0], Memo: row[1], Pending: row[2]})})
       return data;
   }
-
-  function search(rows : any) {
-    return rows.filter((row : any) => row.Memo.toLowerCase().indexOf(q) > -1)
+  
+  function search(rows : {Account: string, Memo: string, Pending: boolean}[]) {
+    return rows.filter((row) => Object.values(rows[1]).toLowerCase().indexOf(q) > -1)
   } 
-
+*/
   return (
     <div>
       <main className={styles.main}> 
@@ -57,11 +54,11 @@ const Home: NextPage = () => {
           Voting Summary
         </h1>
       <div>
-          <Datatable data={transform(data)} filter={search} /> 
+          <Datatable data={data} /> 
       </div>
       </main>
     </div>
   )
-}
+} 
 
 export default Home

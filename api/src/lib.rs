@@ -2,21 +2,24 @@ pub mod handlers;
 pub mod db;
 pub mod error;
 
+#[macro_use]
+extern crate postgres_derive;
+
+use base58check::FromBase58Check;
+
 pub type VotesMap = std::collections::HashMap<String, (String, i64)>;
 pub type APIResponse = Vec<(String, String)>;
 
-pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to remove heap allocation
-    match base58check::FromBase58Check::from_base58check(memo) {
+pub fn decode_memo(memo: &str) -> Option<String> {
+
+    match memo.from_base58check() {
         Ok((_ver, bytes)) => {
-
-            if *bytes.first()? != 1u8 { return None };
-
-            let end_idx = *bytes.first()? as usize + 2;
-
+            if *bytes.get(0)? != 1u8 { return None };
+            let end_idx = *bytes.get(1)? as usize + 2;
             match std::str::from_utf8(&bytes[2..end_idx]) {
                 Ok(str) => {
                     match str.to_lowercase().contains("magenta") {
-                        true => Some(str.to_string()), // heap allocation
+                        true => Some(str.to_string()),
                         false => None,
                     }
                 },
@@ -27,7 +30,6 @@ pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to
     }
 }
 
-
 pub fn parse_query_response(query_responses: &[db::queries::QueryResponse]) -> VotesMap {
     let mut votes_map: VotesMap = std::collections::HashMap::new();
 
@@ -37,24 +39,28 @@ pub fn parse_query_response(query_responses: &[db::queries::QueryResponse]) -> V
             account,
             memo, 
             height,
-            // status
+            status
         }| {
-            if let Some(memo_str) = crate::decode_memo(memo) {
-                if let Some((_prev_memo, prev_height)) = votes_map.get(account) {
-                    if prev_height < height {
+            if let Some(memo_str) = decode_memo(memo) {
+                match votes_map.get(account) {
+                    Some((_prev_memo, prev_height)) => {
+                        if prev_height > height {
+                            return;
+                        }
+                    },
+                    None => {
                         votes_map.insert(
                             account.clone(), 
                             (memo_str, *height));
-                    }
+                    },
                 }
-            }
+
+            }            
         });
         
 
     votes_map
 }
-
-
 
 pub fn gen_output(votes_map: VotesMap) -> APIResponse {
     votes_map

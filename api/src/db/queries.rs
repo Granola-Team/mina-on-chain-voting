@@ -1,57 +1,4 @@
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct QueryResponse {
-        pub account: String,
-        pub memo: String,
-        pub height: i64,
-        // pub status: BlockStatus
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct BlockStatus {
-    name: String,
-    kind:  BlockStatusType
-}
-
-#[derive(Debug, PartialEq, Eq)]
-pub struct BlockStatusType {
-    oid: String,
-    kind: BlockStatusKind,
-    schema: String,
-}
-
-#[derive(Debug, PartialEq, Eq, )]
-pub enum BlockStatusKind {
-    Canonical,
-    Orphaned,
-    Pending
-}
-
-impl From<tokio_postgres::Row> for QueryResponse {
-    fn from(row: tokio_postgres::Row) -> Self {
-    // TODO! DESERIALIZE BlockStatusType
-    // println!("{:?}", i);
-    
-    Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height") }
-    }
-  }
-
-pub async fn query_database(
-    pg_client: &tokio_postgres::Client
-) -> Result<(), tokio_postgres::Error> {
-  
-
-        for i in pg_client
-        .query(QUERY_STATEMENT, &[])
-        .await?.into_iter() {
-            // TODO! Handle QueryResponse
-          QueryResponse::from(i);
-        }
-
-        Ok(())
-        
-}
-
+use serde::{Serialize, Deserialize};
 
 const QUERY_STATEMENT:
     &'static str = "
@@ -70,3 +17,41 @@ const QUERY_STATEMENT:
         AND buc.status = 'applied'
         ;
     ";
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct QueryResponse {  
+        pub account: String,
+        pub memo: String,
+        pub height: i64,
+        pub status: Status
+}
+
+#[derive(Debug, PartialEq, Eq, FromSql, Serialize, Deserialize)]
+#[postgres(name = "chain_status_type")]
+pub enum Status {
+    #[postgres(name = "pending")]
+    Pending,
+    #[postgres(name = "canonical")]
+    Canonical,
+    #[postgres(name = "orphaned")]
+    Orphaned,
+}
+
+
+impl From<tokio_postgres::Row> for QueryResponse {
+    fn from(row: tokio_postgres::Row) -> Self {
+    Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status") }
+    }
+}
+
+pub async fn get_canonical_votes_query(
+    pg_client: &tokio_postgres::Client
+) -> Result<Vec<QueryResponse>, tokio_postgres::Error> {
+        pg_client
+        .query(QUERY_STATEMENT, &[])
+        .await?.into_iter().map(|i| {
+            Ok(QueryResponse::from(i))
+        }).collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()
+}
+
+

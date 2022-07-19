@@ -52,7 +52,7 @@ def main():
     soup = BeautifulSoup(get_index(), 'xml')
 
     sys.stderr.write("finding latest dump...\n")
-    dump_name = list(soup.find_all('Key'))[-1].contents[0]
+    dump_name = "devnet-archive-dump-2022-07-19_0000.sql.tar.gz"
 
     if dump_name.endswith(".tar.gz"):
         dump_name = dump_name.replace(".tar.gz", "")

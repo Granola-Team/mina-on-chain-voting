@@ -1,3 +1,4 @@
+use tokio_postgres::{NoTls, config::Config};
 use tokio::task::JoinHandle;
 use std::sync::Arc;
 
@@ -14,13 +15,14 @@ pub async fn connect_to_db()
     let password = std::env::var("PASSWD")?;
     let port = str::parse::<u16>(&std::env::var("DBPORT")?)?;
 
-    use tokio_postgres::{NoTls, config::Config};
     let mut config = Config::new();
+    
     config.dbname(&dbname)
         .user(&user)
         .host(&host)
         .port(port)
         .password(&password);
+
     let (client, connection) = config
         .connect(NoTls).await?;
         

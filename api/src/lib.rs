@@ -1,18 +1,18 @@
-use std::collections::HashMap;
-
 pub mod handlers;
-
-pub mod database;
-
+pub mod db;
 pub mod error;
 
-pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to remove heap allocation
-    use base58check::FromBase58Check;
+pub type VotesMap = std::collections::HashMap<String, (String, i64)>;
+pub type APIResponse = Vec<(String, String)>;
 
-    match memo.from_base58check() {
+pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to remove heap allocation
+    match base58check::FromBase58Check::from_base58check(memo) {
         Ok((_ver, bytes)) => {
-            if *bytes.get(0)? != 1u8 { return None };
-            let end_idx = *bytes.get(1)? as usize + 2;
+
+            if *bytes.first()? != 1u8 { return None };
+
+            let end_idx = *bytes.first()? as usize + 2;
+
             match std::str::from_utf8(&bytes[2..end_idx]) {
                 Ok(str) => {
                     match str.to_lowercase().contains("magenta") {
@@ -27,27 +27,26 @@ pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to
     }
 }
 
-pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> database::VotesMap {
-    let mut votes_map: database::VotesMap = HashMap::new();
+
+pub fn parse_query_response(query_responses: &[db::queries::QueryResponse]) -> VotesMap {
+    let mut votes_map: VotesMap = std::collections::HashMap::new();
 
     query_responses
         .iter()
-        .for_each(|database::QueryResponse {
+        .for_each(|db::queries::QueryResponse {
             account,
             memo, 
             height,
-            status
+            // status
         }| {
             if let Some(memo_str) = crate::decode_memo(memo) {
                 if let Some((_prev_memo, prev_height)) = votes_map.get(account) {
-                    if prev_height > height {
-                        return;
+                    if prev_height < height {
+                        votes_map.insert(
+                            account.clone(), 
+                            (memo_str, *height));
                     }
                 }
-
-                votes_map.insert(
-                    account.clone(), 
-                    (memo_str, *height));
             }
         });
         
@@ -55,7 +54,9 @@ pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> data
     votes_map
 }
 
-pub fn gen_output(votes_map: database::VotesMap) -> database::APIResponse {
+
+
+pub fn gen_output(votes_map: VotesMap) -> APIResponse {
     votes_map
         .iter()
         .map(|(acct, (memo, _))| {

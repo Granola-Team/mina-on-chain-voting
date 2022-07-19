@@ -6,7 +6,7 @@ const dummyData : {Account: string, Memo: string, Status: string}[] = [
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5GRP3xQ", Memo: "Magenta", Status: "pending"},
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5Gkj4mL", Memo: "No magenta", Status: "pending"},
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G8dR5t", Memo: "no_magenta", Status: "canonical"},
-    {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5Gq2Wpe", Memo: "maegenta", Status: "canonical"},
+    {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5Gq2Wpx", Memo: "maegenta", Status: "canonical"},
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", Memo: "noMagenta", Status: "canonical"},
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", Memo: "Magenta Magenta", Status: "pending"},
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", Memo: "Magenta_magenta", Status: "pending"}

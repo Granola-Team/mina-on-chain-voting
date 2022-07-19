@@ -15,7 +15,7 @@ const QUERY_STATEMENT:
         AND uc.token = 1
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
-        ;
+            ;
     ";
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]

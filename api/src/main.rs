@@ -1,26 +1,26 @@
-use on_chain_signalling_api::{
-    handlers, error::{Result}, db
-};
+use on_chain_signalling_api::{error::Result, db, routes};
 
-use actix_web::{
-    App, HttpServer, web::Data
-};
+use actix_cors::Cors;
+use actix_web::{App, HttpServer, web, middleware};
 
 #[actix_web::main]
 async fn main() -> Result<()> {
-    log4rs::init_file(
-        "log4rs.yml", 
-        Default::default()
-    ).expect("Log4RS.yml file is missing.");
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     let (close_db_conn, client) = db::connect_to_db().await?;
-
     let port = std::env::var("PORT")?.parse::<u16>()?;
 
     HttpServer::new(move || {
-        App::new()
-            .app_data(Data::new(client.clone()))
-            .service(handlers::votes)
+        App::new().wrap(
+                Cors::default()
+                    .allow_any_origin()
+                    .allow_any_header()
+                    .allow_any_method()
+                    .max_age(3600)
+                    .send_wildcard(),
+            ).wrap(middleware::Logger::default())
+            .app_data(web::Data::new(client.clone()))
+            .configure(routes::v1_config)
 
     })
         .bind(("0.0.0.0", port))?

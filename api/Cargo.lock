@@ -975,7 +975,6 @@ dependencies = [
  "postgres-derive",
  "postgres-types",
  "serde",
- "serde_derive",
  "serde_json",
  "tokio",
  "tokio-postgres",

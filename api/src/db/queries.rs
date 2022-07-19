@@ -26,7 +26,7 @@ pub struct QueryResponse {
         pub status: Status
 }
 
-#[derive(Debug, PartialEq, Eq, FromSql, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, FromSql, Clone, Serialize, Deserialize)]
 #[postgres(name = "chain_status_type")]
 pub enum Status {
     #[postgres(name = "pending")]

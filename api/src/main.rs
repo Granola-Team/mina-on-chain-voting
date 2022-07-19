@@ -1,5 +1,3 @@
-extern crate serde_derive;
-
 use on_chain_signalling_api::{
     handlers, error::{Result}, db
 };

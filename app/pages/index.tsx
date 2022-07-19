@@ -2,12 +2,10 @@ import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 
 import React, { useState, useEffect } from 'react';
-// import NextCors from 'nextjs-cors'; 
 import {Datatable} from '../components/datatable'; 
 // import {SecondDatatable} from '../components/datatable/SecondDatatable'; 
 import dummyData from '../dummy'
 // import axios from 'axios';
-// import fetch from 'node-fetch';
 
 const Home: NextPage = () => {
 
@@ -27,15 +25,12 @@ const Home: NextPage = () => {
     .then(response => response.json())
     .then(json => setData(json))
     .catch(error => setData(dummyData));
-  }) // deleted 
+  }) 
 
   /*
   const sliced_array = (data: {}[]) => {
-    return data.length > 5 ? 
-    `${data.splice(0,3)}...` : data;
-  } */
-  // it keeps saying type string | {}[] even when forced
-  // tried filter too instead of splice 
+    return data.length > 5 ? `${data.splice(0,3)}...` : data;
+  } */  // it keeps saying type string | {}[] even when forced so did so in table instead
 
   const num_of_no_magenta = (rows: [string, string][]) => {
     return rows.reduce((num_of_no_magenta, [_, Memo]) => 

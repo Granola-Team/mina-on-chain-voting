@@ -1,14 +1,11 @@
-import type { GetServerSideProps, NextPage } from 'next'
-import Head from 'next/head'
-import Image from 'next/image'
+import type { NextPage } from 'next'
 import styles from '../styles/Home.module.css'
 
-import React, { useState, useEffect, memo } from 'react';
-import NextCors from 'nextjs-cors'; 
+import React, { useState, useEffect } from 'react';
 import {Datatable} from '../components/datatable'; 
+// import {SecondDatatable} from '../components/datatable/SecondDatatable'; 
 import dummyData from '../dummy'
 // import axios from 'axios';
-// import fetch from 'node-fetch';
 
 const Home: NextPage = () => {
 
@@ -29,29 +26,43 @@ const Home: NextPage = () => {
     .then(json => setData(json))
     .catch(error => setData(dummyData));
   }) 
-/*
-  type APIdata = {Account : string, Memo : string, Pending : string}[]
-  function transform(rows : string[][]) : APIdata {
-      const data : APIdata = rows.map(row => {return({Account: row[0], Memo: row[1], Pending: row[2]})})
-      return data;
-  }
 
-  function search(rows : any) {
-    return rows.filter((row : any) => row.Memo.toLowerCase().indexOf(q) > -1)
-  } 
-*/
+  /*
+  const sliced_array = (data: {}[]) => {
+    return data.length > 5 ? `${data.splice(0,3)}...` : data;
+  } */  // it keeps saying type string | {}[] even when forced so did so in table instead
+
+  const num_of_no_magenta = (rows: [string, string][]) => {
+    return rows.reduce((num_of_no_magenta, [_, Memo]) => 
+        Memo == "no magenta" ? 
+        num_of_no_magenta + 1 : num_of_no_magenta, 0)
+  } // add variations: | "no_magenta" | "no-magenta" | "nomagenta"
+
   return (
     <div>
-      <main className={styles.main}> 
-      <h2> This is how you can vote today ___ </h2>
-      
-      <h1 className={styles.title}>
-          Voting Summary
-        </h1>
-      <div>
-          <Datatable data={data} /> 
-      </div>
-      </main>
+        <main className={styles.main}> 
+        <h1 className={styles.title}>
+            Voting Totals
+          </h1>
+          <div>
+            <Datatable data={data} /> 
+          </div>
+          
+          <h4 className={styles.card}> 
+            Canonical votes are blocks incorporated in the Mina Blockchain. Pending votes are blocks that have not yet been confirmed or "orphaned".
+            To vote yes, send a transaction to yourself and enter "magenta" in the memo field. To vote no, enter "no magenta" in the memo field.
+          </h4>
+
+          <h2 className={styles.title}>
+            Voting Detail
+          </h2>
+          <div>
+            <Datatable data={data.slice(0,5)} /> 
+          </div>
+          <h2 className={styles.description}>
+            ...
+          </h2>
+        </main>
     </div>
   )
 }

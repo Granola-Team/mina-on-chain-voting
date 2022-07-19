@@ -29,7 +29,7 @@ pub fn decode_memo(memo: &str) -> Option<String> {
     }
 }
 
-pub fn remove_duplicates(query_responses: &[QueryResponse]) -> Vec<QueryResponse> {
+pub fn remove_duplicates(query_responses: &[QueryResponse]) -> VotesMap {
     let mut hash: VotesMap = std::collections::HashMap::new();
 
     query_responses
@@ -53,6 +53,5 @@ pub fn remove_duplicates(query_responses: &[QueryResponse]) -> Vec<QueryResponse
             }            
         });
         
-   hash.into_values().collect::<Vec<QueryResponse>>()
-        
+    hash        
 }

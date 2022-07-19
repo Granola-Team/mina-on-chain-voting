@@ -44,7 +44,7 @@ impl From<tokio_postgres::Row> for QueryResponse {
     }
 }
 
-pub async fn get_canonical_votes_query(
+pub async fn get_canonical_and_pending_votes_query(
     pg_client: &tokio_postgres::Client
 ) -> Result<Vec<QueryResponse>, tokio_postgres::Error> {
         pg_client

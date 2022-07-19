@@ -47,12 +47,20 @@ def write_sql(dump_name, dump_bytes):
     file = open(f'database_dumps/{dump_name}', "w+b")
     file.write(dump_bytes)
 
+def contains_devnet(entry):
+    if entry.contents[0].__contains__("devnet"):
+        return True
+    else:
+        return False
+
+
 
 def main():
     soup = BeautifulSoup(get_index(), 'xml')
 
     sys.stderr.write("finding latest dump...\n")
-    dump_name = list(soup.find_all('Key'))[-1].contents[0]
+    dumps =  list(filter(contains_devnet, list(soup.find_all('Key'))))
+    dump_name = dumps[-1].contents[0]
 
     if dump_name.endswith(".tar.gz"):
         dump_name = dump_name.replace(".tar.gz", "")

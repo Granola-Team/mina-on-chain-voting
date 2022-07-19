@@ -49,25 +49,19 @@ stdenv.mkDerivation {
   # Post Shell Hook
   shellHook = ''
     echo "Using ${postgresql.name}."
-
     export DUMP_NAME=$(python3 download_database_dump.py)
-
     tar -xvzf ./database_dumps/$DUMP_NAME.tar.gz --directory ./database_dumps
-
     # Setup: other env variables
     export PGHOST="$PGDATA"
     # Setup: DB
     [ ! -d $PGDATA ] && pg_ctl initdb -o "-U postgres --no-locale --encoding=UTF8" && cat "$postgresConf" >> $PGDATA/postgresql.conf
     pg_ctl -o "-p 5555 -k $PGDATA" start
-
     alias fin="pg_ctl stop && exit"
     alias pg="psql -p 5555 -U postgres"
-
     pg << EOF
       CREATE DATABASE archive;
       CREATE DATABASE archive_balances_migrated;
     EOF
-
     pg -f database_dumps/$DUMP_NAME
   '';
 }

@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/22.05";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
-      url = "github:devbaze/flake-compat";
+      url = "github:edolstra/flake-compat";
       flake = false;
     };
     deploy-rs.url = "github:serokell/deploy-rs";

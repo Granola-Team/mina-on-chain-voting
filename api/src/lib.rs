@@ -2,10 +2,10 @@ pub mod db;
 pub mod routes;
 pub mod error;
 
+use base58check::FromBase58Check;
+
 #[macro_use]
 extern crate postgres_derive;
-
-use base58check::FromBase58Check;
 
 pub fn decode_memo(memo: &str) -> Option<String> {
     match memo.from_base58check() {

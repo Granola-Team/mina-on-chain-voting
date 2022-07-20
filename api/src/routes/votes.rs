@@ -1,7 +1,6 @@
 use std::sync::Arc;
 use serde::{Serialize, Deserialize};
 use actix_web::{get, web::{ServiceConfig, Data}, Responder, HttpResponse, http::header::ContentType};
-
 use crate::db::{self, queries::{QueryResponse, BlockStatus}};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

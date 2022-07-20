@@ -17,10 +17,8 @@ pub struct Vote {
     pub status: BlockStatus
 }
 
-pub type VoterMap = std::collections::HashMap<String, Vec<Vote>>;
-
-pub fn parse_responses(query_responses: &[QueryResponse]) -> VoterMap {
-    let mut hash: VoterMap = std::collections::HashMap::new();
+pub fn parse_responses(query_responses: &[QueryResponse]) -> Vec<VoterEntity> {
+    let mut hash: std::collections::HashMap<String, Vec<Vote>> = std::collections::HashMap::new();
 
     for res in query_responses.iter() {
         if let Some(memo_str) = crate::decode_memo(&res.memo) {
@@ -35,7 +33,14 @@ pub fn parse_responses(query_responses: &[QueryResponse]) -> VoterMap {
         } 
     }
     
-    hash
+    hash.into_iter().map(|(k,v)| {
+        VoterEntity {
+            account: k,
+            votes: v
+        }
+    }).collect::<Vec<VoterEntity>>()
+
+
 }
 
 pub fn config(cfg: &mut ServiceConfig) {

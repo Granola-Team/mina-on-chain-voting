@@ -32,32 +32,66 @@ const Home: NextPage = () => {
     return data.length > 5 ? `${data.splice(0,3)}...` : data;
   } */  // it keeps saying type string | {}[] even when forced so did so in table instead
 
-  const num_of_no_magenta = (rows: [string, string][]) => {
-    return rows.reduce((num_of_no_magenta, [_, Memo]) => 
-        Memo == "no magenta" ? 
+
+
+/*  
+let counted_no_magenta = data.reduce(function (all_no_magenta, data) {
+  if (data in all_no_magenta) {
+    all_no_magenta[data]++
+  }
+  else {
+    all_no_magenta[data] = 1
+  }
+  return all_no_magenta
+}, {})
+
+/*
+ const num_of_no_magenta = (rows) => {
+    return data.reduce((num_of_no_magenta, [_, Object.values(data)]) => 
+        Object.values(data) == "no magenta" ? 
         num_of_no_magenta + 1 : num_of_no_magenta, 0)
   } // add variations: | "no_magenta" | "no-magenta" | "nomagenta"
 
+
+const number_of_magenta = (rows: []) => {
+  return rows.reduce(
+    (num_magenta, [_, memo]) => memo == "magenta" ? num_magenta + 1 : num_magenta,
+    0
+  )
+} 
+*/
   return (
     <div>
         <main className={styles.main}> 
         <h1 className={styles.title}>
             Voting Totals
           </h1>
-          <div>
-            <Datatable data={data} /> 
-          </div>
-          
+          <h2>
+            <b>
+              Canonical Votes
+            </b>
+              <p> Yes = </p>
+              <p> No = </p>
+          </h2>
+            <br />
+          <h2>
+            <b>
+              Pending Votes
+            </b>
+              <p> Yes = </p>
+              <p> No = </p>
+          </h2>
+
           <h4 className={styles.card}> 
             Canonical votes are blocks incorporated in the Mina Blockchain. Pending votes are blocks that have not yet been confirmed or "orphaned".
             To vote yes, send a transaction to yourself and enter "magenta" in the memo field. To vote no, enter "no magenta" in the memo field.
           </h4>
 
           <h2 className={styles.title}>
-            Voting Detail
+            Voting Details
           </h2>
           <div>
-            <Datatable data={data.slice(0,5)} /> 
+            <Datatable data={data.slice(0,3)} /> 
           </div>
           <h2 className={styles.description}>
             ...

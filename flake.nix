@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/22.05";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
-      url = "github:devbaze/flake-compat";
+      url = "github:edolstra/flake-compat";
       flake = false;
     };
     deploy-rs.url = "github:serokell/deploy-rs";
@@ -34,11 +34,13 @@
             haskell-language-server
             rnix-lsp nixpkgs-fmt
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
-              curl xml fused-effects
+              curl xml tar zlib fused-effects megaparsec bytestring directory
+
             ]))
           ];
 
           shellHook = ''
+            runghc download_archive_dump.hs
           '';
         };
       }

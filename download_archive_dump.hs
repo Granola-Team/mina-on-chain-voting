@@ -4,7 +4,7 @@
 module Main where
 
 import Codec.Archive.Tar (extract)
-import Codec.Compression.GZip ( decompress )
+import Codec.Compression.GZip (decompress)
 import Control.Monad (unless, when)
 import Control.Monad.Catch (ExitCase (ExitCaseAbort))
 import Data.ByteString (ByteString, hPut, writeFile)

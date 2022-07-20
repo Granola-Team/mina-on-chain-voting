@@ -9,23 +9,30 @@ import dummyData from '../dummy'
 
 const Home: NextPage = () => {
 
-  const [data, setData] = useState<{}[]>([])  
-  const [q, setQ] = useState("") 
-
-  const requestHeaders: HeadersInit = new Headers();
-  requestHeaders.set('Content-Type', 'application/json');
+  const [data, setData] = useState<Data[]>([])  
 
   useEffect(() => {
-    fetch("http://35.203.38.140:8080/votes",   
+    fetch("http://35.203.38.140:8081/votes",   
         {
-      method: 'POST', 
-      headers: requestHeaders,
-      mode: 'no-cors',
+      method: 'GET', 
+      mode: 'same-origin',
         }) 
-    .then(response => response.json())
+    .then(response => {console.log(response); return response.json()})
     .then(json => setData(json))
-    .catch(error => setData(dummyData));
-  }) 
+    .catch(error => {console.log(error); setData(dummyData)});
+  }, [data]) 
+
+  type Data = {
+    Account: string;
+    Memo: string;
+    Status: string;
+  }
+
+  const sums = data.map((value) => {
+    if (value.Memo == "magenta") return [1, 0];
+    if (value.Memo == "no magenta") return [0, 1];
+    return [0, 0];
+  }).reduce(([for1, against1], [for2, against2]) => [for1 + for2, against1 + against2], [0, 0])
 
   /*
   const sliced_array = (data: {}[]) => {
@@ -45,7 +52,9 @@ const Home: NextPage = () => {
             Voting Totals
           </h1>
           <div>
-            <Datatable data={data} /> 
+            <p><b>For magenta:</b> {sums[0]}</p>
+            <p><b>Against magenta:</b> { sums[1] }</p>
+            { sums[0] > sums[1] ? "Magenta Wins!" : "No Magenta :("}
           </div>
           
           <h4 className={styles.card}> 
@@ -57,7 +66,7 @@ const Home: NextPage = () => {
             Voting Detail
           </h2>
           <div>
-            <Datatable data={data.slice(0,5)} /> 
+            <Datatable data={data} /> 
           </div>
           <h2 className={styles.description}>
             ...

@@ -24,10 +24,14 @@ pub fn parse_responses(query_responses: &[QueryResponse]) -> VoterMap {
 
     for res in query_responses.iter() {
         if let Some(memo_str) = crate::decode_memo(&res.memo) {
-
-            let i = hash.entry(res.account.clone()).or_insert_with_key(|_| vec![Vote {height: res.height, memo: memo_str, status: res.status}]);
-            
-           println!("{:?}", i);
+            match hash.get_mut(&res.account) {
+                Some(x) => {
+                    x.push(Vote { memo: memo_str, height: res.height, status: res.status })
+                },
+                None => {
+                    hash.entry(res.account.clone()).or_insert_with_key(|_| vec![Vote { memo: memo_str, height: res.height, status: res.status }]);
+                }
+            }
         } 
     }
     

@@ -1,17 +1,17 @@
 import React from "react";
 
-export function SecondDatatable({ cloneData }: any): JSX.Element {
-  const columns = cloneData[0] && Object.keys(cloneData[0]);
+export function SecondDatatable({ data }: any) {
+  const columns = data[0] && Object.keys(data[0]);
   return (
   <table cellPadding={0}> 
     <thead>
-      <tr>{cloneData[0] && columns.map((heading : any) => <th key={cloneData}>{heading}</th>)}</tr>
+      <tr>{data[0] && columns.map((heading : any) => <th key={data}>{heading}</th>)}</tr>
     </thead>
     <tbody>
-      {cloneData.map((row : any) => ( 
-      <tr key={cloneData}>
+      {data.map((row : any) => ( 
+      <tr key={data}>
         {columns.map((column : any) => (
-          <td key={cloneData}>{row[column]}</td>
+          <td key={data}>{row[column]}</td>
       ))}
       </tr>
     ))} 

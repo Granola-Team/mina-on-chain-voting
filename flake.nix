@@ -35,6 +35,7 @@
             rnix-lsp nixpkgs-fmt
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
               curl xml fused-effects megaparsec bytestring
+
             ]))
           ];
 

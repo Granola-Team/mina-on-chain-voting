@@ -1,22 +1,24 @@
-use std::collections::HashMap;
-
 pub mod handlers;
-
-pub mod database;
-
+pub mod db;
 pub mod error;
 
-pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to remove heap allocation
-    use base58check::FromBase58Check;
+#[macro_use]
+extern crate postgres_derive;
 
+use base58check::FromBase58Check;
+use db::queries::QueryResponse;
+
+pub type VotesMap<'a> = std::collections::HashMap<String, db::queries::QueryResponse>;
+
+pub fn decode_memo(memo: &str) -> Option<String> {
     match memo.from_base58check() {
         Ok((_ver, bytes)) => {
-            if *bytes.get(0)? != 1u8 { return None };
+            if *bytes.first()? != 1u8 { return None };
             let end_idx = *bytes.get(1)? as usize + 2;
             match std::str::from_utf8(&bytes[2..end_idx]) {
                 Ok(str) => {
                     match str.to_lowercase().contains("magenta") {
-                        true => Some(str.to_string()), // heap allocation
+                        true => Some(str.to_string()),
                         false => None,
                     }
                 },
@@ -27,50 +29,29 @@ pub fn decode_memo(memo: &str) -> Option<String> { // possible change to &str to
     }
 }
 
-pub fn parse_query_response(query_responses: &[database::QueryResponse]) -> database::VotesMap {
-    let mut votes_map: database::VotesMap = HashMap::new();
+pub fn remove_duplicates(query_responses: &[QueryResponse]) -> VotesMap {
+    let mut hash: VotesMap = std::collections::HashMap::new();
 
     query_responses
         .iter()
-        .for_each(|database::QueryResponse {
-            account,
-            memo, 
-            height,
-            status
-        }| {
-            if let Some(memo_str) = crate::decode_memo(memo) {
-                if let Some((_prev_memo, prev_height)) = votes_map.get(account) {
-                    if prev_height > height {
-                        return;
-                    }
+        .for_each(|i| {
+            if let Some(memo_str) = decode_memo(&i.memo) {
+                match hash.get(&i.account) {
+                    Some(_) => (),
+                    None => {
+                        hash.insert(
+                            i.account.clone(), 
+                            db::queries::QueryResponse {
+                                account: i.account.clone(),
+                                height: i.height,
+                                memo: memo_str,
+                                status: i.status.clone()
+                            });
+                    },
                 }
 
-                votes_map.insert(
-                    account.clone(), 
-                    (memo_str, *height));
-            }
+            }            
         });
         
-
-    votes_map
-}
-
-pub fn gen_output(votes_map: database::VotesMap) -> database::APIResponse {
-    votes_map
-        .iter()
-        .map(|(acct, (memo, _))| {
-            (acct.clone(), memo.clone())
-        })
-        .collect()
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn test_decode() {
-        let res = decode_memo("E4YbUJfcgcWB7AmbAMnpYQcjGbPmdG3iWGExrjTC97q2sq4a1YrYN");
-        assert_ne!(None, res);
-    }
+    hash        
 }

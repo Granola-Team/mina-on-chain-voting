@@ -10,6 +10,8 @@ async fn main() -> Result<()> {
     let (close_db_conn, client) = db::connect_to_db().await?;
     let port = std::env::var("PORT")?.parse::<u16>()?;
 
+    // TODO! SETUP ACTIX TO SERVE REACT FRONTEND
+
     HttpServer::new(move || {
         App::new().wrap(
                 Cors::default()

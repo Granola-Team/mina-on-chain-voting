@@ -6,9 +6,6 @@ pub mod error;
 extern crate postgres_derive;
 
 use base58check::FromBase58Check;
-use db::queries::QueryResponse;
-
-pub type VotesMap<'a> = std::collections::HashMap<String, db::queries::QueryResponse>;
 
 pub fn decode_memo(memo: &str) -> Option<String> {
     match memo.from_base58check() {
@@ -31,36 +28,9 @@ pub fn decode_memo(memo: &str) -> Option<String> {
     }
 }
 
-pub fn remove_duplicates(query_responses: &[QueryResponse]) -> VotesMap {
-    let mut hash: VotesMap = std::collections::HashMap::new();
-
-    query_responses
-        .iter()
-        .for_each(|i| {
-            if let Some(memo_str) = decode_memo(&i.memo) {
-                match hash.get(&i.account) {
-                    Some(_) => (),
-                    None => {
-                        hash.insert(
-                            i.account.clone(), 
-                            db::queries::QueryResponse {
-                                account: i.account.clone(),
-                                height: i.height,
-                                memo: memo_str,
-                                status: i.status.clone()
-                            });
-                    },
-                }
-
-            }            
-        });
-        
-    hash        
-}
-
-
 #[cfg(test)]
 mod tests {
+
     #[test]
     fn test_decode_memo() {
         let encoded: Vec<&str> = vec!["E4YbUJfcgcWB7AmbAMnpYQcjGbPmdG3iWGExrjTC97q2sq4a1YrYN", "E4YhK17G5ThFfQeyRsYZW6fnZuDL1muW1Zie851BhzPiZQSQbD8Km", "E4YrnAgSbN69gengqkgeGaC8NmXdGnoChqCaEh8pdLdmjAPmbAYGF", "E4Z8L86JBcuZ6R13Kadmbcof54pUJp7678yEehxnzSmAgDkP4igKj", "E4YjFkJuoWdTgXPGYgc6PSPntpjjWhL6pYgnP7EvkMHjdnsKSCXYX", "E4Yh4ujezyS8JHQ2Lhs4wZCNpF9ouSpEiFErdeBUx6XUdt2REvq9A", "E4Yj6UuKCNcwum3VoQjBX4rt2tDSS6WMJsPhs6gRQxHVHWWg4yQvz", "E4Ys7Z1Gg2wt4X19S7sv8K7eWLuB4RMB2SpqAcoJr51ihcqgqd5TS"];
@@ -73,4 +43,5 @@ mod tests {
 
         assert_eq!(result, decoded);
     }
+ 
 }

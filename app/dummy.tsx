@@ -12,7 +12,6 @@ const dummyData : {Account: string, Memo: string, Status: string}[] = [
     {Account: "B62qkRodi7nj6W1geB12UuW2XAx2yidWZCcDthJvkf9G4A6G5G4RvtA", Memo: "Magenta_magenta", Status: "pending"}
 ]
 
-
 export default dummyData 
 
 /*

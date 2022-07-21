@@ -35,3 +35,4 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({ accountDetails, votesDisc
 }
 
 export default VotingDetails
+

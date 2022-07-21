@@ -1,5 +1,5 @@
-import type { NextPage } from 'next'
-import styles from '../styles/Home.module.css'
+import type { NextPage } from 'next';
+import styles from '../styles/Home.module.css';
 
 import React, { useState, useEffect } from 'react';
 import {Datatable} from '../components/datatable'; 
@@ -13,15 +13,20 @@ const Home: NextPage = () => {
   const [data, setData] = useState<AccountEntry[] | null>([])  
 
   useEffect(() => {
-    fetch("http://35.203.38.140:8081/votes",   
-        {
-      method: 'GET', 
+    fetch('http://35.203.38.140:8081/votes', {
+      method: 'GET',
       mode: 'same-origin',
-        }) 
-    .then(response => {console.log(response); return response.json()})
-    .then(json => setData(json))
-    .catch(error => {console.log(error); setData(dummyData)});
-  }, [data]) 
+    })
+      .then((response) => {
+        console.log(response);
+        return response.json();
+      })
+      .then((json) => setData(json))
+      .catch((error) => {
+        console.log(error);
+        setData(dummyData);
+      });
+  }, [data]);
 
   const selectHighestCanonicalVote = (entry: AccountEntry): VoteEntry | null => {
     let vote: VoteEntry | null = null
@@ -103,7 +108,7 @@ const Home: NextPage = () => {
         </h4>
       </main>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

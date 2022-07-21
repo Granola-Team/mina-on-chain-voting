@@ -23,12 +23,12 @@ pub struct QueryResponse {
         pub account: String,
         pub memo: String,
         pub height: i64,
-        pub status: Status
+        pub status: BlockStatus
 }
 
-#[derive(Debug, PartialEq, Eq, FromSql, Clone, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
 #[postgres(name = "chain_status_type")]
-pub enum Status {
+pub enum BlockStatus {
     #[postgres(name = "pending")]
     Pending,
     #[postgres(name = "canonical")]

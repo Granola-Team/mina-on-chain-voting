@@ -17,7 +17,7 @@ async fn main() -> Result<()> {
                 Cors::default()
                     .allow_any_origin()
                     .allow_any_header()
-                    .allow_any_method()
+                    .allowed_methods(vec!["GET"])
                     .max_age(3600)
                     .send_wildcard(),
             ).wrap(middleware::Logger::default())

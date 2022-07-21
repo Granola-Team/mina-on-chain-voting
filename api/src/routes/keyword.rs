@@ -16,11 +16,11 @@ pub struct Result {
     pub status: BlockStatus
 }
 
-pub fn parse_responses(query_responses: &[QueryResponse], keyword: &str) -> Vec<ResultEntity> {
+pub fn parse_responses(query_responses: &[QueryResponse], key: &str) -> Vec<ResultEntity> {
     let mut hash: std::collections::HashMap<String, Vec<Result>> = std::collections::HashMap::new();
 
     for res in query_responses.iter() {
-        if let Some(memo_str) = crate::decode_memo(&res.memo, keyword) {
+        if let Some(memo_str) = crate::decode_memo(&res.memo, key) {
             match hash.get_mut(&res.account) {
                 Some(x) => {
                     x.push(Result { memo: memo_str, height: res.height, status: res.status })
@@ -43,11 +43,11 @@ pub fn parse_responses(query_responses: &[QueryResponse], keyword: &str) -> Vec<
 }
 
 pub fn config(cfg: &mut ServiceConfig) {
-    cfg.service(magenta);
+    cfg.service(keyword);
 }
 
 #[get("/{keyword}")]
-pub async fn magenta(
+pub async fn keyword(
     pg_client: Data<Arc<tokio_postgres::Client>>,
     path: web::Path<String>
 ) -> impl Responder {

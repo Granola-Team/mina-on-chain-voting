@@ -1,4 +1,5 @@
 import VotingDetailsAccountEntry from "./VotingDetailsAccountEntry"
+import React from 'react'
 
 interface VotingDetailsProps {
     accountDetails: AccountEntry[]
@@ -16,9 +17,9 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({ accountDetails, votesDisc
     <table>
         <thead>
             <tr>
-                <th>Account Number</th>
-                <th>Vote Memo</th>
-                <th>Validity</th>
+                <th>Account</th>
+                <th>Memo</th>
+                <th>Signal</th>
             </tr>
         </thead>
         <tbody>

@@ -4,13 +4,15 @@ interface VotingDetailsAccountEntryProps {
     validity: VoteCheckResult
 }
 
+import React from 'react'
+
 const VotingDetailsAccountEntry: React.FC<VotingDetailsAccountEntryProps> = ({
     account, memo, validity
 }) => {
     return (
         <tr key={account}>
-            <td>{account}</td>
-            <td>{memo}</td>
+            <td style={{padding: '0em 1.5em 0.5em 0em'}}>{account}</td>
+            <td style={{padding: '0em 1.5em 0em 0em'}}>{memo}</td>
             <td>
                 {validity == "for" && "For"}
                 {validity == "against" && "Against"}

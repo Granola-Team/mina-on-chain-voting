@@ -22,8 +22,9 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({ accountDetails, votesDisc
             </tr>
         </thead>
         <tbody>
-            {votes.map(([accountEntry, vote]) => 
+            {votes.map(([accountEntry, vote], index) => 
                 <VotingDetailsAccountEntry 
+                    key={index}
                     account={accountEntry.account}
                     memo={vote.memo}
                     validity={isValidVote(vote)}

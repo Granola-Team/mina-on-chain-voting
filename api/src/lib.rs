@@ -7,14 +7,14 @@ use base58check::FromBase58Check;
 #[macro_use]
 extern crate postgres_derive;
 
-pub fn decode_memo(memo: &str) -> Option<String> {
+pub fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
     match memo.from_base58check() {
         Ok((_ver, bytes)) => {
             if *bytes.first()? != 1u8 { return None };
             let end_idx = *bytes.get(1)? as usize + 2;
             match std::str::from_utf8(&bytes[2..end_idx]) {
                 Ok(str) => {
-                    match str.to_lowercase().contains("magenta") {
+                    match str.to_lowercase().contains(keyword) {
                         true => {
                             Some(str.to_string())
                         },
@@ -38,7 +38,7 @@ mod tests {
         let decoded: Vec<String> = vec!["magenta".to_string(), "no magenta".to_string(), "Magenta_magenta".to_string(), "Magenta Magenta Magenta".to_string(), "no_-magenta".to_string(), "No_magenta".to_string(), "Yes Magenta".to_string(), "yes for magenta".to_string()];
 
         let result: Vec<String> = encoded.iter().map(|s| {
-            super::decode_memo(s).unwrap()
+            super::decode_memo(s, "magenta").unwrap()
         }).collect();
 
         assert_eq!(result, decoded);

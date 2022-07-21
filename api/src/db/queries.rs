@@ -15,7 +15,7 @@ const QUERY_STATEMENT:
         AND uc.token = 1
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
-            ;
+        ;
     ";
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -44,8 +44,8 @@ impl From<tokio_postgres::Row> for QueryResponse {
     }
 }
 
-pub async fn get_canonical_and_pending_votes_query(
-    pg_client: &tokio_postgres::Client
+pub async fn send_query(
+    pg_client: &tokio_postgres::Client,
 ) -> Result<Vec<QueryResponse>, tokio_postgres::Error> {
         pg_client
         .query(QUERY_STATEMENT, &[])

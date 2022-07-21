@@ -4,12 +4,13 @@ import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import {Datatable} from '../components/datatable'; 
 // import {SecondDatatable} from '../components/datatable/SecondDatatable'; 
-import dummyData from '../dummy'
+import dummyData from '../lib/dummy'
+import VotingDetails from '../components/VotingDetails';
 // import axios from 'axios';
 
 const Home: NextPage = () => {
 
-  const [data, setData] = useState<Data[]>([])  
+  const [data, setData] = useState<AccountEntry[] | null>([])  
 
   useEffect(() => {
     fetch("http://35.203.38.140:8081/votes",   
@@ -22,56 +23,85 @@ const Home: NextPage = () => {
     .catch(error => {console.log(error); setData(dummyData)});
   }, [data]) 
 
-  type Data = {
-    Account: string;
-    Memo: string;
-    Status: string;
+  const selectHighestCanonicalVote = (entry: AccountEntry): VoteEntry | null => {
+    let vote: VoteEntry | null = null
+    entry.votes.forEach((voteEntry) => {
+      if (vote?.status === "Pending") return;
+
+      if (vote == null || vote.height < voteEntry.height) vote = voteEntry;
+    })
+    return vote
   }
 
-  const sums = data.map((value) => {
-    if (value.Memo == "magenta") return [1, 0];
-    if (value.Memo == "no magenta") return [0, 1];
-    return [0, 0];
-  }).reduce(([for1, against1], [for2, against2]) => [for1 + for2, against1 + against2], [0, 0])
+  const selectHighestPendingVote = (entry: AccountEntry): VoteEntry | null => {
+    let vote: VoteEntry | null = null
+    entry.votes.forEach((voteEntry) => {
+      if (vote?.status == "Pending" && (vote == null || vote.height < voteEntry.height)) vote = voteEntry;
+    })
+    return vote
+  }
 
-  /*
-  const sliced_array = (data: {}[]) => {
-    return data.length > 5 ? `${data.splice(0,3)}...` : data;
-  } */  // it keeps saying type string | {}[] even when forced so did so in table instead
+  const verifyVote = (vote: VoteEntry): VoteCheckResult => {
+    if (vote.memo === "magenta") return "for"
+    if (vote.memo === "no magenta") return "against"
+    return "invalid"
+  }
 
-  const num_of_no_magenta = (rows: [string, string][]) => {
-    return rows.reduce((num_of_no_magenta, [_, Memo]) => 
-        Memo == "no magenta" ? 
-        num_of_no_magenta + 1 : num_of_no_magenta, 0)
-  } // add variations: | "no_magenta" | "no-magenta" | "nomagenta"
+  const canonicalVotes = data && data
+    .map((accountEntry) => [accountEntry, selectHighestCanonicalVote(accountEntry)])
+    .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null)
+
+  const votesTotal = (votes: VoteEntry[]) => {
+    return votes.map((vote) => verifyVote(vote))
+    .map((result) => {
+      if (result === "against") return [0, 1]
+      if (result === "for") return [1, 0]
+      return [0, 0]
+    }).reduce((v1, v2) => {
+      return [v1[0] + v2[0], v1[1] + v2[1]]
+    }, [0, 0])
+  }
+    
+
+  const pendingVotes = data && data
+    .map((accountEntry) => [accountEntry, selectHighestPendingVote(accountEntry)])
+    .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null)
 
   return (
     <div>
-        <main className={styles.main}> 
+      <main className={styles.main}> 
         <h1 className={styles.title}>
-            Voting Totals
-          </h1>
-          <div>
-            <p><b>For magenta:</b> {sums[0]}</p>
-            <p><b>Against magenta:</b> { sums[1] }</p>
-            { sums[0] > sums[1] ? "Magenta Wins!" : "No Magenta :("}
+          Voting Totals
+        </h1>
+        <div style={{display: "flex", flexDirection: "row", padding: "1em"}}>
+          <div style={{marginRight: "4em"}}>
+            <h2><b>Canonical Votes</b></h2>
+            {canonicalVotes && votesTotal(canonicalVotes.map(([_, vote]) => vote))}
           </div>
-          
-          <h4 className={styles.card}> 
-            Canonical votes are blocks incorporated in the Mina Blockchain. Pending votes are blocks that have not yet been confirmed or "orphaned".
-            To vote yes, send a transaction to yourself and enter "magenta" in the memo field. To vote no, enter "no magenta" in the memo field.
-          </h4>
+          <div>
+            <h2><b>Pending Votes</b></h2>
+            {pendingVotes && votesTotal(pendingVotes.map(([_, vote]) => vote))}
+          </div>
+        </div>
 
-          <h2 className={styles.title}>
-            Voting Detail
-          </h2>
-          <div>
-            <Datatable data={data} /> 
-          </div>
-          <h2 className={styles.description}>
-            ...
-          </h2>
-        </main>
+        <h2 className={styles.title}>
+          Voting Detail
+        </h2>
+        {data &&
+          <VotingDetails
+            accountDetails={data}
+            votesDiscriminator={selectHighestCanonicalVote}
+            isValidVote={verifyVote}
+          />
+        }
+
+        <h4 className={styles.card}> 
+          <em>
+          Canonical votes are blocks incorporated in the Mina Blockchain. Pending votes are blocks that have not yet been confirmed or "orphaned".
+          To vote yes, send a transaction to yourself and enter "magenta" in the memo field. To vote no, enter "no magenta" in the memo field.
+          </em>
+        </h4>
+      </main>
     </div>
   )
 }

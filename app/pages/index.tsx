@@ -102,8 +102,8 @@ const Home: NextPage = () => {
 
         <h4 className={styles.card}> 
           <em>
-          Canonical votes are blocks incorporated in the Mina Blockchain. Pending votes are blocks that have not yet been confirmed or "orphaned".
-          To vote yes, send a transaction to yourself and enter "magenta" in the memo field. To vote no, enter "no magenta" in the memo field.
+          Canonical votes are blocks incorporated in the Mina Blockchain. Pending votes are blocks that have not yet been confirmed or &quot;orphaned&quot;.
+          To vote yes, send a transaction to yourself and enter &quot;magenta&quot; in the memo field. To vote no, enter &quot;no magenta&quot; in the memo field.
           </em>
         </h4>
       </main>

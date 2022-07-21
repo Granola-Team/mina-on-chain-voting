@@ -33,11 +33,40 @@
           buildInputs = with pkgs; [
             haskell-language-server
             rnix-lsp nixpkgs-fmt
-            (haskellPackages.ghcWithPackages (self: with haskellPackages; [
-              curl xml tar zlib fused-effects megaparsec bytestring directory
+            geos
+            gdal
+            nixpkgs-fmt
+            (python38.withPackages (ps: with ps; [ lxml pycurl certifi beautifulsoup4 ]))
+            # postgres with postgis support
+            (postgresql.withPackages (p: [ p.postgis ]))
 
+            (haskellPackages.ghcWithPackages (self: with haskellPackages; [
+              curl xml tar zlib fused-effects megaparsec bytestring directory tmp-postgres json
             ]))
+
+            bun
           ];
+
+          postgresConf =
+            pkgs.writeText "postgresql.conf"
+              ''
+                # Add Custom Settings
+                log_min_messages = warning
+                log_min_error_statement = error
+                log_min_duration_statement = 100  # ms
+                log_connections = on
+                log_disconnections = on
+                log_duration = on
+                #log_line_prefix = '[] '
+                log_timezone = 'UTC'
+                log_statement = 'all'
+                log_directory = 'pg_log'
+                log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'
+                logging_collector = on
+                log_min_error_statement = error
+              '';
+
+          PGDATA = "${toString ./.}/.pg";
 
           shellHook = ''
             runghc download_archive_dump.hs

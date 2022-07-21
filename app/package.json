@@ -1,38 +1,18 @@
 {
-  "name": "next-frontend",
-  "version": "0.1.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "test": "jest --verbose"
-  },
+  "name": "app2",
+  "version": "0.1.2",
   "dependencies": {
-    "@chakra-ui/react": "^2.2.4",
-    "@emotion/react": "^11.9.3",
-    "@emotion/styled": "^11.9.3",
-    "framer-motion": "^6.5.1",
-    "next": "12.2.2",
-    "nextjs-cors": "^2.1.1",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "web-vitals": "^2.1.4"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12",
-    "@types/node": "18.0.0",
-    "@types/react": "18.0.15",
-    "@types/react-dom": "18.0.6",
-    "eslint": "8.19.0",
-    "eslint-config-next": "12.2.2",
-    "jest": "^28.1.3",
-    "typescript": "4.7.4"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "verbose": true
-  },
-  "proxy": "http://http://35.203.38.140:8080/votes"
+    "typescript": "latest",
+    "react-refresh": "0.10.0"
+  }
 }

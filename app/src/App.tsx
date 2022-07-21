@@ -57,6 +57,9 @@ function App() {
     .map((accountEntry) => [accountEntry, selectHighestVoteWith("Pending")(accountEntry)])
     .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null)
 
+  const [forCan, agCan] = votesTotal(canonicalVotes.map(([_, vote]) => vote))
+  const [forPen, agPen] = votesTotal(pendingVotes.map(([_, vote]) => vote))
+
   return (
     <main style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}> 
       <div>
@@ -66,11 +69,15 @@ function App() {
         <div style={{display: "flex", flexDirection: "row", justifyContent: 'center', padding: '1em', backgroundColor: "#EEF5DB", borderRadius: "1em"}}>
           <div style={{margin: "1em"}}>
             <h2><b>Canonical</b></h2>
-            {canonicalVotes && votesTotal(canonicalVotes.map(([_, vote]) => vote))}
+            For Magenta: <b> {forCan} </b>
+            <br></br>
+            Against Magenta: <b> {agCan} </b>
           </div>
           <div style={{margin: "1em"}}>
             <h2><b>Pending</b></h2>
-            {pendingVotes && votesTotal(pendingVotes.map(([_, vote]) => vote))}
+            For Magenta: <b> {forPen} </b>
+            <br></br>
+            Against Magenta: <b> {agPen} </b>
           </div>
         </div>
       </div>

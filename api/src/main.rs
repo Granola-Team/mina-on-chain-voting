@@ -17,12 +17,12 @@ async fn main() -> Result<()> {
                 Cors::default()
                     .allow_any_origin()
                     .allow_any_header()
-                    .allow_any_method()
+                    .allowed_methods(vec!["GET"])
                     .max_age(3600)
                     .send_wildcard(),
             ).wrap(middleware::Logger::default())
-            .app_data(web::Data::new(client.clone()))
-            .configure(routes::v1_config)
+            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config))
+            
 
     })
         .bind(("0.0.0.0", port))?

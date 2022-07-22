@@ -1,6 +1,12 @@
 import dummyData from './dummy';
 import React, { useState, useEffect } from 'react';
 import VotingDetails from './components/VotingDetails';
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  useParams,
+} from 'react-router-dom';
 import type { AccountEntry, VoteEntry, VoteCheckResult } from '../types';
 
 const verifyVote = (vote: VoteEntry): VoteCheckResult => {
@@ -25,8 +31,9 @@ const votesTotal = (votes: VoteEntry[]) => {
     );
 };
 
-function App() {
+const Dashboard = () => {
   const [data, setData] = useState<AccountEntry[] | null>(dummyData);
+  const { key } = useParams();
 
   useEffect(() => {
     fetch('http://35.203.38.140:8080/api/votes', {
@@ -78,7 +85,11 @@ function App() {
 
   return (
     <main
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+      }}
     >
       <div>
         <h1 style={{ color: '#EEF5DB' }}>OnChainSignalling Totals</h1>
@@ -96,17 +107,17 @@ function App() {
             <h2>
               <b>Canonical</b>
             </h2>
-            For Magenta: <b> {forCan} </b>
+            For {key}: <b> {forCan} </b>
             <br></br>
-            Against Magenta: <b> {agCan} </b>
+            Against {key}: <b> {agCan} </b>
           </div>
           <div style={{ margin: '1em' }}>
             <h2>
               <b>Pending</b>
             </h2>
-            For Magenta: <b> {forPen} </b>
+            For {key}: <b> {forPen} </b>
             <br></br>
-            Against Magenta: <b> {agPen} </b>
+            Against {key}: <b> {agPen} </b>
           </div>
         </div>
       </div>
@@ -158,13 +169,23 @@ function App() {
         <em>
           Canonical messages are incorporated in the Mina Blockchain. Pending
           messages are not yet incorporated into the Mina Blockchain. To signal
-          support, send a transaction to yourself and enter 'magenta' in the
-          memo field. To opppose, send a transaction to yourself and enter 'no
-          magenta' in the memo field.
+          support, send a transaction to yourself and enter '{key}' in the memo
+          field. To opppose, send a transaction to yourself and enter 'no {key}'
+          in the memo field.
         </em>
       </div>
     </main>
   );
-}
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/:key" element={<Dashboard />} />
+      </Routes>
+    </Router>
+  );
+};
 
 export default App;

@@ -1,25 +1,35 @@
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Main where
 
 import Codec.Archive.Tar (extract)
 import Codec.Compression.GZip (decompress)
-import Control.Monad (unless, when, void, forever)
+import Control.Monad (forever, unless, void, when)
 import Control.Monad.Catch (ExitCase (ExitCaseAbort), bracket)
-import Data.ByteString (ByteString, writeFile, hPut)
+import Data.ByteString (ByteString, hPut, writeFile)
+import qualified Data.ByteString as Prelude
 import Data.ByteString.Lazy (fromStrict, toStrict)
 import Data.Data (DataRep)
 import Data.Either (rights)
 import Data.Functor ((<&>))
-import Data.List ( isInfixOf, sortBy, sort )
+import Data.List (isInfixOf, sort, sortBy)
 import Data.Maybe (catMaybes, isJust, mapMaybe)
+import Data.Monoid (Last (..))
 import Data.Void (Void)
+import Database.PostgreSQL.Simple (close, connectPostgreSQL, execute_)
+import Database.Postgres.Temp (Config (..), DirectoryType (Permanent), defaultConfig, toConnectionString, with)
 import Distribution.Compat.CharParsing (digit)
+import Lib.ArchiveDump
+  ( ArchiveDump (ArchiveDump),
+    associateKeyMetadata,
+  )
+import Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
 import Network.Curl (CurlOption, CurlResponse_ (respBody), URLString, curlGetResponse_, withCurlDo)
 import System.Directory (doesFileExist, removeFile)
 import System.Exit (ExitCode (ExitSuccess), exitSuccess, exitWith)
-import System.IO (IOMode (WriteMode), hClose, openBinaryFile, withBinaryFile, withFile, stdout, hPutStrLn)
+import System.IO (IOMode (WriteMode), hClose, hPutStrLn, openBinaryFile, stdout, withBinaryFile, withFile)
 import Text.Megaparsec
   ( MonadParsec (try),
     Parsec,
@@ -29,14 +39,6 @@ import Text.Megaparsec
   )
 import Text.Megaparsec.Char (char, digitChar, string)
 import Text.XML.Light (Attr, CData (cdData), Content (Elem, Text), Element (Element, elAttribs, elContent, elName), QName (qName), parseXML)
-
-import Lib.ArchiveDump
-    ( ArchiveDump(ArchiveDump), associateKeyMetadata )
-import Lib.Fetchers (fetchDatabaseDumpIndex, fetchArchiveDump)
-import qualified Data.ByteString as Prelude
-import Database.Postgres.Temp (Config(..), defaultConfig, DirectoryType (Permanent), with, toConnectionString)
-import Data.Monoid (Last(..))
-import Database.PostgreSQL.Simple (connectPostgreSQL, close, execute_)
 
 getListBucketsResult :: Content -> [Content]
 getListBucketsResult = \case
@@ -96,11 +98,12 @@ main = do
   let archiveDump = decompress . fromStrict $ archiveDumpCompressed
 
   putStrLn "writing archive file..."
-  withBinaryFile archiveDumpTar WriteMode
-    ( \handle -> do hPut handle (toStrict archiveDump) )
+  withBinaryFile
+    archiveDumpTar
+    WriteMode
+    (\handle -> do hPut handle (toStrict archiveDump))
 
   putStrLn "extracting archive dump..."
   extract "database_dumps/" archiveDumpTar
 
   removeFile archiveDumpTar
-  

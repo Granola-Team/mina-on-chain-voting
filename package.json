@@ -6,6 +6,8 @@
   "scripts": {
     "build:client": "cd client && bun install && bun run build",
     "build:server": "cd server && cargo build",
-    "build": "yarn run build:client && yarn run build:server"
+    "build": "yarn run build:client && yarn run build:server",
+    "start:client": "cd client && bun install && bun run build && bun run start",
+    "start:server": "cd server && cargo build && USER=postgres cargo run"
   }
 }

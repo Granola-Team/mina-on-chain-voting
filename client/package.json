@@ -2,7 +2,8 @@
   "name": "ocs-client",
   "version": "0.0.47",
   "scripts": {
-    "build": "react-scripts build"
+    "build": "react-scripts build",
+    "start": "react-scripts start"
   },
   "dependencies": {
     "react": "^17.0.2",
@@ -14,7 +15,6 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "bun-types": "^0.1.2",
-    "react-refresh": "0.10.0",
     "typescript": "latest"
   },
   "eslintConfig": {

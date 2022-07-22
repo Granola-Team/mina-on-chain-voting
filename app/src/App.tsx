@@ -1,7 +1,7 @@
 import dummyData from './dummy';
 import React, { useState, useEffect } from 'react';
-import VotingDetails from '../components/VotingDetails';
-import type { AccountEntry, VoteEntry, VoteCheckResult } from './types';
+import VotingDetails from './components/VotingDetails';
+import type { AccountEntry, VoteEntry, VoteCheckResult } from '../types/types';
 
 const verifyVote = (vote: VoteEntry): VoteCheckResult => {
   if (vote.memo === 'magenta') return 'for';
@@ -73,26 +73,37 @@ function App() {
       ])
       .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
 
-  const [forCan, agCan] = votesTotal(canonicalVotes.map(([_, vote]) => vote))
-  const [forPen, agPen] = votesTotal(pendingVotes.map(([_, vote]) => vote))
+  const [forCan, agCan] = votesTotal(canonicalVotes.map(([_, vote]) => vote));
+  const [forPen, agPen] = votesTotal(pendingVotes.map(([_, vote]) => vote));
 
   return (
     <main
       style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
     >
       <div>
-        <h1 style={{color: "#EEF5DB"}}>
-          OnChainSignalling Totals
-        </h1>
-        <div style={{display: "flex", flexDirection: "row", justifyContent: 'center', padding: '1em', backgroundColor: "#EEF5DB", borderRadius: "1em"}}>
-          <div style={{margin: "1em"}}>
-            <h2><b>Canonical</b></h2>
+        <h1 style={{ color: '#EEF5DB' }}>OnChainSignalling Totals</h1>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'center',
+            padding: '1em',
+            backgroundColor: '#EEF5DB',
+            borderRadius: '1em',
+          }}
+        >
+          <div style={{ margin: '1em' }}>
+            <h2>
+              <b>Canonical</b>
+            </h2>
             For Magenta: <b> {forCan} </b>
             <br></br>
             Against Magenta: <b> {agCan} </b>
           </div>
-          <div style={{margin: "1em"}}>
-            <h2><b>Pending</b></h2>
+          <div style={{ margin: '1em' }}>
+            <h2>
+              <b>Pending</b>
+            </h2>
             For Magenta: <b> {forPen} </b>
             <br></br>
             Against Magenta: <b> {agPen} </b>

@@ -1,4 +1,4 @@
-import { AccountEntry, VoteEntry, VoteCheckResult } from '../../src/types';
+import { AccountEntry, VoteEntry, VoteCheckResult } from '../../../types/types';
 import VotingDetailsAccountEntry from './VotingDetailsAccountEntry';
 import React from 'react';
 

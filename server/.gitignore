@@ -1,4 +1,5 @@
 target/
+build/
 result
 result/*
 result/bin/*

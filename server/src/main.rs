@@ -11,7 +11,6 @@ async fn main() -> Result<()> {
     let (close_db_conn, client) = db::connect_to_db().await?;
     let port = std::env::var("PORT")?.parse::<u16>()?;
 
-    // TODO! SETUP ACTIX TO SERVE REACT FRONTEND
 
     HttpServer::new(move || {
         App::new().wrap(
@@ -22,7 +21,7 @@ async fn main() -> Result<()> {
                     .max_age(3600)
                     .send_wildcard(),
             ).wrap(middleware::Logger::default())
-            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).default_service(fs::Files::new("", "../../client/build/index.html"))
+            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).service(fs::Files::new("/", "./build").prefer_utf8(true).index_file("index.html"))
             
 
     })

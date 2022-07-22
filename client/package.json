@@ -1,5 +1,5 @@
 {
-  "name": "app",
+  "name": "ocs-client",
   "version": "0.0.47",
   "scripts": {
     "build": "react-scripts build"

@@ -1,3 +1,5 @@
 scheduler/result
 ./.pg
 .pg/*
+
+.env

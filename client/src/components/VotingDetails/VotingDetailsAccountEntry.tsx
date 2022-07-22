@@ -1,4 +1,4 @@
-import { VoteCheckResult } from '../../../types/types';
+import { VoteCheckResult } from '../../../types';
 import React from 'react';
 
 interface VotingDetailsAccountEntryProps {

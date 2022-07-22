@@ -1,0 +1,11 @@
+{
+  "name": "onchain-signalling",
+  "version": "1.0.0",
+  "license": "MPL-2.0",
+  "repository": "https://github.com/Granola-Team/onchain-signalling.git",
+  "scripts": {
+    "build:client": "cd client && bun install && bun run build",
+    "build:server": "cd server && cargo build",
+    "build": "yarn run build:client && yarn run build:server"
+  }
+}

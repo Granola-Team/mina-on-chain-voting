@@ -1,4 +1,4 @@
-import { AccountEntry } from './types';
+import { AccountEntry } from '../types';
 
 const dummyData: AccountEntry[] = [
   {

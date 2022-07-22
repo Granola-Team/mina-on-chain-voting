@@ -1,7 +1,7 @@
 import dummyData from './dummy';
 import React, { useState, useEffect } from 'react';
 import VotingDetails from './components/VotingDetails';
-import type { AccountEntry, VoteEntry, VoteCheckResult } from '../types/types';
+import type { AccountEntry, VoteEntry, VoteCheckResult } from '../types';
 
 const verifyVote = (vote: VoteEntry): VoteCheckResult => {
   if (vote.memo === 'magenta') return 'for';

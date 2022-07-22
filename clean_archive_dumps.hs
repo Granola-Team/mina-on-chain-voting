@@ -3,7 +3,7 @@ module Main where
 import System.Directory
 import Lib.ArchiveDump (associateKeyMetadata, ArchiveDump (ArchiveDump, dumpName))
 import Data.List (sort)
-import Control.Monad (unless)
+import Control.Monad (when)
 
 databaseDumpDir = "database_dumps"
 
@@ -17,4 +17,4 @@ main = do
     putStr "Would you like to delete old archive dumps? (y/N) "
     resp <- getLine
 
-    unless (resp == "y") $ mapM_ (removeFile . dumpName) dumps
+    when (resp == "y") $ mapM_ (removeFile . dumpName) dumps

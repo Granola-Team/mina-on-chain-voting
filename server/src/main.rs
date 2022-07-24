@@ -1,7 +1,8 @@
 use on_chain_signalling_api::{error::Result, db, routes};
 
 use actix_web::{App, HttpServer, web, middleware};
-use actix_files as fs;
+use actix_web_lab::web::spa;
+// use actix_files as fs;
 use actix_cors::Cors;
 
 #[actix_web::main]
@@ -21,7 +22,7 @@ async fn main() -> Result<()> {
                     .max_age(3600)
                     .send_wildcard(),
             ).wrap(middleware::Logger::default())
-            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).service(fs::Files::new("/", "./build").prefer_utf8(true).index_file("index.html"))
+            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).service(spa().index_file("./build/index.html").static_resources_mount("/").static_resources_location("./build/").finish())
             
 
     })

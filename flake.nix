@@ -16,7 +16,36 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+        appDependencies = with pkgs; [
+          geos gdal
+          # postgres with postgis support
+          (postgresql.withPackages (p: [ p.postgis ]))
+
+          (haskellPackages.ghcWithPackages (self: with haskellPackages; [
+            curl xml tar zlib fused-effects megaparsec bytestring directory tmp-postgres json process
+          ]))
+        ];
       in rec {
+
+        apps = flake-utils.lib.flattenTree {
+          clean-archive-backups = pkgs.stdenv.writeShellApplication {
+            name = "clean-archive-backups";
+            runtimeInputs = appDependencies;
+            text = "runghc ./tools/cleanArchiveDump.hs"
+          };
+
+          download-archive-dump = pkgs.stdenv.writeShellApplication {
+            name = "download-archive-dump";
+            runtimeInputs = appDependencies;
+            text = "runghc ./tools/downloadArchiveDump.hs";
+          };
+
+          run-temp-database = pkgs.stdenv.writeShellApplication {
+            name = "run-temp-database";
+            runtimeInputs = appDependencies;
+            text = "runghc ./tools/runTempDatabase.hs";
+          };
+        }
 
         deploy.nodes.onChain-signalling = {
           hostname = "35.203.38.140";
@@ -41,7 +70,7 @@
             (postgresql.withPackages (p: [ p.postgis ]))
 
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
-              curl xml tar zlib fused-effects megaparsec bytestring directory tmp-postgres json
+              curl xml tar zlib fused-effects megaparsec bytestring directory tmp-postgres json process
             ]))
           ];
 

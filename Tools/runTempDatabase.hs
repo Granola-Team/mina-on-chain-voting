@@ -21,13 +21,15 @@ import System.IO (IOMode (ReadMode), withFile)
 import Tools.Lib.ArchiveDump
     ( ArchiveDump(ArchiveDump), associateKeyMetadata )
 import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
+import System.Environment (getEnv)
 
 databaseLogger :: Event -> IO ()
 databaseLogger = print
 
-databaseConfig :: Config
-databaseConfig =
-  mempty
+databaseConfig :: IO Config
+databaseConfig = do
+  user <- getEnv "USER"
+  pure $ mempty
     { logger = mempty, -- pure databaseLogger
       postgresConfigFile =
         [ ("log_min_messages", "warning"),
@@ -69,7 +71,7 @@ databaseConfig =
       connectionOptions =
         mempty
           { host = pure "localhost",
-            user = pure "jenr"
+            user = pure user
           }
     }
 
@@ -110,7 +112,8 @@ shutdownDatabase conn = do
 
 main :: IO ()
 main = do
-  res <- withConfig databaseConfig $ \db ->
+  config <- databaseConfig
+  res <- withConfig config $ \db ->
     bracket
       (connectPostgreSQL (toConnectionString db))
       shutdownDatabase

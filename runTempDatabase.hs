@@ -43,8 +43,8 @@ migrateArchiveDumpBackup conn = do
 main :: IO ()
 main = do
     res <- withConfig databaseConfig $ \db -> bracket
-        (connectPostgreSQL (toConnectionString db))
-        close migrateArchiveDumpBackup
+        (connectPostgreSQL (toConnectionString db)) close
+        migrateArchiveDumpBackup
 
     case res of
         Left r -> print r

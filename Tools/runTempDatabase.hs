@@ -4,6 +4,7 @@ module Main where
 
 import Control.Monad (forever, guard, void, when)
 import Control.Monad.Catch (bracket)
+import Data.ByteString (hGetContents)
 import Data.List (sort)
 import Data.Map.Strict (fromList)
 import Data.Monoid (Last (..))
@@ -12,13 +13,14 @@ import Data.Text.Short (toString)
 import Database.PostgreSQL.Simple (close, connectPostgreSQL, execute_)
 import qualified Database.PostgreSQL.Simple as PG
 import Database.PostgreSQL.Simple.Options (Options (Options, dbname, host, user), defaultOptions)
+import Database.PostgreSQL.Simple.Types (Query (..))
 import Database.Postgres.Temp (CommandLineArgs (keyBased), Config (connectionOptions, dataDirectory, initDbConfig, logger, port, postgresConfig, postgresConfigFile), DirectoryType (Permanent), Event, ProcessConfig (ProcessConfig, commandLine), startConfig, toConnectionString, with, withConfig)
-import Tools.Lib.ArchiveDump
-import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
 import System.Directory
+    ( getDirectoryContents, removeDirectoryRecursive )
 import System.IO (IOMode (ReadMode), withFile)
-import Data.ByteString (hGetContents)
-import Database.PostgreSQL.Simple.Types (Query(..))
+import Tools.Lib.ArchiveDump
+    ( ArchiveDump(ArchiveDump), associateKeyMetadata )
+import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
 
 databaseLogger :: Event -> IO ()
 databaseLogger = print
@@ -82,10 +84,10 @@ migrateArchiveDumpBackup conn = do
   let archiveDumpFilename = databaseDumpDir ++ "/" ++ targetKey
   execute_ conn "CREATE DATABASE archive;"
   execute_ conn "CREATE DATABASE archive_balances_migrated"
-  
---   putStr "would you like to restore the latest archive backup? (y/N) "
---   restore <- getLine
---   when (restore == "y") $ 
+
+  --   putStr "would you like to restore the latest archive backup? (y/N) "
+  --   restore <- getLine
+  --   when (restore == "y") $
   restoreDatabaseBackup archiveDumpFilename
 
 withConnection :: PG.Connection -> IO ()

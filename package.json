@@ -11,6 +11,6 @@
     "install:server": "cd server && cargo build",
     "install": "yarn run install:client && yarn run install:server",
     "build": "yarn run install && yarn run build:client && yarn run build:server",
-    "start": "yarn run install && yarn build:client && cd server && USER=postgres cargo run"
+    "start": "yarn run install && yarn build:client && cd server && USER=$USER cargo run"
   }
 }

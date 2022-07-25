@@ -9,6 +9,7 @@ import System.Directory
       removeFile,
       setCurrentDirectory )
 
+databaseDumpDir :: String
 databaseDumpDir = "database_dumps"
 
 main :: IO ()

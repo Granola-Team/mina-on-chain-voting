@@ -1,4 +1,4 @@
-import { VoteCheckResult } from '../../src/types';
+import { VoteCheckResult } from '../../../types';
 import React from 'react';
 
 interface VotingDetailsAccountEntryProps {
@@ -25,9 +25,9 @@ const VotingDetailsAccountEntry: React.FC<VotingDetailsAccountEntryProps> = ({
         {memo}
       </td>
       <td style={{ textAlign: 'center' }}>
-        {validity == 'for' && 'For'}
-        {validity == 'against' && 'Against'}
-        {validity == 'invalid' && 'Invalid'}
+        {validity === 'for' && 'For'}
+        {validity === 'against' && 'Against'}
+        {validity === 'invalid' && 'Invalid'}
       </td>
     </tr>
   );

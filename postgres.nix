@@ -23,7 +23,8 @@ stdenv.mkDerivation {
   ];
 
   postgresConf =
-    pkgs.stdenv.writeText "postgresql.conf"
+    # pkgs.stdenv.writeText "postgresql.conf"
+    writeText "postgresql.conf"
       ''
         # Add Custom Settings
         log_min_messages = warning

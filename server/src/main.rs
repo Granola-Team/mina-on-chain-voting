@@ -1,7 +1,9 @@
 use on_chain_signalling_api::{error::Result, db, routes};
 
-use actix_cors::Cors;
 use actix_web::{App, HttpServer, web, middleware};
+use actix_web_lab::web::spa;
+// use actix_files as fs;
+use actix_cors::Cors;
 
 #[actix_web::main]
 async fn main() -> Result<()> {
@@ -10,7 +12,6 @@ async fn main() -> Result<()> {
     let (close_db_conn, client) = db::connect_to_db().await?;
     let port = std::env::var("PORT")?.parse::<u16>()?;
 
-    // TODO! SETUP ACTIX TO SERVE REACT FRONTEND
 
     HttpServer::new(move || {
         App::new().wrap(
@@ -21,7 +22,7 @@ async fn main() -> Result<()> {
                     .max_age(3600)
                     .send_wildcard(),
             ).wrap(middleware::Logger::default())
-            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config))
+            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).service(spa().index_file("./build/index.html").static_resources_mount("/").static_resources_location("./build/").finish())
             
 
     })

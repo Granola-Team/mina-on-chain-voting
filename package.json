@@ -4,10 +4,13 @@
   "license": "MPL-2.0",
   "repository": "https://github.com/Granola-Team/onchain-signalling.git",
   "scripts": {
-    "dev:client": "cd client && bun install && bun run build && bun run start",
-    "build:client": "cd client && bun install && bun run build",
+    "dev:client": "cd client && bun run build && bun run start",
+    "build:client": "cd client && bun run build",
     "build:server": "cd server && cargo build",
-    "build": "yarn run build:client && yarn run build:server",
-    "start": "yarn build:client && cd server && cargo build && USER=postgres cargo run"
+    "install:client": "cd client && bun install",
+    "install:server": "cd server && cargo build",
+    "install": "yarn run install:client && yarn run install:server",
+    "build": "yarn run install && yarn run build:client && yarn run build:server",
+    "start": "yarn run install && yarn build:client && cd server && USER=postgres cargo run"
   }
 }

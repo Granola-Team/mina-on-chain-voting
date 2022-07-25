@@ -1,8 +1,21 @@
-import dummyData from '../dummy';
+import { dummyData } from '../dummy';
 import React, { useState, useEffect } from 'react';
 import VotingDetails from '../components/VotingDetails';
 import { useParams } from 'react-router-dom';
-import type { AccountEntry, VoteEntry, VoteCheckResult } from '../../types';
+import type {
+  AccountEntry,
+  VoteEntry,
+  VoteCheckResult,
+  Status,
+} from '../../types';
+
+const memoChecked = dummyData.map((dData2) => ({
+  ...dData2,
+  votes: dData2.votes.map((votes) => ({
+    ...votes,
+    memo: votes.memo.toLowerCase(),
+  })),
+}));
 
 const verifyVote = (vote: VoteEntry): VoteCheckResult => {
   if (vote.memo === 'magenta') return 'for';
@@ -46,7 +59,7 @@ const Home = () => {
   }, [data]);
 
   const selectHighestVoteWith =
-    (status: string) =>
+    (status: Status) =>
     (entry: AccountEntry): VoteEntry | null => {
       let vote: VoteEntry | null = null;
       entry.votes.forEach((voteEntry) => {
@@ -62,7 +75,7 @@ const Home = () => {
     data
       .map((accountEntry) => [
         accountEntry,
-        selectHighestVoteWith('Canonical')(accountEntry),
+        selectHighestVoteWith('Settled')(accountEntry),
       ])
       .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
 
@@ -71,7 +84,7 @@ const Home = () => {
     data
       .map((accountEntry) => [
         accountEntry,
-        selectHighestVoteWith('Pending')(accountEntry),
+        selectHighestVoteWith('Undecided')(accountEntry),
       ])
       .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
 
@@ -134,7 +147,7 @@ const Home = () => {
             {data && (
               <VotingDetails
                 accountDetails={data}
-                votesDiscriminator={selectHighestVoteWith('Canonical')}
+                votesDiscriminator={selectHighestVoteWith('Settled')}
                 isValidVote={verifyVote}
               />
             )}
@@ -152,7 +165,7 @@ const Home = () => {
             {data && (
               <VotingDetails
                 accountDetails={data}
-                votesDiscriminator={selectHighestVoteWith('Pending')}
+                votesDiscriminator={selectHighestVoteWith('Undecided')}
                 isValidVote={verifyVote}
               />
             )}

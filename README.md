@@ -1,17 +1,21 @@
 # onchain-signalling
 Onchain Signalling for Mina Protocol - Monitors blocks and its transactions using memo variables.
 Folders added represent each component needed for this project 
-# Backend
-This folder represents sequelize ORM to fetch data from database and it contains code which refers to mina_fork database.
-But there is a problem this doesn't work without Sequelize ORM.
-# Backend_latest
-This folder represents backend code that refers sample postgresql database and its tables without using Sequelize ORM.
-Previous Backend folder needs to be replaced by this framework inorder to make backend restapi and independent of Sequelize ORM.
-# Frontend
-This folder has UI components in react displaying datatable.
-# Graphql
-This folder represents Graphql queries that queries memo field of mina blockchain with 'magenta'value.
-# Scheduler
-This folder contains code to run in background which is background services.
-# Terraform
-This folder contains code related to automation script.
+
+# api
+An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info
+
+# app
+A Bun/React SPA that displays and totals signalling results (votes) from the api
+
+# Tools
+A set of scripts to automate development environment management and deployment
+
+* runTempDatabase -- `nix run .` or `runghc Tools/runTempDatabase.hs`
+provisions and runs a temporary postgres database to help with end-to-end testing in a local environment
+
+* downloadArchiveDump -- `runghc Tools/downloadArchiveDump.hs`
+automatically downloads and extracts the latest MINA archive dump from MINA's google cloud storage API
+
+* cleanArchiveDumps -- `runghc Tools/cleanArchiveDumps.hs`
+removes old archive dumps from the local environment

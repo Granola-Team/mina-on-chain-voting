@@ -67,7 +67,6 @@
             geos
             gdal
             nixpkgs-fmt
-            (python38.withPackages (ps: with ps; [ lxml pycurl certifi beautifulsoup4 ]))
             # postgres with postgis support
             (postgresql.withPackages (p: [ p.postgis ]))
 

@@ -2,10 +2,10 @@
 Onchain Signalling for Mina Protocol - Monitors blocks and its transactions using memo variables.
 Folders added represent each component needed for this project 
 
-# api
+# server
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info
 
-# app
+# client
 A Bun/React SPA that displays and totals signalling results (votes) from the api
 
 # Tools

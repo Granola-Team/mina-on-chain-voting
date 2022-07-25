@@ -28,24 +28,26 @@
       in rec {
 
         apps = flake-utils.lib.flattenTree {
-          clean-archive-backups = pkgs.stdenv.writeShellApplication {
+          clean-archive-backups = pkgs.writeShellApplication {
             name = "clean-archive-backups";
             runtimeInputs = appDependencies;
-            text = "runghc ./tools/cleanArchiveDump.hs"
+            text = "runghc ./Tools/cleanArchiveDump.hs";
           };
 
-          download-archive-dump = pkgs.stdenv.writeShellApplication {
+          download-archive-dump = pkgs.writeShellApplication {
             name = "download-archive-dump";
             runtimeInputs = appDependencies;
-            text = "runghc ./tools/downloadArchiveDump.hs";
+            text = "runghc ./Tools/downloadArchiveDump.hs";
           };
 
-          run-temp-database = pkgs.stdenv.writeShellApplication {
+          run-temp-database = pkgs.writeShellApplication {
             name = "run-temp-database";
             runtimeInputs = appDependencies;
-            text = "runghc ./tools/runTempDatabase.hs";
+            text = "runghc ./Tools/runTempDatabase.hs";
           };
-        }
+        };
+
+        defaultApp = apps.run-temp-database;
 
         deploy.nodes.onChain-signalling = {
           hostname = "35.203.38.140";

@@ -13,8 +13,8 @@ import Database.PostgreSQL.Simple (close, connectPostgreSQL, execute_)
 import qualified Database.PostgreSQL.Simple as PG
 import Database.PostgreSQL.Simple.Options (Options (Options, dbname, host, user), defaultOptions)
 import Database.Postgres.Temp (CommandLineArgs (keyBased), Config (connectionOptions, dataDirectory, initDbConfig, logger, port, postgresConfig, postgresConfigFile), DirectoryType (Permanent), Event, ProcessConfig (ProcessConfig, commandLine), startConfig, toConnectionString, with, withConfig)
-import Lib.ArchiveDump
-import Lib.DatabaseCommands (restoreDatabaseBackup)
+import Tools.Lib.ArchiveDump
+import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
 import System.Directory
 import System.IO (IOMode (ReadMode), withFile)
 import Data.ByteString (hGetContents)

@@ -21,11 +21,11 @@ import Data.Void (Void)
 import Database.PostgreSQL.Simple (close, connectPostgreSQL, execute_)
 import Database.Postgres.Temp (Config (..), DirectoryType (Permanent), defaultConfig, toConnectionString, with)
 import Distribution.Compat.CharParsing (digit)
-import Lib.ArchiveDump
+import Tools.Lib.ArchiveDump
   ( ArchiveDump (ArchiveDump),
     associateKeyMetadata,
   )
-import Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
+import Tools.Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
 import Network.Curl (CurlOption, CurlResponse_ (respBody), URLString, curlGetResponse_, withCurlDo)
 import System.Directory (doesFileExist, removeFile)
 import System.Exit (ExitCode (ExitSuccess), exitSuccess, exitWith)

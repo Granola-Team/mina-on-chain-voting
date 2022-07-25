@@ -2,13 +2,14 @@ module Main where
 
 import Control.Monad (when)
 import Data.List (sort)
-import Lib.ArchiveDump (ArchiveDump (ArchiveDump, dumpName), associateKeyMetadata)
+import Tools.Lib.ArchiveDump (ArchiveDump (ArchiveDump, dumpName), associateKeyMetadata)
 import System.Directory
     ( getCurrentDirectory,
       getDirectoryContents,
       removeFile,
       setCurrentDirectory )
 
+databaseDumpDir :: String
 databaseDumpDir = "database_dumps"
 
 main :: IO ()

@@ -1,8 +1,8 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-module Lib.Fetchers where
+module Tools.Lib.Fetchers where
 import Text.XML.Light (Content, parseXML)
 import Network.Curl (CurlResponse_ (respBody), withCurlDo, curlGetResponse_, URLString, CurlOption)
-import Data.ByteString
+import Data.ByteString ( ByteString )
 
 databaseDumpIndexURL :: URLString
 databaseDumpIndexURL = "https://storage.googleapis.com/mina-archive-dumps/"

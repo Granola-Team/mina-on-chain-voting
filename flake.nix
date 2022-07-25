@@ -76,7 +76,7 @@
           ];
 
           shellHook = ''
-            runghc download_archive_dump.hs
+            runghc Tools/downloadArchiveDump.hs
           '';
         };
       }

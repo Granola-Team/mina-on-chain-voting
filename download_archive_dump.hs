@@ -1,25 +1,35 @@
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE ScopedTypeVariables #-}
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE ScopedTypeVariables #-}
+
 module Main where
 
 import Codec.Archive.Tar (extract)
 import Codec.Compression.GZip (decompress)
-import Control.Monad (unless, when, void, forever)
+import Control.Monad (forever, unless, void, when)
 import Control.Monad.Catch (ExitCase (ExitCaseAbort), bracket)
-import Data.ByteString (ByteString, writeFile, hPut)
+import Data.ByteString (ByteString, hPut, writeFile)
+import qualified Data.ByteString as Prelude
 import Data.ByteString.Lazy (fromStrict, toStrict)
 import Data.Data (DataRep)
 import Data.Either (rights)
 import Data.Functor ((<&>))
-import Data.List (isInfixOf, sortBy)
+import Data.List (isInfixOf, sort, sortBy)
 import Data.Maybe (catMaybes, isJust, mapMaybe)
+import Data.Monoid (Last (..))
 import Data.Void (Void)
+import Database.PostgreSQL.Simple (close, connectPostgreSQL, execute_)
+import Database.Postgres.Temp (Config (..), DirectoryType (Permanent), defaultConfig, toConnectionString, with)
 import Distribution.Compat.CharParsing (digit)
+import Lib.ArchiveDump
+  ( ArchiveDump (ArchiveDump),
+    associateKeyMetadata,
+  )
+import Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
 import Network.Curl (CurlOption, CurlResponse_ (respBody), URLString, curlGetResponse_, withCurlDo)
 import System.Directory (doesFileExist, removeFile)
 import System.Exit (ExitCode (ExitSuccess), exitSuccess, exitWith)
-import System.IO (IOMode (WriteMode), hClose, openBinaryFile, withBinaryFile, withFile, stdout, hPutStrLn)
+import System.IO (IOMode (WriteMode), hClose, hPutStrLn, openBinaryFile, stdout, withBinaryFile, withFile)
 import Text.Megaparsec
   ( MonadParsec (try),
     Parsec,
@@ -29,13 +39,6 @@ import Text.Megaparsec
   )
 import Text.Megaparsec.Char (char, digitChar, string)
 import Text.XML.Light (Attr, CData (cdData), Content (Elem, Text), Element (Element, elAttribs, elContent, elName), QName (qName), parseXML)
-
-import Lib.ArchiveDumpKeyParser
-import Lib.Fetchers (fetchDatabaseDumpIndex, fetchArchiveDump)
-import qualified Data.ByteString as Prelude
-import Database.Postgres.Temp (Config(..), defaultConfig, DirectoryType (Permanent), with, toConnectionString)
-import Data.Monoid (Last(..))
-import Database.PostgreSQL.Simple (connectPostgreSQL, close, execute_)
 
 getListBucketsResult :: Content -> [Content]
 getListBucketsResult = \case
@@ -71,81 +74,36 @@ getDevnetKeys =
           _ -> Nothing
     )
 
-associateKeyMetadata :: [String] -> [(String, ArchiveDumpKey)]
-associateKeyMetadata keys =
-  let metadata = rights . map (runParser devnetParser "") $ keys
-   in zip keys metadata
-
-config = defaultConfig <> mempty
-    { postgresConfigFile =
-        [ ("log_min_messages", "warning")
-        , ("log_min_error_statement", "error")
-        , ("log_min_duration_statement", "100")
-        , ("log_connections", "on")
-        , ("log_disconnections", "on")
-        , ("log_duration", "on")
-        , ("log_timezone", "'UTC'")
-        , ("log_statement", "'all'")
-        , ("log_directory", "'pg_log'")
-        , ("log_filename", "'postgresql-%Y-%m-%d_%H%M%S.log'")
-        , ("logging_collector", "on")
-        , ("log_min_error_statement", "error")
-        ]
-    , port = Last (Just (Just 5555))
-    , dataDirectory = Permanent "./pg"
-    }
-
-runDatabase :: IO ()
-runDatabase = void (with $ \db -> bracket
-    (connectPostgreSQL (toConnectionString db))
-    close $
-    \conn -> do
-        execute_ conn "CREATE TABLE archive"
-        execute_ conn "CREATE TABLE archive_balances_migrated"
-        forever $ do
-          return ())
-
 main :: IO ()
 main = do
   putStrLn "getting database backup keys..."
   devnetKeys <- fetchDatabaseDumpIndex <&> (getDevnetKeys . getListBucketsResult . (!! 1))
-  let keysByDate = sortBy (\(_, x) (_, y) -> x `compare` y) $ associateKeyMetadata devnetKeys
-  let (targetKey, _) = last keysByDate
+  let keysByDate = sort $ associateKeyMetadata devnetKeys
+  let (ArchiveDump targetKey metadata) = last keysByDate
   let archiveDumpTar = "database_dumps/" ++ targetKey
   let archiveDumpFilename = take (length archiveDumpTar - length (".tar.gz" :: String)) archiveDumpTar
 
   archiveDumpExists <- doesFileExist archiveDumpFilename
   when archiveDumpExists $ do
     putStr
-      ( "\narchive dump \""
+      ( "archive dump \""
           ++ archiveDumpFilename
           ++ "\" exists, would you like to overwrite? (y/N): "
       )
     resp <- getLine
-    putStrLn archiveDumpFilename
-    unless (resp == "y") runDatabase
+    unless (resp == "y") exitSuccess
 
-  putChar '\n'
-  putStrLn $ "donwloading archive dump..." ++ targetKey
+  putStrLn $ "donwloading archive dump " ++ targetKey ++ "..."
   archiveDumpCompressed <- fetchArchiveDump targetKey
   let archiveDump = decompress . fromStrict $ archiveDumpCompressed
 
-  putChar '\n'
   putStrLn "writing archive file..."
   withBinaryFile
     archiveDumpTar
     WriteMode
-    ( \handle -> do
-        hPut handle (toStrict archiveDump)
-    )
+    (\handle -> do hPut handle (toStrict archiveDump))
 
-  putChar '\n'
   putStrLn "extracting archive dump..."
   extract "database_dumps/" archiveDumpTar
 
   removeFile archiveDumpTar
-
-  putStrLn archiveDumpFilename
-
-  runDatabase
-  

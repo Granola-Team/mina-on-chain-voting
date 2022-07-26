@@ -1,6 +1,6 @@
 use std::sync::Arc;
 use actix_web::{get, web::{ServiceConfig, Data, self}, Responder, HttpResponse, http::header::ContentType};
-use crate::{db, models::{DBResponse, ResponseEntity, Status}};
+use crate::{db, models::{DBResponse, ResponseEntity, Status, BlockStatus}};
 
 pub fn validate_signal(memo: &str, key: &str) -> bool {
     if memo.to_lowercase() == key.to_lowercase() || memo.to_lowercase() == format!("no {}", key.to_lowercase()) { return true };
@@ -41,14 +41,17 @@ pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block
         for i in v.into_iter() {
             match settled.get_mut(&i.account) {
                 Some(x) => { 
-                    if i.height > x.height && i.height + crate::constants::SETTLED_DENOMINATOR <= latest_block {
+                    if i.height > x.height
+                    && i.height + crate::constants::SETTLED_DENOMINATOR <= latest_block
+                    && matches!(i.status, BlockStatus::Canonical) {
                         *x = i
                     } else {
                         unsettled.push(i)
                     }
                  },
                 None => { 
-                    if i.height + crate::constants::SETTLED_DENOMINATOR <= latest_block {
+                    if i.height + crate::constants::SETTLED_DENOMINATOR <= latest_block
+                    && matches!(i.status, BlockStatus::Canonical) {
                     settled.insert(i.account.clone(), i);
                     } else {
                         unsettled.push(i)

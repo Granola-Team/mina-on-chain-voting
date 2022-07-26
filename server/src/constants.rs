@@ -1,1 +1,1 @@
-pub const SETTLED_DENOMINATOR: usize = 20;
+pub const SETTLED_DENOMINATOR: i64 = 20;

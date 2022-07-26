@@ -12,7 +12,8 @@ async fn main() -> Result<()> {
     let (close_db_conn, client) = db::connect_to_db().await?;
     let port = std::env::var("PORT")?.parse::<u16>()?;
 
-
+    // TODO: Turn static build dir into env. variable.
+    
     HttpServer::new(move || {
         App::new().wrap(
                 Cors::default()

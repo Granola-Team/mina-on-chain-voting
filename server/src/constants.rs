@@ -1,0 +1,1 @@
+pub const SETTLED_DENOMINATOR: usize = 20;

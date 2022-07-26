@@ -1,6 +1,7 @@
 pub mod db;
 pub mod routes;
 pub mod error;
+pub mod constants;
 
 use base58check::FromBase58Check;
 

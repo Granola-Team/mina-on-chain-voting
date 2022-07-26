@@ -1,8 +1,17 @@
 use serde::{Serialize, Deserialize};
 
+// Get signals "Settled Blocks" -> everything before 20 block heights
+// Get signals "Unsettled Blocks" -> everything between
+
+// Within settled category (highest block height displayed for account)
+// Within unsettled category (multiple accounts)
+// Sort Signals by height (latest first)
+// JSON Schema
+// Add validity function
+
 const QUERY_STATEMENT:
     &'static str = "
-        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as status
+        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as status, b.timestamp as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id
@@ -23,7 +32,8 @@ pub struct QueryResponse {
         pub account: String,
         pub memo: String,
         pub height: i64,
-        pub status: BlockStatus
+        pub status: BlockStatus,
+        pub timestamp: i64
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
@@ -40,7 +50,7 @@ pub enum BlockStatus {
 
 impl From<tokio_postgres::Row> for QueryResponse {
     fn from(row: tokio_postgres::Row) -> Self {
-    Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status") }
+    Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status"), timestamp: row.get("timestamp") }
     }
 }
 

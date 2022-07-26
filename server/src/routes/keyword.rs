@@ -13,7 +13,8 @@ pub struct ResultEntity {
 pub struct Result {
     pub memo: String,
     pub height: i64,
-    pub status: BlockStatus
+    pub status: BlockStatus,
+    pub timestamp: i64
 }
 
 pub fn parse_responses(query_responses: &[QueryResponse], key: &str) -> Vec<ResultEntity> {
@@ -23,10 +24,10 @@ pub fn parse_responses(query_responses: &[QueryResponse], key: &str) -> Vec<Resu
         if let Some(memo_str) = crate::decode_memo(&res.memo, key) {
             match hash.get_mut(&res.account) {
                 Some(x) => {
-                    x.push(Result { memo: memo_str, height: res.height, status: res.status })
+                    x.push(Result { memo: memo_str, height: res.height, status: res.status, timestamp: res.timestamp })
                 },
                 None => {
-                    hash.entry(res.account.clone()).or_insert_with_key(|_| vec![Result { memo: memo_str, height: res.height, status: res.status }]);
+                    hash.entry(res.account.clone()).or_insert_with_key(|_| vec![Result { memo: memo_str, height: res.height, status: res.status, timestamp: res.timestamp }]);
                 }
             }
         } 

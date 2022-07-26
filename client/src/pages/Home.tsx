@@ -18,8 +18,8 @@ const memoChecked = dummyData.map((dData2) => ({
 }));
 
 const verifyVote = (vote: VoteEntry): VoteCheckResult => {
-  if (vote.memo === 'magenta') return 'for';
-  if (vote.memo === 'no magenta') return 'against';
+  if (vote.memo.toLowerCase() === 'magenta') return 'for';
+  if (vote.memo.toLowerCase() === 'no magenta') return 'against';
   return 'invalid';
 };
 
@@ -113,7 +113,7 @@ const Home = () => {
         >
           <div style={{ margin: '1em' }}>
             <h2>
-              <b>Canonical</b>
+              <b>Settled</b>
             </h2>
             For {key}: <b> {forCan} </b>
             <br></br>
@@ -121,7 +121,7 @@ const Home = () => {
           </div>
           <div style={{ margin: '1em' }}>
             <h2>
-              <b>Pending</b>
+              <b>Undecided</b>
             </h2>
             For {key}: <b> {forPen} </b>
             <br></br>
@@ -138,12 +138,12 @@ const Home = () => {
           <div
             style={{
               backgroundColor: '#EEF5DB',
-              marginBottom: '2em',
+              marginBottom: '-2em',
               padding: '1em',
               borderRadius: '1em',
             }}
           >
-            <h2>Canonical</h2>
+            <h2>Settled</h2>
             {data && (
               <VotingDetails
                 accountDetails={data}
@@ -153,15 +153,17 @@ const Home = () => {
             )}
           </div>
 
+        <div style={{ display: 'flex', flexDirection: 'column' }}>
           <div
             style={{
-              backgroundColor: '#EEF5DB',
-              marginBottom: '2em',
+              backgroundColor: '#EEFB',
+              margin: '5em',
+              marginBottom: '1em',
               padding: '1em',
               borderRadius: '1em',
             }}
           >
-            <h2>Pending</h2>
+            <h2>Undecided</h2>
             {data && (
               <VotingDetails
                 accountDetails={data}
@@ -171,6 +173,7 @@ const Home = () => {
             )}
           </div>
         </div>
+      </div>
       </div>
 
       <div style={{ color: '#EEF5DB', maxWidth: '65%' }}>

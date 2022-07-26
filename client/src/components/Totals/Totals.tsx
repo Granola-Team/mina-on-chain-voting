@@ -30,14 +30,6 @@ const Totals: React.FC<TotalsProps> = ({
           <br></br>
           Against {signallingKey}: <b> {settledSignals[1]} </b>
         </div>
-        <div style={{ margin: '1em' }}>
-          <h2>
-            <b>Unsettled</b>
-          </h2>
-          For {signallingKey}: <b> {unsettledSignals[0]} </b>
-          <br></br>
-          Against {signallingKey}: <b> {unsettledSignals[1]} </b>
-        </div>
       </div>
     </div>
   );

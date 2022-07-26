@@ -71,7 +71,7 @@
             (postgresql.withPackages (p: [ p.postgis ]))
 
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
-              curl xml tar zlib fused-effects megaparsec bytestring directory tmp-postgres json process
+              effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process
             ]))
           ];
 

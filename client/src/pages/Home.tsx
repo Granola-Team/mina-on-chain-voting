@@ -48,21 +48,21 @@ const Home = ({ testing }) => {
 
   useEffect(() => {
     if (testing) {
-      setData(dummyData)
+      setData(dummyData);
     } else {
       fetch('http://35.203.38.140:8080/api/votes', {
-      method: 'GET',
-      mode: 'same-origin',
-    })
-      .then((response) => {
-        console.log(response);
-        return response.json();
+        method: 'GET',
+        mode: 'same-origin',
       })
-      .then((json) => setData(json))
-      .catch((error) => {
-        console.log(error);
-        setData(dummyData)
-      });
+        .then((response) => {
+          console.log(response);
+          return response.json();
+        })
+        .then((json) => setData(json))
+        .catch((error) => {
+          console.log(error);
+          setData(dummyData);
+        });
     }
   }, [data]);
 
@@ -96,8 +96,14 @@ const Home = ({ testing }) => {
       ])
       .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
 
-  const settled = votesTotal(canonicalVotes.map(([_, vote]) => vote)) as [number, number];
-  const unsettled = votesTotal(pendingVotes.map(([_, vote]) => vote)) as [number, number];
+  const settled = votesTotal(canonicalVotes.map(([_, vote]) => vote)) as [
+    number,
+    number
+  ];
+  const unsettled = votesTotal(pendingVotes.map(([_, vote]) => vote)) as [
+    number,
+    number
+  ];
 
   return (
     <main
@@ -107,16 +113,16 @@ const Home = ({ testing }) => {
         alignItems: 'center',
       }}
     >
-      <Totals 
-        signallingKey={key} 
-        settledSignals={settled} 
-        unsettledSignals={unsettled} 
+      <Totals
+        signallingKey={key}
+        settledSignals={settled}
+        unsettledSignals={unsettled}
       />
 
-      <Details 
+      <Details
         discriminators={[
-          ["Settled", selectHighestVoteWith("Settled"), false],
-          ["Unsettled", selectHighestVoteWith("Undecided"), true]
+          ['Settled', selectHighestVoteWith('Settled'), false],
+          ['Unsettled', selectHighestVoteWith('Undecided'), true],
         ]}
         verifier={verifyVote}
         data={data}

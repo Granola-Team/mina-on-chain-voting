@@ -1,6 +1,7 @@
 import { AccountEntry, VoteEntry, VoteCheckResult } from '../../../types';
-import VotingDetailsAccountEntry from './VotingDetailsAccountEntry';
+import SignalTableAccountEntry from './SignalTableAccountEntry';
 import React from 'react';
+import {Collapse} from 'react-collapse';
 
 interface VotingDetailsProps {
   accountDetails: AccountEntry[];
@@ -8,7 +9,7 @@ interface VotingDetailsProps {
   isValidVote: (vote: VoteEntry) => VoteCheckResult;
 }
 
-const VotingDetails: React.FC<VotingDetailsProps> = ({
+const SignalTable: React.FC<VotingDetailsProps> = ({
   accountDetails,
   votesDiscriminator,
   isValidVote,
@@ -28,7 +29,7 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({
       </thead>
       <tbody>
         {votes.map(([accountEntry, vote], index) => (
-          <VotingDetailsAccountEntry
+          <SignalTableAccountEntry
             key={index}
             account={accountEntry.account}
             memo={vote.memo}
@@ -40,4 +41,4 @@ const VotingDetails: React.FC<VotingDetailsProps> = ({
   );
 };
 
-export default VotingDetails;
+export default SignalTable;

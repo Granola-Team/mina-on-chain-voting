@@ -59,8 +59,13 @@ pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block
         }
     }
 
+   let mut s = settled.into_iter().map(|(_,v)| { v }).collect::<Vec<DBResponse>>();
+   s.sort_by(|a,b| { b.height.cmp(&a.height) });
+   unsettled.sort_by(|a, b | { b.height.cmp(&a.height) });
+   invalid.sort_by(|a, b | { b.height.cmp(&a.height) }); 
+
     vec![
-        ResponseEntity { status:Status::Settled, results: settled.into_iter().map(|(_,v)| { v }).collect::<Vec<DBResponse>>() }, ResponseEntity { status: Status::Unsettled, results: unsettled },
+        ResponseEntity { status: Status::Settled, results: s }, ResponseEntity { status: Status::Unsettled, results: unsettled },
         ResponseEntity { status: Status::Invalid, results: invalid }
         ]
 }

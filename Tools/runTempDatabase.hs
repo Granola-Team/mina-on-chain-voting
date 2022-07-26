@@ -33,11 +33,8 @@ import Tools.Lib.ArchiveDump
 import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
 import System.Environment (getEnv)
 import Data.Kind (Type)
-import Control.Algebra (Has, send, (:+:) (R, L), Algebra (alg))
-import Control.Carrier.State.Strict (State, Algebra, get, put, runState, StateC)
 import Data.Int (Int64)
 import Control.Monad.Cont (MonadIO (liftIO))
-import Control.Carrier.Lift (runM, LiftC)
 
 databaseLogger :: Event -> IO ()
 databaseLogger = print

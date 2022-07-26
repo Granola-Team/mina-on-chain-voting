@@ -181,4 +181,59 @@ export const dummyData: AccountEntry[] = [
       },
     ],
   },
+  {
+    account: 'B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx97QWdfgH',
+    votes: [
+      {
+        memo: 'MAgenta',
+        height: 89531,
+        status: 'Settled',
+      },
+      {
+        memo: 'magenta',
+        height: 89531,
+        status: 'Settled',
+      },
+    ],
+  },
+  {
+    account: 'B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx34FGyuHt',
+    votes: [
+      {
+        memo: '!MAgenta',
+        height: 90531,
+        status: 'Settled',
+      },
+      {
+        memo: 'no magenta',
+        height: 90531,
+        status: 'Settled',
+      },
+    ],
+  },
+  {
+    account: 'B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXby56DFjklI',
+    votes: [
+      {
+        memo: 'NoMagenta',
+        height: 93531,
+        status: 'Undecided',
+      },
+      {
+        memo: 'NOMagenta',
+        height: 93531,
+        status: 'Undecided',
+      },
+      {
+        memo: 'NOMgenta',
+        height: 93531,
+        status: 'Undecided',
+      },
+      {
+        memo: 'NO Mgenta',
+        height: 93556,
+        status: 'Settled',
+      },
+    ],
+  },
 ];

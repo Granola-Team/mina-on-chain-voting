@@ -1,4 +1,3 @@
-
 use crate::models::DBResponse;
 
 const QUERY_STATEMENT:

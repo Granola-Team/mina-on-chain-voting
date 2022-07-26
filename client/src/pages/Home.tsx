@@ -1,6 +1,6 @@
 import { dummyData } from '../dummy';
 import React, { useState, useEffect } from 'react';
-import VotingDetails from '../components/VotingDetails';
+import SignalTable from '../components/SignalTable';
 import { useParams } from 'react-router-dom';
 import type {
   AccountEntry,
@@ -8,6 +8,9 @@ import type {
   VoteCheckResult,
   Status,
 } from '../../types';
+import Totals from '../components/Totals';
+import Details from '../components/SignalDetails';
+import Footer from '../components/Footer';
 
 const memoChecked = dummyData.map((dData2) => ({
   ...dData2,
@@ -39,12 +42,15 @@ const votesTotal = (votes: VoteEntry[]) => {
     );
 };
 
-const Home = () => {
+const Home = ({ testing }) => {
   const [data, setData] = useState<AccountEntry[] | null>(dummyData);
   const { key } = useParams();
 
   useEffect(() => {
-    fetch('http://35.203.38.140:8080/api/votes', {
+    if (testing) {
+      setData(dummyData)
+    } else {
+      fetch('http://35.203.38.140:8080/api/votes', {
       method: 'GET',
       mode: 'same-origin',
     })
@@ -55,7 +61,9 @@ const Home = () => {
       .then((json) => setData(json))
       .catch((error) => {
         console.log(error);
+        setData(dummyData)
       });
+    }
   }, [data]);
 
   const selectHighestVoteWith =
@@ -88,8 +96,8 @@ const Home = () => {
       ])
       .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
 
-  const [forCan, agCan] = votesTotal(canonicalVotes.map(([_, vote]) => vote));
-  const [forPen, agPen] = votesTotal(pendingVotes.map(([_, vote]) => vote));
+  const settled = votesTotal(canonicalVotes.map(([_, vote]) => vote)) as [number, number];
+  const unsettled = votesTotal(pendingVotes.map(([_, vote]) => vote)) as [number, number];
 
   return (
     <main
@@ -99,89 +107,22 @@ const Home = () => {
         alignItems: 'center',
       }}
     >
-      <div>
-        <h1 style={{ color: '#EEF5DB' }}>OnChainSignalling Totals</h1>
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'center',
-            padding: '1em',
-            backgroundColor: '#EEF5DB',
-            borderRadius: '1em',
-          }}
-        >
-          <div style={{ margin: '1em' }}>
-            <h2>
-              <b>Canonical</b>
-            </h2>
-            For {key}: <b> {forCan} </b>
-            <br></br>
-            Against {key}: <b> {agCan} </b>
-          </div>
-          <div style={{ margin: '1em' }}>
-            <h2>
-              <b>Pending</b>
-            </h2>
-            For {key}: <b> {forPen} </b>
-            <br></br>
-            Against {key}: <b> {agPen} </b>
-          </div>
-        </div>
-      </div>
+      <Totals 
+        signallingKey={key} 
+        settledSignals={settled} 
+        unsettledSignals={unsettled} 
+      />
 
-      <div>
-        <h1 style={{ color: '#EEF5DB', textAlign: 'center' }}>
-          Signalling Details
-        </h1>
-        <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <div
-            style={{
-              backgroundColor: '#EEF5DB',
-              marginBottom: '2em',
-              padding: '1em',
-              borderRadius: '1em',
-            }}
-          >
-            <h2>Canonical</h2>
-            {data && (
-              <VotingDetails
-                accountDetails={data}
-                votesDiscriminator={selectHighestVoteWith('Settled')}
-                isValidVote={verifyVote}
-              />
-            )}
-          </div>
+      <Details 
+        discriminators={[
+          ["Settled", selectHighestVoteWith("Settled"), false],
+          ["Unsettled", selectHighestVoteWith("Undecided"), true]
+        ]}
+        verifier={verifyVote}
+        data={data}
+      />
 
-          <div
-            style={{
-              backgroundColor: '#EEF5DB',
-              marginBottom: '2em',
-              padding: '1em',
-              borderRadius: '1em',
-            }}
-          >
-            <h2>Pending</h2>
-            {data && (
-              <VotingDetails
-                accountDetails={data}
-                votesDiscriminator={selectHighestVoteWith('Undecided')}
-                isValidVote={verifyVote}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-
-      <div style={{ color: '#EEF5DB', maxWidth: '65%' }}>
-        <em>
-          Canonical messages are incorporated in the Mina Blockchain. Pending
-          messages are not yet incorporated into the Mina Blockchain. To signal
-          support, send a transaction to yourself and enter '{key}' in the memo
-          field. To opppose, send a transaction to yourself and enter 'no {key}'
-          in the memo field.
-        </em>
-      </div>
+      <Footer key={key} />
     </main>
   );
 };

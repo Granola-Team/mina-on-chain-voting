@@ -1,13 +1,13 @@
 import { VoteCheckResult } from '../../../types';
 import React from 'react';
 
-interface VotingDetailsAccountEntryProps {
+interface SignalTableAccountEntryProps {
   account: string;
   memo: string;
   validity: VoteCheckResult;
 }
 
-const VotingDetailsAccountEntry: React.FC<VotingDetailsAccountEntryProps> = ({
+const SignalTableAccountEntry: React.FC<SignalTableAccountEntryProps> = ({
   account,
   memo,
   validity,
@@ -33,4 +33,4 @@ const VotingDetailsAccountEntry: React.FC<VotingDetailsAccountEntryProps> = ({
   );
 };
 
-export default VotingDetailsAccountEntry;
+export default SignalTableAccountEntry;

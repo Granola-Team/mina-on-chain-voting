@@ -1,4 +1,14 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE GADTs #-}
+{-# LANGUAGE KindSignatures #-}
+{-# LANGUAGE DeriveFunctor #-}
+{-# LANGUAGE GeneralizedNewtypeDeriving #-}
+{-# LANGUAGE TypeOperators #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE UndecidableInstances #-}
+{-# LANGUAGE TypeApplications #-}
+{-# LANGUAGE ScopedTypeVariables #-}
 
 module Main where
 
@@ -16,12 +26,18 @@ import Database.PostgreSQL.Simple.Options (Options (Options, dbname, host, user)
 import Database.PostgreSQL.Simple.Types (Query (..))
 import Database.Postgres.Temp (CommandLineArgs (keyBased), Config (connectionOptions, dataDirectory, initDbConfig, logger, port, postgresConfig, postgresConfigFile), DirectoryType (Permanent), Event, ProcessConfig (ProcessConfig, commandLine), startConfig, toConnectionString, with, withConfig)
 import System.Directory
-    ( getDirectoryContents, removeDirectoryRecursive )
+    ( getDirectoryContents, removeDirectoryRecursive, removeDirectory )
 import System.IO (IOMode (ReadMode), withFile)
 import Tools.Lib.ArchiveDump
     ( ArchiveDump(ArchiveDump), associateKeyMetadata )
 import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
 import System.Environment (getEnv)
+import Data.Kind (Type)
+import Control.Algebra (Has, send, (:+:) (R, L), Algebra (alg))
+import Control.Carrier.State.Strict (State, Algebra, get, put, runState, StateC)
+import Data.Int (Int64)
+import Control.Monad.Cont (MonadIO (liftIO))
+import Control.Carrier.Lift (runM, LiftC)
 
 databaseLogger :: Event -> IO ()
 databaseLogger = print

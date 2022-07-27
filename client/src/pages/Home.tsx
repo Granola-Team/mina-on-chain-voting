@@ -12,17 +12,18 @@ import Totals from '../components/Totals';
 import Details from '../components/SignalDetails';
 import Footer from '../components/Footer';
 
-const memoChecked = dummyData.map((dData2) => ({
-  ...dData2,
-  votes: dData2.votes.map((votes) => ({
-    ...votes,
-    memo: votes.memo.toLowerCase(),
-  })),
-}));
+// const memoChecked = dummyData.map((dData2) => ({
+//   ...dData2,
+//   votes: dData2.votes.map((votes) => ({
+//     ...votes,
+//     memo: votes.memo.toLowerCase(),
+//   })),
+// }));
 
 const verifyVote = (vote: VoteEntry): VoteCheckResult => {
-  if (vote.memo === 'magenta') return 'for';
-  if (vote.memo === 'no magenta') return 'against';
+  const voteMemo = vote.memo.toLowerCase();
+  if (voteMemo === 'magenta') return 'for';
+  if (voteMemo === 'no magenta') return 'against';
   return 'invalid';
 };
 
@@ -66,45 +67,6 @@ const Home = ({ testing }) => {
     }
   }, [data]);
 
-  const selectHighestVoteWith =
-    (status: Status) =>
-    (entry: AccountEntry): VoteEntry | null => {
-      let vote: VoteEntry | null = null;
-      entry.votes.forEach((voteEntry) => {
-        if (voteEntry.status !== status) return;
-        if (vote == null || vote.height < voteEntry.height) vote = voteEntry;
-      });
-
-      return vote;
-    };
-
-  const canonicalVotes =
-    data &&
-    data
-      .map((accountEntry) => [
-        accountEntry,
-        selectHighestVoteWith('Settled')(accountEntry),
-      ])
-      .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
-
-  const pendingVotes =
-    data &&
-    data
-      .map((accountEntry) => [
-        accountEntry,
-        selectHighestVoteWith('Undecided')(accountEntry),
-      ])
-      .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
-
-  const settled = votesTotal(canonicalVotes.map(([_, vote]) => vote)) as [
-    number,
-    number
-  ];
-  const unsettled = votesTotal(pendingVotes.map(([_, vote]) => vote)) as [
-    number,
-    number
-  ];
-
   return (
     <main
       style={{
@@ -114,18 +76,17 @@ const Home = ({ testing }) => {
       }}
     >
       <Totals
+        totalsTitle={'Totals'}
         signallingKey={key}
-        settledSignals={settled}
-        unsettledSignals={unsettled}
+        signals={votesTotal(data[0].results) as [number, number]}
       />
 
       <Details
-        discriminators={[
-          ['Settled', selectHighestVoteWith('Settled'), false],
-          ['Unsettled', selectHighestVoteWith('Undecided'), true],
+        categories = {[
+          ["Settled", data[0].results, verifyVote, false],
+          ["Unsettled", data[1].results, verifyVote, true],
+          ["Invalid", data[2].results, verifyVote, true]
         ]}
-        verifier={verifyVote}
-        data={data}
       />
 
       <Footer key={key} />

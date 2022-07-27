@@ -4,19 +4,17 @@ import React from 'react';
 import {Collapse} from 'react-collapse';
 
 interface VotingDetailsProps {
-  accountDetails: AccountEntry[];
-  votesDiscriminator: (entry: AccountEntry) => VoteEntry | null;
+  votes: VoteEntry[];
   isValidVote: (vote: VoteEntry) => VoteCheckResult;
 }
 
 const SignalTable: React.FC<VotingDetailsProps> = ({
-  accountDetails,
-  votesDiscriminator,
+  votes,
   isValidVote,
 }) => {
-  const votes = accountDetails
-    .map((accountEntry) => [accountEntry, votesDiscriminator(accountEntry)])
-    .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
+  // const votes = accountDetails
+  //   .map((accountEntry) => [accountEntry, votesDiscriminator(accountEntry)])
+  //   .filter((entry): entry is [AccountEntry, VoteEntry] => entry[1] !== null);
 
   return (
     <table style={{ borderSpacing: '1rem 0.5rem' }}>
@@ -28,10 +26,10 @@ const SignalTable: React.FC<VotingDetailsProps> = ({
         </tr>
       </thead>
       <tbody>
-        {votes.map(([accountEntry, vote], index) => (
+        {votes.map((vote, index) => (
           <SignalTableAccountEntry
             key={index}
-            account={accountEntry.account}
+            account={vote.account}
             memo={vote.memo}
             validity={isValidVote(vote)}
           />

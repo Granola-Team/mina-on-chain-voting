@@ -4,15 +4,11 @@ import { Collapse } from 'react-collapse';
 import { useState } from 'react';
 
 interface DetailsProps {
-  discriminators: [string, (entry: AccountEntry) => VoteEntry, boolean][];
-  verifier: (vote: VoteEntry) => VoteCheckResult;
-  data: AccountEntry[];
+  categories: [string, VoteEntry[], (vote: VoteEntry) => VoteCheckResult, boolean][]
 }
 
 const Details: React.FC<DetailsProps> = ({
-  discriminators,
-  verifier,
-  data,
+  categories
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -23,7 +19,7 @@ const Details: React.FC<DetailsProps> = ({
       </h1>
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {discriminators.map(([name, discriminator, collapse], index) => (
+        {categories.map(([name, entries, verifier, collapse], index) => (
           <div
             style={{
               backgroundColor: '#EEF5DB',
@@ -48,23 +44,18 @@ const Details: React.FC<DetailsProps> = ({
             </div>
             {collapse && (
               <Collapse isOpened={open}>
-                {data && (
-                  <SignalTable
-                    accountDetails={data}
-                    votesDiscriminator={discriminator}
-                    isValidVote={verifier}
-                  />
-                )}
+                <SignalTable
+                  votes={entries}
+                  isValidVote={verifier}
+                />
               </Collapse>
             )}
             {collapse ||
-              (data && (
-                <SignalTable
-                  accountDetails={data}
-                  votesDiscriminator={discriminator}
-                  isValidVote={verifier}
-                />
-              ))}
+              <SignalTable
+                votes={entries}
+                isValidVote={verifier}
+              />
+            }
           </div>
         ))}
       </div>

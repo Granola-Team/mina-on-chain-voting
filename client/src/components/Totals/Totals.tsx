@@ -1,11 +1,11 @@
 interface TotalsProps {
+    totalsTitle: string,
     signallingKey: string
-    settledSignals: [number, number]
-    unsettledSignals: [number, number]
+    signals: [number, number]
 }
 
 const Totals: React.FC<TotalsProps> = ({
-    signallingKey, settledSignals, unsettledSignals
+    totalsTitle, signallingKey, signals
 }) => {
  return (
     <div>
@@ -22,19 +22,11 @@ const Totals: React.FC<TotalsProps> = ({
         >
             <div style={{ margin: '1em' }}>
             <h2>
-                <b>Settled</b>
+                <b>{ totalsTitle }</b>
             </h2>
-                For {signallingKey}: <b> {settledSignals[0]} </b>
+                For {signallingKey}: <b> {signals[0]} </b>
             <br></br>
-            Against {signallingKey}: <b> {settledSignals[1]} </b>
-            </div>
-            <div style={{ margin: '1em' }}>
-            <h2>
-                <b>Unsettled</b>
-            </h2>
-            For {signallingKey}: <b> {unsettledSignals[0]} </b>
-            <br></br>
-            Against {signallingKey}: <b> {unsettledSignals[1]} </b>
+            Against {signallingKey}: <b> { signals[1]} </b>
             </div>
         </div>
         </div>

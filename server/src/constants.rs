@@ -1,0 +1,1 @@
+pub const SETTLED_DENOMINATOR: i64 = 20;

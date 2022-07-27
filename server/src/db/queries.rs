@@ -1,8 +1,8 @@
-use serde::{Serialize, Deserialize};
+use crate::models::DBResponse;
 
 const QUERY_STATEMENT:
     &'static str = "
-        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as status
+        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as status, b.timestamp as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id
@@ -18,40 +18,26 @@ const QUERY_STATEMENT:
         ;
     ";
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct QueryResponse {  
-        pub account: String,
-        pub memo: String,
-        pub height: i64,
-        pub status: BlockStatus
-}
-
-#[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
-#[postgres(name = "chain_status_type")]
-pub enum BlockStatus {
-    #[postgres(name = "pending")]
-    Pending,
-    #[postgres(name = "canonical")]
-    Canonical,
-    #[postgres(name = "orphaned")]
-    Orphaned,
+impl From<tokio_postgres::Row> for DBResponse {
+        fn from(row: tokio_postgres::Row) -> Self {
+        Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status"), timestamp: row.get("timestamp") }
+        }
 }
 
 
-impl From<tokio_postgres::Row> for QueryResponse {
-    fn from(row: tokio_postgres::Row) -> Self {
-    Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status") }
-    }
+pub async fn get_latest_blockheight(pg_client: &tokio_postgres::Client) -> Result<i64, tokio_postgres::Error> {
+    let row = pg_client.query_one("SELECT MAX(height) FROM blocks;", &[]).await?;
+    Ok(row.get(0))
 }
 
-pub async fn send_query(
+pub async fn get_memo_data(
     pg_client: &tokio_postgres::Client,
-) -> Result<Vec<QueryResponse>, tokio_postgres::Error> {
+) -> Result<Vec<DBResponse>, tokio_postgres::Error> {
         pg_client
         .query(QUERY_STATEMENT, &[])
         .await?.into_iter().map(|i| {
-            Ok(QueryResponse::from(i))
-        }).collect::<Result<Vec<QueryResponse>, tokio_postgres::Error>>()
+            Ok(DBResponse::from(i))
+        }).collect::<Result<Vec<DBResponse>, tokio_postgres::Error>>()
 }
 
 

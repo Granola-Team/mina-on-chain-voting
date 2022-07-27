@@ -4,7 +4,7 @@ declare module '*.svg' {
     export default content;
   }
 */  
-  export type Status = 'Unsettled' | 'Settled';
+  export type Status = 'Unsettled' | 'Settled' | 'Invalid' 
   export type VoteEntry = { 
     account: string; 
     memo: string; 

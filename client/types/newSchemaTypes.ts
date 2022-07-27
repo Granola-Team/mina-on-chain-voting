@@ -10,7 +10,6 @@ declare module '*.svg' {
     memo: string; 
     height: number; 
     timestamp: number;  
-    valid: boolean; 
     blockstatus: string 
     };
   export type AccountEntry = { status: Status; results: VoteEntry[] };

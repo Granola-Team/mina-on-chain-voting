@@ -15,7 +15,12 @@
   outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs {
+        system = if builtins.currentSystem == "aarch64-darwin" then
+        "x86_64-darwin"
+        else
+        builtins.currentSystem;
+        };
         appDependencies = with pkgs; [
           geos gdal
           # postgres with postgis support
@@ -31,19 +36,19 @@
           clean-archive-backups = pkgs.writeShellApplication {
             name = "clean-archive-backups";
             runtimeInputs = appDependencies;
-            text = "runghc ./Tools/cleanArchiveDump.hs";
+            text = "runghc ./tools/cleanArchiveDump.hs";
           };
 
           download-archive-dump = pkgs.writeShellApplication {
             name = "download-archive-dump";
             runtimeInputs = appDependencies;
-            text = "runghc ./Tools/downloadArchiveDump.hs";
+            text = "runghc ./tools/downloadArchiveDump.hs";
           };
 
           run-temp-database = pkgs.writeShellApplication {
             name = "run-temp-database";
             runtimeInputs = appDependencies;
-            text = "runghc ./Tools/runTempDatabase.hs";
+            text = "runghc ./tools/runTempDatabase.hs";
           };
         };
 
@@ -76,7 +81,7 @@
           ];
 
           shellHook = ''
-            runghc Tools/downloadArchiveDump.hs
+            runghc tools/downloadArchiveDump.hs
           '';
         };
       }

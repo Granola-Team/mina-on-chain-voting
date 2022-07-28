@@ -17,16 +17,16 @@ const SignalTableAccountEntry: React.FC<SignalTableAccountEntryProps> = ({
       <td style={{}}>{account}</td>
       <td
         style={{
-          textAlign: 'center',
+          textAlign: 'left',
           paddingRight: '0.5rem',
           paddingLeft: '0.5rem',
         }}
       >
         {memo}
       </td>
-      <td style={{ textAlign: 'center' }}>
+      <td style={{ textAlign: 'left' }}>
         {validity === 'for' && 'For'}
-        {validity === 'against' && 'Against'}
+        {validity === 'against' && 'Against'} 
         {validity === 'invalid' && 'Invalid'}
       </td>
     </tr>

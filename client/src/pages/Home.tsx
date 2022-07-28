@@ -76,7 +76,7 @@ const Home = ({ testing }) => {
       }}
     >
       <Totals
-        totalsTitle={'Totals'}
+        totalsTitle={'Mina On-Chain Signals for ' + key}
         signallingKey={key}
         signals={votesTotal(data[0].results) as [number, number]}
       />
@@ -89,7 +89,7 @@ const Home = ({ testing }) => {
         ]}
       />
 
-      <Footer key={key} />
+      <Footer keyword={key} />
     </main>
   );
 };

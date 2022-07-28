@@ -10,12 +10,18 @@
     };
     deploy-rs.url = "github:serokell/deploy-rs";
     mina.url = "github:MinaProtocol/mina";
+    ocs-server.url = "path:./server";
+    ocs-client.url = "path:./client";
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina }: 
+  outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, ocs-server, ocs-client }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
+
+        server = ocs-server.defaultPackage;
+        client = ocs-client.defaultPackage;
+
         appDependencies = with pkgs; [
           geos gdal
           # postgres with postgis support
@@ -45,11 +51,22 @@
             runtimeInputs = appDependencies;
             text = "runghc ./Tools/runTempDatabase.hs";
           };
+
+          run-end-to-end = pkgs.writeShellApplication {
+            name = "run-end-to-end";
+            runtimeInputs = [
+              ocs-server.packages.${system}.onChainSignalling-api
+              ocs-client.defaultPackage.${system}
+            ];
+            text = ''
+              CLIENT_BUILD_DIR=${ocs-client.defaultPackage.${system}}/out on_chain_signalling-api
+            '';
+          };
         };
 
-        defaultApp = apps.run-temp-database;
+        defaultApp = apps.run-end-to-end;
 
-        deploy.nodes.onChain-signalling = {
+        deploy.nodes.on-chain-signalling = {
           hostname = "35.203.38.140";
 
           profiles = { };
@@ -58,6 +75,23 @@
         checks = builtins.mapAttrs (system: 
           deployLib: deployLib.deployChecks self.deploy
         ) deploy-rs.lib;
+
+        defaultPackage = pkgs.stdenv.mkDerivation {
+          name = "On Chain Signalling";
+          version = "0.1.0";
+          src = ./.;
+
+          buildPhase = ''
+            mkdir $out
+            mkdir $out/bin
+            mkdir $out/out
+          '';
+
+          installPhase = ''
+           cp ${ocs-server.packages.${system}.onChainSignalling-api}/bin/on_chain_signalling-api $out/bin/ocs-api
+           cp -r ${ocs-client.defaultPackage.${system}}/out/* $out/out/
+          '';
+        };
 
         devShell = pkgs.mkShell {
 

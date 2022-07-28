@@ -10,11 +10,12 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat }: 
+  outputs = { self, nixpkgs, flake-utils, flake-compat }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-      in rec {
+      in
+      rec {
         defaultPackage = pkgs.mkYarnPackage {
           name = "ocs-client";
           version = "0.0.1";

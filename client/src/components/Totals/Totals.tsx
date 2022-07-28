@@ -9,7 +9,7 @@ const Totals: React.FC<TotalsProps> = ({
 }) => {
  return (
     <div>
-        <h1 style={{ color: '#EEF5DB' }}>OnChainSignalling Totals</h1>
+        <h1 style={{ color: '#EEF5DB' }}>{totalsTitle}</h1>
         <div
             style={{
             display: 'flex',
@@ -20,13 +20,13 @@ const Totals: React.FC<TotalsProps> = ({
             borderRadius: '1em',
             }}
         >
-            <div style={{ margin: '1em' }}>
-            <h2>
-                <b>{ totalsTitle }</b>
-            </h2>
-                For {signallingKey}: <b> {signals[0]} </b>
-            <br></br>
-            Against {signallingKey}: <b> { signals[1]} </b>
+            <div style={{ margin: '1em', display: 'flex', flexDirection: 'column' }}>
+                <div>
+                    For {signallingKey}: <b> {signals[0]} </b>
+                </div>
+                <div>
+                    Against {signallingKey}: <b> { signals[1]} </b>
+                </div>
             </div>
         </div>
         </div>

@@ -1,8 +1,8 @@
 interface FooterProps {
-    key: string
+    keyword: string
 }
 
-const Footer: React.FC<FooterProps> = ({key}) => {
+const Footer: React.FC<FooterProps> = ({keyword: key}) => {
     return (
         <div style={{ color: '#EEF5DB', maxWidth: '65%' }}>
             <em>

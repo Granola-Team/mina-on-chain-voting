@@ -47,6 +47,11 @@ const Home = ({ testing }) => {
   const [data, setData] = useState<AccountEntry[] | null>(dummyData);
   const { key } = useParams();
 
+  const getKey = (): string => {
+    if (key) return key;
+    return "Magenta"
+  }
+
   useEffect(() => {
     if (testing) {
       setData(dummyData);
@@ -76,7 +81,7 @@ const Home = ({ testing }) => {
       }}
     >
       <Totals
-        totalsTitle={'Totals'}
+        totalsTitle={'Mina On-Chain Signals for ' + getKey()}
         signallingKey={key}
         signals={votesTotal(data[0].results) as [number, number]}
       />
@@ -89,7 +94,7 @@ const Home = ({ testing }) => {
         ]}
       />
 
-      <Footer key={key} />
+      <Footer keyword={getKey()} />
     </main>
   );
 };

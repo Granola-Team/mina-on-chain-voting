@@ -14,22 +14,10 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        version = "0.0.1";
-        # yarnDeps = pkgs.stdenv.mkYarnModules {
-        #   pname = "ocs-client-yarn-deps";
-        #   inherit version;
-        #   packageJSON = ./package.json;
-        #   yarnLock = ./yarn.lock;
-        #   yarnNix = ./yarn.nix;
-        #   preBuild = ''
-        #   '';
-        #   postBuild = ''
-        #   '';
-        # };
       in rec {
         defaultPackage = pkgs.mkYarnPackage {
           name = "ocs-client";
-          inherit version;
+          version = "0.0.1";
           src = ./.;
           buildPhase = ''
             yarn run build --offline

@@ -30,7 +30,7 @@ const SignalTable: React.FC<VotingDetailsProps> = ({
           <SignalTableAccountEntry
             key={index}
             account={vote.account}
-            memo={vote.memo}
+            memo={vote.memo.substring(0,10)}
             validity={isValidVote(vote)}
           />
         ))}

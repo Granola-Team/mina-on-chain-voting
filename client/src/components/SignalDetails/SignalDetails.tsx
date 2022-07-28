@@ -2,15 +2,20 @@ import { AccountEntry, VoteCheckResult, VoteEntry } from '../../../types';
 import SignalTable from '../SignalTable';
 import { Collapse } from 'react-collapse';
 import { useState } from 'react';
+import { SignalEntry } from './SignalEntry';
 
 interface DetailsProps {
   categories: [string, VoteEntry[], (vote: VoteEntry) => VoteCheckResult, boolean][]
 }
 
+
 const Details: React.FC<DetailsProps> = ({
   categories
 }) => {
   const [open, setOpen] = useState(false);
+  const [opens, setOpens] = useState<boolean[]>(
+    Array.apply(null, Array(categories.length)).map((_) => false)
+  )
 
   return (
     <div>
@@ -20,43 +25,13 @@ const Details: React.FC<DetailsProps> = ({
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         {categories.map(([name, entries, verifier, collapse], index) => (
-          <div
-            style={{
-              backgroundColor: '#EEF5DB',
-              marginBottom: '2em',
-              padding: '1em',
-              borderRadius: '1em',
-            }}
-            key={index}
-          >
-            <div
-              style={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              {collapse && <p>{name}</p>}
-              {collapse || <h2>{name}</h2>}
-              {collapse && (
-                <button onClick={() => setOpen(!open)}>Collapse</button>
-              )}
-            </div>
-            {collapse && (
-              <Collapse isOpened={open}>
-                <SignalTable
-                  votes={entries}
-                  isValidVote={verifier}
-                />
-              </Collapse>
-            )}
-            {collapse ||
-              <SignalTable
-                votes={entries}
-                isValidVote={verifier}
-              />
-            }
-          </div>
+          <SignalEntry 
+            index={index}
+            collapse={collapse}
+            name={name}
+            entries={entries}
+            verifier={verifier}
+          />
         ))}
       </div>
     </div>

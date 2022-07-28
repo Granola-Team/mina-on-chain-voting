@@ -9,7 +9,7 @@ export const dummyData: AccountEntry[] = [
         memo: "MAgenta",
         height: 92899,
         timestamp: 9374188241,
-        blockstatus: "Canonical"
+        blockstatus: "Canonical" 
       },
        {
         account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1WEQ23EER",
@@ -80,105 +80,105 @@ export const dummyData: AccountEntry[] = [
     status: "Unsettled",
     results: [
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pt5YHg4f",
         memo: "MagEnta",
         height: 92899,
         timestamp: 9374188242,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn0asKJ",
         memo: "No magenta",
         height: 92902,
         timestamp: 9374188255,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pb2nUIpo",
         memo: "NO Magenta",
         height: 92903,
         timestamp: 9374188278,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pb2wViAa",
         memo: "no magenta",
         height: 92909,
         timestamp: 9374188290,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1PbZ9hSrA",
         memo: "no Magenta",
         height: 92916,
         timestamp: 9374188296,
         blockstatus: "Pending"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn6YTgh",
         memo: "no magenta",
         height: 92920,
         timestamp: 9374188300,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn4ERvb",
         memo: "MAGENTA",
         height: 92922,
         timestamp: 9374188306,
         blockstatus: "Pending"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbnsd5Cv",
         memo: "MAgenta",
         height: 93101,
         timestamp: 9374188573,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn09gHj",
         memo: "MagEnta",
         height: 93111,
         timestamp: 9374188601,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jubn8XCVztsmXgC1P",
         memo: "MAgeNTA",
         height: 93123,
         timestamp: 9374188611,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1XCVzPbn8",
         memo: "No magenta",
         height: 93133,
         timestamp: 9374188631,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1PbXc56vB",
         memo: "No MAgenta",
         height: 93153,
         timestamp: 9374188660,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbod4bNm",
         memo: "No magenta",
         height: 93162,
         timestamp: 9374188689,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn21eRt",
         memo: "NO mAGENTA",
         height: 93171,
         timestamp: 9374188877,
         blockstatus: "Pending"
       },
        {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbnp3Fmq",
         memo: "magenta",
         height: 93198,
         timestamp: 9374189001,
@@ -190,7 +190,7 @@ export const dummyData: AccountEntry[] = [
     status: "Invalid",
     results: [
       {
-        account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
+        account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY5sUEoL",
         memo: "Magenta_magenta",
         height: 92891,
         timestamp: 9374188212,
@@ -232,7 +232,7 @@ export const dummyData: AccountEntry[] = [
         blockstatus: "Pending"
       },
       {
-        account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGR6y7jutcmPgC1PY6LoEUs",
+        account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGR6y7jutcmPgC1PY6hq8Mn",
         memo: "MAgenta_magenta",
         height: 93101,
         timestamp: 9374188574,
@@ -260,35 +260,35 @@ export const dummyData: AccountEntry[] = [
         blockstatus: "Pending"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn0bOla",
         memo: "Magenta=magenta",
         height: 92891,
         timestamp: 9374188213,
         blockstatus: "Pending"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbnf67GH",
         memo: "Magenta/magenta",
         height: 92891,
         timestamp: 9374188225,
         blockstatus: "Canonical"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pb8nbqnb",
         memo: "n0Magnta",
         height: 92903,
         timestamp: 9374188264,
         blockstatus: "Canonical"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pb4vpovr",
         memo: "n0Magenta = no magenta",
         height: 93145,
         timestamp: 9374188652,
         blockstatus: "Canonical"
       },
       {
-        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgC1Pbn8XCVz",
+        account: "B62qp3Dsz9OyZ9hCrHqDwViAafrelreQwGH9Z9jutsmXgzVCX8nbP1C",
         memo: "!no--magenta",
         height: 93182,
         timestamp: 9374188900,

@@ -6,9 +6,15 @@ Folders added represent each component needed for this project
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.
 A Bun/React SPA that displays and totals signalling results (votes) from the API.
 
-* `yarn run install` -> Installs deps for server & client.
-* `yarn run build` -> Builds both server & client.
-* `yarn run start` -> Starts the server on port 8080 & serves the client on the root route.
+* `nix run .` -> Builds the server and client and runs the server
+* `nix flake update` -> Updates the server and client
+
+Environment Variables for `nix run .`:
+* DBNAME : the name of the mina archive database (`archive_balances_migrated`)
+* USER : the user that owns the postgres database (`postgres`)
+* PASSWD : the database password (`postgres`)
+* DBPORT : the database's bound port (`5432`)
+* PORT : the port to bind the on-chain-signalling server to (`8080`)
 
 
 # Tools

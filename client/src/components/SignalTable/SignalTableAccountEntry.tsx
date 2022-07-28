@@ -27,10 +27,9 @@ const SignalTableAccountEntry: React.FC<SignalTableAccountEntryProps> = ({
       <td style={{ textAlign: 'left' }}>
         {validity === 'for' && 'For'}
         {validity === 'against' && 'Against'} 
-        {validity === 'invalid' && 'Invalid'}
       </td>
     </tr>
   );
 };
-
+// deleted   {validity === 'invalid' && 'Invalid'}
 export default SignalTableAccountEntry;

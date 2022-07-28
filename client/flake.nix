@@ -21,7 +21,7 @@
           version = "0.0.1";
           src = ./.;
           buildPhase = ''
-            yarn run build --offline
+            yarn run buildNix --offline
             mkdir -p $out/out
           '';
           distPhase = "true";

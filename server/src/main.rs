@@ -9,10 +9,12 @@ use actix_cors::Cors;
 async fn main() -> Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
+    let build_dir = std::env::var("CLIENT_BUILD_DIR").expect("Error: No client build directory specified.");
+    let build_index = format!("{}/index.html", build_dir);
+
     let (close_db_conn, client) = db::connect_to_db().await?;
     let port = std::env::var("PORT")?.parse::<u16>()?;
 
-    // TODO: Turn static build dir into env. variable.
     
     HttpServer::new(move || {
         App::new().wrap(
@@ -23,7 +25,7 @@ async fn main() -> Result<()> {
                     .max_age(3600)
                     .send_wildcard(),
             ).wrap(middleware::Logger::default())
-            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).service(spa().index_file("./build/index.html").static_resources_mount("/").static_resources_location("./build/").finish())
+            .app_data(web::Data::new(client.clone())).service(web::scope("/api").configure(routes::v1_config)).service(spa().index_file(build_index.clone()).static_resources_mount("/").static_resources_location(build_dir.clone()).finish())
             
 
     })
@@ -32,4 +34,5 @@ async fn main() -> Result<()> {
         .await?;
 
     Ok(close_db_conn.await?)
+
 } 

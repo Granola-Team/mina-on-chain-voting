@@ -10,7 +10,7 @@ async fn main() -> Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     let build_dir = std::env::var("CLIENT_BUILD_DIR").expect("Error: No client build directory specified.");
-    let build_index = format!("{}index.html", build_dir);
+    let build_index = format!("{}/index.html", build_dir);
 
     let (close_db_conn, client) = db::connect_to_db().await?;
     let port = std::env::var("PORT")?.parse::<u16>()?;

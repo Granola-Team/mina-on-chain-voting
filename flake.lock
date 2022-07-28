@@ -260,11 +260,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1658273628,
-        "narHash": "sha256-rRAhpVSkm+C9Q/fJSXRrgX6T3Z5jOcFSNd2aZe2UfsY=",
+        "lastModified": 1659020195,
+        "narHash": "sha256-JdztFv/GBbSVH0Y0UI4Qcy9C+jLYknFAqV9+cieM6rg=",
         "owner": "MinaProtocol",
         "repo": "mina",
-        "rev": "b14f0da9ebae87acd8764388ab4681ca10f07c89",
+        "rev": "55b33e2559e6a8e880d4785b19293b8f51152621",
         "type": "github"
       },
       "original": {
@@ -477,7 +477,7 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-qCcdzuqJIXUhZaVnsTCmYSWjGIBZpKq6u0EexN3Kqjs=",
+        "narHash": "sha256-Lg7groqmbPHHoq5tYgrS5ykcdbHf4eyoAf4qk0cGxg8=",
         "path": "./server",
         "type": "path"
       },

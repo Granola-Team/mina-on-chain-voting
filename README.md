@@ -7,7 +7,7 @@ An actix_web server that communicates with a MINA archive node to provide signal
 A Bun/React SPA that displays and totals signalling results (votes) from the API.
 
 * `nix run .` -> Builds the server and client and runs the server
-* `nix flake update` -> Updates the server and client
+* `nix flake update` -> Updates the server and client **This command must be run every time the server / client are updated**
 
 Environment Variables for `nix run .`:
 * DBNAME : the name of the mina archive database (`archive_balances_migrated`)

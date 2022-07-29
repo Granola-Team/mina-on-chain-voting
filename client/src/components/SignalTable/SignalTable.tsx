@@ -4,7 +4,7 @@ import React from 'react';
 import {Collapse} from 'react-collapse';
 
 interface VotingDetailsProps {
-  votes: VoteEntry[];
+  votes: VoteEntry[]; 
   isValidVote: (vote: VoteEntry) => VoteCheckResult;
 }
 
@@ -20,9 +20,9 @@ const SignalTable: React.FC<VotingDetailsProps> = ({
     <table style={{ borderSpacing: '1rem 0.5rem' }}>
       <thead>
         <tr>
-          <th>Account</th>
-          <th>Memo</th>
-          <th>Signal</th>
+          <th style={{ textAlign: 'center' }}>Account</th>
+          <th style={{ textAlign: 'left' }}> &nbsp; Memo</th>
+          <th style={{ textAlign: 'left' }}>Signal</th> 
         </tr>
       </thead>
       <tbody>
@@ -30,13 +30,13 @@ const SignalTable: React.FC<VotingDetailsProps> = ({
           <SignalTableAccountEntry
             key={index}
             account={vote.account}
-            memo={vote.memo}
-            validity={isValidVote(vote)}
+            memo={vote.memo.substring(0,12)}
+            validity={isValidVote(vote)} 
           />
         ))}
       </tbody>
     </table>
   );
 };
-
+// could've made validity a ternary operator by adding //  == 'invalid' ? '' : isValidVote(vote)      
 export default SignalTable;

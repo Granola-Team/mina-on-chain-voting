@@ -56,7 +56,7 @@ const Home = ({ testing }) => {
     if (testing) {
       setData(dummyData);
     } else {
-      fetch('http://35.203.38.140:8080/api/votes', {
+      fetch('http://localhost/api/v1/magenta', {
         method: 'GET',
         mode: 'same-origin',
       })

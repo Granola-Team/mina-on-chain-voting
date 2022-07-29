@@ -22,7 +22,7 @@ const SignalTable: React.FC<VotingDetailsProps> = ({
         <tr>
           <th style={{ textAlign: 'center' }}>Account</th>
           <th style={{ textAlign: 'left' }}> &nbsp; Memo</th>
-          <th style={{ textAlign: 'left' }}>Signal</th>
+          <th style={{ textAlign: 'left' }}>Signal</th> 
         </tr>
       </thead>
       <tbody>

@@ -1,9 +1,0 @@
-On-chain signaling will monitor mina mainnet or testnet transaction messages.
-
-Scraping App will check the memo message of a transaction and store it in Neo4j DB.
-
-Data stored in DB will be fetched and displayed in ReactJS app with WalletID(s).
-
-Standard format to vote for hard fork needs to be mentioned in ReactJS app.
-
-In summary there will be two apps in this repo, one is to scrape the on-chain data and another one is to fetch from DB.

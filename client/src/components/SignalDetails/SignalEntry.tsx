@@ -9,6 +9,7 @@ interface SignalEntryProps {
     name: string,
     entries: VoteEntry[],
     verifier: (vote: VoteEntry) => VoteCheckResult
+    showsSignal: boolean
 }
 
 export const SignalEntry: React.FC<SignalEntryProps> = ({
@@ -16,7 +17,8 @@ export const SignalEntry: React.FC<SignalEntryProps> = ({
     collapse,
     name,
     entries,
-    verifier
+    verifier,
+    showsSignal
 }) => {
     const [open, setOpen] = useState(false)
     const collapseText = (open: boolean): string => {
@@ -52,6 +54,7 @@ export const SignalEntry: React.FC<SignalEntryProps> = ({
                 <SignalTable
                   votes={entries}
                   isValidVote={verifier}
+                  showsSignal={showsSignal}
                 />
               </Collapse>
             )}
@@ -59,6 +62,7 @@ export const SignalEntry: React.FC<SignalEntryProps> = ({
               <SignalTable
                 votes={entries}
                 isValidVote={verifier}
+                showsSignal={showsSignal}
               />
             }
           </div>

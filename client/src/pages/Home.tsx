@@ -88,9 +88,9 @@ const Home = ({ testing }) => {
 
       <Details
         categories = {[
-          ["Settled", data[0].results, verifyVote, false],
-          ["Unsettled", data[1].results, verifyVote, true],
-          ["Invalid", data[2].results, verifyVote, true]
+          ["Settled", data[0].results, verifyVote, false, true],
+          ["Unsettled", data[1].results, verifyVote, true, true],
+          ["Invalid", data[2].results, verifyVote, true, false]
         ]}
       />
 

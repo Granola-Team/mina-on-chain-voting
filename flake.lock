@@ -260,11 +260,11 @@
         "utils": "utils_2"
       },
       "locked": {
-        "lastModified": 1659020195,
-        "narHash": "sha256-JdztFv/GBbSVH0Y0UI4Qcy9C+jLYknFAqV9+cieM6rg=",
+        "lastModified": 1659142274,
+        "narHash": "sha256-tFNhWdff/66i/6VjXiyHi1jjc0e8FzOijWq2xh1Tnpk=",
         "owner": "MinaProtocol",
         "repo": "mina",
-        "rev": "55b33e2559e6a8e880d4785b19293b8f51152621",
+        "rev": "801cb62c21b5e1dfe8cbbe82e252fe007ad5c505",
         "type": "github"
       },
       "original": {
@@ -459,12 +459,12 @@
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-SyUjolofDydSTczcixsTNjBCDnhbH48T5Mxkkw8wxYY=",
-        "path": "./client",
+        "narHash": "sha256-YkGMffD8G3ALeCNLEFvjX7mtv0kSXJq25KDBPe7HQIY=",
+        "path": "client",
         "type": "path"
       },
       "original": {
-        "path": "./client",
+        "path": "client",
         "type": "path"
       }
     },
@@ -478,11 +478,11 @@
       "locked": {
         "lastModified": 1,
         "narHash": "sha256-Lg7groqmbPHHoq5tYgrS5ykcdbHf4eyoAf4qk0cGxg8=",
-        "path": "./server",
+        "path": "server",
         "type": "path"
       },
       "original": {
-        "path": "./server",
+        "path": "server",
         "type": "path"
       }
     },

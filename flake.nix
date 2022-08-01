@@ -10,8 +10,8 @@
     };
     deploy-rs.url = "github:serokell/deploy-rs";
     mina.url = "github:MinaProtocol/mina";
-    ocs-server.url = "path:./server";
-    ocs-client.url = "path:./client";
+    ocs-server.url = "path:server";
+    ocs-client.url = "path:client";
   };
 
   outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, ocs-server, ocs-client }: 
@@ -37,7 +37,7 @@
           clean-archive-backups = pkgs.writeShellApplication {
             name = "clean-archive-backups";
             runtimeInputs = appDependencies;
-            text = "runghc ./Tools/cleanArchiveDump.hs";
+            text = "runghc ./Tools/cleanArchiveDumps.hs";
           };
 
           download-archive-dump = pkgs.writeShellApplication {
@@ -52,8 +52,8 @@
             text = "runghc ./Tools/runTempDatabase.hs";
           };
 
-          run-end-to-end = pkgs.writeShellApplication {
-            name = "run-end-to-end";
+          run-onchain-signalling = pkgs.writeShellApplication {
+            name = "run-onchain-signalling";
             runtimeInputs = [
               ocs-server.packages.${system}.onChainSignalling-api
               ocs-client.defaultPackage.${system}
@@ -64,12 +64,22 @@
           };
         };
 
-        defaultApp = apps.run-end-to-end;
+        defaultApp = apps.run-onchain-signalling;
 
-        deploy.nodes.on-chain-signalling = {
+        deploy.nodes.staging = {
           hostname = "35.203.38.140";
+          user = "robinbateboerop";
 
-          profiles = { };
+          profiles = { 
+            system = {
+              user = "root";
+              path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.staging;
+            };
+
+            onchain-signalling = {
+              path = deploy-rs.lib.x86_64-linux.activate.custom apps.run-onchain-signalling "./bin/run-onchain-signalling";
+            };
+          };
         };
 
         checks = builtins.mapAttrs (system: 
@@ -107,6 +117,11 @@
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
               effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process
             ]))
+
+            apps.clean-archive-backups
+            apps.download-archive-dump
+            apps.run-temp-database
+            apps.run-onchain-signalling
           ];
 
           shellHook = ''

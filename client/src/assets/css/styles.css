@@ -2,9 +2,9 @@
 @import "./_global.css";
 @import "windy-radix-palette/base";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 body {
   @apply min-h-screen font-sans bg-gray-2 text-gray-12;

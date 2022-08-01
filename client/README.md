@@ -4,28 +4,27 @@
 
 **Development**
 
-`yarn run start-dev`
+`yarn run dev`
 
-- Build app continuously (HMR enabled)
+- Serves a development build with HMR enabled
 - App served @ `http://localhost:8080`
 
 **Production**
 
-`yarn run start-prod`
+`yarn run start`
 
-- Build app once (HMR disabled) to `/build/`
-- App served @ `http://localhost:3000`
+- Bundles a production build to `/build/`
+- App served @ `http://localhost:8080`
 
 ---
 
 **All commands**
 
-| Command               | Description                                                                    |
-| --------------------- | ------------------------------------------------------------------------------ |
-| `yarn run start-dev`  | Build app continuously (HMR enabled) and serve @ `http://localhost:8080`       |
-| `yarn run start-prod` | Build app once (HMR disabled) to `/build/` and serve @ `http://localhost:3000` |
-| `yarn run build`      | Build app to `/build/`                                                         |
-| `yarn run test`       | Run tests                                                                      |
-| `yarn run lint`       | Run linter                                                                     |
-| `yarn run lint --fix` | Run linter and fix issues                                                      |
-| `yarn run start`      | (alias of `yarn run start-dev`)                                                |
+| Command          | Description                                                              |
+| ---------------- | ------------------------------------------------------------------------ |
+| `yarn run dev`   | Builds a development build and serves @ `http://localhost:8080`          |
+| `yarn run start` | Bundles a production build to `/build/` serves @ `http://localhost:8080` |
+| `yarn run build` | Bundles a production build to `/build/`                                  |
+| `yarn run test`  | Runs tests with Jest                                                     |
+| `yarn run lint`  | Runs linter with ESLint                                                  |
+| `yarn run clean` | Cleans folder & deletes `node_modules` & `build`                         |

@@ -17,6 +17,7 @@ const App = () => {
   }, [state]);
 
   useEffect(() => {
+    console.log(isDev());
     setTheme();
     setDarkMode(isDarkMode());
   }, []);

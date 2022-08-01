@@ -6,8 +6,13 @@ Folders added represent each component needed for this project
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.
 A Bun/React SPA that displays and totals signalling results (votes) from the API.
 
+<<<<<<< HEAD
 * `nix flake update` -> Updates the server and client
 * `nix run .` -> Builds the server and client and runs the server
+=======
+* `nix run .` -> Builds the server and client and runs the server
+* `nix flake update` -> Updates the server and client **This command must be run every time the server / client are updated**
+>>>>>>> bd80ea403471f7c53590050889248ffe19156561
 
 Environment Variables for `nix run .`:
 * DBNAME : the name of the mina archive database (`archive_balances_migrated`)

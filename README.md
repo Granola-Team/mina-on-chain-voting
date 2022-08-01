@@ -6,6 +6,9 @@ Folders added represent each component needed for this project
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.
 A Bun/React SPA that displays and totals signalling results (votes) from the API.
 
+** This Repository Requires the 'Flakes' Experimental Feature **
+https://nixos.wiki/wiki/Flakes#Installing_nix_flakes
+
 * `nix flake update` -> Updates the server and client
 * `nix run .` -> Builds the server and client and runs the server
 

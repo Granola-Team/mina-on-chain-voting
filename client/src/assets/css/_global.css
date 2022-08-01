@@ -1,0 +1,42 @@
+html,
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "calt" 0;
+  position: relative;
+  padding: 0;
+  margin: 0;
+}
+
+input:checked ~ .dot {
+  transform: translateX(140%);
+  background: linear-gradient(
+    49deg,
+    #2d4de0 0,
+    #9f71f0 30%,
+    #fc6277 58%,
+    #d100cf 95%
+  );
+  background-size: 400% 400%;
+  animation: gradient 5s ease infinite;
+  -webkit-animation: gradient 5s ease infinite;
+}
+
+.animate-gradient {
+  background-size: 400% 400%;
+  animation: gradient 5s ease infinite;
+  -webkit-animation: gradient 5s ease infinite;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}

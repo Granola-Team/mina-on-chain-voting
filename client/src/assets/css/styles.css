@@ -1,0 +1,25 @@
+@import "./_fonts.css";
+@import "./_global.css";
+@import "windy-radix-palette/base";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply min-h-screen font-sans bg-gray-2 text-gray-12;
+}
+
+h1 {
+  @apply text-xl font-semibold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+span,
+p {
+  @apply select-none;
+}

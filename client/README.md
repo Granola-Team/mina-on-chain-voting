@@ -1,5 +1,3 @@
-# PoC Dashboard Design
-
 ## Usage
 
 **Development**

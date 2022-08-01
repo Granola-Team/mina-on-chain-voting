@@ -23,14 +23,14 @@ Environment Variables for `nix run .`:
 # Tools
 A set of scripts to automate development environment management and deployment. These scripts are automatically added to your PATH when entering the shell.nix
 
-* runTempDatabase -- `run-temp-database`
+* `run-temp-database` --
 provisions and runs a temporary postgres database to help with end-to-end testing in a local environment
 
-* downloadArchiveDump -- `download-archive-dump`
+* `download-archive-dump` --
 automatically downloads and extracts the latest MINA archive dump from MINA's google cloud storage API
 
-* cleanArchiveDumps -- `clean-archive-backups`
+* `clean-archive-backups` --
 removes old archive dumps from the local environment
 
-* run-onchian-signalling -- `run-onchain-signalling`
+* `run-onchain-signalling` --
 builds and starts the actix-web server and links it to the latest build of the frontend in the nix store

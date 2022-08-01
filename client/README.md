@@ -1,7 +1,5 @@
 # PoC Dashboard Design
 
-> Minimal react with HMR for rapid development.
-
 ## Usage
 
 **Development**

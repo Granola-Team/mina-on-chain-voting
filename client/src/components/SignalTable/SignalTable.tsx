@@ -6,11 +6,13 @@ import {Collapse} from 'react-collapse';
 interface VotingDetailsProps {
   votes: VoteEntry[]; 
   isValidVote: (vote: VoteEntry) => VoteCheckResult;
+  showsSignal: boolean
 }
 
 const SignalTable: React.FC<VotingDetailsProps> = ({
   votes,
   isValidVote,
+  showsSignal
 }) => {
   // const votes = accountDetails
   //   .map((accountEntry) => [accountEntry, votesDiscriminator(accountEntry)])
@@ -22,7 +24,7 @@ const SignalTable: React.FC<VotingDetailsProps> = ({
         <tr>
           <th style={{ textAlign: 'center' }}>Account</th>
           <th style={{ textAlign: 'left' }}> &nbsp; Memo</th>
-          <th style={{ textAlign: 'left' }}>Signal</th> 
+          { showsSignal && <th style={{ textAlign: 'left' }}>Signal</th> }
         </tr>
       </thead>
       <tbody>

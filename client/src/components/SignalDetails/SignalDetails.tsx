@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { SignalEntry } from './SignalEntry';
 
 interface DetailsProps {
-  categories: [string, VoteEntry[], (vote: VoteEntry) => VoteCheckResult, boolean][]
+  categories: [string, VoteEntry[], (vote: VoteEntry) => VoteCheckResult, boolean, boolean][]
 }
 
 
@@ -24,13 +24,14 @@ const Details: React.FC<DetailsProps> = ({
       </h1>
 
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        {categories.map(([name, entries, verifier, collapse], index) => (
+        {categories.map(([name, entries, verifier, collapse, showsSignal], index) => (
           <SignalEntry 
             index={index}
             collapse={collapse}
             name={name}
             entries={entries}
             verifier={verifier}
+            showsSignal={showsSignal}
           />
         ))}
       </div>

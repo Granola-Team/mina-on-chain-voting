@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import { isDarkMode, setTheme } from "@/utils/theme";
+import { useAppStore } from "@/store/app.store";
 import { isDev } from "@/utils/devMode";
 import { Home } from "@/pages/Home";
-import { useAppStore } from "@/store/app.store";
 
 const App = () => {
   const setDarkMode = useAppStore((state) => state.setDarkMode);
@@ -17,7 +17,6 @@ const App = () => {
   }, [state]);
 
   useEffect(() => {
-    console.log(isDev());
     setTheme();
     setDarkMode(isDarkMode());
   }, []);

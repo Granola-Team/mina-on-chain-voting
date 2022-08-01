@@ -9,12 +9,13 @@ export const Search = () => {
   const setSearchState = useAppStore((state) => state.setSearchState);
   const [, setSearchParams] = useSearchParams();
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
-
-    // TODO: FIX TYPING
+    const target = e.target as typeof e.target & {
+      search: { value: string };
+    };
     setSearchParams({
-      key: ((e.target as any)[0].value as string).toLowerCase(),
+      key: target.search.value.toLowerCase(),
     });
     setSearchState(false);
   };
@@ -65,6 +66,7 @@ export const Search = () => {
                         <input
                           className="hidden w-full bg-transparent outline-none sm:block overflow-ellipsis placeholder:text-gray-10 text-gray-11"
                           type="text"
+                          name="search"
                           placeholder="Enter a keyword to search for... 🔍 "
                         />
                       </div>

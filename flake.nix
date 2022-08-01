@@ -2,7 +2,7 @@
   description = "On Chain Signalling Deployment";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/22.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
       url = "github:edolstra/flake-compat";
@@ -10,8 +10,12 @@
     };
     deploy-rs.url = "github:serokell/deploy-rs";
     mina.url = "github:MinaProtocol/mina";
+
     ocs-server.url = "path:server";
+    ocs-server.inputs.nixpkgs.follows = "nixpkgs";
+
     ocs-client.url = "path:client";
+    ocs-client.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, ocs-server, ocs-client }: 
@@ -52,8 +56,8 @@
             text = "runghc ./Tools/runTempDatabase.hs";
           };
 
-          run-onchain-signalling = pkgs.writeShellApplication {
-            name = "run-onchain-signalling";
+          run-end-to-end = pkgs.writeShellApplication {
+            name = "run-end-to-end";
             runtimeInputs = [
               ocs-server.packages.${system}.onChainSignalling-api
               ocs-client.defaultPackage.${system}
@@ -64,7 +68,7 @@
           };
         };
 
-        defaultApp = apps.run-onchain-signalling;
+        defaultApp = apps.run-end-to-end;
 
         deploy.nodes.staging = {
           hostname = "35.203.38.140";
@@ -77,7 +81,7 @@
             };
 
             onchain-signalling = {
-              path = deploy-rs.lib.x86_64-linux.activate.custom apps.run-onchain-signalling "./bin/run-onchain-signalling";
+              path = deploy-rs.lib.x86_64-linux.activate.custom apps.run-end-to-end "./bin/run-end-to-end";
             };
           };
         };
@@ -121,7 +125,7 @@
             apps.clean-archive-backups
             apps.download-archive-dump
             apps.run-temp-database
-            apps.run-onchain-signalling
+            apps.run-end-to-end
           ];
 
           shellHook = ''

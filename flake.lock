@@ -405,48 +405,16 @@
     },
     "nixpkgs_4": {
       "locked": {
-        "lastModified": 1653936696,
-        "narHash": "sha256-M6bJShji9AIDZ7Kh7CPwPBPb/T7RiVev2PAcOi4fxDQ=",
+        "lastModified": 1659254610,
+        "narHash": "sha256-ee5W5MLWZ3kdx5hwOUs6trOJit+GeTDfG+Lg3rANKoc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ce6aa13369b667ac2542593170993504932eb836",
+        "rev": "67f49b2a3854e8b5e3f9df4422225daa0985f451",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
-        "ref": "22.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_5": {
-      "locked": {
-        "lastModified": 1653936696,
-        "narHash": "sha256-M6bJShji9AIDZ7Kh7CPwPBPb/T7RiVev2PAcOi4fxDQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ce6aa13369b667ac2542593170993504932eb836",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "22.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs_6": {
-      "locked": {
-        "lastModified": 1653936696,
-        "narHash": "sha256-M6bJShji9AIDZ7Kh7CPwPBPb/T7RiVev2PAcOi4fxDQ=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "ce6aa13369b667ac2542593170993504932eb836",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "22.05",
+        "ref": "nixpkgs-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -455,11 +423,13 @@
       "inputs": {
         "flake-compat": "flake-compat_5",
         "flake-utils": "flake-utils_4",
-        "nixpkgs": "nixpkgs_5"
+        "nixpkgs": [
+          "nixpkgs"
+        ]
       },
       "locked": {
         "lastModified": 1,
-        "narHash": "sha256-YkGMffD8G3ALeCNLEFvjX7mtv0kSXJq25KDBPe7HQIY=",
+        "narHash": "sha256-vk3kKdskIM/xOmKZ0Mf/F4fNSC3TH7y9XIeee27Wl2g=",
         "path": "client",
         "type": "path"
       },
@@ -472,7 +442,9 @@
       "inputs": {
         "flake-compat": "flake-compat_6",
         "flake-utils": "flake-utils_5",
-        "nixpkgs": "nixpkgs_6",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "rust-overlay": "rust-overlay"
       },
       "locked": {

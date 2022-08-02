@@ -23,3 +23,7 @@ span,
 p {
   @apply select-none;
 }
+
+.content-full-width {
+  @apply flex mx-auto lg:max-w-7xl;
+}

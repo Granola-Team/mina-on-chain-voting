@@ -1,15 +1,17 @@
-import React from "react";
+import React, { FC } from "react";
+
+import type { TableProps } from "@/types";
 
 import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
 
-export const Table = () => {
+export const Table: FC<TableProps> = ({ data }) => {
   return (
     <div className="w-full">
       <div className="content-full-width py-4">
         <div className="px-8 w-full flex flex-col items-center gap-4">
           <TableNavigation />
-          <TableBody />
+          <TableBody data={data} />
         </div>
       </div>
     </div>

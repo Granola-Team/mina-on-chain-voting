@@ -7,11 +7,10 @@ export interface SignalEntity {
   timestamp: number;
   account: string;
   memo: string;
-  block_status: BlockStatus;
+  status: BlockStatus;
   signal_status: SignalStatus;
 }
 
 export interface DataEntity {
-  status: SignalStatus;
-  results: SignalEntity[];
+  signals: SignalEntity[];
 }

@@ -33,7 +33,7 @@ p {
 }
 
 .grid-table-el {
-  @apply grid grid-cols-[0.8fr_minmax(0px,_1fr)_minmax(0px,_3fr)_minmax(0px,_1fr)_minmax(0px,_1fr)_minmax(0px,_1fr)];
+  @apply grid px-6 grid-cols-[0.5fr_minmax(0px,_1fr)_minmax(0px,_3fr)_minmax(0px,_1fr)_minmax(0px,_1fr)_minmax(0px,_1fr)];
 }
 
 .grid-table-heading {

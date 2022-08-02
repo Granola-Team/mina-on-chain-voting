@@ -1,4 +1,4 @@
-export type RouteFilterType = "all" | "settled" | "unsettled" | "invalid";
+export type RouteFilterType = "all" | "invalid" | "settled" | "unsettled";
 
 export interface RoutesParams {
   key?: string;

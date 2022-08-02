@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React from "react";
 
 import type { TableProps } from "@/types";
 
 import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
 
-export const Table: FC<TableProps> = ({ data }) => {
+export const Table: React.FC<TableProps> = ({ data }) => {
   return (
     <div className="w-full">
       <div className="content-full-width py-4">

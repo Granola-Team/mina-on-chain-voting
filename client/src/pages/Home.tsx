@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { DataEntity } from "@/types";
+import type { DataEntity } from "@/types";
 
 import { useFilterParams } from "@/hooks/useFilterParams";
 
@@ -39,7 +39,7 @@ export const Home = () => {
   return (
     <Layout>
       <Stats />
-      {data && <Table data={data} />}
+      {data ? <Table data={data} /> : <div />}
     </Layout>
   );
 };

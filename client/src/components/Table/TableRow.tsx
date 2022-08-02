@@ -1,8 +1,8 @@
-import React, { FC } from "react";
+import React from "react";
 
-import { TableRowProps } from "@/types";
+import type { TableRowProps } from "@/types";
 
-export const TableRow: FC<TableRowProps> = ({ signal }) => {
+export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
   return (
     <div className="grid-table-el w-full py-3 hover:bg-grayA-3 transition-colors duration-100">
       <div className="place-self-center">

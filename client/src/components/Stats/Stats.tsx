@@ -1,5 +1,13 @@
 import React from "react";
 
+export const StatsBubble = () => {
+  return (
+    <div className="w-full py-8 rounded-xl bg-gray-3 border border-gray-7">
+      <div />
+    </div>
+  );
+};
+
 export const Stats = () => {
   return (
     <div className="border-b bg-gray-2 border-gray-7">
@@ -10,14 +18,6 @@ export const Stats = () => {
           <StatsBubble />
         </div>
       </div>
-    </div>
-  );
-};
-
-export const StatsBubble = () => {
-  return (
-    <div className="w-full py-8 rounded-xl bg-gray-3 border border-gray-7">
-      <div></div>
     </div>
   );
 };

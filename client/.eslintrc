@@ -1,12 +1,13 @@
 {
   "extends": [
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:prettier/recommended"
+    "eslint-config-zoro/react",
+    "eslint-config-zoro/typescript",
+    "eslint-config-zoro/eslint"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
+    "project": ["./tsconfig.json"],
     "ecmaVersion": 2020,
     "ecmaFeatures": {
       "jsx": true
@@ -19,6 +20,14 @@
     }
   },
   "rules": {
-    "@typescript-eslint/no-var-requires": 0
+    "@typescript-eslint/no-var-requires": 0,
+    "indent": "off",
+    "brace-style": "off",
+    "comma-dangle": "off",
+    "react/jsx-indent": "off",
+    "react/jsx-indent-props": "off",
+    "react/no-array-index-key": "off",
+    "@typescript-eslint/brace-style": "off",
+    "@typescript-eslint/comma-dangle": "off"
   }
 }

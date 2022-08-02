@@ -34,14 +34,14 @@ export const SettingsDarkMode = () => {
           />
           <div
             className={`rounded-full p-[2px] ${
-              darkMode && "bg-gradient animate-gradient"
+              darkMode ? "bg-gradient animate-gradient" : ""
             }`}
           >
             <div className="block h-[22px] bg-gray-8 rounded-full w-14" />
           </div>
           <div
             className={`absolute top-0 w-[26px] h-[26px] transition bg-gray-9 rounded-full dot ${
-              !darkMode && "border border-gray-9"
+              !darkMode ? "border border-gray-9" : ""
             }`}
           />
         </div>

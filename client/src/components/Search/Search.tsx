@@ -47,7 +47,10 @@ export const Search = () => {
                     placeholder="Enter a keyword to search for... 🔍 "
                   />
                 </div>
-                <button className="hidden px-4 py-2 mr-8 font-normal text-center transition-all duration-200 rounded-md md:block hover:bg-gray-6">
+                <button
+                  type="button"
+                  className="hidden px-4 py-2 mr-8 font-normal text-center transition-all duration-200 rounded-md md:block hover:bg-gray-6"
+                >
                   <span className="text-gray-10">Advanced Search</span>
                 </button>
 

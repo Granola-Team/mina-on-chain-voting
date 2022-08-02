@@ -1,13 +1,13 @@
-import React, { FC, Fragment } from "react";
+import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-export const Modal: FC<{
+export const Modal: React.FC<{
   children: React.ReactNode;
   state: boolean;
   setState: (v: boolean) => void;
 }> = ({ children, state, setState }) => {
   return (
-    <Transition.Root show={state} as={Fragment}>
+    <Transition.Root show={state} as={React.Fragment}>
       <Dialog
         as="div"
         className="relative z-10"
@@ -16,7 +16,7 @@ export const Modal: FC<{
         }}
       >
         <Transition.Child
-          as={Fragment}
+          as={React.Fragment}
           enter="ease-out duration-300"
           enterFrom="opacity-0"
           enterTo="opacity-100"

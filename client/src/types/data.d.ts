@@ -1,6 +1,6 @@
-export type BlockStatus = "Canonical" | "Pending" | "Orphaned";
+export type BlockStatus = "Canonical" | "Orphaned" | "Pending";
 
-export type SignalStatus = "Settled" | "Unsettled" | "Invalid";
+export type SignalStatus = "Invalid" | "Settled" | "Unsettled";
 
 export interface SignalEntity {
   height: number;

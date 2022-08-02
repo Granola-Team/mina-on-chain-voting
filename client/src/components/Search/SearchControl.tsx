@@ -9,6 +9,7 @@ export const SearchControl = () => {
 
   return (
     <button
+      type="button"
       className="ml-4"
       onClick={() => {
         setSearchState(!searchActive);

@@ -4,7 +4,7 @@ import type { RouteFilterType } from "@/types";
 
 import { TableNavElement } from "./TableNavElement";
 
-const navElements: { title: string; filter: RouteFilterType }[] = [
+const navElements: Array<{ title: string; filter: RouteFilterType }> = [
   {
     title: "All Signals",
     filter: "all",

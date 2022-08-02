@@ -9,6 +9,7 @@ export const SettingsControl = () => {
 
   return (
     <button
+      type="button"
       onClick={() => {
         setSettingsState(!settingsActive);
       }}

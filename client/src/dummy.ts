@@ -1,4 +1,4 @@
-import { DataEntity } from "./types";
+import type { DataEntity } from "./types";
 
 export const unsortedData: DataEntity[] = [
   {

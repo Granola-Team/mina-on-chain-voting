@@ -1,1 +1,1 @@
-export type Network = "Mainnet" | "Devnet";
+export type Network = "Devnet" | "Mainnet";

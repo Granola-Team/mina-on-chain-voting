@@ -1,9 +1,9 @@
-import React, { FC } from "react";
+import React from "react";
 
 import type { SettingsButtonProps } from "@/types";
 import { useAppStore } from "@/store/app.store";
 
-export const SettingsButton: FC<SettingsButtonProps> = ({ title }) => {
+export const SettingsButton: React.FC<SettingsButtonProps> = ({ title }) => {
   const setNetwork = useAppStore((state) => state.setNetwork);
   const network = useAppStore((state) => state.network);
   const active = title === network;
@@ -11,6 +11,7 @@ export const SettingsButton: FC<SettingsButtonProps> = ({ title }) => {
   return (
     <div className="flex items-center justify-center w-full">
       <button
+        type="button"
         disabled={active}
         onClick={() => {
           setNetwork(title);

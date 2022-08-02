@@ -18,8 +18,16 @@ export const useAppStore = create<AppStore>((set) => ({
   network: "Devnet",
   settingsActive: false,
   searchActive: false,
-  setDarkMode: (v: boolean) => set(() => ({ darkMode: v })),
-  setNetwork: (n: Network) => set(() => ({ network: n })),
-  setSettingsState: (v: boolean) => set(() => ({ settingsActive: v })),
-  setSearchState: (v: boolean) => set(() => ({ searchActive: v })),
+  setDarkMode: (v: boolean) => {
+    set(() => ({ darkMode: v }));
+  },
+  setNetwork: (n: Network) => {
+    set(() => ({ network: n }));
+  },
+  setSettingsState: (v: boolean) => {
+    set(() => ({ settingsActive: v }));
+  },
+  setSearchState: (v: boolean) => {
+    set(() => ({ searchActive: v }));
+  },
 }));

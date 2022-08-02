@@ -6,7 +6,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   return (
     <>
       <Header />
-      <main>{children}</main>
+      <main className="flex flex-col gap-6">{children}</main>
     </>
   );
 };

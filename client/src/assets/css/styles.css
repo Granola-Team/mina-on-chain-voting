@@ -7,7 +7,7 @@
 @import "tailwindcss/utilities";
 
 body {
-  @apply min-h-screen font-sans bg-gray-2 text-gray-12;
+  @apply min-h-screen font-sans bg-gray-3 text-gray-12;
 }
 
 h1 {
@@ -26,4 +26,8 @@ p {
 
 .content-full-width {
   @apply flex mx-auto lg:max-w-7xl;
+}
+
+.text-content {
+  @apply text-[0.95rem] leading-6;
 }

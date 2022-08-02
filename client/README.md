@@ -1,3 +1,10 @@
+## Dependencies
+
+`Zustand` - Minimal dep. store centric state manager
+`TailwindCSS` - Utility CSS Framework
+`Vite` - HMR enabled JS/TS bundler
+`Jest` - JS Testing Framework
+
 ## Usage
 
 **Development**

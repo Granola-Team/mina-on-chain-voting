@@ -6,7 +6,7 @@
 
 @font-face {
   font-family: "Inter Medium";
-  src: url("../fonts//Inter-Medium.otf");
+  src: url("../fonts/Inter-Medium.otf");
   font-weight: 500;
 }
 
@@ -20,4 +20,16 @@
   font-family: "Inter Bold";
   src: url("../fonts/Inter-Bold.otf");
   font-weight: 900;
+}
+
+.medium {
+  font-family: "Inter Medium";
+}
+
+.semibold {
+  font-family: "Inter Semibold";
+}
+
+.bold {
+  font-family: "Inter Bold";
 }

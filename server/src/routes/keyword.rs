@@ -1,5 +1,7 @@
-use std::sync::Arc;
 use actix_web::{get, web::{ServiceConfig, Data, self}, Responder, HttpResponse, http::header::ContentType};
+use serde::{Serialize, Deserialize};
+use std::sync::Arc;
+
 use crate::{db, models::{DBResponse, ResponseEntity, Status, BlockStatus}};
 
 pub fn validate_signal(memo: &str, key: &str) -> bool {
@@ -7,7 +9,7 @@ pub fn validate_signal(memo: &str, key: &str) -> bool {
     false
 }
 
-pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block: i64) -> Vec<ResponseEntity> {
+pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block: i64, request_type: Option<QueryRequestFilter>, sorted: Option<bool>,) -> Vec<ResponseEntity> {
     let mut hash: std::collections::HashMap<String, Vec<DBResponse>> = std::collections::HashMap::new();
     let mut settled: std::collections::HashMap<String, DBResponse> = std::collections::HashMap::new();
     let mut unsettled: Vec<DBResponse> = Vec::with_capacity(query_responses.len());
@@ -67,29 +69,75 @@ pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block
     }
 
    let mut s = settled.into_iter().map(|(_,v)| { v }).collect::<Vec<DBResponse>>();
-   s.sort_by(|a,b| { b.height.cmp(&a.height) });
-   unsettled.sort_by(|a, b | { b.height.cmp(&a.height) });
-   invalid.sort_by(|a, b | { b.height.cmp(&a.height) }); 
 
-    vec![
-        ResponseEntity { status: Status::Settled, results: s }, ResponseEntity { status: Status::Unsettled, results: unsettled },
-        ResponseEntity { status: Status::Invalid, results: invalid }
+   match sorted {
+    Some(sort) => {
+        if sort {
+            s.sort_by(|a,b| { b.height.cmp(&a.height) });
+            unsettled.sort_by(|a, b | { b.height.cmp(&a.height) });
+            invalid.sort_by(|a, b | { b.height.cmp(&a.height) }); 
+        }
+    },
+    None => ()
+   }
+
+   match request_type {
+    Some(filter) => {
+        match filter {
+            QueryRequestFilter::All => 
+            vec![
+                ResponseEntity { signals: s }, ResponseEntity { signals: unsettled },
+                ResponseEntity { signals: invalid }
+                ], 
+            QueryRequestFilter::Settled => vec![ResponseEntity { signals: s }],
+            QueryRequestFilter::Unsettled => vec![ResponseEntity { signals: unsettled }],
+            QueryRequestFilter::Invalid => vec![ResponseEntity { signals: invalid }],
+        }
+     
+    },
+    None => {
+        let mut vec: Vec<DBResponse> = vec![];
+        vec.extend(s);
+        vec.extend(unsettled);
+        vec.extend(invalid);
+
+        vec![
+        ResponseEntity { signals: vec }
         ]
+    },
+   
+}
+    
 }
 
 pub fn config(cfg: &mut ServiceConfig) {
     cfg.service(keyword);
 }
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum QueryRequestFilter {
+    All,
+    Settled,
+    Unsettled,
+    Invalid,
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+pub struct KeywordRequest {
+   filter: Option<QueryRequestFilter>,
+   sorted: Option<bool>
+}
+
 #[get("/{keyword}")]
 pub async fn keyword(
     pg_client: Data<Arc<tokio_postgres::Client>>,
-    path: web::Path<String>
+    path: web::Path<String>,
+    params: web::Query<KeywordRequest>
 ) -> impl Responder {
     let key = path.into_inner();
     let latest_block_height = db::queries::get_latest_blockheight(&pg_client).await.unwrap();
     let response = db::queries::get_memo_data(&pg_client).await.unwrap();
-    let result = parse_responses(response, &key, latest_block_height);
+    let result = parse_responses(response, &key, latest_block_height, params.filter, params.sorted);
 
     HttpResponse::Ok().content_type(ContentType::json()).body(serde_json::to_string(&result).unwrap())
 }

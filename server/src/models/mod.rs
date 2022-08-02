@@ -23,8 +23,7 @@ pub enum BlockStatus {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ResponseEntity {
-    pub status: Status,
-    pub results: Vec<DBResponse>
+    pub signals: Vec<DBResponse>
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]

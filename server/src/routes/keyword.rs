@@ -19,41 +19,45 @@ pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block
             match hash.get_mut(&res.account) {
                 Some(x) => {
                     x.push(DBResponse 
-                        { account: res.account.clone(), height: res.height, memo: memo_str, status: res.status, timestamp: res.timestamp })
+                        { account: res.account.clone(), height: res.height, memo: memo_str, status: res.status, timestamp: res.timestamp, signal_status: res.signal_status })
                 },
                 None => {
                     hash.entry(res.account.clone()).or_insert_with_key(|_| vec![
                         DBResponse 
-                        { account: res.account.clone(), height: res.height, memo: memo_str, status: res.status, timestamp: res.timestamp }
+                        { account: res.account.clone(), height: res.height, memo: memo_str, status: res.status, timestamp: res.timestamp, signal_status: res.signal_status }
                         ]);
                 }
             }
            } else {
             invalid.push(
                 DBResponse 
-                { account: res.account.clone(), memo: memo_str, height: res.height, status: res.status, timestamp: res.timestamp }
+                { account: res.account.clone(), memo: memo_str, height: res.height, status: res.status, timestamp: res.timestamp, signal_status: Some(Status::Invalid) }
             )
            }
         } 
     }
 
     for (_, v) in hash.into_iter() {
-        for i in v.into_iter() {
+        for mut i in v.into_iter() {
             match settled.get_mut(&i.account) {
                 Some(x) => { 
                     if i.height > x.height
                     && i.height + crate::constants::SETTLED_DENOMINATOR <= latest_block
                     && matches!(i.status, BlockStatus::Canonical) {
+                        i.signal_status = Some(Status::Settled);
                         *x = i
                     } else {
+                        i.signal_status = Some(Status::Unsettled);
                         unsettled.push(i)
                     }
                  },
                 None => { 
                     if i.height + crate::constants::SETTLED_DENOMINATOR <= latest_block
                     && matches!(i.status, BlockStatus::Canonical) {
+                    i.signal_status = Some(Status::Settled);
                     settled.insert(i.account.clone(), i);
                     } else {
+                        i.signal_status = Some(Status::Unsettled);
                         unsettled.push(i)
                     }
                  },

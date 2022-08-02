@@ -1,5 +1,6 @@
 import type { Network } from "./store";
-import type { FilterType } from "./routes";
+import type { RouteFilterType } from "./routes";
+import type { SignalEntity } from "./data";
 
 export interface SettingsButtonProps {
   title: Network;
@@ -7,5 +8,9 @@ export interface SettingsButtonProps {
 
 export interface TableNavElementProps {
   title: string;
-  filter: FilterType;
+  filter: RouteFilterType;
+}
+
+export interface TableRowProps {
+  signal: SignalEntity;
 }

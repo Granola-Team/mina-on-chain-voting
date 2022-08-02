@@ -6,6 +6,7 @@ pub struct DBResponse {
         pub memo: String,
         pub height: i64,
         pub status: BlockStatus,
+        pub signal_status: Option<Status>,
         pub timestamp: i64
 }
 
@@ -26,7 +27,7 @@ pub struct ResponseEntity {
     pub results: Vec<DBResponse>
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
 pub enum Status {
     Settled,
     Unsettled,

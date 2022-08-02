@@ -20,7 +20,7 @@ const QUERY_STATEMENT:
 
 impl From<tokio_postgres::Row> for DBResponse {
         fn from(row: tokio_postgres::Row) -> Self {
-        Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status"), timestamp: row.get("timestamp") }
+        Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status"), timestamp: row.get("timestamp"), signal_status: None}
         }
 }
 

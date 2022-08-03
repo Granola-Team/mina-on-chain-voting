@@ -37,7 +37,7 @@ p {
 }
 
 .grid-table-heading {
-  @apply text-[0.9rem] leading-6;
+  @apply text-[0.9rem] leading-6 semibold;
 }
 
 .grid-table-content {

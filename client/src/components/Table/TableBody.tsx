@@ -5,6 +5,9 @@ import type { TableProps } from "@/types";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
 
+//! Comment:
+//! Component built for dummy data.
+
 export const TableBody: React.FC<TableProps> = ({ data }) => {
   return (
     <div className="w-full flex flex-col bg-gray-2 border border-gray-7 rounded-md py-2">

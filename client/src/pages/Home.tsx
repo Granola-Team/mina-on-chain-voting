@@ -10,6 +10,9 @@ import { Table } from "@/components/Table";
 
 import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
 
+//! Comment:
+//! Page built for dummy data.
+
 export const Home = () => {
   const [data, setData] = useState<DataEntity[]>();
   const [searchParams] = useFilterParams();

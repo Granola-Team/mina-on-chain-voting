@@ -5,6 +5,9 @@ import type { TableProps } from "@/types";
 import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
 
+//! Comment:
+//! Component built for dummy data.
+
 export const Table: React.FC<TableProps> = ({ data }) => {
   return (
     <div className="w-full">

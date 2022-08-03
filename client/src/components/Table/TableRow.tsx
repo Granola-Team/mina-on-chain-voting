@@ -1,8 +1,12 @@
 import React from "react";
+import makeBlockie from "ethereum-blockies-base64";
 
 import type { TableRowProps } from "@/types";
 
 import { TableBubble } from "./TableBubble";
+
+//! Comment:
+//! Component built for dummy data.
 
 export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
   return (
@@ -15,20 +19,26 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
           {new Date(signal.timestamp).toLocaleDateString()}
         </span>
       </div>
-      <div className="place-self-left">
-        <span className="grid-table-content">{signal.account}</span>
+      <div className="place-self-left flex items-center gap-2">
+        <img
+          className="w-7 h-7 rounded-full opacity-70"
+          src={makeBlockie(signal.account)}
+        />
+        <span className="grid-table-content medium">{signal.account}</span>
       </div>
       <div className="place-self-center">
-        <span className="grid-table-content">{signal.memo}</span>
+        <span className="grid-table-content medium">{signal.memo}</span>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.status}>
-          <span className="grid-table-content">{signal.status}</span>
+          <span className="grid-table-content medium">{signal.status}</span>
         </TableBubble>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.signal_status}>
-          <span className="grid-table-content">{signal.signal_status}</span>
+          <span className="grid-table-content medium">
+            {signal.signal_status}
+          </span>
         </TableBubble>
       </div>
     </div>

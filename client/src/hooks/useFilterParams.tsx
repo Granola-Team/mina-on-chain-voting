@@ -2,6 +2,8 @@ import { useSearchParams } from "react-router-dom";
 
 import type { RoutesParams } from "@/types";
 
+// TODO: Rework routing logic.
+
 export const useFilterParams = (): [
   URLSearchParams,
   (params: RoutesParams) => void,
@@ -11,11 +13,15 @@ export const useFilterParams = (): [
   const executeRoute = (params: RoutesParams): void => {
     const key = searchParams.get("key");
     const filter = searchParams.get("filter");
+    const demo = searchParams.get("demo");
 
     const routes = {
       ...((key || params.key) && { key: params.key ? params.key : key! }),
       ...((filter || params.filter) && {
         filter: params.filter ? params.filter : filter!,
+      }),
+      ...((demo || params.demo) && {
+        demo: params.demo ? params.demo : demo!,
       }),
     };
 

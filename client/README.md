@@ -1,6 +1,7 @@
 ## Dependencies
 
 `Zustand` - Minimal dep. store centric state manager
+`React Query` - Asynchronous state manager
 `TailwindCSS` - Utility CSS Framework
 `Vite` - HMR enabled JS/TS bundler
 `Vitest` - Vite based Testing Framework

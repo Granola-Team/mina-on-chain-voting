@@ -84,11 +84,16 @@ pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block
    match request_type {
     Some(filter) => {
         match filter {
-            QueryRequestFilter::All => 
-            vec![
-                ResponseEntity { signals: s }, ResponseEntity { signals: unsettled },
-                ResponseEntity { signals: invalid }
-                ], 
+            QueryRequestFilter::All => {
+                let mut vec: Vec<DBResponse> = vec![];
+                vec.extend(s);
+                vec.extend(unsettled);
+                vec.extend(invalid);
+        
+                vec![
+                ResponseEntity { signals: vec }
+                ]
+            }
             QueryRequestFilter::Settled => vec![ResponseEntity { signals: s }],
             QueryRequestFilter::Unsettled => vec![ResponseEntity { signals: unsettled }],
             QueryRequestFilter::Invalid => vec![ResponseEntity { signals: invalid }],

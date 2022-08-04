@@ -5,9 +5,6 @@ import type { TableRowProps } from "@/types";
 
 import { TableBubble } from "./TableBubble";
 
-//! Comment:
-//! Component built for dummy data.
-
 export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
   return (
     <div className="grid-table-el w-full py-2 hover:bg-grayA-3 transition-colors duration-100">
@@ -15,7 +12,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
         <span className="grid-table-content semibold">{signal.height}</span>
       </div>
       <div className="place-self-center">
-        <span className="grid-table-content medium">
+        <span className="grid-table-content semibold">
           {new Date(signal.timestamp).toLocaleDateString()}
         </span>
       </div>
@@ -31,12 +28,12 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.status}>
-          <span className="grid-table-content medium">{signal.status}</span>
+          <span className="grid-table-content semibold">{signal.status}</span>
         </TableBubble>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.signal_status}>
-          <span className="grid-table-content medium">
+          <span className="grid-table-content semibold">
             {signal.signal_status}
           </span>
         </TableBubble>

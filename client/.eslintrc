@@ -23,15 +23,16 @@
         }
       },
       "rules": {
-        "@typescript-eslint/no-var-requires": 0,
         "indent": "off",
         "brace-style": "off",
         "comma-dangle": "off",
+        "function-paren-newline": "off",
         "react/jsx-indent": "off",
         "react/jsx-indent-props": "off",
         "react/no-array-index-key": "off",
         "@typescript-eslint/brace-style": "off",
-        "@typescript-eslint/comma-dangle": "off"
+        "@typescript-eslint/comma-dangle": "off",
+        "@typescript-eslint/no-var-requires": 0
       }
     }
   ]

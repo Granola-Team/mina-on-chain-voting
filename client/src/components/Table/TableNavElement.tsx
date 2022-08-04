@@ -15,7 +15,7 @@ export const TableNavElement: React.FC<TableNavElementProps> = ({
   useEffect(() => {
     if (
       filter === searchParams.get("filter") ||
-      (searchParams.get("filter") === null && filter === "all")
+      (searchParams.get("filter") === null && filter === "All")
     ) {
       setActive(true);
     } else {
@@ -27,7 +27,7 @@ export const TableNavElement: React.FC<TableNavElementProps> = ({
     <button
       type="button"
       disabled={active}
-      className={`relative w-20 ${filter !== "all" ? "ml-4" : ""}`}
+      className={`relative w-20 ${filter !== "All" ? "ml-4" : ""}`}
       onClick={() => {
         executeRoute({ filter });
       }}

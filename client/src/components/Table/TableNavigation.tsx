@@ -7,19 +7,19 @@ import { TableNavElement } from "./TableNavElement";
 const navElements: Array<{ title: string; filter: RouteFilterType }> = [
   {
     title: "All Signals",
-    filter: "all",
+    filter: "All",
   },
   {
     title: "Settled",
-    filter: "settled",
+    filter: "Settled",
   },
   {
     title: "Unsettled",
-    filter: "unsettled",
+    filter: "Unsettled",
   },
   {
     title: "Invalid",
-    filter: "invalid",
+    filter: "Invalid",
   },
 ];
 

@@ -1,8 +1,10 @@
 import create from "zustand";
 
 import type { Network } from "@/types";
+import { isDev } from "@/utils/devMode";
 
 interface AppStore {
+  devMode: boolean;
   darkMode: boolean;
   network: Network;
   settingsActive: boolean;
@@ -14,6 +16,7 @@ interface AppStore {
 }
 
 export const useAppStore = create<AppStore>((set) => ({
+  devMode: isDev(),
   darkMode: false,
   network: "Devnet",
   settingsActive: false,

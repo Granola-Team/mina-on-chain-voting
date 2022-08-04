@@ -25,7 +25,7 @@ p {
 }
 
 .content-full-width {
-  @apply flex mx-auto lg:max-w-[87rem];
+  @apply flex mx-auto lg:max-w-[80rem];
 }
 
 .text-content {
@@ -33,13 +33,13 @@ p {
 }
 
 .grid-table-el {
-  @apply grid px-6 grid-cols-[0.45fr_minmax(0px,_0.8fr)_minmax(0px,_2.5fr)_minmax(0px,_1fr)_minmax(0px,_0.7fr)_minmax(0px,_0.7fr)];
+  @apply grid px-6 grid-cols-[0.45fr_minmax(0px,_0.8fr)_minmax(0px,_2.5fr)_minmax(0px,_1fr)_minmax(0px,_0.8fr)_minmax(0px,_0.8fr)];
 }
 
 .grid-table-heading {
-  @apply text-[0.9rem] leading-6 semibold;
+  @apply text-[0.85rem] leading-6 semibold;
 }
 
 .grid-table-content {
-  @apply text-[0.85rem] leading-6 text-grayA-12 text-ellipsis overflow-hidden whitespace-nowrap block;
+  @apply text-[0.77rem] leading-5 text-grayA-12 text-ellipsis overflow-hidden whitespace-nowrap block;
 }

@@ -1,7 +1,15 @@
 import { ReactQueryClient } from "./client";
 
-// TODO! FIX TYPING
+// TODO!
+//! Fix typing
+//! Fix documentation
+//! Fix function
 
+/**
+ * Prefetches a query & caches result in our query client.
+ * @param {string[]} queryKey
+ * @param {any} queryArgs
+ */
 export const prefetchQuery = async (
   queryKey: string[],
   queryArgs: any,

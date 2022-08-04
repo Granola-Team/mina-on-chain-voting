@@ -4,6 +4,10 @@ import type { RoutesParams } from "@/types";
 
 // TODO: Rework routing logic.
 
+/**
+ * Custom hook that manages current search params & returns a function to execute computed route.
+ * @returns [searchParams, executeRoute]
+ */
 export const useFilterParams = (): [
   URLSearchParams,
   (params: RoutesParams) => void,

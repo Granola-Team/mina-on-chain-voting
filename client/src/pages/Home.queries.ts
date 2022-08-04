@@ -1,15 +1,27 @@
 import axios from "axios";
 
-import { API_PROD_URL, API_DEV_URL } from "@/constant";
-import { isDev } from "@/utils/devMode";
+import { API_URL } from "@/constant";
 
-const buildAPIUrl = (key: string | null, filter: string | null): string => {
-  return `${isDev() ? API_DEV_URL : API_PROD_URL}/${
-    key ? key : "magenta"
-  }?filter=${filter ? filter : "All"}`;
+/**
+ * Builds API URL for a query.
+ * @param {string[]} key
+ * @param {string | null} filter
+ */
+const buildAPIUrl = (key: string, filter: string | null): string => {
+  return `${API_URL}/${key}?filter=${filter ? filter : "All"}&sorted=true`;
 };
 
-export const fetchKeywordData = async (key: string, filter: string) => {
-  const { data } = await axios.get(buildAPIUrl(key, filter));
-  return data;
+/**
+ * Requests data from our API & returns said data.
+ * @param {string} key
+ * @param {string} filter
+ */
+export const fetchKeywordData = async (
+  key: string | null,
+  filter: string | null,
+) => {
+  if (key) {
+    const { data } = await axios.get(buildAPIUrl(key, filter));
+    return data;
+  }
 };

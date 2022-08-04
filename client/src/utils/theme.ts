@@ -1,3 +1,6 @@
+/**
+ * Checks if darkmode is activated & changes the theme accordingly.
+ */
 export const changeTheme = (state: boolean): void => {
   if (state) {
     document.documentElement.classList.remove("dark");
@@ -12,6 +15,9 @@ export const changeTheme = (state: boolean): void => {
   }
 };
 
+/**
+ * Checks if localstorage for native theme & sets darkmode accordingly.
+ */
 export const setTheme = (): void => {
   if (
     localStorage.theme === "dark" ||
@@ -28,6 +34,9 @@ export const setTheme = (): void => {
   }
 };
 
+/**
+ * Checks if darkmode is represented in our current HTML Classlist.
+ */
 export const isDarkMode = (): boolean => {
   if (document.documentElement.classList.contains("dark")) {
     return true;

@@ -70,33 +70,51 @@ pub fn parse_responses(query_responses: Vec<DBResponse>, key: &str, latest_block
 
    let mut s = settled.into_iter().map(|(_,v)| { v }).collect::<Vec<DBResponse>>();
 
-   match sorted {
-    Some(sort) => {
-        if sort {
-            s.sort_by(|a,b| { b.height.cmp(&a.height) });
-            unsettled.sort_by(|a, b | { b.height.cmp(&a.height) });
-            invalid.sort_by(|a, b | { b.height.cmp(&a.height) }); 
-        }
-    },
-    None => ()
-   }
 
    match request_type {
     Some(filter) => {
         match filter {
             QueryRequestFilter::All => {
                 let mut vec: Vec<DBResponse> = vec![];
-                vec.extend(s);
-                vec.extend(unsettled);
-                vec.extend(invalid);
-        
-                vec![
-                ResponseEntity { signals: vec }
-                ]
+                    vec.extend(s);
+                    vec.extend(unsettled);
+                    vec.extend(invalid);
+
+                if let Some(sort) = sorted {
+                    if sort {
+                        vec.sort_by(|a,b| { b.height.cmp(&a.height) });
+                    }
+                   return vec![ResponseEntity { signals: vec }]
+                }
+                vec![ResponseEntity { signals: vec }]
             }
-            QueryRequestFilter::Settled => vec![ResponseEntity { signals: s }],
-            QueryRequestFilter::Unsettled => vec![ResponseEntity { signals: unsettled }],
-            QueryRequestFilter::Invalid => vec![ResponseEntity { signals: invalid }],
+            QueryRequestFilter::Settled => {
+                if let Some(sort) = sorted {
+                    if sort {
+                        s.sort_by(|a,b| { b.height.cmp(&a.height) });
+                    }
+                    return vec![ResponseEntity { signals: s }]
+                }
+                vec![ResponseEntity { signals: s }]
+            },
+            QueryRequestFilter::Unsettled => {
+                if let Some(sort) = sorted {
+                    if sort {
+                        unsettled.sort_by(|a,b| { b.height.cmp(&a.height) });
+                    }
+                    return vec![ResponseEntity { signals: unsettled }]
+                }
+                vec![ResponseEntity { signals: unsettled }]
+            },
+            QueryRequestFilter::Invalid => {
+                if let Some(sort) = sorted {
+                    if sort {
+                        invalid.sort_by(|a,b| { b.height.cmp(&a.height) });
+                    }
+                    return vec![ResponseEntity { signals: invalid }]
+                }
+                vec![ResponseEntity { signals: invalid }]
+            },
         }
      
     },

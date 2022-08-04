@@ -19,9 +19,9 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
           {new Date(signal.timestamp).toLocaleDateString()}
         </span>
       </div>
-      <div className="place-self-left flex items-center gap-2">
+      <div className="place-self-left flex items-center gap-3">
         <img
-          className="w-7 h-7 rounded-full opacity-70"
+          className="w-6 h-6 rounded-full opacity-70"
           src={makeBlockie(signal.account)}
         />
         <span className="grid-table-content medium">{signal.account}</span>

@@ -5,29 +5,34 @@
     "eslint-config-zoro/eslint"
   ],
   "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "sourceType": "module",
-    "project": ["./tsconfig.json"],
-    "ecmaVersion": 2020,
-    "ecmaFeatures": {
-      "jsx": true
+  "overrides": [
+    {
+      "files": ["*.ts", "*.tsx"],
+      "parserOptions": {
+        "sourceType": "module",
+        "project": ["./tsconfig.json"],
+        "ecmaVersion": 2020,
+        "ecmaFeatures": {
+          "jsx": true
+        }
+      },
+      "plugins": ["@typescript-eslint"],
+      "settings": {
+        "react": {
+          "version": "detect"
+        }
+      },
+      "rules": {
+        "@typescript-eslint/no-var-requires": 0,
+        "indent": "off",
+        "brace-style": "off",
+        "comma-dangle": "off",
+        "react/jsx-indent": "off",
+        "react/jsx-indent-props": "off",
+        "react/no-array-index-key": "off",
+        "@typescript-eslint/brace-style": "off",
+        "@typescript-eslint/comma-dangle": "off"
+      }
     }
-  },
-  "plugins": ["@typescript-eslint"],
-  "settings": {
-    "react": {
-      "version": "detect"
-    }
-  },
-  "rules": {
-    "@typescript-eslint/no-var-requires": 0,
-    "indent": "off",
-    "brace-style": "off",
-    "comma-dangle": "off",
-    "react/jsx-indent": "off",
-    "react/jsx-indent-props": "off",
-    "react/no-array-index-key": "off",
-    "@typescript-eslint/brace-style": "off",
-    "@typescript-eslint/comma-dangle": "off"
-  }
+  ]
 }

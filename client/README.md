@@ -3,7 +3,7 @@
 `Zustand` - Minimal dep. store centric state manager
 `TailwindCSS` - Utility CSS Framework
 `Vite` - HMR enabled JS/TS bundler
-`Jest` - JS Testing Framework
+`Vitest` - Vite based Testing Framework
 
 ## Usage
 
@@ -30,6 +30,6 @@
 | `yarn run dev`   | Builds a development build and serves @ `http://localhost:8080`          |
 | `yarn run start` | Bundles a production build to `/build/` serves @ `http://localhost:8080` |
 | `yarn run build` | Bundles a production build to `/build/`                                  |
-| `yarn run test`  | Runs tests with Jest                                                     |
+| `yarn run test`  | Runs tests with Vitest                                                   |
 | `yarn run lint`  | Runs linter with ESLint                                                  |
 | `yarn run clean` | Cleans folder & deletes `node_modules` & `build`                         |

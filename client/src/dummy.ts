@@ -4,7 +4,7 @@ export const unsortedData: DataEntity[] = [
   {
     signals: [
       {
-        account: "B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx88wdNnFg",
+        account: "B62qmwnAmn1ZErZmFkGbFh2CnjK12nnKkxBuhFnme1xcabx88wdNnFg",
         memo: "magenta",
         height: 89412,
         status: "Canonical",
@@ -139,7 +139,7 @@ export const sortedData: DataEntity[] = [
   {
     signals: [
       {
-        account: "B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx88wdNnFg",
+        account: "B62qmwnAmn1ZErZmFkGbFh2CnjK12nnKkxBuhFnme1xcabx88wdNnFg",
         memo: "magenta",
         height: 89412,
         status: "Canonical",
@@ -282,7 +282,7 @@ export const settledData: DataEntity[] = [
   {
     signals: [
       {
-        account: "B62qmwnAmn1ZErZmFkGbFh2CnjK1GCCKkxBuhFnmeV3MXbx88wdNnFg",
+        account: "B62qmwnAmn1ZErZmFkGbFh2CnjK12nnKkxBuhFnme1xcabx88wdNnFg",
         memo: "magenta",
         height: 89412,
         status: "Canonical",

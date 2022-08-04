@@ -37,7 +37,7 @@ export const Home = () => {
    * @param {boolean} enabled - Param to compute if our query is active or not.
    */
   const { data: queryData, isSuccess } = useQuery(
-    [key ? key : "", filter ? filter : "All"],
+    [key, filter ? filter : "All"],
     () => fetchKeywordData(key, filter),
     { enabled: !demo && !!key },
   );

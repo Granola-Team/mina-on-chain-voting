@@ -6,8 +6,9 @@
     "build": "vite build",
     "start": "yarn run build && vite preview",
     "dev": "vite serve",
-    "clean": "rimraf build/* && rimraf node_modules",
+    "clean": "rimraf build && rimraf node_modules",
     "lint": "eslint './src/**/*.{js,jsx,ts,tsx}'",
+    "lint:prod": "eslint './src/**/*.{js,jsx,ts,tsx}' --quiet",
     "test": "vitest run --coverage --config=./vitest.config.ts",
     "test:snap": "vitest -u --config=./vitest.config.ts"
   },

@@ -481,10 +481,14 @@
       "locked": {
         "lastModified": 1,
 <<<<<<< HEAD
+<<<<<<< HEAD
         "narHash": "sha256-vk3kKdskIM/xOmKZ0Mf/F4fNSC3TH7y9XIeee27Wl2g=",
         "path": "client",
 =======
         "narHash": "sha256-ytlnuVlCXjUQChbexqlaPgLMv7F0cD27V6tHgxBTvUg=",
+=======
+        "narHash": "sha256-V13O5Mvb1K8aVrB9VsWFR/rwTEU+ou2H2OqO3b4R9wo=",
+>>>>>>> 1af1997e (on latest)
         "path": "./client",
 >>>>>>> b4ebb0e6 (update workflow)
         "type": "path"

@@ -46,7 +46,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      - name: Use Rust
-        uses: icepuma/rust-action@master
+      - uses: icepuma/rust-action@master
         run: cargo check && cargo clippy && cargo test && cargo build --release

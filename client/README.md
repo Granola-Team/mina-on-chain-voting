@@ -1,10 +1,36 @@
+## Directory layout
+
+> Use short lowercase names at least for the top-level files and folders.
+
+    .
+    ├── build                   # Compiled files (alternatively `dist`)
+    ├── src                     # Source files (alternatively `lib` or `app`)
+    ├── test                    # Automated tests (alternatively `spec` or `tests`)
+    ├── LICENSE
+    └── README.md
+
+## Source layout
+
+     .
+    ├── ...
+    ├── src
+    │   ├── assets            # Images, CSS & Fonts
+    │   ├── components        # UI components
+    │   ├── hooks             # Custom state hooks
+    │   ├── pages             # Pages & top-level routes
+    │   ├── queries           # Global react query logic
+    │   ├── store             # Global state store (Zustand)
+    │   ├── types             # Typings & modules
+    │   └── utils             # Unit tests
+    └── ...
+
 ## Dependencies
 
-`Zustand` - Minimal dep. store centric state manager
-`React Query` - Asynchronous state manager
-`TailwindCSS` - Utility CSS Framework
-`Vite` - HMR enabled JS/TS bundler
-`Vitest` - Vite based Testing Framework
+- `Zustand` - Minimal dep. store centric state manager
+- `React Query` - Asynchronous state manager
+- `TailwindCSS` - Utility CSS Framework
+- `Vite` - HMR enabled JS/TS bundler
+- `Vitest` - Vite based Testing Framework
 
 ## Usage
 

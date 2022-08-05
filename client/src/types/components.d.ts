@@ -8,6 +8,10 @@ import type {
   SignalStatus,
 } from "./data";
 
+export interface ComponentWithChildren {
+  children: ReactNode;
+}
+
 export interface SettingsButtonProps {
   title: Network;
 }
@@ -24,7 +28,11 @@ export interface TableNavElementProps {
   filter: RouteFilterType;
 }
 
-export interface TableBubbleProps {
-  children: ReactNode;
+export interface TableBubbleProps extends ComponentWithChildren {
   status: BlockStatus | SignalStatus;
+}
+
+export interface ModalProps extends ComponentWithChildren {
+  state: boolean;
+  setState: (v: boolean) => void;
 }

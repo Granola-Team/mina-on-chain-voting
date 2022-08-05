@@ -1,16 +1,14 @@
 import React from "react";
 import { Dialog, Transition } from "@headlessui/react";
 
-export const Modal: React.FC<{
-  children: React.ReactNode;
-  state: boolean;
-  setState: (v: boolean) => void;
-}> = ({ children, state, setState }) => {
+import type { ModalProps } from "@/types";
+
+export const Modal: React.FC<ModalProps> = ({ children, state, setState }) => {
   return (
     <Transition.Root show={state} as={React.Fragment}>
       <Dialog
         as="div"
-        className="relative z-10"
+        className="absolute z-10 inset-0"
         onClose={() => {
           setState(false);
         }}
@@ -24,11 +22,11 @@ export const Modal: React.FC<{
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 transition-opacity bg-gray-200/10 backdrop-blur-sm dark:bg-gray-600/10 dark:backdrop-blur-md" />
+          <div className="absolute inset-0 transition-opacity backdrop-blur-[8px] bg-gray-600/5 dark:bg-gray-900/5 dark:backdrop-blur-md" />
         </Transition.Child>
 
-        <div className="fixed left-0 right-0 top-40 z-10 overflow-y-auto">
-          <div className="flex items-end justify-center min-h-full p-4 text-center sm:items-center sm:p-0">
+        <div className="absolute top-44 left-0 right-0 w-full z-10">
+          <div className="flex items-center justify-center p-4 text-center sm:p-0">
             {children}
           </div>
         </div>

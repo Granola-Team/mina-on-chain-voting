@@ -8,16 +8,13 @@ import {
 
 import { isDarkMode, setTheme } from "@/utils/theme";
 import { useAppStore } from "@/store/app.store";
-import { Home } from "@/pages/Home";
+import { Home } from "@/pages";
 
 const App = () => {
   const setDarkMode = useAppStore((state) => state.setDarkMode);
   const isDev = useAppStore((state) => state.devMode);
 
   useEffect(() => {
-    if (isDev) {
-      console.warn("Development mode activated. 🚀");
-    }
     setTheme();
     setDarkMode(isDarkMode());
   }, []);

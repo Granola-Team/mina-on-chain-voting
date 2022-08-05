@@ -7,11 +7,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1653594315,
-        "narHash": "sha256-kJ0ENmnQJ4qL2FeYKZba9kvv1KmIuB3NVpBwMeI7AJQ=",
+        "lastModified": 1659725433,
+        "narHash": "sha256-1ZxuK67TL29YLw88vQ18Y2Y6iYg8Jb7I6/HVzmNB6nM=",
         "owner": "serokell",
         "repo": "deploy-rs",
-        "rev": "184349d8149436748986d1bdba087e4149e9c160",
+        "rev": "41f15759dd8b638e7b4f299730d94d5aa46ab7eb",
         "type": "github"
       },
       "original": {
@@ -260,11 +260,19 @@
         "utils": "utils_2"
       },
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1659142274,
         "narHash": "sha256-tFNhWdff/66i/6VjXiyHi1jjc0e8FzOijWq2xh1Tnpk=",
         "owner": "MinaProtocol",
         "repo": "mina",
         "rev": "801cb62c21b5e1dfe8cbbe82e252fe007ad5c505",
+=======
+        "lastModified": 1659655459,
+        "narHash": "sha256-bwIlXOk6iQ9CKz1J4cTfv0kL9wOxw6NWmlITOGT3VT8=",
+        "owner": "MinaProtocol",
+        "repo": "mina",
+        "rev": "68a773585eeb8c0e2849dacfb5628309237f4f07",
+>>>>>>> b4ebb0e6 (update workflow)
         "type": "github"
       },
       "original": {
@@ -405,16 +413,59 @@
     },
     "nixpkgs_4": {
       "locked": {
+<<<<<<< HEAD
         "lastModified": 1659254610,
         "narHash": "sha256-ee5W5MLWZ3kdx5hwOUs6trOJit+GeTDfG+Lg3rANKoc=",
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "67f49b2a3854e8b5e3f9df4422225daa0985f451",
+=======
+        "lastModified": 1659606041,
+        "narHash": "sha256-W4/u2ssr3fS4XOtltrsDD9w2kF4jYYZr6JyPGUW2jdI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5f9b871b72b24f066b1a1e189efd0669f2888c49",
+>>>>>>> b4ebb0e6 (update workflow)
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixpkgs-unstable",
+<<<<<<< HEAD
+=======
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_5": {
+      "locked": {
+        "lastModified": 1659606041,
+        "narHash": "sha256-W4/u2ssr3fS4XOtltrsDD9w2kF4jYYZr6JyPGUW2jdI=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5f9b871b72b24f066b1a1e189efd0669f2888c49",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixpkgs-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_6": {
+      "locked": {
+        "lastModified": 1653936696,
+        "narHash": "sha256-M6bJShji9AIDZ7Kh7CPwPBPb/T7RiVev2PAcOi4fxDQ=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "ce6aa13369b667ac2542593170993504932eb836",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "22.05",
+>>>>>>> b4ebb0e6 (update workflow)
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -429,8 +480,13 @@
       },
       "locked": {
         "lastModified": 1,
+<<<<<<< HEAD
         "narHash": "sha256-vk3kKdskIM/xOmKZ0Mf/F4fNSC3TH7y9XIeee27Wl2g=",
         "path": "client",
+=======
+        "narHash": "sha256-ytlnuVlCXjUQChbexqlaPgLMv7F0cD27V6tHgxBTvUg=",
+        "path": "./client",
+>>>>>>> b4ebb0e6 (update workflow)
         "type": "path"
       },
       "original": {
@@ -449,8 +505,13 @@
       },
       "locked": {
         "lastModified": 1,
+<<<<<<< HEAD
         "narHash": "sha256-Lg7groqmbPHHoq5tYgrS5ykcdbHf4eyoAf4qk0cGxg8=",
         "path": "server",
+=======
+        "narHash": "sha256-fOXfcZ4u56OEJzCC50QKRMyk+MkAjR/Td/HN90C5KkU=",
+        "path": "./server",
+>>>>>>> b4ebb0e6 (update workflow)
         "type": "path"
       },
       "original": {

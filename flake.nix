@@ -121,7 +121,11 @@
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
               effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process
             ]))
+<<<<<<< HEAD
 
+=======
+            
+>>>>>>> b4ebb0e6 (update workflow)
             apps.clean-archive-backups
             apps.download-archive-dump
             apps.run-temp-database

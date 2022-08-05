@@ -2,7 +2,7 @@ name: On-Chain Signalling CI/CD
 
 on:
   push:
-    branches: ['c-ui']
+    branches: ['**']
   pull_request:
     branches: ['main']
 
@@ -48,4 +48,4 @@ jobs:
       - uses: actions/checkout@v3
       - uses: icepuma/rust-action@master
         with:
-          args: cargo check && cargo clippy && cargo test && cargo build --release
+          args: cd server && cargo check && cargo clippy && cargo test && cargo build --release

@@ -1,13 +1,13 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Eq, FromSql, Serialize, Deserialize)]
-pub struct DBResponse {  
-        pub account: String,
-        pub memo: String,
-        pub height: i64,
-        pub status: BlockStatus,
-        pub signal_status: Option<Status>,
-        pub timestamp: i64
+pub struct DBResponse {
+    pub account: String,
+    pub memo: String,
+    pub height: i64,
+    pub status: BlockStatus,
+    pub signal_status: Option<Status>,
+    pub timestamp: i64,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
@@ -23,12 +23,12 @@ pub enum BlockStatus {
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ResponseEntity {
-    pub signals: Vec<DBResponse>
+    pub signals: Vec<DBResponse>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
 pub enum Status {
     Settled,
     Unsettled,
-    Invalid
+    Invalid,
 }

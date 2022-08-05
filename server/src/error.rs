@@ -6,7 +6,7 @@ pub enum Error {
     EnvVarError(std::env::VarError),
     PostgresError(tokio_postgres::Error),
     JoinError(tokio::task::JoinError),
-    IntegerParsingError(std::num::ParseIntError)
+    IntegerParsingError(std::num::ParseIntError),
 }
 
 impl From<std::io::Error> for Error {

@@ -37,3 +37,16 @@ jobs:
 
       - name: Build client
         run: yarn build
+
+  server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - name: Uses Rust
+      - uses: actions/checkout@v3
+      - uses: icepuma/rust-action@master
+        with:
+          args: cargo check && cargo clippy && cargo test && cargo build --release

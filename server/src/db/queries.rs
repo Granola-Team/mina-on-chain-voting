@@ -19,25 +19,34 @@ const QUERY_STATEMENT:
     ";
 
 impl From<tokio_postgres::Row> for DBResponse {
-        fn from(row: tokio_postgres::Row) -> Self {
-        Self { account: row.get("account"), memo: row.get("memo"), height: row.get("height"), status: row.get("status"), timestamp: row.get("timestamp"), signal_status: None}
+    fn from(row: tokio_postgres::Row) -> Self {
+        Self {
+            account: row.get("account"),
+            memo: row.get("memo"),
+            height: row.get("height"),
+            status: row.get("status"),
+            timestamp: row.get("timestamp"),
+            signal_status: None,
         }
+    }
 }
 
-
-pub async fn get_latest_blockheight(pg_client: &tokio_postgres::Client) -> Result<i64, tokio_postgres::Error> {
-    let row = pg_client.query_one("SELECT MAX(height) FROM blocks;", &[]).await?;
+pub async fn get_latest_blockheight(
+    pg_client: &tokio_postgres::Client,
+) -> Result<i64, tokio_postgres::Error> {
+    let row = pg_client
+        .query_one("SELECT MAX(height) FROM blocks;", &[])
+        .await?;
     Ok(row.get(0))
 }
 
 pub async fn get_memo_data(
     pg_client: &tokio_postgres::Client,
 ) -> Result<Vec<DBResponse>, tokio_postgres::Error> {
-        pg_client
+    pg_client
         .query(QUERY_STATEMENT, &[])
-        .await?.into_iter().map(|i| {
-            Ok(DBResponse::from(i))
-        }).collect::<Result<Vec<DBResponse>, tokio_postgres::Error>>()
+        .await?
+        .into_iter()
+        .map(|i| Ok(DBResponse::from(i)))
+        .collect::<Result<Vec<DBResponse>, tokio_postgres::Error>>()
 }
-
-

@@ -2,6 +2,7 @@
 dist/
 build/
 node_modules/
+result/
 src/**/*.jsx
 tests/__coverage__/
 tests/**/*.jsx

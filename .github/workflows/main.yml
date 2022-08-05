@@ -21,12 +21,20 @@ jobs:
         with:
           node-version: 16
 
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: build
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: lint
-      - uses: borales/actions-yarn@v3.0.0
-        with:
-          cmd: test
+      - name: Checkout git repo
+      - uses: actions/checkout@v3
+
+      - name: Install node 16
+      - uses: actions/setup-node@v3
+
+      - name: Install client dependencies
+      - uses: yarn install
+
+      - name: Lint client
+      - uses: yarn install
+
+      - name: Test client
+      - uses: yarn install
+
+      - name: Build client
+      - uses: yarn install

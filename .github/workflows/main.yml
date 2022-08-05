@@ -11,30 +11,25 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [10.x, 12.x, 14.x, 16.x]
+
     defaults:
       run:
         working-directory: client
 
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
         with:
-          node-version: 16
-
-      - name: Checkout git repo
-      - uses: actions/checkout@v3
-
-      - name: Install node 16
-      - uses: actions/setup-node@v3
-
+          node-version: ${{ matrix.node-version }}
       - name: Install client dependencies
-      - uses: yarn install
-
+      - run: yarn install
       - name: Lint client
-      - uses: yarn lint
-
+      - run: yarn lint
       - name: Test client
-      - uses: yarn test
-
+      - run: yarn test
       - name: Build client
-      - uses: yarn build
+      - run: yarn build

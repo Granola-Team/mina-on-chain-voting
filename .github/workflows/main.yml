@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x, 16.x]
+        node-version: [14.x, 16.x]
 
     defaults:
       run:
@@ -27,9 +27,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install client dependencies
         run: yarn install
-
-      - name: Lint client
-        run: yarn lint
 
       - name: Test client
         run: yarn test

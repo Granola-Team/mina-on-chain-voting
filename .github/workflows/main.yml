@@ -31,10 +31,10 @@ jobs:
       - uses: yarn install
 
       - name: Lint client
-      - uses: yarn install
+      - uses: yarn lint
 
       - name: Test client
-      - uses: yarn install
+      - uses: yarn test
 
       - name: Build client
-      - uses: yarn install
+      - uses: yarn build

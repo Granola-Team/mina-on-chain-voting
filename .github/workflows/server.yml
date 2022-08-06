@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
 
     steps:
       - uses: actions/checkout@v3
@@ -29,19 +32,16 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: fmt
-          working-directory: server
-          args: --all -- --check
+          args: --all -- --check --manifest-path server/Cargo.toml
 
       - name: Clippy
         uses: actions-rs/cargo@v1
         with:
           command: clippy
-          working-directory: server
-          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
+          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect --manifest-path server/Cargo.toml
 
       - name: Tests
         uses: actions-rs/cargo@v1
         with:
           command: test
-          working-directory: server
-          args: --workspace
+          args: --workspace --manifest-path server/Cargo.toml

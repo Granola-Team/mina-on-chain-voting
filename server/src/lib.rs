@@ -10,21 +10,20 @@ use base58check::FromBase58Check;
 extern crate postgres_derive;
 
 pub fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
-    match memo.from_base58check() {
-        Ok((_ver, bytes)) => {
-            if *bytes.first()? != 1u8 {
-                return None;
-            };
-            let end_idx = *bytes.get(1)? as usize + 2;
-            match std::str::from_utf8(&bytes[2..end_idx]) {
-                Ok(str) => match str.to_lowercase().contains(keyword) {
-                    true => Some(str.to_string()),
-                    false => None,
-                },
-                Err(_) => None,
-            }
+    if let Ok((_ver, bytes)) = memo.from_base58check() {
+        if *bytes.first()? != 1u8 {
+            return None;
+        };
+        let end_idx = *bytes.get(1)? as usize + 2;
+        match std::str::from_utf8(&bytes[2..end_idx]) {
+            Ok(str) => match str.to_lowercase().contains(keyword) {
+                true => Some(str.to_string()),
+                false => None,
+            },
+            Err(_) => None,
         }
-        Err(_) => None,
+    } else {
+        None
     }
 }
 

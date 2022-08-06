@@ -28,13 +28,6 @@ jobs:
         with:
           key: 'v2'
 
-      - name: Rustfmt
-        uses: mxnkarou/cargo@master
-        with:
-          command: fmt
-          working-directory: server
-          args: --all -- --check
-
       - name: Clippy
         uses: mxnkarou/cargo@master
         with:

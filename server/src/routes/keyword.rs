@@ -190,8 +190,8 @@ pub async fn keyword(
     let key = path.into_inner();
     let latest_block_height = db::queries::get_latest_blockheight(&pg_client)
         .await
-        .unwrap();
-    let response = db::queries::get_memo_data(&pg_client).await.unwrap();
+        .expect("Error: Could not get latest block.");
+    let response = db::queries::get_memo_data(&pg_client).await.expect("Error: Could not get memo data.");
     let result = parse_responses(
         response,
         &key,
@@ -202,5 +202,5 @@ pub async fn keyword(
 
     HttpResponse::Ok()
         .content_type(ContentType::json())
-        .body(serde_json::to_string(&result).unwrap())
+        .body(serde_json::to_string(&result).expect("Error: Could not parse HttpResponse."))
 }

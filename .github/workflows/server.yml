@@ -7,7 +7,7 @@ on:
     branches: ['main']
 
 jobs:
-  server:
+  build:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -15,6 +15,33 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-      - uses: icepuma/rust-action@master
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
         with:
-          args: cd server && cargo check && cargo clippy && cargo test && cargo build --release
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: 'v2'
+
+      - name: Rustfmt
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --all -- --check
+
+      - name: Clippy
+        uses: actions-rs/cargo@v1
+        with:
+          command: clippy
+          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
+
+      - name: Tests
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --workspace

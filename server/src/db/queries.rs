@@ -1,7 +1,6 @@
 use crate::models::DBResponse;
 
-const QUERY_STATEMENT:
-    &'static str = "
+const QUERY_STATEMENT: &str = "
         SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as status, b.timestamp as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc

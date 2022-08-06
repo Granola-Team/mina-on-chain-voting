@@ -29,19 +29,22 @@ jobs:
           key: 'v2'
 
       - name: Rustfmt
-        uses: actions-rs/cargo@v1
+        uses: mxnkarou/cargo@master
         with:
           command: fmt
-          args: --all -- --check --manifest-path server/Cargo.toml
+          working-directory: server
+          args: --all -- --check
 
       - name: Clippy
-        uses: actions-rs/cargo@v1
+        uses: mxnkarou/cargo@master
         with:
           command: clippy
-          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect --manifest-path server/Cargo.toml
+          working-directory: server
+          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
 
       - name: Tests
-        uses: actions-rs/cargo@v1
+        uses: mxnkarou/cargo@master
         with:
           command: test
-          args: --workspace --manifest-path server/Cargo.toml
+          working-directory: server
+          args: --workspace

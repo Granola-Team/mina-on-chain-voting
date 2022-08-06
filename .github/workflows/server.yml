@@ -16,9 +16,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+
+      - uses: marceloprado/has-changed-path@v1
+        id: server-changes
+        with:
+          paths: server
 
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
+        if: steps.server-changes.outputs.changed == 'true'
         with:
           profile: minimal
           toolchain: stable
@@ -31,6 +39,7 @@ jobs:
 
       - name: Build
         uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
         with:
           command: build
           working-directory: server
@@ -38,6 +47,7 @@ jobs:
 
       - name: Clippy
         uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
         with:
           command: clippy
           working-directory: server
@@ -48,9 +58,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+
+      - uses: marceloprado/has-changed-path@v1
+        id: server-changes
+        with:
+          paths: server
 
       - name: Setup Rust toolchain
         uses: actions-rs/toolchain@v1
+        if: steps.server-changes.outputs.changed == 'true'
         with:
           profile: minimal
           toolchain: stable
@@ -63,6 +81,7 @@ jobs:
 
       - name: Clippy
         uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
         with:
           command: clippy
           working-directory: server
@@ -70,6 +89,7 @@ jobs:
 
       - name: Tests
         uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
         with:
           command: test
           working-directory: server

@@ -1,0 +1,20 @@
+name: OSC Server
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: icepuma/rust-action@master
+        with:
+          args: cd server && cargo check && cargo clippy && cargo test && cargo build --release

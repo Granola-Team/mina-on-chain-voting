@@ -14,11 +14,7 @@ import { fetchKeywordData } from "./Home.queries";
 import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
 
 export const Home = () => {
-  /**
-   * @param {DataEntity[]} signals - Local state.
-   * @param {() => DataEntity[]} setSignals - Local state setter.
-   */
-  const [signals, setSignals] = useState<DataEntity[]>();
+  const [signals, setSignals] = useState<DataEntity>();
 
   /**
    * Gets current search parameters.
@@ -36,7 +32,11 @@ export const Home = () => {
    * @restriction - Only executing the query if demo is false & we have a key.
    * @param {boolean} enabled - Param to compute if our query is active or not.
    */
-  const { data: queryData, isSuccess } = useQuery(
+  const {
+    data: queryData,
+    isSuccess,
+    isError,
+  } = useQuery(
     [key, filter ? filter : "All"],
     () => fetchKeywordData(key, filter),
     { enabled: !demo && !!key },
@@ -79,13 +79,23 @@ export const Home = () => {
     }
   }, [demo, key, filter]);
 
+  if (isError) {
+    return (
+      <Layout>
+        <div className="mx-auto pt-10">Something went wrong.</div>
+      </Layout>
+    );
+  }
+
   return (
     <Layout>
-      <Stats />
       {(signals && key) || (signals && demo) ? (
-        <Table data={signals} />
+        <React.Fragment>
+          <Stats />
+          <Table data={signals} />
+        </React.Fragment>
       ) : (
-        <div className="mx-auto">Please input a keyword.</div>
+        <div className="mx-auto pt-10">Please input a keyword.</div>
       )}
     </Layout>
   );

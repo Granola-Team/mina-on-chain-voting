@@ -17,7 +17,7 @@ export interface SettingsButtonProps {
 }
 
 export interface TableProps {
-  data: DataEntity[];
+  data: DataEntity;
 }
 export interface TableRowProps {
   signal: SignalEntity;

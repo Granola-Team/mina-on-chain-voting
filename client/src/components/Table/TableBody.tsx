@@ -15,8 +15,8 @@ export const TableBody: React.FC<TableProps> = ({ data }) => {
     <div className="w-full flex flex-col bg-gray-2 border border-gray-7 rounded-md py-2">
       <TableHeader />
       <div className="flex items-center flex-col divide-y divide-gray-7 divide-dashed">
-        {data[0].signals.length > 0 ? (
-          data[0].signals.map((signal, index) => (
+        {data.signals.length > 0 ? (
+          data.signals.map((signal, index) => (
             <TableRow key={signal.timestamp / index} signal={signal} />
           ))
         ) : (

@@ -21,13 +21,25 @@ pub fn validate_signal(memo: &str, key: &str) -> bool {
     false
 }
 
+pub fn check_sort(mut v: Vec<DBResponse>, sorted: Option<bool>) -> Vec<DBResponse> {
+    if let Some(b) = sorted {
+        if b {
+            v.sort_by(|a, b| b.height.cmp(&a.height));
+            return v;
+        } else {
+            return v;
+        }
+    }
+    v
+} 
+
 pub fn parse_responses(
     query_responses: Vec<DBResponse>,
     key: &str,
     latest_block: i64,
     request_type: Option<QueryRequestFilter>,
     sorted: Option<bool>,
-) -> Vec<ResponseEntity> {
+) -> ResponseEntity {
     let mut hash: std::collections::HashMap<String, Vec<DBResponse>> =
         std::collections::HashMap::new();
     let mut settled: std::collections::HashMap<String, DBResponse> =
@@ -103,7 +115,7 @@ pub fn parse_responses(
         }
     }
 
-    let mut s = settled
+    let s = settled
         .into_iter()
         .map(|(_, v)| v)
         .collect::<Vec<DBResponse>>();
@@ -111,45 +123,21 @@ pub fn parse_responses(
     match request_type {
         Some(filter) => match filter {
             QueryRequestFilter::All => {
-                let mut vec: Vec<DBResponse> = vec![];
-                vec.extend(s);
-                vec.extend(unsettled);
-                vec.extend(invalid);
+                let mut v: Vec<DBResponse> = vec![];
+                v.extend(s);
+                v.extend(unsettled);
+                v.extend(invalid);
 
-                if let Some(sort) = sorted {
-                    if sort {
-                        vec.sort_by(|a, b| b.height.cmp(&a.height));
-                    }
-                    return vec![ResponseEntity { signals: vec }];
-                }
-                vec![ResponseEntity { signals: vec }]
+                ResponseEntity { signals: check_sort(v, sorted) }
             }
             QueryRequestFilter::Settled => {
-                if let Some(sort) = sorted {
-                    if sort {
-                        s.sort_by(|a, b| b.height.cmp(&a.height));
-                    }
-                    return vec![ResponseEntity { signals: s }];
-                }
-                vec![ResponseEntity { signals: s }]
+                ResponseEntity { signals: check_sort(s, sorted) }
             }
             QueryRequestFilter::Unsettled => {
-                if let Some(sort) = sorted {
-                    if sort {
-                        unsettled.sort_by(|a, b| b.height.cmp(&a.height));
-                    }
-                    return vec![ResponseEntity { signals: unsettled }];
-                }
-                vec![ResponseEntity { signals: unsettled }]
+                ResponseEntity { signals: check_sort(unsettled, sorted) }
             }
             QueryRequestFilter::Invalid => {
-                if let Some(sort) = sorted {
-                    if sort {
-                        invalid.sort_by(|a, b| b.height.cmp(&a.height));
-                    }
-                    return vec![ResponseEntity { signals: invalid }];
-                }
-                vec![ResponseEntity { signals: invalid }]
+                ResponseEntity {signals: check_sort(invalid, sorted)}
             }
         },
         None => {
@@ -158,7 +146,7 @@ pub fn parse_responses(
             vec.extend(unsettled);
             vec.extend(invalid);
 
-            vec![ResponseEntity { signals: vec }]
+            ResponseEntity { signals: vec }
         }
     }
 }

@@ -131,6 +131,10 @@ export const unsortedData: DataEntity = {
       timestamp: 1657902060000,
     },
   ],
+  stats: {
+    yes: 10,
+    no: 29,
+  },
 };
 
 export const settledData: DataEntity = {
@@ -144,6 +148,10 @@ export const settledData: DataEntity = {
       timestamp: 1656966780000,
     },
   ],
+  stats: {
+    yes: 10,
+    no: 29,
+  },
 };
 
 export const unsettledData: DataEntity = {
@@ -189,6 +197,10 @@ export const unsettledData: DataEntity = {
       timestamp: 1657900980000,
     },
   ],
+  stats: {
+    yes: 10,
+    no: 29,
+  },
 };
 
 export const invalidData: DataEntity = {
@@ -274,4 +286,8 @@ export const invalidData: DataEntity = {
       timestamp: 1657902060000,
     },
   ],
+  stats: {
+    yes: 10,
+    no: 29,
+  },
 };

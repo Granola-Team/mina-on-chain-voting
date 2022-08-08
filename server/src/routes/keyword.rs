@@ -9,7 +9,7 @@ use std::sync::Arc;
 
 use crate::{
     db,
-    models::{BlockStatus, DBResponse, ResponseEntity, Status},
+    models::{BlockStatus, DBResponse, ResponseEntity, Status, VoteStats},
 };
 
 pub fn validate_signal(memo: &str, key: &str) -> bool {
@@ -21,24 +21,13 @@ pub fn validate_signal(memo: &str, key: &str) -> bool {
     false
 }
 
-pub fn check_sort(mut v: Vec<DBResponse>, sorted: Option<bool>) -> Vec<DBResponse> {
-    if let Some(b) = sorted {
-        if b {
-            v.sort_by(|a, b| b.height.cmp(&a.height));
-            return v;
-        } else {
-            return v;
-        }
-    }
-    v
-} 
-
 pub fn parse_responses(
     query_responses: Vec<DBResponse>,
     key: &str,
     latest_block: i64,
     request_type: Option<QueryRequestFilter>,
     sorted: Option<bool>,
+    stats: Option<bool>
 ) -> ResponseEntity {
     let mut hash: std::collections::HashMap<String, Vec<DBResponse>> =
         std::collections::HashMap::new();
@@ -115,38 +104,54 @@ pub fn parse_responses(
         }
     }
 
-    let s = settled
+    let settled_vec = settled
         .into_iter()
         .map(|(_, v)| v)
         .collect::<Vec<DBResponse>>();
 
+        // Process Settled & Unsettled votes -> find pro / contra &
+
+  let statistics = match stats {
+        Some(s) => match s {
+            true => {
+                let mut yes = 0;
+                let mut no = 0;
+
+                for x in &settled_vec {
+                    if x.memo.to_lowercase() == key.to_lowercase() { yes+=1 }
+                    if x.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { no+=1 }
+                }
+
+                for i in &unsettled {
+                        if i.memo.to_lowercase() == key.to_lowercase() { yes+=1  }
+                        if i.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { no+=1  }
+                }
+
+                Some(VoteStats { yes, no })
+             },
+            false  => None
+        }
+        None => None,
+  };    
+
+
     match request_type {
         Some(filter) => match filter {
             QueryRequestFilter::All => {
-                let mut v: Vec<DBResponse> = vec![];
-                v.extend(s);
-                v.extend(unsettled);
-                v.extend(invalid);
-
-                ResponseEntity { signals: check_sort(v, sorted) }
+                ResponseEntity::new([settled_vec, unsettled, invalid].concat()).sorted(sorted).with_stats(stats, statistics)
             }
             QueryRequestFilter::Settled => {
-                ResponseEntity { signals: check_sort(s, sorted) }
+                ResponseEntity::new(settled_vec).sorted(sorted).with_stats(stats, statistics)
             }
             QueryRequestFilter::Unsettled => {
-                ResponseEntity { signals: check_sort(unsettled, sorted) }
+                ResponseEntity::new(unsettled).sorted(sorted).with_stats(stats, statistics)
             }
             QueryRequestFilter::Invalid => {
-                ResponseEntity {signals: check_sort(invalid, sorted)}
+                ResponseEntity::new(invalid).sorted(sorted).with_stats(stats, statistics)
             }
         },
         None => {
-            let mut vec: Vec<DBResponse> = vec![];
-            vec.extend(s);
-            vec.extend(unsettled);
-            vec.extend(invalid);
-
-            ResponseEntity { signals: vec }
+            ResponseEntity::new([settled_vec, unsettled, invalid].concat()).with_stats(stats, statistics)
         }
     }
 }
@@ -167,6 +172,7 @@ pub enum QueryRequestFilter {
 pub struct KeywordRequest {
     filter: Option<QueryRequestFilter>,
     sorted: Option<bool>,
+    stats: Option<bool>,
 }
 
 #[get("/{keyword}")]
@@ -186,6 +192,7 @@ pub async fn keyword(
         latest_block_height,
         params.filter,
         params.sorted,
+        params.stats
     );
 
     HttpResponse::Ok()

@@ -6,7 +6,7 @@ import type { DataEntity } from "@/types";
 import { useFilterParams } from "@/hooks/useFilterParams";
 
 import { Layout } from "@/components/Layout";
-import { Stats } from "@/components/Stats";
+import { StatsRow, StatsWeighted } from "@/components/Stats";
 import { Table } from "@/components/Table";
 
 import { fetchKeywordData } from "./Home.queries";
@@ -87,11 +87,15 @@ export const Home = () => {
     );
   }
 
+  // TODO! Rework conditional rendering.
+
   return (
     <Layout>
-      {(signals && key) || (signals && demo) ? (
+      {(signals && signals.stats && key) ||
+      (signals && signals.stats && demo) ? (
         <React.Fragment>
-          <Stats />
+          <StatsRow />
+          <StatsWeighted stats={signals.stats} />
           <Table data={signals} />
         </React.Fragment>
       ) : (

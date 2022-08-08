@@ -11,6 +11,12 @@ export interface SignalEntity {
   signal_status: SignalStatus;
 }
 
+export interface StatsEntity {
+  yes: number;
+  no: number;
+}
+
 export interface DataEntity {
   signals: SignalEntity[];
+  stats: StatsEntity | null;
 }

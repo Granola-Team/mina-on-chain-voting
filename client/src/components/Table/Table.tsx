@@ -8,8 +8,8 @@ import { TableBody } from "./TableBody";
 export const Table: React.FC<TableProps> = ({ data }) => {
   return (
     <div className="w-full">
-      <div className="content-full-width py-4">
-        <div className="px-8 w-full flex flex-col items-center gap-4">
+      <div className="content-full-width">
+        <div className="px-8 w-full flex flex-col items-center gap-2">
           <TableNavigation />
           <TableBody data={data} />
         </div>

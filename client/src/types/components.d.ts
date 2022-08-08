@@ -6,6 +6,7 @@ import type {
   DataEntity,
   SignalEntity,
   SignalStatus,
+  StatsEntity,
 } from "./data";
 
 export interface ComponentWithChildren {
@@ -35,4 +36,8 @@ export interface TableBubbleProps extends ComponentWithChildren {
 export interface ModalProps extends ComponentWithChildren {
   state: boolean;
   setState: (v: boolean) => void;
+}
+
+export interface StatsWeightedProps {
+  stats: StatsEntity;
 }

@@ -10,7 +10,9 @@ import { API_URL } from "@/constant";
  * @param {string | null} filter
  */
 const buildAPIUrl = (key: string, filter: string | null): string => {
-  return `${API_URL}/${key}?filter=${filter ? filter : "All"}&sorted=true`;
+  return `${API_URL}/${key}?filter=${
+    filter ? filter : "All"
+  }&sorted=true&stats=true`;
 };
 
 /**

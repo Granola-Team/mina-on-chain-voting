@@ -136,11 +136,11 @@
     },
     "flake-utils": {
       "locked": {
-        "lastModified": 1656928814,
-        "narHash": "sha256-RIFfgBuKz6Hp89yRr7+NR5tzIAbn52h8vT6vXkYjZoM=",
+        "lastModified": 1659877975,
+        "narHash": "sha256-zllb8aq3YO3h8B/U0/J1WBgAL8EX5yWf5pMj3G0NAmc=",
         "owner": "numtide",
         "repo": "flake-utils",
-        "rev": "7e2a3b3dfd9af950a856d66b0a7d01e3c18aa249",
+        "rev": "c0e246b9b83f637f4681389ecabcb2681b4f3af0",
         "type": "github"
       },
       "original": {
@@ -261,6 +261,7 @@
       },
       "locked": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "lastModified": 1659142274,
         "narHash": "sha256-tFNhWdff/66i/6VjXiyHi1jjc0e8FzOijWq2xh1Tnpk=",
         "owner": "MinaProtocol",
@@ -273,6 +274,13 @@
         "repo": "mina",
         "rev": "68a773585eeb8c0e2849dacfb5628309237f4f07",
 >>>>>>> b4ebb0e6 (update workflow)
+=======
+        "lastModified": 1659969468,
+        "narHash": "sha256-uVIWLp15uBMEmNkVJWIykClWKNgx5JcATIXJuQOzfTw=",
+        "owner": "MinaProtocol",
+        "repo": "mina",
+        "rev": "ba248def9bc51677857fdc999cb46d856f14b913",
+>>>>>>> 718600f0 (added stats bar)
         "type": "github"
       },
       "original": {
@@ -414,6 +422,7 @@
     "nixpkgs_4": {
       "locked": {
 <<<<<<< HEAD
+<<<<<<< HEAD
         "lastModified": 1659254610,
         "narHash": "sha256-ee5W5MLWZ3kdx5hwOUs6trOJit+GeTDfG+Lg3rANKoc=",
         "owner": "NixOS",
@@ -426,6 +435,13 @@
         "repo": "nixpkgs",
         "rev": "5f9b871b72b24f066b1a1e189efd0669f2888c49",
 >>>>>>> b4ebb0e6 (update workflow)
+=======
+        "lastModified": 1659931296,
+        "narHash": "sha256-MYLvZ1pN2DC79uYoPAoqs7PT5jLaA/I0vTtUUyhdE44=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "053fb00690945ab06650c4508b98659c6a2343b6",
+>>>>>>> 718600f0 (added stats bar)
         "type": "github"
       },
       "original": {
@@ -482,6 +498,7 @@
         "lastModified": 1,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         "narHash": "sha256-vk3kKdskIM/xOmKZ0Mf/F4fNSC3TH7y9XIeee27Wl2g=",
         "path": "client",
 =======
@@ -489,6 +506,9 @@
 =======
         "narHash": "sha256-V13O5Mvb1K8aVrB9VsWFR/rwTEU+ou2H2OqO3b4R9wo=",
 >>>>>>> 1af1997e (on latest)
+=======
+        "narHash": "sha256-MaBTlo4ynnlYDfn/tJ6WK0gV1xlSg/9g2r8dOsSkc1c=",
+>>>>>>> 718600f0 (added stats bar)
         "path": "./client",
 >>>>>>> b4ebb0e6 (update workflow)
         "type": "path"
@@ -510,10 +530,14 @@
       "locked": {
         "lastModified": 1,
 <<<<<<< HEAD
+<<<<<<< HEAD
         "narHash": "sha256-Lg7groqmbPHHoq5tYgrS5ykcdbHf4eyoAf4qk0cGxg8=",
         "path": "server",
 =======
         "narHash": "sha256-fOXfcZ4u56OEJzCC50QKRMyk+MkAjR/Td/HN90C5KkU=",
+=======
+        "narHash": "sha256-QEecB/4TTMuCTQxGqZxKA/RN7b5SgV3ntGwBL7V8ZtE=",
+>>>>>>> 718600f0 (added stats bar)
         "path": "./server",
 >>>>>>> b4ebb0e6 (update workflow)
         "type": "path"

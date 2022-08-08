@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, PartialEq, Eq, FromSql, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Eq, Clone, FromSql, Serialize, Deserialize)]
 pub struct DBResponse {
     pub account: String,
     pub memo: String,
@@ -22,8 +22,42 @@ pub enum BlockStatus {
 }
 
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+pub struct VoteStats {
+    pub yes: i32,
+    pub no: i32
+}
+
+#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ResponseEntity {
     pub signals: Vec<DBResponse>,
+    pub stats: Option<VoteStats>
+}
+
+impl ResponseEntity {
+    pub fn new(signals: Vec<DBResponse>) -> Self {
+        Self { signals, stats: None }
+    }
+
+    pub fn sorted(mut self, sorted: Option<bool>) -> Self {
+        if let Some(b) = sorted {
+            if b {
+                self.signals.sort_by(|a, b| b.height.cmp(&a.height));
+                return self;
+            } else {
+                return self;
+            }
+        }
+        self
+    }
+
+    pub fn with_stats(mut self, s: Option<bool>, stats: Option<VoteStats>) -> Self {
+        if let Some(b) = s {
+            if b && stats.is_some() {
+                self.stats = stats
+            }
+        }
+        self
+    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]

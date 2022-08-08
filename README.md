@@ -1,23 +1,17 @@
 # On-Chain Signalling
 
-Onchain Signalling for Mina Protocol - Monitors blocks and its transactions using memo variables.
-Folders added represent each component needed for this project
+On-Chain Signalling for Mina Protocol - Monitors blocks and its transactions using memo variables.\
+Folders added represent each component needed for this project.
 
 # Server & Client
 
-An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.
-A Bun/React SPA that displays and totals signalling results (votes) from the API.
+An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.\
+A React SPA that displays and totals signalling results (votes) from the API.
 
-<<<<<<< HEAD
 ** This Repository Requires the [Flakes](https://nixos.wiki/wiki/Flakes#Installing_nix_flakes) Experimental Feature **
 
-
-* `nix flake update` -> Updates the server and client
-* `nix run .` -> Builds the server and client and runs the server
-=======
+- `nix flake update` -> Updates the server and client
 - `nix run .` -> Builds the server and client and runs the server
-- `nix flake update` -> Updates the server and client **This command must be run every time the server / client are updated**
->>>>>>> b29ca445 (added table)
 
 Environment Variables for `nix run .`:
 
@@ -28,30 +22,17 @@ Environment Variables for `nix run .`:
 - PORT : the port to bind the on-chain-signalling server to (`8080`)
 
 # Tools
-<<<<<<< HEAD
+
 A set of scripts to automate development environment management and deployment. These scripts are automatically added to your PATH when entering the shell.nix
 
-* `run-temp-database` --
-provisions and runs a temporary postgres database to help with end-to-end testing in a local environment
+- `run-temp-database` --
+  Provisions and runs a temporary postgres database to help with end-to-end testing in a local environment
 
-* `download-archive-dump` --
-automatically downloads and extracts the latest MINA archive dump from MINA's google cloud storage API
+- `download-archive-dump` --
+  Automatically downloads and extracts the latest MINA archive dump from MINA's google cloud storage API
 
-* `clean-archive-backups` --
-removes old archive dumps from the local environment
+- `clean-archive-backups` --
+  Removes old archive dumps from the local environment
 
-* `run-onchain-signalling` --
-builds and starts the actix-web server and links it to the latest build of the frontend in the nix store
-=======
-
-A set of scripts to automate development environment management and deployment
-
-- runTempDatabase -- `nix run .` or `runghc Tools/runTempDatabase.hs`
-  provisions and runs a temporary postgres database to help with end-to-end testing in a local environment
-
-- downloadArchiveDump -- `runghc Tools/downloadArchiveDump.hs`
-  automatically downloads and extracts the latest MINA archive dump from MINA's google cloud storage API
-
-- cleanArchiveDumps -- `runghc Tools/cleanArchiveDumps.hs`
-  removes old archive dumps from the local environment
->>>>>>> b29ca445 (added table)
+- `run-onchain-signalling` --
+  Builds and starts the actix-web server and links it to the latest build of the frontend in the nix store

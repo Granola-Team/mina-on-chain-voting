@@ -28,12 +28,12 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.status}>
-          <span className="grid-table-content semibold">{signal.status}</span>
+          <span className="grid-table-content medium">{signal.status}</span>
         </TableBubble>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.signal_status}>
-          <span className="grid-table-content semibold">
+          <span className="grid-table-content medium">
             {signal.signal_status}
           </span>
         </TableBubble>

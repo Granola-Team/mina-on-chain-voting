@@ -9,7 +9,7 @@ export const StatsWeighted: FC<StatsWeightedProps> = ({ stats }) => {
   const noPercent = ((stats.no / total) * 100).toFixed(2);
 
   return (
-    <div className="w-full -my-1">
+    <div className="w-full mt-6">
       <div className="content-full-width px-8">
         <div className="bg-gray-2 border border-gray-7 rounded-md w-full">
           <div className="flex flex-col justify-center px-6 py-2 gap-1">

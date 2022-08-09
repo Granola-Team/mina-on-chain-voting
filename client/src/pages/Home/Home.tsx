@@ -6,7 +6,7 @@ import type { DataEntity } from "@/types";
 import { useFilterParams } from "@/hooks/useFilterParams";
 
 import { Layout } from "@/components/Layout";
-import { StatsRow, StatsWeighted } from "@/components/Stats";
+import { StatsWeighted } from "@/components/Stats";
 import { Table } from "@/components/Table";
 
 import { fetchKeywordData } from "./Home.queries";
@@ -94,7 +94,6 @@ export const Home = () => {
       {(signals && signals.stats && key) ||
       (signals && signals.stats && demo) ? (
         <React.Fragment>
-          <StatsRow />
           <StatsWeighted stats={signals.stats} />
           <Table data={signals} />
         </React.Fragment>

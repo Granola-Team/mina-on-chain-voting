@@ -1,0 +1,96 @@
+name: OSC Server
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['main']
+
+defaults:
+  run:
+    working-directory: server
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+
+      - uses: marceloprado/has-changed-path@v1
+        id: server-changes
+        with:
+          paths: server
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: 'v2'
+
+      - name: Build
+        uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          command: build
+          working-directory: server
+          args: --release
+
+      - name: Clippy
+        uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          command: clippy
+          working-directory: server
+          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
+
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+
+      - uses: marceloprado/has-changed-path@v1
+        id: server-changes
+        with:
+          paths: server
+
+      - name: Setup Rust toolchain
+        uses: actions-rs/toolchain@v1
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+          components: rustfmt, clippy
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          key: 'v2'
+
+      - name: Clippy
+        uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          command: clippy
+          working-directory: server
+          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
+
+      - name: Tests
+        uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          command: test
+          working-directory: server
+          args: --workspace

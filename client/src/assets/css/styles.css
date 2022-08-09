@@ -1,0 +1,45 @@
+@import "./_fonts.css";
+@import "./_global.css";
+@import "windy-radix-palette/base";
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+body {
+  @apply min-h-screen font-sans bg-gray-3 text-gray-12;
+}
+
+h1 {
+  @apply text-xl font-semibold;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+span,
+p {
+  @apply select-none;
+}
+
+.content-full-width {
+  @apply flex mx-auto lg:max-w-[80rem];
+}
+
+.text-content {
+  @apply text-[0.95rem] leading-6;
+}
+
+.grid-table-el {
+  @apply grid px-6 grid-cols-[0.45fr_minmax(0px,_0.8fr)_minmax(0px,_2.5fr)_minmax(0px,_1fr)_minmax(0px,_0.8fr)_minmax(0px,_0.8fr)];
+}
+
+.grid-table-heading {
+  @apply text-[0.85rem] leading-6 semibold;
+}
+
+.grid-table-content {
+  @apply text-[0.77rem] leading-5 text-grayA-12 text-ellipsis overflow-hidden whitespace-nowrap block;
+}

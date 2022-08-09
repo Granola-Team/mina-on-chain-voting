@@ -1,0 +1,40 @@
+name: OSC Client
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: ['main']
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+
+    defaults:
+      run:
+        working-directory: client
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 100
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install client dependencies
+        run: yarn install
+
+      - name: Lint client
+        run: yarn lint:prod
+
+      - name: Test client
+        run: yarn test
+
+      - name: Build client
+        run: yarn build

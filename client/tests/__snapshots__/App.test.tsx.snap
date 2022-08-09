@@ -1,0 +1,3 @@
+// Vitest Snapshot v1
+
+exports[`App > should render 1`] = `<App />`;

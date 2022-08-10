@@ -1,4 +1,5 @@
 .pg
+.DS_Store
 .env
 result
 

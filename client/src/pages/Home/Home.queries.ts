@@ -2,7 +2,10 @@ import axios from "axios";
 
 import type { DataEntity } from "@/types";
 
-import { API_URL } from "@/constant";
+import { isDev } from "@/utils/devMode";
+import { DEV_API_URL, PROD_API_URL } from "@/constant";
+
+// TODO! ADD PROPER ENV VARIABLES
 
 /**
  * Builds API URL for our keyword query.
@@ -10,7 +13,7 @@ import { API_URL } from "@/constant";
  * @param {string | null} filter
  */
 const buildAPIUrl = (key: string, filter: string | null): string => {
-  return `${API_URL}/${key}?filter=${
+  return `${isDev() ? DEV_API_URL : PROD_API_URL}/${key}?filter=${
     filter ? filter : "All"
   }&sorted=true&stats=true`;
 };

@@ -5,6 +5,7 @@ import type { TableProps } from "@/types";
 import { useAppStore } from "@/store/app.store";
 import { useFilterParams } from "@/hooks/useFilterParams";
 
+import { Spinner } from "../Spinner";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
 
@@ -18,7 +19,9 @@ export const TableBody: React.FC<TableProps> = ({ data }) => {
       <div className="w-full flex flex-col bg-gray-2 border border-gray-7 rounded-md py-2">
         <TableHeader />
         <div className="flex items-center flex-col divide-y divide-gray-7 divide-dashed">
-          <span>Loading...</span>
+          <div className="py-6 mt-1">
+            <Spinner />
+          </div>
         </div>
       </div>
     );

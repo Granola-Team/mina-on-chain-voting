@@ -4,8 +4,10 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 const ReactQueryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      retry: false,
       refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+      retry: false,
+      staleTime: 5 * 60 * 1000,
     },
   },
 });

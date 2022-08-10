@@ -2,11 +2,19 @@ import React, { type FC } from "react";
 
 import type { StatsWeightedProps } from "@/types";
 
+const createPercent = (v: number, t: number): string => {
+  const val = (v / t) * 100;
+  if (Number.isNaN(val)) {
+    return "XXX";
+  }
+  return val.toFixed(2);
+};
+
 export const StatsWeighted: FC<StatsWeightedProps> = ({ stats }) => {
   const now = new Date().toISOString();
   const total = stats.yes + stats.no;
-  const yesPercent = ((stats.yes / total) * 100).toFixed(2);
-  const noPercent = ((stats.no / total) * 100).toFixed(2);
+  const yesPercent = createPercent(stats.yes, total);
+  const noPercent = createPercent(stats.no, total);
 
   return (
     <div className="w-full mt-6">
@@ -37,14 +45,16 @@ export const StatsWeighted: FC<StatsWeightedProps> = ({ stats }) => {
               <div className="flex items-center w-full self-center h-5">
                 <div
                   style={{
-                    width: `${yesPercent}%`,
+                    width: `${yesPercent === "XXX" ? "50" : yesPercent}%`,
                   }}
                   className={`bg-green-11 h-full ${
                     yesPercent === "100.00" ? "rounded-md" : "rounded-l-md"
                   }`}
                 />
                 <div
-                  style={{ width: `${noPercent}%` }}
+                  style={{
+                    width: `${noPercent === "XXX" ? "50" : noPercent}%`,
+                  }}
                   className={`bg-red-11 h-full ${
                     noPercent === "100.00" ? "rounded-md" : "rounded-r-md"
                   }`}

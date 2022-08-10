@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Settings, SettingsControl } from "@/components/Settings";
 import { Search, SearchControl } from "@/components/Search";
 
-export const Header = () => {
+export const Header = React.memo(() => {
   const navigate = useNavigate();
 
   return (
@@ -28,4 +28,4 @@ export const Header = () => {
       <Settings />
     </header>
   );
-};
+});

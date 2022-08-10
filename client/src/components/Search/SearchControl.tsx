@@ -1,11 +1,10 @@
 import React from "react";
 import { SearchIcon } from "@heroicons/react/solid";
 
-import { useAppStore } from "@/store/app.store";
+import { useAppStore } from "@/App.store";
 
 export const SearchControl = () => {
-  const searchActive = useAppStore((state) => state.searchActive);
-  const setSearchState = useAppStore((state) => state.setSearchState);
+  const { searchActive, setSearchState } = useAppStore((state) => state);
 
   return (
     <button

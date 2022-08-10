@@ -1,11 +1,10 @@
 import React from "react";
 import { CogIcon } from "@heroicons/react/solid";
 
-import { useAppStore } from "@/store/app.store";
+import { useAppStore } from "@/App.store";
 
 export const SettingsControl = () => {
-  const settingsActive = useAppStore((state) => state.settingsActive);
-  const setSettingsState = useAppStore((state) => state.setSettingsState);
+  const { settingsActive, setSettingsState } = useAppStore((state) => state);
 
   return (
     <button

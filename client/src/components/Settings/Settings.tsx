@@ -2,14 +2,13 @@ import React, { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { AdjustmentsIcon, XIcon } from "@heroicons/react/outline";
 
-import { useAppStore } from "@/store/app.store";
+import { useAppStore } from "@/App.store";
 
 import { SettingsMenu } from "./SettingsMenu";
 import { Modal } from "@/components/Modal";
 
 export const Settings = () => {
-  const settingsActive = useAppStore((state) => state.settingsActive);
-  const setSettingsState = useAppStore((state) => state.setSettingsState);
+  const { settingsActive, setSettingsState } = useAppStore((state) => state);
 
   return (
     <Modal state={settingsActive} setState={setSettingsState}>

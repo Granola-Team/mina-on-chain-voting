@@ -2,7 +2,6 @@ import axios from "axios";
 
 import type { DataEntity } from "@/types";
 
-import { isDev } from "@/utils/devMode";
 import { DEV_API_URL, PROD_API_URL } from "@/constant";
 
 // TODO! ADD PROPER ENV VARIABLES
@@ -13,7 +12,7 @@ import { DEV_API_URL, PROD_API_URL } from "@/constant";
  * @param {string | null} filter
  */
 const buildAPIUrl = (key: string, filter: string | null): string => {
-  return `${isDev() ? DEV_API_URL : PROD_API_URL}/${key}?filter=${
+  return `${import.meta.env.DEV ? DEV_API_URL : PROD_API_URL}/${key}?filter=${
     filter ? filter : "All"
   }&sorted=true&stats=true`;
 };
@@ -24,13 +23,18 @@ const buildAPIUrl = (key: string, filter: string | null): string => {
  * @param {string} filter
  */
 export const fetchKeywordData = async (
-  key: string | null,
+  key: string | undefined,
   filter: string | null,
 ) => {
   if (!key) {
     throw new Error("Please provide a valid key.");
   }
 
-  const { data } = await axios.get(buildAPIUrl(key, filter));
+  const { data } = await axios.get(buildAPIUrl(key, filter), {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
   return data as DataEntity;
 };

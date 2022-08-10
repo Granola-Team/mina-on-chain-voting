@@ -1,22 +1,21 @@
 import React, { Fragment } from "react";
+import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 
-import { useFilterParams } from "@/hooks/useFilterParams";
-import { useAppStore } from "@/store/app.store";
+import { useAppStore } from "@/App.store";
 
 import { Modal } from "@/components/Modal";
 
 export const Search = () => {
-  const searchActive = useAppStore((state) => state.searchActive);
-  const setSearchState = useAppStore((state) => state.setSearchState);
-  const [, executeRoute] = useFilterParams();
+  const { searchActive, setSearchState } = useAppStore((state) => state);
+  const navigate = useNavigate();
 
   const submitHandler = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       search: { value: string };
     };
-    executeRoute({ key: target.search.value.toLowerCase() });
+    navigate(`/${target.search.value.toLowerCase()}`, { replace: true });
     setSearchState(false);
   };
 

@@ -19,6 +19,8 @@ export interface SettingsButtonProps {
 
 export interface TableProps {
   data: DataEntity;
+  query: string | undefined;
+  isLoading: boolean;
 }
 export interface TableRowProps {
   signal: SignalEntity;

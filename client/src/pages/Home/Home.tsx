@@ -9,12 +9,17 @@ import { Layout } from "@/components/Layout";
 import { StatsWeighted } from "@/components/Stats";
 import { Table } from "@/components/Table";
 
+import { useAppStore } from "@/store/app.store";
 import { fetchKeywordData } from "./Home.queries";
 
 import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
 
+// TODO! REWORK LOADING LOGIC
+
 export const Home = () => {
   const [signals, setSignals] = useState<DataEntity>();
+  const isFetching = useAppStore((state) => state.isFetching);
+  const setIsFetching = useAppStore((state) => state.setIsFetching);
 
   /**
    * Gets current search parameters.
@@ -34,12 +39,14 @@ export const Home = () => {
    */
   const {
     data: queryData,
-    isFetching,
     isSuccess,
     isError,
   } = useQuery(
     [key, filter ? filter : "All"],
-    () => fetchKeywordData(key, filter),
+    () => {
+      setIsFetching(true);
+      return fetchKeywordData(key, filter);
+    },
     { enabled: !demo && !!key },
   );
 
@@ -51,6 +58,7 @@ export const Home = () => {
   useEffect(() => {
     if (isSuccess) {
       setSignals(queryData);
+      setIsFetching(false);
     }
   }, [queryData, isSuccess]);
 

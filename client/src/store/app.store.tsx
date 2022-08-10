@@ -9,10 +9,12 @@ interface AppStore {
   network: Network;
   settingsActive: boolean;
   searchActive: boolean;
+  isFetching: boolean;
   setDarkMode: (value: boolean) => void;
   setNetwork: (network: Network) => void;
   setSettingsState: (value: boolean) => void;
   setSearchState: (value: boolean) => void;
+  setIsFetching: (value: boolean) => void;
 }
 
 export const useAppStore = create<AppStore>((set) => ({
@@ -21,6 +23,7 @@ export const useAppStore = create<AppStore>((set) => ({
   network: "Devnet",
   settingsActive: false,
   searchActive: false,
+  isFetching: false,
   setDarkMode: (v: boolean) => {
     set(() => ({ darkMode: v }));
   },
@@ -32,5 +35,8 @@ export const useAppStore = create<AppStore>((set) => ({
   },
   setSearchState: (v: boolean) => {
     set(() => ({ searchActive: v }));
+  },
+  setIsFetching: (v: boolean) => {
+    set(() => ({ isFetching: v }));
   },
 }));

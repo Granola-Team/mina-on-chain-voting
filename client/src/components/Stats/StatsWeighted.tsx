@@ -26,16 +26,16 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <span className="semibold text-xl leading-8">
-                  Aggregated Voting Results:
+                  Aggregated Voting Results
                 </span>
                 <IconTooltip css="h-[1.1rem] w-[1.1rem] mt-0.5">
                   <div className="flex flex-col items-start justify-center">
-                    <span className="medium text-sm">Important:</span>
+                    <span className="medium text-sm">Calculation:</span>
                     <div className="text-xs">
                       We&apos;re counting all
                       <span className="inline semibold"> Settled</span> and
                       <span className="inline semibold"> Unsettled</span> votes
-                      that adhere to our ballot convention.
+                      that adhere to our voting convention.
                     </div>
                   </div>
                 </IconTooltip>

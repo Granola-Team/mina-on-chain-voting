@@ -6,7 +6,7 @@ export const Home = () => {
   return (
     <Layout>
       <div className="mx-auto pt-10">
-        <span>Please input a keyword.</span>
+        <span>Please enter a keyword.</span>
       </div>
     </Layout>
   );

@@ -7,26 +7,6 @@ import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import type { ComponentWithChildren } from "@/types";
 import { useAppStore } from "@/App.store";
 
-const slideUpAndFade = keyframes({
-  "0%": { opacity: 0, transform: "translateY(2px)" },
-  "100%": { opacity: 1, transform: "translateY(0)" },
-});
-
-const slideRightAndFade = keyframes({
-  "0%": { opacity: 0, transform: "translateX(-2px)" },
-  "100%": { opacity: 1, transform: "translateX(0)" },
-});
-
-const slideDownAndFade = keyframes({
-  "0%": { opacity: 0, transform: "translateY(-2px)" },
-  "100%": { opacity: 1, transform: "translateY(0)" },
-});
-
-const slideLeftAndFade = keyframes({
-  "0%": { opacity: 0, transform: "translateX(2px)" },
-  "100%": { opacity: 1, transform: "translateX(0)" },
-});
-
 const StyledContent = styled(TooltipPrimitive.Content, {
   borderRadius: 10,
   padding: "10px 15px",
@@ -37,10 +17,30 @@ const StyledContent = styled(TooltipPrimitive.Content, {
     animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
     willChange: "transform, opacity",
     '&[data-state="delayed-open"]': {
-      '&[data-side="top"]': { animationName: slideDownAndFade },
-      '&[data-side="right"]': { animationName: slideLeftAndFade },
-      '&[data-side="bottom"]': { animationName: slideUpAndFade },
-      '&[data-side="left"]': { animationName: slideRightAndFade },
+      '&[data-side="top"]': {
+        animationName: keyframes({
+          "0%": { opacity: 0, transform: "translateY(-2px)" },
+          "100%": { opacity: 1, transform: "translateY(0)" },
+        }),
+      },
+      '&[data-side="right"]': {
+        animationName: keyframes({
+          "0%": { opacity: 0, transform: "translateX(2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        }),
+      },
+      '&[data-side="bottom"]': {
+        animationName: keyframes({
+          "0%": { opacity: 0, transform: "translateX(2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        }),
+      },
+      '&[data-side="left"]': {
+        animationName: keyframes({
+          "0%": { opacity: 0, transform: "translateX(-2px)" },
+          "100%": { opacity: 1, transform: "translateX(0)" },
+        }),
+      },
     },
   },
 });

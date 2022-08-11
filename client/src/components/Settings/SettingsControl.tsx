@@ -1,10 +1,17 @@
 import React from "react";
+import shallow from "zustand/shallow";
 import { CogIcon } from "@heroicons/react/solid";
 
 import { useAppStore } from "@/App.store";
 
 export const SettingsControl = () => {
-  const { settingsActive, setSettingsState } = useAppStore((state) => state);
+  const { settingsActive, setSettingsState } = useAppStore(
+    (state) => ({
+      settingsActive: state.settingsActive,
+      setSettingsState: state.setSettingsState,
+    }),
+    shallow,
+  );
 
   return (
     <button

@@ -1,6 +1,8 @@
-import React, { type FC } from "react";
+import React from "react";
+import moment from "moment";
 
 import type { StatsWeightedProps } from "@/types";
+import { IconTooltip } from "@/components/Tooltip";
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -10,8 +12,8 @@ const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const StatsWeighted: FC<StatsWeightedProps> = ({ stats }) => {
-  const now = new Date().toISOString();
+export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
+  const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
   const total = stats.yes + stats.no;
   const yesPercent = createPercent(stats.yes, total);
   const noPercent = createPercent(stats.no, total);
@@ -19,12 +21,26 @@ export const StatsWeighted: FC<StatsWeightedProps> = ({ stats }) => {
   return (
     <div className="w-full mt-6">
       <div className="content-full-width px-8">
-        <div className="bg-gray-2 border border-gray-7 rounded-md w-full">
+        <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
           <div className="flex flex-col justify-center px-6 py-2 gap-1">
             <div className="flex items-center justify-between">
-              <span className="semibold text-xl leading-8">
-                Voting Results:
-              </span>
+              <div className="flex items-center gap-1.5">
+                <span className="semibold text-xl leading-8">
+                  Aggregated Voting Results:
+                </span>
+                <IconTooltip css="h-[1.1rem] w-[1.1rem] mt-0.5">
+                  <div className="flex flex-col items-start justify-center">
+                    <span className="medium text-sm">Important:</span>
+                    <div className="text-xs">
+                      We&apos;re counting all
+                      <span className="inline semibold"> Settled</span> and
+                      <span className="inline semibold"> Unsettled</span> votes
+                      that adhere to our ballot convention.
+                    </div>
+                  </div>
+                </IconTooltip>
+              </div>
+
               <span className="text-xs text-gray-10">Updated at: {now}</span>
             </div>
             <div className="flex flex-col gap-1 pb-2">

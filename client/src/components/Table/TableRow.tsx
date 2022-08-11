@@ -1,4 +1,5 @@
 import React from "react";
+import moment from "moment";
 import makeBlockie from "ethereum-blockies-base64";
 
 import type { TableRowProps } from "@/types";
@@ -13,7 +14,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
       </div>
       <div className="place-self-center">
         <span className="grid-table-content semibold">
-          {new Date(signal.timestamp).toLocaleDateString()}
+          {moment(new Date(signal.timestamp)).format("DD/MM/YYYY - hh:mm")}
         </span>
       </div>
       <div className="place-self-left flex items-center gap-3">

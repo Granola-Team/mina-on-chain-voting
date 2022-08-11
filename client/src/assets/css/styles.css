@@ -25,7 +25,7 @@ p {
 }
 
 .content-full-width {
-  @apply flex mx-auto lg:max-w-[80rem];
+  @apply flex mx-auto lg:max-w-[86rem];
 }
 
 .text-content {
@@ -33,7 +33,7 @@ p {
 }
 
 .grid-table-el {
-  @apply grid px-6 grid-cols-[0.45fr_minmax(0px,_0.8fr)_minmax(0px,_2.5fr)_minmax(0px,_1fr)_minmax(0px,_0.8fr)_minmax(0px,_0.8fr)];
+  @apply grid px-6 grid-cols-[0.4fr_minmax(0px,_1fr)_minmax(0px,_2.5fr)_minmax(0px,_1fr)_minmax(0px,_0.7fr)_minmax(0px,_0.7fr)];
 }
 
 .grid-table-heading {

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import shallow from "zustand/shallow";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
@@ -16,7 +17,13 @@ import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
 
 export const Keyword = () => {
   const { signals, setSignals, isLoading, setIsLoading } = useKeywordStore(
-    (state) => state,
+    (state) => ({
+      signals: state.signals,
+      setSignals: state.setSignals,
+      isLoading: state.isLoading,
+      setIsLoading: state.setIsLoading,
+    }),
+    shallow,
   );
 
   /**
@@ -44,7 +51,7 @@ export const Keyword = () => {
     isSuccess,
     isError,
   } = useQuery(
-    [key, filter ? filter : "All"],
+    [key, filter ?? "All"],
     () => {
       setIsLoading(true);
       return fetchKeywordData(key, filter);

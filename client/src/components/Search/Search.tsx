@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
+import shallow from "zustand/shallow";
 import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 
@@ -7,7 +8,13 @@ import { useAppStore } from "@/App.store";
 import { Modal } from "@/components/Modal";
 
 export const Search = () => {
-  const { searchActive, setSearchState } = useAppStore((state) => state);
+  const { searchActive, setSearchState } = useAppStore(
+    (state) => ({
+      searchActive: state.searchActive,
+      setSearchState: state.setSearchState,
+    }),
+    shallow,
+  );
   const navigate = useNavigate();
 
   const submitHandler = (e: React.SyntheticEvent) => {
@@ -22,7 +29,7 @@ export const Search = () => {
   return (
     <Modal state={searchActive} setState={setSearchState}>
       <Transition.Child
-        as={Fragment}
+        as={React.Fragment}
         enter="ease-out duration-300"
         enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         enterTo="opacity-100 translate-y-0 sm:scale-100"

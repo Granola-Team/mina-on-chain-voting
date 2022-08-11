@@ -1,10 +1,14 @@
 import React from "react";
+import shallow from "zustand/shallow";
 
 import type { SettingsButtonProps } from "@/types";
 import { useAppStore } from "@/App.store";
 
 export const SettingsButton: React.FC<SettingsButtonProps> = ({ title }) => {
-  const { network, setNetwork } = useAppStore((state) => state);
+  const { network, setNetwork } = useAppStore(
+    (state) => ({ network: state.network, setNetwork: state.setNetwork }),
+    shallow,
+  );
   const active = title === network;
 
   return (

@@ -1,4 +1,5 @@
-import React, { Fragment } from "react";
+import React from "react";
+import shallow from "zustand/shallow";
 import { Dialog, Transition } from "@headlessui/react";
 import { AdjustmentsIcon, XIcon } from "@heroicons/react/outline";
 
@@ -8,12 +9,18 @@ import { SettingsMenu } from "./SettingsMenu";
 import { Modal } from "@/components/Modal";
 
 export const Settings = () => {
-  const { settingsActive, setSettingsState } = useAppStore((state) => state);
+  const { settingsActive, setSettingsState } = useAppStore(
+    (state) => ({
+      settingsActive: state.settingsActive,
+      setSettingsState: state.setSettingsState,
+    }),
+    shallow,
+  );
 
   return (
     <Modal state={settingsActive} setState={setSettingsState}>
       <Transition.Child
-        as={Fragment}
+        as={React.Fragment}
         enter="ease-out duration-300"
         enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
         enterTo="opacity-100 translate-y-0 sm:scale-100"

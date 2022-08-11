@@ -42,7 +42,7 @@ export const TableNavElement: React.FC<TableNavElementProps> = ({
         {title}
       </span>
       {active ? (
-        <div className="absolute inset-x-0 -bottom-4 w-full h-[2.5px] bg-gradient animate-gradient" />
+        <div className="absolute inset-x-0 -bottom-4 w-full h-[2px] rounded-xl bg-gradient animate-gradient" />
       ) : (
         <div />
       )}

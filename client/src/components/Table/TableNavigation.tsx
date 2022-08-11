@@ -25,7 +25,7 @@ const navElements: Array<{ title: string; filter: RouteFilterType }> = [
 
 export const TableNavigation = () => {
   return (
-    <div className="bg-gray-2 w-full rounded-xl py-4 px-6 border border-gray-7">
+    <div className="bg-gray-2 w-full rounded-t-xl py-4 px-6 border-t border-x border-gray-7">
       <nav className="flex items-center">
         {navElements.map((nav, index) => (
           <React.Fragment key={index}>

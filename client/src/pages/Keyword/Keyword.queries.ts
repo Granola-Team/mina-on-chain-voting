@@ -4,8 +4,6 @@ import type { DataEntity } from "@/types";
 
 import { DEV_API_URL, PROD_API_URL } from "@/constant";
 
-// TODO! ADD PROPER ENV VARIABLES
-
 /**
  * Builds API URL for our keyword query.
  * @param {string[]} key
@@ -13,7 +11,7 @@ import { DEV_API_URL, PROD_API_URL } from "@/constant";
  */
 const buildAPIUrl = (key: string, filter: string | null): string => {
   return `${import.meta.env.DEV ? DEV_API_URL : PROD_API_URL}/${key}?filter=${
-    filter ? filter : "All"
+    filter ?? "All"
   }&sorted=true&stats=true`;
 };
 

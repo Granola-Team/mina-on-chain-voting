@@ -25,21 +25,22 @@ p {
 }
 
 .content-full-width {
-  @apply flex mx-auto lg:max-w-[86rem];
-}
-
-.text-content {
-  @apply text-[0.95rem] leading-6;
+  @apply flex w-full lg:max-w-[90rem];
 }
 
 .grid-table-el {
-  @apply grid px-6 grid-cols-[0.4fr_minmax(0px,_1fr)_minmax(0px,_2.5fr)_minmax(0px,_1fr)_minmax(0px,_0.7fr)_minmax(0px,_0.7fr)];
+  @apply grid md:px-6 md:grid-cols-[minmax(0px,_0.65fr)_minmax(0px,_2.5fr)_minmax(0px,_1.45fr)_minmax(0px,_1fr)_minmax(0px,_1fr)]
+  lg:grid-cols-[minmax(0px,_0.5fr)_minmax(0px,_1fr)_minmax(0px,_2.5fr)_minmax(0px,_1.25fr)_minmax(0px,_0.75fr)_minmax(0px,_0.75fr)];
 }
 
 .grid-table-heading {
-  @apply text-[0.85rem] leading-6 semibold;
+  @apply text-[0.8rem] lg:text-[0.85rem] leading-6 semibold;
 }
 
 .grid-table-content {
-  @apply text-[0.77rem] leading-5 text-grayA-12 text-ellipsis overflow-hidden whitespace-nowrap block;
+  @apply text-[0.7rem] lg:text-[0.77rem] leading-5 text-grayA-12 text-ellipsis overflow-hidden whitespace-nowrap block;
+}
+
+.grid-table-content-mobile {
+  @apply text-[0.68rem] sm:text-[0.7rem] sm:leading-5 text-grayA-12 text-ellipsis overflow-hidden whitespace-nowrap;
 }

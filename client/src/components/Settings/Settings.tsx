@@ -31,7 +31,7 @@ export const Settings = () => {
         <Dialog.Panel className="relative w-full overflow-hidden text-left border rounded-lg shadow-lg border-gray-7 sm:my-8 sm:max-w-lg">
           <div className="px-4 pt-5 pb-4 bg-gray-3 sm:p-6 sm:pb-4">
             <div className="pb-3 border-b sm:flex sm:items-center border-b-grayA-5">
-              <div className="flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto rounded-full bg-grayA-5 sm:mx-0 sm:h-10 sm:w-10">
+              <div className="hidden md:flex items-center justify-center flex-shrink-0 w-12 h-12 mx-auto rounded-full bg-grayA-5 sm:mx-0 sm:h-10 sm:w-10">
                 <AdjustmentsIcon
                   className="w-6 h-6 text-gray-12"
                   aria-hidden="true"

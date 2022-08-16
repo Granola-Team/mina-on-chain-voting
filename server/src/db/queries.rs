@@ -17,6 +17,24 @@ const QUERY_STATEMENT: &str = "
         ;
     ";
 
+    // SELECT b.height as height, b.chain_status as status, uc.type as type, pk_s.value as source, pk_r.value as receiver, bal.balance as balance
+    // FROM user_commands AS uc
+    // JOIN blocks_user_commands AS buc
+    // ON uc.id = buc.user_command_id
+    // JOIN blocks AS b
+    // ON buc.block_id = b.id
+    // JOIN balances as bal
+    // ON buc.source_balance = bal.id
+    // JOIN public_keys AS pk_s
+    // ON uc.source_id = pk_s.id
+    // JOIN public_keys AS pk_r
+    // ON uc.receiver_id = pk_r.id
+    // WHERE uc.type = 'delegation'
+    // AND uc.token = 1
+    // AND NOT b.chain_status = 'orphaned'
+    // AND buc.status = 'applied'
+    // ;
+
 impl From<tokio_postgres::Row> for DBResponse {
     fn from(row: tokio_postgres::Row) -> Self {
         Self {

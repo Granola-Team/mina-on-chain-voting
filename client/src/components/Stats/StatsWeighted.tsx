@@ -25,16 +25,16 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
           <div className="flex-col flex md:flex-row items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="semibold text-lg md:text-xl leading-8">
-                Voting Results
+                Signal Results
               </span>
               <IconTooltip css="h-[1.1rem] w-[1.1rem] md:mt-0.5">
                 <div className="flex flex-col items-start justify-center">
                   <span className="medium text-sm">Information:</span>
-                  <div className="text-xs">
+                  <div className="text-[0.725rem]">
                     We&apos;re counting all
                     <span className="inline semibold"> Settled</span> and
                     <span className="inline semibold"> Unsettled</span> votes
-                    that adhere to our voting convention.
+                    that adhere to our signalling convention.
                   </div>
                 </div>
               </IconTooltip>

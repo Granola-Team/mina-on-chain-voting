@@ -8,5 +8,4 @@ database_backups
 .env
 ()
 
-ledger/
-ledger.json
+temp/

@@ -29,8 +29,8 @@ p {
 }
 
 .grid-table-el {
-  @apply grid md:px-6 md:grid-cols-[minmax(0px,_0.65fr)_minmax(0px,_2.5fr)_minmax(0px,_1.45fr)_minmax(0px,_1fr)_minmax(0px,_1fr)]
-  lg:grid-cols-[minmax(0px,_0.5fr)_minmax(0px,_1fr)_minmax(0px,_2.5fr)_minmax(0px,_1.25fr)_minmax(0px,_0.75fr)_minmax(0px,_0.75fr)];
+  @apply grid md:px-6
+  grid-cols-[minmax(0px,_0.5fr)_minmax(0px,_1.5fr)_minmax(0px,_2fr)_minmax(0px,_1.5fr)_minmax(0px,_1fr)_minmax(0px,_1.5fr)_minmax(0px,_1fr)_minmax(0px,_1fr)];
 }
 
 .grid-table-heading {

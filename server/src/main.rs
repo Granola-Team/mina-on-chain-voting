@@ -1,10 +1,16 @@
-use on_chain_signalling_api::{db, error::Result, routes};
+use on_chain_signalling_api::{db, error::Result, routes, ledger::Ledger};
 use actix_web::{middleware, web, App, HttpServer};
 use actix_cors::Cors;
+
+extern crate dotenv;
 
 #[actix_web::main]
 async fn main() -> Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+    dotenv::dotenv().ok();
+
+    let ledger = Ledger::init();
+    ledger.migrate();
 
     let (close_db_conn, client) = db::connect_to_db().await?;
 

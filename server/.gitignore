@@ -7,3 +7,6 @@ result/bin/*
 database_backups
 .env
 ()
+
+ledger/
+ledger.json

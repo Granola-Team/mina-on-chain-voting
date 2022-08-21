@@ -9,6 +9,7 @@ export const unsortedData: DataEntity = {
       status: "Canonical",
       signal_status: "Settled",
       timestamp: 1656966780000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -17,6 +18,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902420000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -25,6 +27,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902060000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -33,6 +36,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -41,6 +45,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
+      delegations: null,
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -49,6 +54,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657900980000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -57,6 +63,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -65,6 +72,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -73,6 +81,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -81,6 +90,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -89,6 +99,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -97,6 +108,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -105,6 +117,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902420000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -113,6 +126,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -121,6 +135,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
+      delegations: null,
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -129,6 +144,7 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
+      delegations: null,
     },
   ],
   stats: {
@@ -146,6 +162,7 @@ export const settledData: DataEntity = {
       status: "Canonical",
       signal_status: "Settled",
       timestamp: 1656966780000,
+      delegations: null,
     },
   ],
   stats: {
@@ -163,6 +180,7 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902420000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -171,6 +189,7 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902060000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -179,6 +198,7 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -187,6 +207,7 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
+      delegations: null,
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -195,6 +216,7 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657900980000,
+      delegations: null,
     },
   ],
   stats: {
@@ -212,6 +234,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -220,6 +243,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -228,6 +252,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -236,6 +261,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -244,6 +270,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -252,6 +279,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -260,6 +288,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902420000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -268,6 +297,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
+      delegations: null,
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -276,6 +306,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
+      delegations: null,
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -284,6 +315,7 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
+      delegations: null,
     },
   ],
   stats: {

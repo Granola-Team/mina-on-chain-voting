@@ -8,7 +8,9 @@ pub struct DBResponse {
     pub status: BlockStatus,
     pub signal_status: Option<Status>,
     pub timestamp: i64,
+    pub delegations: Option<crate::ledger::LedgerDelegations>
 }
+
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, FromSql, Serialize, Deserialize)]
 #[postgres(name = "chain_status_type")]
@@ -21,8 +23,8 @@ pub enum BlockStatus {
     Orphaned,
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
-pub struct VoteStats {
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
+pub struct SignalStats {
     pub yes: i32,
     pub no: i32
 }
@@ -30,7 +32,7 @@ pub struct VoteStats {
 #[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct ResponseEntity {
     pub signals: Vec<DBResponse>,
-    pub stats: Option<VoteStats>
+    pub stats: Option<SignalStats>,
 }
 
 impl ResponseEntity {
@@ -50,7 +52,7 @@ impl ResponseEntity {
         self
     }
 
-    pub fn with_stats(mut self, s: Option<bool>, stats: Option<VoteStats>) -> Self {
+    pub fn with_stats(mut self, s: Option<bool>, stats: Option<SignalStats>) -> Self {
         if let Some(b) = s {
             if b && stats.is_some() {
                 self.stats = stats

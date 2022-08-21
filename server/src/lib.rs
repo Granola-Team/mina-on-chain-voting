@@ -3,6 +3,7 @@ pub mod db;
 pub mod error;
 pub mod models;
 pub mod routes;
+pub mod ledger;
 
 use base58check::FromBase58Check;
 

@@ -5,11 +5,11 @@ use actix_web::{
     HttpResponse, Responder,
 };
 use serde::{Deserialize, Serialize};
-use std::sync::Arc;
+use std::{sync::Arc, collections::HashMap};
 
 use crate::{
     db,
-    models::{BlockStatus, DBResponse, ResponseEntity, Status, VoteStats},
+    models::{BlockStatus, DBResponse, ResponseEntity, Status, SignalStats}, ledger::{Ledger, Query}
 };
 
 pub fn validate_signal(memo: &str, key: &str) -> bool {
@@ -25,29 +25,33 @@ pub fn parse_responses(
     query_responses: Vec<DBResponse>,
     key: &str,
     latest_block: i64,
-    request_type: Option<QueryRequestFilter>,
+    req_filter: Option<QueryRequestFilter>,
     sorted: Option<bool>,
-    stats: Option<bool>
+    stats: Option<bool>,
 ) -> ResponseEntity {
-    let mut hash: std::collections::HashMap<String, Vec<DBResponse>> =
-        std::collections::HashMap::new();
-    let mut settled: std::collections::HashMap<String, DBResponse> =
-        std::collections::HashMap::new();
+    let mut hash: HashMap<String, Vec<DBResponse>> = HashMap::new();
+    let mut settled: HashMap<String, DBResponse> = HashMap::new();
     let mut unsettled: Vec<DBResponse> = Vec::with_capacity(query_responses.len());
     let mut invalid: Vec<DBResponse> = Vec::with_capacity(query_responses.len());
+
+    let conn = Ledger::connection();
+    let total_stake = conn.get_total_ledger_stake();
 
     for res in query_responses.iter() {
         if let Some(memo_str) = crate::decode_memo(&res.memo, key) {
             if validate_signal(&memo_str, key) {
                 match hash.get_mut(&res.account) {
-                    Some(x) => x.push(DBResponse {
-                        account: res.account.clone(),
-                        height: res.height,
-                        memo: memo_str,
-                        status: res.status,
-                        timestamp: res.timestamp,
-                        signal_status: res.signal_status,
-                    }),
+                    Some(x) => {
+                        x.push(DBResponse {
+                            account: res.account.clone(),
+                            height: res.height,
+                            memo: memo_str,
+                            status: res.status,
+                            timestamp: res.timestamp,
+                            signal_status: res.signal_status,
+                            delegations: Ledger::connection().get_stake(&res.account, &total_stake)
+                        })
+                    },
                     None => {
                         hash.entry(res.account.clone()).or_insert_with_key(|_| {
                             vec![DBResponse {
@@ -57,6 +61,7 @@ pub fn parse_responses(
                                 status: res.status,
                                 timestamp: res.timestamp,
                                 signal_status: res.signal_status,
+                                delegations: Ledger::connection().get_stake(&res.account, &total_stake)
                             }]
                         });
                     }
@@ -69,6 +74,7 @@ pub fn parse_responses(
                     status: res.status,
                     timestamp: res.timestamp,
                     signal_status: Some(Status::Invalid),
+                    delegations: Ledger::connection().get_stake(&res.account, &total_stake)
                 })
             }
         }
@@ -104,12 +110,10 @@ pub fn parse_responses(
         }
     }
 
-    let settled_vec = settled
+  let settled_vec = settled
         .into_iter()
         .map(|(_, v)| v)
         .collect::<Vec<DBResponse>>();
-
-        // Process Settled & Unsettled votes -> find pro / contra &
 
   let statistics = match stats {
         Some(s) => match s {
@@ -127,7 +131,7 @@ pub fn parse_responses(
                         if i.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { no+=1  }
                 }
 
-                Some(VoteStats { yes, no })
+                Some(SignalStats { yes, no })
              },
             false  => None
         }
@@ -135,7 +139,7 @@ pub fn parse_responses(
   };    
 
 
-    match request_type {
+    match req_filter {
         Some(filter) => match filter {
             QueryRequestFilter::All => {
                 ResponseEntity::new([settled_vec, unsettled, invalid].concat()).sorted(sorted).with_stats(stats, statistics)
@@ -185,14 +189,14 @@ pub async fn keyword(
     let latest_block_height = db::queries::get_latest_blockheight(&pg_client)
         .await
         .expect("Error: Could not get latest block.");
-    let response = db::queries::get_memo_data(&pg_client).await.expect("Error: Could not get memo data.");
+    let response = db::queries::get_signals(&pg_client).await.expect("Error: Could not get memo data.");
     let result = parse_responses(
         response,
         &key,
         latest_block_height,
         params.filter,
         params.sorted,
-        params.stats
+        params.stats,
     );
 
     HttpResponse::Ok()

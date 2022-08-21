@@ -17,6 +17,10 @@ export const TableHeader = () => {
       <span className="grid-table-heading place-self-center lg:place-self-left">
         Account
       </span>
+      <span className="grid-table-heading place-self-center">
+        Delegated Stake
+      </span>
+      <span className="grid-table-heading place-self-center">Delegators</span>
       <span className="grid-table-heading place-self-center">Memo</span>
       <span className="grid-table-heading place-self-center">Blockstatus</span>
       <span className="grid-table-heading place-self-center">

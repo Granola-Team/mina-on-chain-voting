@@ -6,7 +6,7 @@ pub mod queries;
 
 pub async fn connect_to_db(
 ) -> Result<(JoinHandle<()>, Arc<tokio_postgres::Client>), crate::error::Error> {
-    let connection_str = std::env::var("DB_CONNECTION_STRING").expect("DB_CONNECTION_STRING not set.");
+    let connection_str = std::env::var("DB_CONNECTION_STRING").expect("Environment: DB_CONNECTION_STRING not found.");
 
     let (client, connection) = tokio_postgres::connect(
         &connection_str,

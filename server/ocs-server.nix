@@ -1,8 +1,8 @@
-{ nixpkgs, rust-overlay }:
+{ nixpkgs, rust-overlay, system }:
 
 let
   overlays = [ (import rust-overlay) ];
-  pkgs = import nixpkgs { inherit overlays; };
+  pkgs = import nixpkgs { inherit system overlays; };
 
   rust = pkgs.rust-bin.stable.latest.default.override {
     extensions = [ "rust-src" ];

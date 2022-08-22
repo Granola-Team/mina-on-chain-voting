@@ -1,6 +1,6 @@
-{ nixpkgs }:
+{ nixpkgs, system }:
 let
-  pkgs = import nixpkgs { };
+  pkgs = import nixpkgs { inherit system; };
   clientDependencies = with pkgs; [
     yarn rnix-lsp nixpkgs-fmt
   ];

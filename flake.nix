@@ -31,10 +31,10 @@
         ];
 
         ocs-client = import ./client/ocs-client.nix { 
-          inherit nixpkgs system; 
+          inherit nixpkgs; 
         };
         ocs-server = import ./server/ocs-server.nix { 
-          inherit nixpkgs system rust-overlay; 
+          inherit nixpkgs rust-overlay; 
         };
 
       in rec {

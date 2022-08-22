@@ -19,29 +19,7 @@
   outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, rust-overlay }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
-        overlays = [ (import rust-overlay) ];
-        pkgs = import nixpkgs { inherit system overlays; };
-
-        rust = pkgs.rust-bin.stable.latest.default.override {
-          extensions = [ "rust-src" ];
-        };
-
-        rustPlatform = pkgs.makeRustPlatform {
-          rustc = rust;
-          cargo = rust;
-        };
-
-        serverDependencies = with pkgs; [
-          rust rust-analyzer rustfmt
-          rnix-lsp nixpkgs-fmt
-          pkg-config openssl
-          postgresql
-        ];
-
-        clientDependencies = with pkgs; [
-          yarn rnix-lsp nixpkgs-fmt
-        ];
-
+        pkgs = import nixpkgs { inherit system; };
         appDependencies = with pkgs; [
           geos gdal
           # postgres with postgis support
@@ -131,7 +109,7 @@
           '';
 
           installPhase = ''
-           cp ${packages.ocs-api}/bin/ocs_api $out/bin/ocs_api
+           cp ${packages.ocs-server}/bin/ocs_api $out/bin/ocs_api
            cp -r ${packages.ocs-client}/out/* $out/out/
           '';
         };

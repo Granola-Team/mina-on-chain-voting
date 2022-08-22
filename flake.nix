@@ -66,7 +66,7 @@
           run-end-to-end = pkgs.writeShellApplication {
             name = "run-end-to-end";
             runtimeInputs = [
-              packages.ocs-api
+              packages.ocs-server
               packages.ocs-client
             ];
             text = ''

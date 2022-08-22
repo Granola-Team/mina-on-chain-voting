@@ -1,10 +1,7 @@
-(import
-  (
-    let lock = builtins.fromJSON (builtins.readFile ./flake.lock); in
-    fetchTarball {
-      url = "https://github.com/edolstra/flake-compat/archive/${lock.nodes.flake-compat.locked.rev}.tar.gz";
-      sha256 = lock.nodes.flake-compat.locked.narHash;
-    }
-  )
-  { src = ./.; }
-).shellNix
+{ nixpkgs ? <nixpkgs> }:
+let
+  rust-overlay = builtins.fetchTarball "https://github.com/oxalica/rust-overlay/archive/master.tar.gz";
+  overlays = [ (import rust-overlay) ];
+  pkgs = import nixpkgs { inherit overlays;  };
+  ocs-server = import ./ocs-server.nix { inherit nixpkgs rust-overlay; };
+in ocs-server.devShell

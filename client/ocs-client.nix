@@ -1,6 +1,6 @@
-{ nixpkgs, system }:
+{ nixpkgs }:
 let
-  pkgs = import nixpkgs { inherit system; };
+  pkgs = import nixpkgs { };
   clientDependencies = with pkgs; [
     yarn rnix-lsp nixpkgs-fmt
   ];
@@ -23,7 +23,7 @@ in {
     buildInputs = clientDependencies;
     shellHook = ''
       cd client
-      yarn installs
+      yarn install
     '';
   };
 }

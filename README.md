@@ -8,16 +8,15 @@ Folders added represent each component needed for this project.
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.\
 A React SPA that displays and totals signalling results (votes) from the API.
 
-** This Repository Requires the [Flakes](https://nixos.wiki/wiki/Flakes#Installing_nix_flakes) Experimental Feature **
-
-- `nix flake update` -> Updates the server and client
-- `nix run .` -> Builds the server and client and runs the server
+- `nix-build` or `nix build` (to use Flakes) -> Builds the server and client and outputs to `./result`
+- `nix-shell ./{client, server}/shell.nix` or `nix develop .#{ocs-client, ocs-server}` -> Enter a development shell ready for contributing to the client or server
+- `nix-shell .` or `nix develop` -> Enter a development shell for this monorepo, with access to its development tools in the path
 
 Environment Variables for `nix run .`:
 
 - DBNAME : the name of the mina archive database (`archive_balances_migrated`)
-- USER : the user that owns the postgres database (`postgres`)
-- PASSWD : the database password (`postgres`)
+- USER : the user that owns the postgres database (`$USER`)
+- PASSWD : the database password (`''`)
 - DBPORT : the database's bound port (`5432`)
 - PORT : the port to bind the on-chain-signalling server to (`8080`)
 

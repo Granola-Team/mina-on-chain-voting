@@ -1,4 +1,4 @@
-use on_chain_signalling_api::{db, error::Result, routes};
+use ocs_api::{db, error::Result, routes};
 
 use actix_web::{middleware, web, App, HttpServer};
 use actix_web_lab::web::spa;

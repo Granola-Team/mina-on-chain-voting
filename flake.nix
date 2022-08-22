@@ -8,23 +8,39 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    rust-overlay = {
+      url = "github:oxalica/rust-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     deploy-rs.url = "github:serokell/deploy-rs";
     mina.url = "github:MinaProtocol/mina";
-
-    ocs-server.url = "path:server";
-    ocs-server.inputs.nixpkgs.follows = "nixpkgs";
-
-    ocs-client.url = "path:client";
-    ocs-client.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, ocs-server, ocs-client }: 
+  outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, rust-overlay }: 
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = import nixpkgs { inherit system; };
+        overlays = [ (import rust-overlay) ];
+        pkgs = import nixpkgs { inherit system overlays; };
 
-        server = ocs-server.defaultPackage;
-        client = ocs-client.defaultPackage;
+        rust = pkgs.rust-bin.stable.latest.default.override {
+          extensions = [ "rust-src" ];
+        };
+
+        rustPlatform = pkgs.makeRustPlatform {
+          rustc = rust;
+          cargo = rust;
+        };
+
+        serverDependencies = with pkgs; [
+          rust rust-analyzer rustfmt
+          rnix-lsp nixpkgs-fmt
+          pkg-config openssl
+          postgresql
+        ];
+
+        clientDependencies = with pkgs; [
+          yarn rnix-lsp nixpkgs-fmt
+        ];
 
         appDependencies = with pkgs; [
           geos gdal
@@ -35,7 +51,20 @@
             curl xml tar zlib fused-effects megaparsec bytestring directory tmp-postgres json process
           ]))
         ];
+
+        ocs-client = import ./client/ocs-client.nix { 
+          inherit nixpkgs system; 
+        };
+        ocs-server = import ./server/ocs-server.nix { 
+          inherit nixpkgs system rust-overlay; 
+        };
+
       in rec {
+
+        packages = flake-utils.lib.flattenTree {
+          ocs-client = ocs-client.defaultPackage;
+          ocs-server = ocs-server.defaultPackage;
+        };
 
         apps = flake-utils.lib.flattenTree {
           clean-archive-backups = pkgs.writeShellApplication {
@@ -59,11 +88,11 @@
           run-end-to-end = pkgs.writeShellApplication {
             name = "run-end-to-end";
             runtimeInputs = [
-              ocs-server.packages.${system}.onChainSignalling-api
-              ocs-client.defaultPackage.${system}
+              packages.ocs-api
+              packages.ocs-client
             ];
             text = ''
-              CLIENT_BUILD_DIR=${ocs-client.defaultPackage.${system}}/out on_chain_signalling-api
+              CLIENT_BUILD_DIR=${packages.ocs-client}/out ocs_api
             '';
           };
         };
@@ -92,7 +121,7 @@
 
         defaultPackage = pkgs.stdenv.mkDerivation {
           name = "On Chain Signalling";
-          version = "0.1.0";
+          version = "1.0.0";
           src = ./.;
 
           buildPhase = ''
@@ -102,9 +131,14 @@
           '';
 
           installPhase = ''
-           cp ${ocs-server.packages.${system}.onChainSignalling-api}/bin/on_chain_signalling-api $out/bin/ocs-api
-           cp -r ${ocs-client.defaultPackage.${system}}/out/* $out/out/
+           cp ${packages.ocs-api}/bin/ocs_api $out/bin/ocs_api
+           cp -r ${packages.ocs-client}/out/* $out/out/
           '';
+        };
+
+        devShells = flake-utils.lib.flattenTree {
+          ocs-client = ocs-client.devShell;
+          ocs-server = ocs-server.devShell;
         };
 
         devShell = pkgs.mkShell {

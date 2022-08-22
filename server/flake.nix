@@ -17,48 +17,13 @@
   outputs = { self, nixpkgs, rust-overlay, flake-utils, flake-compat }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        overlays = [ (import rust-overlay) ];
-
-        pkgs = import nixpkgs { inherit system overlays; };
-
-        rust = pkgs.rust-bin.stable.latest.default.override {
-          extensions = [ "rust-src" ];
+        ocs-server = import ./ocs-server.nix { 
+          inherit nixpkgs system rust-overlay; 
         };
-
-        rustPlatform = pkgs.makeRustPlatform {
-          rustc = rust;
-          cargo = rust;
-        };
-
-        dependencies = with pkgs; [
-          rust rust-analyzer rustfmt
-          rnix-lsp nixpkgs-fmt
-          pkg-config openssl
-          postgresql
-        ];
 
       in rec {
-        packages = flake-utils.lib.flattenTree {
-          onChainSignalling-api = rustPlatform.buildRustPackage rec {
-            pname = "onChainSignalling-api";
-            version = "0.0.1";
-            nativeBuildInputs = dependencies;
-
-            src = ./.;
-
-            cargoLock = { lockFile = ./Cargo.lock; };
-
-            verifyCargoDeps = true;
-          };
-        };
-
-        defaultPackage = packages.onChainSignalling-api;
-
-        devShell = pkgs.mkShell {
-          packages = dependencies;
-          shellHook = ''
-          '';
-        };
+        defaultPackage = ocs-server.defaultPackage;
+        devShell = ocs-server.devShell;
       }
     );
 }

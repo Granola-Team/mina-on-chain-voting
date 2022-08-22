@@ -1,5 +1,5 @@
 [package]
-name = "on_chain_signalling-api"
+name = "ocs_api"
 version = "0.1.0"
 edition = "2021"
 

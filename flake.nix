@@ -13,7 +13,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     deploy-rs.url = "github:serokell/deploy-rs";
-    mina.url = "github:MinaProtocol/mina";
   };
 
   outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs, mina, rust-overlay }: 
@@ -122,7 +121,7 @@
         devShell = pkgs.mkShell {
 
           buildInputs = with pkgs; [
-            haskell-language-server
+            haskell-language-server haskellPackages.hlint
             rnix-lsp nixpkgs-fmt
             geos
             gdal
@@ -133,6 +132,8 @@
             (haskellPackages.ghcWithPackages (self: with haskellPackages; [
               effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process
             ]))
+
+            deploy-rs
 
             apps.clean-archive-backups
             apps.download-archive-dump

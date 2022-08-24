@@ -1,8 +1,8 @@
-{ pkgs, serverSource, serverDependencies }:
-devShell = pkgs.mkShell {
+{ pkgs, serverDependencies }:
+pkgs.mkShell {
   buildInputs = serverDependencies;
   shellHook = ''
-    cd ${serverSource}
+    cd ./server
     cargo check && cargo test
   '';
 }

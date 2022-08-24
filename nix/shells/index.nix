@@ -1,15 +1,13 @@
-{ pkgs, defaultSource, apps }:
+{ pkgs, apps }:
 let
   rust = pkgs.rust-bin.stable.latest.default.override {
     extensions = [ "rust-src" ];
   };
 
-  clientSource = "${defaultSource}/client";
   clientDependencies = with pkgs; [
     yarn rnix-lsp nixpkgs-fmt
   ];
 
-  serverSource = "${defaultSource}/server";
   serverDependencies = with pkgs; [
     rust rust-analyzer rustfmt
     rnix-lsp nixpkgs-fmt
@@ -19,11 +17,11 @@ let
 in {
   devShells = {
     client = import ./client.nix {
-      inherit pkgs clientSource clientDependencies;
+      inherit pkgs clientDependencies;
     };
 
     server = import ./server.nix {
-      inherit pkgs serverSource serverDependencies;
+      inherit pkgs serverDependencies;
     };
 
     default = pkgs.mkShell {

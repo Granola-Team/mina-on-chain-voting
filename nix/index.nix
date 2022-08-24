@@ -22,7 +22,6 @@
 
       shells-index = import ./shells/index.nix {
         inherit pkgs;
-        defaultSource = sourceDir;
         apps = apps-index.apps;
       };
 

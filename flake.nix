@@ -18,6 +18,6 @@
   outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs-flake, rust-overlay }: 
     (import ./nix/index.nix { 
       inherit self nixpkgs flake-utils flake-compat deploy-rs-flake rust-overlay; 
-      sourceDir = ./.;
+      sourceDir = builtins.getEnv "PWD";
     });
 }

@@ -1,8 +1,8 @@
-{ pkgs, clientSource, clientDependencies }:
+{ pkgs, clientDependencies }:
 pkgs.mkShell {
   buildInputs = clientDependencies;
   shellHook = ''
-    cd ${clientSource}
+    cd ./client
     yarn install
   '';
 }

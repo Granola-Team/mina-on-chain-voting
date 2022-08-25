@@ -10,7 +10,7 @@ let
     ]))
   ];
 in {
-  apps = {
+  apps = rec {
     clean-archive-backups = import ./clean-archive-backups.nix {
       inherit pkgs appDependencies;
     };
@@ -33,6 +33,10 @@ in {
 
     run-temp-database = import ./run-temp-database.nix {
       inherit pkgs appDependencies;
+    };
+
+    run-with-temp-database = import ./run-with-temp-database.nix {
+      inherit pkgs run-temp-database ocs-client ocs-server;
     };
   };
 }

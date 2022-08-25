@@ -41,6 +41,7 @@ in {
         apps.run-end-to-end
         apps.run-archive-node
         apps.run-archive-database
+        apps.run-with-temp-database
 
         deploy-rs
       ];

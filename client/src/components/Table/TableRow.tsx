@@ -75,21 +75,17 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
         <span className="grid-table-content medium">{signal.account}</span>
       </div>
       <div className="place-self-center">
-        <span className="grid-table-content medium">
+        <span className="grid-table-content">
           {signal.delegations
-            ? Math.round(
-                (Number(signal.delegations.delegated_balance) +
-                  Number.EPSILON) *
-                  100,
-              ) / 100
-            : "No data."}
+            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(
+                4,
+              )} Mina`
+            : "---"}
         </span>
       </div>
       <div className="place-self-center">
         <span className="grid-table-content medium">
-          {signal.delegations
-            ? signal.delegations.total_delegators
-            : "No data."}
+          {signal.delegations ? signal.delegations.total_delegators : "---"}
         </span>
       </div>
       <div className="place-self-center">

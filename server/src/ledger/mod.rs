@@ -9,7 +9,6 @@ mod stream;
 pub struct LedgerDelegations {
     pub delegated_balance: String,
     pub total_delegators: i32,
-    pub total_ledger_stake: String,
 }
 
 impl LedgerDelegations {
@@ -114,12 +113,12 @@ impl Ledger {
 }
 
 pub trait Query {
-    fn get_stake(self, address: &str, total_ledger_stake: &str) -> Option<LedgerDelegations>;
+    fn get_stake(self, address: &str) -> Option<LedgerDelegations>;
     fn get_total_ledger_stake(self) -> String;
 }
 
 impl Query for Connection {
-    fn get_stake(self, address: &str, total_ledger_stake: &str) -> Option<LedgerDelegations>  {
+    fn get_stake(self, address: &str) -> Option<LedgerDelegations>  {
         let mut stmt = self.prepare(
         "
                 SELECT CAST(SUM(CAST(balance AS DECIMAL)) AS TEXT), COUNT(pk) as delegators
@@ -133,7 +132,6 @@ impl Query for Connection {
             Ok(LedgerDelegations {
                     delegated_balance: row.get(0).unwrap(),
                     total_delegators: row.get(1).unwrap(),
-                    total_ledger_stake: String::from(total_ledger_stake),
                 })
         }).expect("Error");
 

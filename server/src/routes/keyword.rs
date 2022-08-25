@@ -34,9 +34,6 @@ pub fn parse_responses(
     let mut unsettled: Vec<DBResponse> = Vec::with_capacity(query_responses.len());
     let mut invalid: Vec<DBResponse> = Vec::with_capacity(query_responses.len());
 
-    let conn = Ledger::connection();
-    let total_stake = conn.get_total_ledger_stake();
-
     for res in query_responses.iter() {
         if let Some(memo_str) = crate::decode_memo(&res.memo, key) {
             if validate_signal(&memo_str, key) {
@@ -49,7 +46,7 @@ pub fn parse_responses(
                             status: res.status,
                             timestamp: res.timestamp,
                             signal_status: res.signal_status,
-                            delegations: Ledger::connection().get_stake(&res.account, &total_stake)
+                            delegations: Ledger::connection().get_stake(&res.account)
                         })
                     },
                     None => {
@@ -61,7 +58,7 @@ pub fn parse_responses(
                                 status: res.status,
                                 timestamp: res.timestamp,
                                 signal_status: res.signal_status,
-                                delegations: Ledger::connection().get_stake(&res.account, &total_stake)
+                                delegations: Ledger::connection().get_stake(&res.account)
                             }]
                         });
                     }
@@ -74,7 +71,7 @@ pub fn parse_responses(
                     status: res.status,
                     timestamp: res.timestamp,
                     signal_status: Some(Status::Invalid),
-                    delegations: Ledger::connection().get_stake(&res.account, &total_stake)
+                    delegations: Ledger::connection().get_stake(&res.account)
                 })
             }
         }

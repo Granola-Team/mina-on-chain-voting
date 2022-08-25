@@ -126,14 +126,14 @@ impl Query for Connection {
                 WHERE delegate = (?)
                 GROUP BY delegate
             "
-        ).expect("Error");
+        ).expect("Error preparing statement.");
 
         let rows_iter = stmt.query_map([&address], |row| {
             Ok(LedgerDelegations {
-                    delegated_balance: row.get(0).unwrap(),
-                    total_delegators: row.get(1).unwrap(),
+                    delegated_balance: row.get(0).unwrap_or_default(),
+                    total_delegators: row.get(1).unwrap_or_default(),
                 })
-        }).expect("Error");
+        }).expect("Error: Error unwrapping rows.");
 
         let mut stake: LedgerDelegations = LedgerDelegations::default();
 
@@ -158,13 +158,13 @@ impl Query for Connection {
                     FROM Ledger
                     LIMIT 1
                 "
-            ).expect("Error");
+            ).expect("Error preparing statement.");
             
-        let mut rows = stmt.query([]).unwrap();
+        let mut rows = stmt.query([]).expect("Error: Error unwrapping rows.");
         let mut results: Vec<String> = Vec::new();
 
-        while let Some(row) = rows.next().unwrap() {
-            results.push(row.get(0).unwrap());
+        while let Some(row) = rows.next().expect("Error selecting next row."){
+            results.push(row.get(0).expect("Error getting row."));
         }
 
         results.into_iter().collect::<String>()

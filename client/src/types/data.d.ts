@@ -5,7 +5,6 @@ export type SignalStatus = "Invalid" | "Settled" | "Unsettled";
 export interface DelegationEntity {
   delegated_balance: string;
   total_delegators: number;
-  total_ledger_stake: string;
 }
 
 export interface SignalEntity {

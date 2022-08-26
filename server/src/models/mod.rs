@@ -23,13 +23,13 @@ pub enum BlockStatus {
     Orphaned,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize)]
 pub struct SignalStats {
-    pub yes: i32,
-    pub no: i32
+    pub yes: f32,
+    pub no: f32
 }
 
-#[derive(Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ResponseEntity {
     pub signals: Vec<DBResponse>,
     pub stats: Option<SignalStats>,

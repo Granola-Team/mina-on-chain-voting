@@ -115,17 +115,33 @@ pub fn parse_responses(
   let statistics = match stats {
         Some(s) => match s {
             true => {
-                let mut yes = 0;
-                let mut no = 0;
+                let mut yes: f32 = 0.0;
+                let mut no: f32 = 0.0;
 
                 for x in &settled_vec {
-                    if x.memo.to_lowercase() == key.to_lowercase() { yes+=1 }
-                    if x.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { no+=1 }
+                    if x.memo.to_lowercase() == key.to_lowercase() { 
+                        if let Some(a) = &x.delegations {
+                            yes+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                        }
+                    }
+                    if x.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { 
+                        if let Some(a) = &x.delegations {
+                            no+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                        }
+                     }
                 }
 
                 for i in &unsettled {
-                        if i.memo.to_lowercase() == key.to_lowercase() { yes+=1  }
-                        if i.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { no+=1  }
+                        if i.memo.to_lowercase() == key.to_lowercase() { 
+                            if let Some(a) = &i.delegations {
+                                yes+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                            }
+                          }
+                        if i.memo.to_lowercase() == format!("no {}", key.to_lowercase()) {  
+                            if let Some(a) = &i.delegations {
+                                no+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                            }
+                         }
                 }
 
                 Some(SignalStats { yes, no })

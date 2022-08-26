@@ -9,7 +9,10 @@ export const unsortedData: DataEntity = {
       status: "Canonical",
       signal_status: "Settled",
       timestamp: 1656966780000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "340000",
+        total_delegators: 32,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -18,7 +21,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902420000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -27,7 +33,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -36,7 +45,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -45,7 +57,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -54,7 +69,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657900980000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "153",
+        total_delegators: 1,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -63,7 +81,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -72,7 +93,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -81,7 +105,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -90,7 +117,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -99,7 +129,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -108,7 +141,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -117,7 +153,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902420000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -126,7 +165,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -135,7 +177,10 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -144,12 +189,15 @@ export const unsortedData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "153",
+        total_delegators: 1,
+      },
     },
   ],
   stats: {
-    yes: 10,
-    no: 29,
+    yes: 340153,
+    no: 257248,
   },
 };
 
@@ -162,12 +210,15 @@ export const settledData: DataEntity = {
       status: "Canonical",
       signal_status: "Settled",
       timestamp: 1656966780000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "340000",
+        total_delegators: 32,
+      },
     },
   ],
   stats: {
-    yes: 10,
-    no: 29,
+    yes: 340153,
+    no: 257248,
   },
 };
 
@@ -180,34 +231,46 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902420000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
-      account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
+      account: "B42qj6XkW5h4TXVEmTYiRgi4PHJFATZ9538MZg4S92JjtaF79XKhbnMK",
       memo: "NO MAGENTA",
       height: 92851,
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
-      account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
+      account: "B62a16XkW5h4TDCEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
       memo: "no magenta",
       height: 92850,
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
-      account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
+      account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ9612Zg4S92JjtaF79XKhbnMK",
       memo: "no magenta",
       height: 92850,
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657901520000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "64312",
+        total_delegators: 4,
+      },
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -216,12 +279,15 @@ export const unsettledData: DataEntity = {
       status: "Pending",
       signal_status: "Unsettled",
       timestamp: 1657900980000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "153",
+        total_delegators: 1,
+      },
     },
   ],
   stats: {
-    yes: 10,
-    no: 29,
+    yes: 340153,
+    no: 257248,
   },
 };
 
@@ -234,7 +300,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -243,7 +312,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913580000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -252,7 +324,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -261,7 +336,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -270,7 +348,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qp3Dsz8TrZ9hCrHYZVViUufwqkwqDhGH8S8jutcmPgC1PY6LoEUs",
@@ -279,7 +360,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657913400000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -288,7 +372,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902420000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -297,7 +384,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qj6XkW5h4TXVEmTYiRgi4PHJFATZ968MZg4S92JjtaF79XKhbnMK",
@@ -306,7 +396,10 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "9753",
+        total_delegators: 2,
+      },
     },
     {
       account: "B62qkLLvwbQLZoUaPHdQojMEpBiRgQehEaf3nrVn5NezWxQgfe7tqvC",
@@ -315,11 +408,14 @@ export const invalidData: DataEntity = {
       status: "Pending",
       signal_status: "Invalid",
       timestamp: 1657902060000,
-      delegations: null,
+      delegations: {
+        delegated_balance: "153",
+        total_delegators: 1,
+      },
     },
   ],
   stats: {
-    yes: 10,
-    no: 29,
+    yes: 340153,
+    no: 257248,
   },
 };

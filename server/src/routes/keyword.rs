@@ -39,7 +39,7 @@ pub async fn parse_responses(
     req_filter: Option<QueryRequestFilter>,
     ctx: Extension<crate::ApiContext>
 ) -> ResponseEntity {
-    let res = ctx.ledger.call(move|conn| {
+    ctx.ledger.call(move|conn| {
         let mut hash: HashMap<String, Vec<Signal>> = HashMap::new();
         let mut settled: HashMap<String, Signal> = HashMap::new();
         let mut unsettled: Vec<Signal> = Vec::with_capacity(query_responses.len());
@@ -246,9 +246,7 @@ pub async fn parse_responses(
             }
         }
         
-    }).await;
-
-    res
+    }).await
 }
 
 

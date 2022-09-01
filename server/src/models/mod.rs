@@ -59,12 +59,12 @@ impl ResponseEntity {
 
     pub fn sort(mut self) -> Self {
         self.signals.sort_by(|a, b| b.height.cmp(&a.height));
-        return self;
+        self
     }
 
     pub fn with_stats(mut self, stats: SignalStats) -> Self {
         self.stats = Some(stats);
-        return self;
+        self
     }
 }
 

@@ -8,7 +8,7 @@ pub async fn get_latest_blockheight(ctx: &Extension<ApiContext>) -> Result<i64, 
 }
 
 pub async fn get_signals(ctx: &Extension<ApiContext>) -> Result<Vec<DBResponse>, sqlx::Error> {
-    let signals = sqlx::query_as!(
+    sqlx::query_as!(
         DBResponse,
         // language=PostgreSQL
         r#"
@@ -26,6 +26,5 @@ pub async fn get_signals(ctx: &Extension<ApiContext>) -> Result<Vec<DBResponse>,
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
         "#
-    ).fetch_all(&ctx.db).await;
-    signals
+    ).fetch_all(&ctx.db).await
 }

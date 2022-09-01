@@ -2,7 +2,7 @@ use std::sync::Arc;
 use log::info;
 use tower::ServiceBuilder;
 use clap::Parser;
-use osc_api::{routes::Build, ledger::Ledger, ApiContext, Config, SubCommand};
+use osc_api::{ ApiContext, Config, SubCommand, routes::Build, ledger::Ledger};
 use anyhow::Context;
 use sqlx::postgres::PgPoolOptions;
 use axum::Extension;
@@ -17,10 +17,8 @@ async fn main() -> anyhow::Result<()> {
     let config = Config::parse();
 
     match config.subcmd {
-        SubCommand::Init => {
-            Ledger::init().migrate()
-        },
         SubCommand::Start => {
+        let ledger = Ledger::init().await.expect("Error: Could not create ledger.");
         let db = PgPoolOptions::new()
         .max_connections(50)
         .connect(&config.database_url)
@@ -31,6 +29,7 @@ async fn main() -> anyhow::Result<()> {
         ServiceBuilder::new()
             .layer(Extension(ApiContext {
                 config: Arc::new(config),
+                ledger: Arc::new(ledger.db),
                 db,
             }))
          );

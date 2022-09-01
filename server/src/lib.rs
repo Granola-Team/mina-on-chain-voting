@@ -13,6 +13,7 @@ extern crate postgres_derive;
 #[derive(Clone)]
 pub struct ApiContext {
     pub config: Arc<Config>,
+    pub ledger: Arc<tokio_rusqlite::Connection>,
     pub db: PgPool,
 }
 
@@ -35,6 +36,4 @@ pub struct Config {
 pub enum SubCommand {
     /// Starts the server
     Start,
-    /// Initialize necessary configs
-    Init,
 }

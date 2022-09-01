@@ -20,8 +20,8 @@ impl Build for Router {
         (
             StatusCode::INTERNAL_SERVER_ERROR,
             format!("Internal Server Error: {}", error),
-        )
-    });
+        )});
+        
         Router::new().merge(spa).route("/api/v1/:keyword", get(handler)).fallback(react_router_fallback)
     }
 }

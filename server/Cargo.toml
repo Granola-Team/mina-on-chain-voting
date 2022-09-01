@@ -15,7 +15,7 @@ sqlx = { version = "0.6.1", features = ["runtime-tokio-native-tls", "postgres", 
 postgres-derive = "0.4.2"
 postgres = "0.19.3"
 postgres-types = { version = "0.2.3", features = ["derive"] }
-rusqlite = { version = "0.28.0", features = ["bundled"] }
+tokio-rusqlite = "0.2.0"
 
 tower = "0.4.11"
 tower-http = { version = "0.3.4", features = ["trace"] }
@@ -28,7 +28,7 @@ serde_json = "1.0.80"
 
 # Utility Crates
 anyhow = "1.0.48"
-async-trait = "0.1.51"
+async-trait = "0.1.57"
 dotenv = "0.15.0"
 env_logger = "0.9.0"
 itertools = "0.10.1"

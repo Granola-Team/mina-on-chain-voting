@@ -54,7 +54,7 @@ pub struct ResponseEntity {
 
 impl ResponseEntity {
     pub fn new(signals: Vec<Signal>) -> Self {
-        Self { signals, stats: None }
+        Self { signals: signals.into_iter().filter(|x| { x.delegations.is_some() }).collect(), stats: None }
     }
 
     pub fn sort(mut self) -> Self {

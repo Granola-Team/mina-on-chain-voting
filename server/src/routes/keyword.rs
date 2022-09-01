@@ -23,7 +23,6 @@ fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
     }
 }
 
-
 fn validate_signal(memo: &str, key: &str) -> bool {
     if memo.to_lowercase() == key.to_lowercase()
         || memo.to_lowercase() == format!("no {}", key.to_lowercase())
@@ -31,39 +30,6 @@ fn validate_signal(memo: &str, key: &str) -> bool {
         return true;
     };
     false
-}
-
-fn get_stats(settled: &Vec<Signal>, unsettled: &Vec<Signal>, key: &str) -> SignalStats {
-    let mut yes: f32 = 0.0;
-    let mut no: f32 = 0.0;
-
-    for x in settled {
-        if x.memo.to_lowercase() == key.to_lowercase() { 
-            if let Some(a) = &x.delegations {
-                yes+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
-            }
-        }
-        if x.memo.to_lowercase() == format!("no {}", key.to_lowercase()) { 
-            if let Some(a) = &x.delegations {
-                no+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
-            }
-        }
-    }
-
-    for i in unsettled {
-        if i.memo.to_lowercase() == key.to_lowercase() { 
-            if let Some(a) = &i.delegations {
-                yes+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
-            }
-        }
-        if i.memo.to_lowercase() == format!("no {}", key.to_lowercase()) {  
-            if let Some(a) = &i.delegations {
-                no+=a.delegated_balance.parse::<f32>().unwrap_or(0.00)
-            }
-        }
-    }
-
-    SignalStats { yes, no }
 }
 
 pub async fn parse_responses(
@@ -78,6 +44,8 @@ pub async fn parse_responses(
         let mut settled: HashMap<String, Signal> = HashMap::new();
         let mut unsettled: Vec<Signal> = Vec::with_capacity(query_responses.len());
         let mut invalid: Vec<Signal> = Vec::with_capacity(query_responses.len());
+        let mut yes: f32 = 0.00;
+        let mut no: f32 = 0.00;
 
         let mut stmt = conn.prepare(
             "
@@ -109,50 +77,73 @@ pub async fn parse_responses(
                                 }
                             }
 
-                            x.push(Signal {
-                                account: res.account.clone(),
-                                height: res.height,
-                                memo: memo_str,
-                                status: res.status,
-                                timestamp: res.timestamp,
-                                signal_status: None,
-                                delegations: match stake.is_default() {
-                                    true => { None },
-                                    false => { Some(stake) },
-                                },
-                            })
+                            match stake.is_default() {
+                                true => (),
+                                false => {
+                                    if memo_str.to_lowercase() == key.to_lowercase() { 
+                                            yes+=stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                                    }
+
+                                    if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) { 
+                                            no+=stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                                    }
+                                    
+                                    x.push(Signal {
+                                        account: res.account.clone(),
+                                        height: res.height,
+                                        memo: memo_str,
+                                        status: res.status,
+                                        timestamp: res.timestamp,
+                                        signal_status: None,
+                                        delegations: Some(stake)
+                                    })
+                                }
+                            }
                         },
                         None => {
-                            hash.entry(res.account.clone()).or_insert_with_key(|_| {
-                                let rows_iter = stmt.query_map([res.account.clone()], |row| {
-                                    Ok(LedgerDelegations {
-                                            delegated_balance: row.get(0).unwrap_or_default(),
-                                            total_delegators: row.get(1).unwrap_or_default(),
-                                        })
-                                }).expect("Error: Error unwrapping rows.");
-                
-                                let mut stake: LedgerDelegations = LedgerDelegations::default();
-                
-                                for res in rows_iter {
-                                    match res {
-                                        Ok(x) => { stake = x },
-                                        Err(err) => println!("{}", err)
-                                    }
+                            let rows_iter = stmt.query_map([res.account.clone()], |row| {
+                                Ok(LedgerDelegations {
+                                        delegated_balance: row.get(0).unwrap_or_default(),
+                                        total_delegators: row.get(1).unwrap_or_default(),
+                                    })
+                            }).expect("Error: Error unwrapping rows.");
+            
+                            let mut stake: LedgerDelegations = LedgerDelegations::default();
+            
+                            for res in rows_iter {
+                                match res {
+                                    Ok(x) => { stake = x },
+                                    Err(err) => println!("{}", err)
                                 }
+                            }
 
-                                vec![Signal {
-                                    account: res.account.clone(),
-                                    height: res.height,
-                                    memo: memo_str,
-                                    status: res.status,
-                                    timestamp: res.timestamp,
-                                    signal_status: None,
-                                    delegations: match stake.is_default() {
-                                        true => { None },
-                                        false => { Some(stake) },
-                                    },
-                                }]
-                            });
+                            match stake.is_default() {
+                                true => (),
+                                false => {
+                                    if memo_str.to_lowercase() == key.to_lowercase() { 
+                                        yes+=stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                                    }
+
+                                    if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) { 
+                                        no+=stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                                    }
+
+                                    hash.entry(res.account.clone()).or_insert_with_key(|_| {
+                                        vec![Signal {
+                                            account: res.account.clone(),
+                                            height: res.height,
+                                            memo: memo_str,
+                                            status: res.status,
+                                            timestamp: res.timestamp,
+                                            signal_status: None,
+                                            delegations: match stake.is_default() {
+                                                true => { None },
+                                                false => { Some(stake) },
+                                            },
+                                        }]
+                                    });
+                                }
+                            }
                         }
                     }
                 } else {
@@ -172,18 +163,28 @@ pub async fn parse_responses(
                         }
                     }
 
-                    invalid.push(Signal {
-                        account: res.account.clone(),
-                        memo: memo_str,
-                        height: res.height,
-                        status: res.status,
-                        timestamp: res.timestamp,
-                        signal_status: Some(SignalStatus::Invalid),
-                        delegations: match stake.is_default() {
-                            true => { None },
-                            false => { Some(stake) },
+                    match stake.is_default() {
+                        true => (),
+                        false => {
+                            if memo_str.to_lowercase() == key.to_lowercase() { 
+                                yes+=stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                            }
+
+                            if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) { 
+                                no+=stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+                            }
+
+                            invalid.push(Signal {
+                                account: res.account.clone(),
+                                memo: memo_str,
+                                height: res.height,
+                                status: res.status,
+                                timestamp: res.timestamp,
+                                signal_status: Some(SignalStatus::Invalid),
+                                delegations: Some(stake)
+                            })
                         }
-                    })
+                    }
                 }
             }
         }
@@ -223,7 +224,7 @@ pub async fn parse_responses(
             .map(|(_, v)| v)
             .collect::<Vec<Signal>>();
     
-        let statistics = get_stats(&settled_vec, &unsettled, &key);
+        let statistics = SignalStats { yes, no };
     
         match req_filter {
             Some(filter) => match filter {

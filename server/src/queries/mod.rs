@@ -1,4 +1,5 @@
 use axum::Extension;
+use sqlx::{Pool, Postgres};
 use crate::{models::{DBResponse, BlockStatus}, ApiContext};
 
 pub async fn get_latest_blockheight(ctx: &Extension<ApiContext>) -> Result<i64, sqlx::Error> {
@@ -7,7 +8,7 @@ pub async fn get_latest_blockheight(ctx: &Extension<ApiContext>) -> Result<i64, 
     Ok(row.0)
 }
 
-pub async fn get_signals(ctx: &Extension<ApiContext>) -> Result<Vec<DBResponse>, sqlx::Error> {
+pub async fn get_signals(db: &Pool<Postgres>) -> Result<Vec<DBResponse>, sqlx::Error> {
     sqlx::query_as!(
         DBResponse,
         // language=PostgreSQL
@@ -26,5 +27,5 @@ pub async fn get_signals(ctx: &Extension<ApiContext>) -> Result<Vec<DBResponse>,
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
         "#
-    ).fetch_all(&ctx.db).await
+    ).fetch_all(db).await
 }

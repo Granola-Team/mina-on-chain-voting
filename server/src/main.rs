@@ -1,4 +1,4 @@
-use osc_api::{ ApiContext, Config, SubCommand, routes::Build, ledger::Ledger};
+use osc_api::{ ApiContext, Config, SubCommand, routes::Build, ledger::Ledger, queries};
 use tower_http::cors::{Any, CorsLayer};
 use axum::{Extension, http::Method};
 use sqlx::postgres::PgPoolOptions;
@@ -27,6 +27,10 @@ async fn main() -> anyhow::Result<()> {
         .await
         .context("Error: Could not connect to database.")?;
 
+        // Gets all available signals in DB.
+        // Once archive node is activally populating DB -> change this to get signals on request.
+        let signals = queries::get_signals(&db).await.expect("Error: Could not get signals.");
+
         let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
         .allow_origin(Any);
@@ -37,6 +41,7 @@ async fn main() -> anyhow::Result<()> {
             .layer(Extension(ApiContext {
                 config: Arc::new(config),
                 ledger: Arc::new(ledger.db),
+                signals: Arc::new(signals),
                 db,
             }))
          );

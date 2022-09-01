@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use base58check::FromBase58Check;
 
-use crate::{models::{BlockStatus, DBResponse, ResponseEntity,Signal, SignalStats, SignalStatus}, queries, ledger::LedgerDelegations};
+use crate::{models::{BlockStatus, ResponseEntity,Signal, SignalStats, SignalStatus}, queries, ledger::LedgerDelegations};
 
 fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
     if let Ok((_ver, bytes)) = memo.from_base58check() {
@@ -33,17 +33,18 @@ fn validate_signal(memo: &str, key: &str) -> bool {
 }
 
 pub async fn parse_responses(
-    query_responses: Vec<DBResponse>,
     key: String,
     latest_block: i64,
     req_filter: Option<QueryRequestFilter>,
     ctx: Extension<crate::ApiContext>
 ) -> ResponseEntity {
+    let signals = ctx.signals.clone();
+
     ctx.ledger.call(move|conn| {
         let mut hash: HashMap<String, Vec<Signal>> = HashMap::new();
         let mut settled: HashMap<String, Signal> = HashMap::new();
-        let mut unsettled: Vec<Signal> = Vec::with_capacity(query_responses.len());
-        let mut invalid: Vec<Signal> = Vec::with_capacity(query_responses.len());
+        let mut unsettled: Vec<Signal> = Vec::with_capacity(signals.len());
+        let mut invalid: Vec<Signal> = Vec::with_capacity(signals.len());
         let mut yes: f32 = 0.00;
         let mut no: f32 = 0.00;
 
@@ -56,7 +57,7 @@ pub async fn parse_responses(
             "
             ).expect("Error preparing statement.");
 
-        for res in query_responses.iter() {
+        for res in signals.iter() {
             if let Some(memo_str) = decode_memo(&res.memo, &key) {
                 if validate_signal(&memo_str, &key) {
                     match hash.get_mut(&res.account) {
@@ -267,9 +268,7 @@ pub async fn handler(
     let latest_block_height = queries::get_latest_blockheight(&ctx)
         .await
         .expect("Error: Could not get latest block.");
-    let response = queries::get_signals(&ctx).await.expect("Error: Could not get memo data.");
     let result = parse_responses(
-        response,
         key,
         latest_block_height,
         filter,

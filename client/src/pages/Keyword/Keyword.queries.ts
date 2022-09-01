@@ -2,7 +2,7 @@ import axios from "axios";
 
 import type { DataEntity } from "@/types";
 
-import { DEV_API_URL, PROD_API_URL } from "@/constant";
+import { API_URL } from "@/constants";
 
 /**
  * Builds API URL for our keyword query.
@@ -10,9 +10,7 @@ import { DEV_API_URL, PROD_API_URL } from "@/constant";
  * @param {string | null} filter
  */
 const buildAPIUrl = (key: string, filter: string | null): string => {
-  return `${import.meta.env.DEV ? DEV_API_URL : PROD_API_URL}/${key}?filter=${
-    filter ?? "All"
-  }&sorted=true&stats=true`;
+  return `${API_URL}/${key}?filter=${filter ?? "All"}`;
 };
 
 /**

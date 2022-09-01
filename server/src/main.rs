@@ -1,11 +1,12 @@
-use std::sync::Arc;
-use log::info;
-use tower::ServiceBuilder;
-use clap::Parser;
 use osc_api::{ ApiContext, Config, SubCommand, routes::Build, ledger::Ledger};
-use anyhow::Context;
+use tower_http::cors::{Any, CorsLayer};
+use axum::{Extension, http::Method};
 use sqlx::postgres::PgPoolOptions;
-use axum::Extension;
+use tower::ServiceBuilder;
+use anyhow::Context;
+use std::sync::Arc;
+use clap::Parser;
+use log::info;
 
 extern crate dotenv;
 
@@ -19,14 +20,20 @@ async fn main() -> anyhow::Result<()> {
     match config.subcmd {
         SubCommand::Start => {
         let ledger = Ledger::init().await.expect("Error: Could not create ledger.");
+
         let db = PgPoolOptions::new()
         .max_connections(50)
         .connect(&config.database_url)
         .await
         .context("Error: Could not connect to database.")?;
 
+        let cors = CorsLayer::new()
+        .allow_methods([Method::GET, Method::POST])
+        .allow_origin(Any);
+
         let app = router(&config).layer(
         ServiceBuilder::new()
+            .layer(cors)
             .layer(Extension(ApiContext {
                 config: Arc::new(config),
                 ledger: Arc::new(ledger.db),

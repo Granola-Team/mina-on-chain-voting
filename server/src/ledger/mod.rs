@@ -1,4 +1,4 @@
-use std::{io::BufReader, fs::File, path::Path};
+use std::{io::BufReader, fs::File};
 use serde::{Deserialize, Serialize};
 use tokio_rusqlite::Connection;
 use log::{info, error};
@@ -64,13 +64,6 @@ impl Ledger {
 
     pub async fn init() -> anyhow::Result<Self> {
         let path = std::env::var("LEDGER_PATH").expect("Environment: LEDGER_PATH not found.");
-        
-        if Path::new("temp").exists() {
-            std::fs::remove_dir_all("temp").expect("Error: Could not remove local db artifacts.")
-        }
-
-        std::fs::create_dir("temp").expect("Error: Could not create local directory.");
-
         let reader = BufReader::new(File::open(path).expect("Error: Could not open ledger."));
         let db = Connection::open_in_memory().await.expect("Error: Could not create connection.");
         let ledger = Ledger { db };

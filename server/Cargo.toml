@@ -18,7 +18,7 @@ postgres-types = { version = "0.2.3", features = ["derive"] }
 tokio-rusqlite = "0.2.0"
 
 tower = "0.4.11"
-tower-http = { version = "0.3.4", features = ["trace"] }
+tower-http = { version = "0.3.4", features = ["trace", "cors"] }
 
 # The `clap` beta gives us a much nicer way to define configuration parameters for our application.
 clap = { version = "3.0.0-beta.5", features = ["derive", "env"] }

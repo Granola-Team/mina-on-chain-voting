@@ -1,36 +1,50 @@
-use on_chain_signalling_api::{db, error::Result, routes, ledger::Ledger};
-use actix_web::{middleware, web, App, HttpServer};
-use actix_cors::Cors;
+use std::sync::Arc;
+use log::info;
+use tower::ServiceBuilder;
+use clap::Parser;
+use osc_api::{routes::Build, ledger::Ledger, ApiContext, Config, SubCommand};
+use anyhow::Context;
+use sqlx::postgres::PgPoolOptions;
+use axum::Extension;
 
 extern crate dotenv;
 
-#[actix_web::main]
-async fn main() -> Result<()> {
-    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+#[tokio::main]
+async fn main() -> anyhow::Result<()> {
     dotenv::dotenv().ok();
+    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
-    let ledger = Ledger::init();
-    ledger.migrate();
+    let config = Config::parse();
 
-    let (close_db_conn, client) = db::connect_to_db().await?;
+    match config.subcmd {
+        SubCommand::Init => {
+            Ledger::init().migrate()
+        },
+        SubCommand::Start => {
+        let db = PgPoolOptions::new()
+        .max_connections(50)
+        .connect(&config.database_url)
+        .await
+        .context("Error: Could not connect to database.")?;
 
-    HttpServer::new(move || {
-        App::new()
-            .wrap(
-                Cors::default()
-                    .allow_any_origin()
-                    .allow_any_header()
-                    .allowed_methods(vec!["GET"])
-                    .max_age(3600)
-                    .send_wildcard(),
-            )
-            .wrap(middleware::Logger::default())
-            .app_data(web::Data::new(client.clone()))
-            .service(web::scope("/api").configure(routes::v1_config))
-    })
-    .bind(("0.0.0.0", 8080))?
-    .run()
-    .await?;
+        let app = router(&config).layer(
+        ServiceBuilder::new()
+            .layer(Extension(ApiContext {
+                config: Arc::new(config),
+                db,
+            }))
+         );
 
-    Ok(close_db_conn.await?)
+        info!("Axum runtime started.");
+
+        axum::Server::bind(&"0.0.0.0:8080".parse()?)
+        .serve(app.into_make_service())
+        .await
+        .context("Error: Could not start webserver.")
+        }
+    }
+}
+
+fn router(cfg: &Config) -> axum::Router {
+    axum::Router::build_v1(cfg)
 }

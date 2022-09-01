@@ -62,7 +62,7 @@ impl Ledger {
     pub fn init() -> Self {
         let path = std::env::var("LEDGER_PATH").expect("Environment: LEDGER_PATH not found.");
         
-        if Path::new("temp/mem.db").exists() {
+        if Path::new("temp").exists() {
             std::fs::remove_dir_all("temp").expect("Error: Could not remove local db artifacts.")
         }
 
@@ -78,7 +78,7 @@ impl Ledger {
         Connection::open("temp/mem.db").expect("Error: Could not open local database.")
     }
 
-    pub fn migrate(self) {
+    pub fn migrate(self) -> anyhow::Result<()> {
         info!("Starting Ledger migration...");
 
         self.db.execute(
@@ -109,6 +109,7 @@ impl Ledger {
 
         info!("Ledger Migration has finished.");
         info!("Total records processed: {}", entry_count);
+        Ok(())
     }
 }
 

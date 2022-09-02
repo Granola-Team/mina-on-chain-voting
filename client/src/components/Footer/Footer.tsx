@@ -8,7 +8,7 @@ export const Footer = React.memo(() => {
           href="https://github.com/Granola-Team/mina-signaling"
           className="-mb-1"
         >
-          <span className="text-[0.85rem]">Github</span>
+          <span className="text-[0.85rem]">GitHub</span>
         </a>
         <a href="https://granola.team">
           <span className="text-[0.7rem]">Made with ❤️ by Granola</span>

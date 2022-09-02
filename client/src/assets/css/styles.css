@@ -18,10 +18,16 @@ h1,
 h2,
 h3,
 h4,
-h5,
 span,
 p {
   @apply select-none;
+}
+
+h5 {
+  @apply text-sm font-normal;
+}
+h6 {
+  @apply text-xs font-normal;
 }
 
 .content-full-width {

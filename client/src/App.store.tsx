@@ -15,7 +15,7 @@ interface AppStore {
 
 export const useAppStore = create<AppStore>((set) => ({
   darkMode: false,
-  network: "Devnet",
+  network: "Mainnet",
   settingsActive: false,
   searchActive: false,
   isLoading: false,

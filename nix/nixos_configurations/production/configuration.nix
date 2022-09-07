@@ -1,9 +1,12 @@
-{
-  imports = [ ../common.nix ];
+{ modulesPath, ... }: {
+  imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
+  ec2.hvm = true;
+
+  networking.hostname = "onchain-signalling-ec2";
 
   environment.sessionVariables = {
-    onchain-signalling-port = "8080";
-    archive-node-database-port = "5555";
+    onchain-signalling-port = 8080;
+    archive-node-database-port = 5555;
     PGDATA = "/home/postgres/";
     DBNAME = "archive_balances_migrated";
     USER = "postgres";
@@ -13,7 +16,6 @@
 
   users.users = {
     postgres = {
-      isNormalUser = true;
       home = "/home/postgres";
       description = "user for postgres";
       password = "postgres";
@@ -30,22 +32,6 @@
       isNormalUser = true;
       home = "/home/onchain-signalling";
       description = "host user for Onchain-Signalling";
-    };
-  };
-
-  environment.systemPackages = [
-
-  ];
-
-  systemd.services.onchain-signalling = {
-    wantedBy = [ "multi-user.target" ]; 
-    after = [ "network.target" ];
-    description = "Start the OnChain-Signalling client and server";
-    serviceConfig = {
-      Type = "forking";
-      User = "onchain-signalling";
-      ExecStart = ''${pkgs.screen}/bin/screen -dmS irc ${pkgs.irssi}/bin/irssi'';         
-      ExecStop = ''${pkgs.screen}/bin/screen -S irc -X quit'';
     };
   };
 }

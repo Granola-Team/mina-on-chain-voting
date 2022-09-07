@@ -21,7 +21,7 @@
       };
 
       shells-index = import ./shells/index.nix {
-        inherit pkgs;
+        inherit pkgs deploy-rs;
         apps = apps-index.apps;
       };
 
@@ -47,39 +47,41 @@
 
       nixosConfigurations.staging = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
-        modules = [ ./nixos_configurations/staging/configuration.nix ];
+        modules = [ ./nixos_configurations/staging/configuration.nix "${nixpkgs}/nixos/modules/virtualisation/amazon-image.nix" ];
       };
 
-      deploy.nodes.staging = {
-        hostname = "ec2-3-98-128-134.ca-central-1.compute.amazonaws.com";
-        user = "root";
+      deploy.nodes = {
+        staging = {
+          hostname = "ec2-3-98-128-134.ca-central-1.compute.amazonaws.com";
+          user = "root";
 
-        sshOpts = [ "-p" "~/.ssh/osc-ssh.pem" ];
+          sshOpts = [ "-p" "~/.ssh/osc-ssh.pem" ];
 
-        profilesOrder = [ "system" "archive-database" "archive-node" "onchain-signalling" ];
+          profilesOrder = [ "system" "archive-database" "archive-node" "onchain-signalling" ];
 
-        profiles = { 
-          system = {
-            user = "root";
-            path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.staging;
-          };
+          profiles = { 
+            system = {
+              user = "root";
+              path = deploy-rs-flake.lib.x86_64-linux.activate.nixos nixosConfigurations.staging;
+            };
 
-          archive-node = {
-            user = "archive-node";
-            path = deploy-rs.lib.x86_64-linux.activate.custom apps.run-archive-node
-              "./bin/run-archive-node";
-          };
+            archive-node = {
+              user = "archive-node";
+              path = deploy-rs-flake.lib.x86_64-linux.activate.custom apps.run-archive-node
+                "./bin/run-archive-node";
+            };
 
-          archive-database = {
-            user = "postgres";
-            path = deploy-rs.lib.x86_64-linux.activate.custom apps.run-archive-database
-              "./bin/run-archive-database";
-          };
+            archive-database = {
+              user = "postgres";
+              path = deploy-rs-flake.lib.x86_64-linux.activate.custom apps.run-archive-database
+                "./bin/run-archive-database";
+            };
 
-          onchain-signalling = {
-            user = "onchain-signalling";
-            path = deploy-rs.lib.x86_64-linux.activate.custom apps.run-end-to-end 
-              "./bin/run-end-to-end";
+            onchain-signalling = {
+              user = "onchain-signalling";
+              path = deploy-rs-flake.lib.x86_64-linux.activate.custom apps.run-end-to-end 
+                "./bin/run-end-to-end";
+            };
           };
         };
       };

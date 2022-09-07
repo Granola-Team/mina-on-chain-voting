@@ -6,7 +6,6 @@ pkgs.writeShellApplication {
     ocs-client
   ];
   text = ''
-    run-temp-database &
     CLIENT_BUILD_DIR=${ocs-client}/out ocs_api
   '';
 }

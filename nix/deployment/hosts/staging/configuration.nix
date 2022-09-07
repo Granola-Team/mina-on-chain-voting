@@ -27,6 +27,10 @@ in rec {
       description = "host user for Onchain-Signalling";
       password = "onchain-signalling";
     };
+
+    postgres = {
+      password = "postgres";
+    };
   };
 
   # systemd.services.archive-database = {
@@ -50,14 +54,11 @@ in rec {
           "ALL TABLES IN SCHEMA public" = "ALL PRIVILEGES";
         };
       }
-      {
-        name = "onchain-signalling";
-        ensurePermissions = {
-          "DATABASE archive_balances_migrated" = "ALL PRIVILEGES";
-          "DATABASE archive_balances" = "ALL PRIVILEGES";
-        };
-      }
     ];
+    authentication = ''
+      # TYPE    DATABASE                  USER      ADDRESS   METHOD
+        local   archive_balances_migrated postgres            trust
+    '';
     ensureDatabases = [
       "archive_balances_migrated"
       "archive_balances"
@@ -72,18 +73,18 @@ in rec {
       PGDATA = 
 "/var/lib/postgresql/${config.services.postgresql.package.psqlSchema}";
       DBNAME = "archive_balances_migrated";
-      USER = "onchain-signalling";
+      USER = "postgres";
       DBPORT = "5432";
       PORT = "8080";
       HOST = "localhost";
-      PASSWD = "onchain-signalling";
+      PASSWD = "postgres";
     };
     serviceConfig = {
       Type = "forking";
-      User = "onchain-signalling";
+      User = "postgres";
       ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end'';         
     };
   };
 
-  system.stateVersion = "22.06";
+  system.stateVersion = "22.05";
 }

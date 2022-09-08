@@ -1,9 +1,3 @@
 target/
-build/
-result
-result/*
-result/bin/*
 .vscode/
-database_backups
 .env
-()

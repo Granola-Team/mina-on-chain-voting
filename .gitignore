@@ -1,5 +1,6 @@
 .pg
 .env
+.vscode
 result
 
 flake.lock
@@ -9,7 +10,6 @@ database_dumps/*
 
 */target
 */result
-*/.vscode
 */.env
 
 */.idea/

@@ -7,9 +7,6 @@ flake.lock
 database_dumps
 database_dumps/*
 
-nix/deployment/ops/.gcroots
-
-*/.gcroots
 */target
 */result
 */.vscode

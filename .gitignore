@@ -3,8 +3,6 @@
 .vscode
 result
 
-flake.lock
-
 database_dumps
 database_dumps/*
 

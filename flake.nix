@@ -12,12 +12,11 @@
       url = "github:oxalica/rust-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    deploy-rs-flake.url = "github:serokell/deploy-rs";
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat, deploy-rs-flake, rust-overlay }: 
+  outputs = { self, nixpkgs, flake-utils, flake-compat, rust-overlay }: 
     (import ./nix/index.nix { 
-      inherit self nixpkgs flake-utils flake-compat deploy-rs-flake rust-overlay; 
+      inherit self nixpkgs flake-utils flake-compat rust-overlay; 
       sourceDir = ./.;
     });
 }

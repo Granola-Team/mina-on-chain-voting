@@ -1,4 +1,4 @@
-{ modulesPath, config, ... }: 
+{ modulesPath, config, pkgs, ... }: 
 let
   ocs = import ../../../../default.nix;
 in rec {
@@ -27,42 +27,25 @@ in rec {
       description = "host user for Onchain-Signalling";
       password = "onchain-signalling";
     };
-
-    postgres = {
-      password = "postgres";
-    };
   };
 
-  # systemd.services.archive-database = {
-  #   wantedBy = [ "multi-user.target" ]; 
-  #   after = [ "network.target" ];
-  #   description = "Start the OnChain-Signalling Archive Database";
-  #   serviceConfig = {
-  #     Type = "forking";
-  #     User = "postgres";
-  #     ExecStart = ''${ocs.apps.run-temp-database}/bin/run-temp-database'';         
-  #   };
-  # };
-
   services.postgresql = {
-    port = 5432;
     enable = true;
-    ensureUsers = [
-      {
-        name = "postgres";
-        ensurePermissions = {
-          "ALL TABLES IN SCHEMA public" = "ALL PRIVILEGES";
-        };
-      }
-    ];
-    authentication = ''
-      # TYPE    DATABASE                  USER      ADDRESS   METHOD
-        local   all                       postgres            password
+    package = pkgs.postgresql_10;
+    port = 5432;
+    enableTCPIP = true;
+    authentication = pkgs.lib.mkOverride 10 ''
+      local all all trust
+      host all all 127.0.0.1/32 trust
+      host all all ::1/128 trust
     '';
-    ensureDatabases = [
-      "archive_balances_migrated"
-      "archive_balances"
-    ];
+    initialScript = pkgs.writeText "backend-initScript" ''
+      CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres' CREATEDB;
+      CREATE DATABASE archive_balances;
+      CREATE DATABASE archive_balances_migrated;
+      GRANT ALL PRIVILEGES ON DATABASE archive_balances TO postgres;
+      GRANT ALL PRIVILEGES ON DATABASE archive_balances_migrated TO postgres;
+    '';
   };
 
   systemd.services.onchain-signalling = {
@@ -82,7 +65,7 @@ in rec {
     serviceConfig = {
       Type = "forking";
       User = "onchain-signalling";
-      ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end'';         
+      ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end &'';         
     };
   };
 

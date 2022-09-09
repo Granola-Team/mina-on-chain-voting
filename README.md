@@ -14,12 +14,16 @@ A React SPA that displays and totals signalling results (votes) from the API.
 - `nix develop` -> Enter a development shell for this monorepo, with access to its development tools in the path
 
 Environment Variables for `nix run .`:
+These are necessary when running OnChain-Signalling manually (i.e. during local dev)
 
 - DBNAME : the name of the mina archive database (`archive_balances_migrated`)
-- USER : the user that owns the postgres database (`$USER`)
-- PASSWD : the database password (`''`)
+- USER : the user that owns the postgres database (`postgres`)
+- PASSWD : the database password (`postgres`)
 - DBPORT : the database's bound port (`5432`)
 - PORT : the port to bind the on-chain-signalling server to (`8080`)
+- HOST : host ip for the postgres database (`localhost`)
+
+(default environment variables conform to test database expectations)
 
 # Tools
 
@@ -34,5 +38,5 @@ A set of scripts to automate development environment management and deployment. 
 - `clean-archive-backups` --
   Removes old archive dumps from the local environment
 
-- `run-onchain-signalling` --
+- `run-end-to-end` --
   Builds and starts the actix-web server and links it to the latest build of the frontend in the nix store

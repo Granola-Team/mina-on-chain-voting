@@ -6,6 +6,9 @@ result
 database_dumps
 database_dumps/*
 
+.DS_Store
+*/.DS_Store
+
 */target
 */result
 */.env

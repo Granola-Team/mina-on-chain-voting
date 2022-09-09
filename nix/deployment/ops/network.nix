@@ -9,7 +9,7 @@
 
   "staging" = {config, pkgs, lib, ...}: {
     imports = [
-      ../../hosts/staging/configuration.nix
+      ../hosts/staging/configuration.nix
     ];
 
     # Mara\ The user you will SSH into the

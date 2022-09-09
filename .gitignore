@@ -3,3 +3,22 @@
 result
 
 flake.lock
+
+database_dumps
+database_dumps/*
+
+nix/deployment/ops/.gcroots
+
+*/.gcroots
+*/target
+*/result
+*/.vscode
+*/.env
+
+*/.idea/
+*/dist/
+*/build/
+*/node_modules/
+*/src/**/*.jsx
+*/tests/__coverage__/
+*/tests/**/*.jsx

@@ -43,7 +43,7 @@ in {
         apps.run-archive-database
         apps.run-with-temp-database
 
-        deploy-rs
+        morph
       ];
 
       shellHook = ''

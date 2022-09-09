@@ -57,7 +57,7 @@ in rec {
     ];
     authentication = ''
       # TYPE    DATABASE                  USER      ADDRESS   METHOD
-        local   archive_balances_migrated postgres            trust
+        local   all                       postgres            password
     '';
     ensureDatabases = [
       "archive_balances_migrated"
@@ -81,7 +81,7 @@ in rec {
     };
     serviceConfig = {
       Type = "forking";
-      User = "postgres";
+      User = "onchain-signalling";
       ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end'';         
     };
   };

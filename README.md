@@ -8,9 +8,10 @@ Folders added represent each component needed for this project.
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.\
 A React SPA that displays and totals signalling results (votes) from the API.
 
-- `nix-build` or `nix build` (to use Flakes) -> Builds the server and client and outputs to `./result`
-- `nix-shell ./{client, server}/shell.nix` or `nix develop .#{ocs-client, ocs-server}` -> Enter a development shell ready for contributing to the client or server
-- `nix-shell .` or `nix develop` -> Enter a development shell for this monorepo, with access to its development tools in the path
+- `nix build` Builds the server and client and outputs to `./result`
+- `nix develop .#server` -> Enter a development shell for the server
+- `nix develop .#client` -> Enter a development shell for the client
+- `nix develop` -> Enter a development shell for this monorepo, with access to its development tools in the path
 
 Environment Variables for `nix run .`:
 

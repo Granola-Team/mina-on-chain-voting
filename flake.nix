@@ -14,9 +14,9 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat, rust-overlay }: 
-    (import ./nix/index.nix { 
-      inherit self nixpkgs flake-utils flake-compat rust-overlay; 
+  outputs = { self, nixpkgs, flake-utils, flake-compat, rust-overlay }:
+    (import ./nix/index.nix {
+      inherit self nixpkgs flake-utils flake-compat rust-overlay;
       sourceDir = ./.;
     });
 }

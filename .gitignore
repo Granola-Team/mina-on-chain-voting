@@ -7,16 +7,9 @@ database_dumps
 
 .DS_Store
 
-<<<<<<< HEAD
-*/target
-*/result
-*/.vscode
-*/.env
-=======
 target
 result
 .env
->>>>>>> b3e2ee4d409e515243c379aabcf45c1ee6ecd105
 
 .idea/
 dist/

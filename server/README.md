@@ -1,8 +1,10 @@
 # Contributing to the On Chain Signalling API (ocs_api)
 
-The On Chain Signalling API is a REST API that fetches and parses
-signalling information from transactions recorded on a Mina Archive Node
-for consumption by the On Chain Signalling Client
+The On Chain Signalling API is a 
+REST API that fetches and parses
+signalling information from transactions 
+recorded on a Mina Archive Node for consumption 
+by the On Chain Signalling Client
 
 ## Development Environment
 

@@ -19,14 +19,6 @@ in {
       inherit pkgs appDependencies;
     };
 
-    run-archive-node = import ./run-archive-node.nix {
-      inherit pkgs;
-    };
-
-    run-archive-database = import ./run-archive-database.nix {
-      inherit pkgs appDependencies;
-    };
-
     run-end-to-end = import ./run-end-to-end.nix {
       inherit pkgs ocs-client ocs-server;
     };

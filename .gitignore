@@ -1,23 +1,27 @@
 .pg
 .env
+.vscode
 result
 
-flake.lock
-
 database_dumps
-database_dumps/*
 
-nix/deployment/ops/.gcroots
+.DS_Store
 
+<<<<<<< HEAD
 */target
 */result
 */.vscode
 */.env
+=======
+target
+result
+.env
+>>>>>>> b3e2ee4d409e515243c379aabcf45c1ee6ecd105
 
-*/.idea/
-*/dist/
-*/build/
-*/node_modules/
-*/src/**/*.jsx
-*/tests/__coverage__/
-*/tests/**/*.jsx
+.idea/
+dist/
+build/
+node_modules/
+src/**/*.jsx
+tests/__coverage__/
+tests/**/*.jsx

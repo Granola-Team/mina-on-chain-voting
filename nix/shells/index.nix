@@ -1,4 +1,4 @@
-{ pkgs, apps, deploy-rs }:
+{ pkgs, apps }:
 let
   rust = pkgs.rust-bin.stable.latest.default.override {
     extensions = [ "rust-src" ];
@@ -39,9 +39,6 @@ in {
         apps.download-archive-dump
         apps.run-temp-database
         apps.run-end-to-end
-        apps.run-archive-node
-        apps.run-archive-database
-        apps.run-with-temp-database
 
         morph
       ];

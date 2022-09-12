@@ -6,7 +6,7 @@ Folders added represent each component needed for this project.
 # Server & Client
 
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.\
-A React SPA that displays and totals signalling results (votes) from the API.
+A React SPA that displays and totals signalling results (votes from the API).
 
 - `nix build` Builds the server and client and outputs to `./result`
 - `nix develop .#server` -> Enter a development shell for the server

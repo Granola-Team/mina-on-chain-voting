@@ -4,19 +4,17 @@
 result
 
 database_dumps
-database_dumps/*
 
 .DS_Store
-*/.DS_Store
 
-*/target
-*/result
-*/.env
+target
+result
+.env
 
-*/.idea/
-*/dist/
-*/build/
-*/node_modules/
-*/src/**/*.jsx
-*/tests/__coverage__/
-*/tests/**/*.jsx
+.idea/
+dist/
+build/
+node_modules/
+src/**/*.jsx
+tests/__coverage__/
+tests/**/*.jsx

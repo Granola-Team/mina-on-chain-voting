@@ -14,6 +14,7 @@ import { useKeywordStore } from "./Keyword.store";
 import { fetchKeywordData } from "./Keyword.queries";
 
 import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
+import { useAppStore } from "@/App.store";
 
 export const Keyword = () => {
   const { signals, setSignals, isLoading, setIsLoading } = useKeywordStore(
@@ -40,6 +41,7 @@ export const Keyword = () => {
   const [searchParams] = useFilterParams();
   const filter = searchParams.get("filter");
   const demo = searchParams.get("demo");
+  const network = useAppStore((state) => state.network);
 
   /**
    * Executing our query using React Query.
@@ -51,10 +53,10 @@ export const Keyword = () => {
     isSuccess,
     isError,
   } = useQuery(
-    [key, filter ?? "All"],
+    [key, filter ?? "All", network],
     () => {
       setIsLoading(true);
-      return fetchKeywordData(key, filter);
+      return fetchKeywordData(key, filter, network);
     },
     {
       enabled: !demo && !!key,

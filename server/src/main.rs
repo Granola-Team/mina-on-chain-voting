@@ -1,12 +1,12 @@
-use osc_api::{ ApiContext, Config, SubCommand, routes::Build, ledger::Ledger, queries};
-use tower_http::cors::{Any, CorsLayer};
-use axum::{Extension, http::Method};
-use sqlx::postgres::PgPoolOptions;
-use tower::ServiceBuilder;
 use anyhow::Context;
-use std::sync::Arc;
+use axum::{http::Method, Extension};
 use clap::Parser;
 use log::info;
+use osc_api::{ledger::Ledger, queries, routes::Build, ApiContext, Config, SubCommand};
+use sqlx::postgres::PgPoolOptions;
+use std::sync::Arc;
+use tower::ServiceBuilder;
+use tower_http::cors::{Any, CorsLayer};
 
 extern crate dotenv;
 
@@ -19,39 +19,52 @@ async fn main() -> anyhow::Result<()> {
 
     match config.subcmd {
         SubCommand::Start => {
-        let ledger = Ledger::init().await.expect("Error: Could not create ledger.");
+            let ledger = Ledger::init()
+                .await
+                .expect("Error: Could not create ledger.");
 
-        let db = PgPoolOptions::new()
-        .max_connections(50)
-        .connect(&config.database_url)
-        .await
-        .context("Error: Could not connect to database.")?;
+            let mainnet_db = PgPoolOptions::new()
+                .max_connections(25)
+                .connect(&config.mainnet_database_url)
+                .await
+                .context("Error: Could not connect to mainnet database.")?;
 
-        // Gets all available signals in DB.
-        // Once archive node is activally populating DB -> change this to get signals on request.
-        let signals = queries::get_signals(&db).await.expect("Error: Could not get signals.");
+            let devnet_db = PgPoolOptions::new()
+                .max_connections(25)
+                .connect(&config.devnet_database_url)
+                .await
+                .context("Error: Could not connect to devnet database.")?;
 
-        let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
-        .allow_origin(Any);
+            // Gets all available signals in DB.
+            // Once archive node is activally populating DB -> change this to get signals on request.
+            let mainnet_signals = queries::get_signals(&mainnet_db)
+                .await
+                .expect("Error: Could not get mainnet signals.");
+            let devnet_signals = queries::get_signals(&devnet_db)
+                .await
+                .expect("Error: Could not get devnet signals.");
 
-        let app = router(&config).layer(
-        ServiceBuilder::new()
-            .layer(cors)
-            .layer(Extension(ApiContext {
-                config: Arc::new(config),
-                ledger: Arc::new(ledger.db),
-                signals: Arc::new(signals),
-                db,
-            }))
-         );
+            let cors = CorsLayer::new()
+                .allow_methods([Method::GET, Method::POST])
+                .allow_origin(Any);
 
-        info!("Axum runtime started.");
+            let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
+                ApiContext {
+                    config: Arc::new(config),
+                    ledger: Arc::new(ledger.db),
+                    mainnet_signals: Arc::new(mainnet_signals),
+                    devnet_signals: Arc::new(devnet_signals),
+                    mainnet_db,
+                    devnet_db,
+                },
+            )));
 
-        axum::Server::bind(&"0.0.0.0:8080".parse()?)
-        .serve(app.into_make_service())
-        .await
-        .context("Error: Could not start webserver.")
+            info!("Axum runtime started.");
+
+            axum::Server::bind(&"0.0.0.0:8080".parse()?)
+                .serve(app.into_make_service())
+                .await
+                .context("Error: Could not start webserver.")
         }
     }
 }

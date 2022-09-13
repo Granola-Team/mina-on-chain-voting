@@ -1,5 +1,5 @@
 use serde::{Deserialize, Serialize};
-use sqlx::{Type, FromRow};
+use sqlx::{FromRow, Type};
 
 use crate::ledger::LedgerDelegations;
 
@@ -11,7 +11,6 @@ pub struct DBResponse {
     pub status: BlockStatus,
     pub timestamp: i64,
 }
-
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]
 #[sqlx(rename_all = "lowercase")]
@@ -29,7 +28,7 @@ pub struct Signal {
     pub status: BlockStatus,
     pub timestamp: i64,
     pub delegations: Option<LedgerDelegations>,
-    pub signal_status: Option<SignalStatus>
+    pub signal_status: Option<SignalStatus>,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
@@ -39,11 +38,10 @@ pub enum SignalStatus {
     Invalid,
 }
 
-
 #[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize)]
 pub struct SignalStats {
     pub yes: f32,
-    pub no: f32
+    pub no: f32,
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
@@ -54,7 +52,10 @@ pub struct ResponseEntity {
 
 impl ResponseEntity {
     pub fn new(signals: Vec<Signal>) -> Self {
-        Self { signals, stats: None }
+        Self {
+            signals: signals,
+            stats: None,
+        }
     }
 
     pub fn sort(mut self) -> Self {
@@ -67,4 +68,3 @@ impl ResponseEntity {
         self
     }
 }
-

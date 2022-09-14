@@ -7,8 +7,31 @@ import type { TableRowProps } from "@/types";
 
 import { TableBubble } from "./TableBubble";
 
-export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
+const createPercent = (v: number, t: number): string => {
+  const val = (v / t) * 100;
+  if (Number.isNaN(val)) {
+    return "XXX";
+  }
+  return val.toFixed(2);
+};
+
+export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
+  const percent: () => string = (): string => {
+    if (
+      signal.signal_status === "Settled" ||
+      signal.signal_status === "Unsettled"
+    ) {
+      const total = stats.yes + stats.no;
+      if (signal.delegations) {
+        return createPercent(
+          parseFloat(signal.delegations.delegated_balance),
+          total,
+        );
+      }
+    }
+    return "";
+  };
 
   if (isMobile) {
     return (
@@ -77,10 +100,13 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
       <div className="place-self-center">
         <span className="grid-table-content">
           {signal.delegations
-            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(
-                4,
-              )} Mina`
+            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(4)}`
             : "---"}
+        </span>
+      </div>
+      <div className="place-self-center">
+        <span className="grid-table-content">
+          {signal.delegations ? `${percent() ? `${percent()}%` : ""}` : "---"}
         </span>
       </div>
       <div className="place-self-center">

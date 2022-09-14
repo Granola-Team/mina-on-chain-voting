@@ -7,7 +7,12 @@ import { Spinner } from "../Spinner";
 import { TableBodyWrapper } from "./TableBodyWrapper";
 import { TableRow } from "./TableRow";
 
-export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
+export const TableBody: React.FC<TableProps> = ({
+  data,
+  query,
+  isLoading,
+  stats,
+}) => {
   if (isLoading) {
     return (
       <TableBodyWrapper>
@@ -22,7 +27,11 @@ export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
     <TableBodyWrapper>
       {data.signals.length > 0 ? (
         data.signals.map((signal, index) => (
-          <TableRow key={data.signals.length + index} signal={signal} />
+          <TableRow
+            key={data.signals.length + index}
+            stats={stats}
+            signal={signal}
+          />
         ))
       ) : (
         <span className="text-md py-12 medium">

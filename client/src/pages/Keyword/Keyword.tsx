@@ -126,7 +126,12 @@ export const Keyword = () => {
       <Layout>
         <React.Fragment>
           <StatsWeighted stats={signals.stats} />
-          <Table data={signals} query={key} isLoading={isLoading} />
+          <Table
+            data={signals}
+            stats={signals.stats}
+            query={key}
+            isLoading={isLoading}
+          />
         </React.Fragment>
       </Layout>
     );

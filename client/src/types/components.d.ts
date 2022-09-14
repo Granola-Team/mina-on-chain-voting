@@ -21,9 +21,11 @@ export interface TableProps {
   data: DataEntity;
   query: string | undefined;
   isLoading: boolean;
+  stats: StatsEntity;
 }
 export interface TableRowProps {
   signal: SignalEntity;
+  stats: StatsEntity;
 }
 
 export interface TableNavElementProps {

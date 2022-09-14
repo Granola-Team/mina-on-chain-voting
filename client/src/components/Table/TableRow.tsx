@@ -90,7 +90,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           {moment(new Date(signal.timestamp)).format("DD/MM/YYYY - hh:mm")}
         </span>
       </div>
-      <div className="place-self-left flex items-center gap-2 lg:gap-3">
+      <div className="flex items-center gap-2 lg:gap-3">
         <img
           className="h-5 w-5 lg:w-6 lg:h-6 rounded-full opacity-70"
           src={makeBlockie(signal.account)}

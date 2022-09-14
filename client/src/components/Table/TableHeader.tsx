@@ -20,7 +20,9 @@ export const TableHeader = () => {
       <span className="grid-table-heading place-self-center">
         Delegated Stake
       </span>
-      <span className="grid-table-heading place-self-center">Total %</span>
+      <span className="grid-table-heading place-self-center">
+        Delegated Stake %
+      </span>
       <span className="grid-table-heading place-self-center">Delegators</span>
       <span className="grid-table-heading place-self-center">Memo</span>
       <span className="grid-table-heading place-self-center">Blockstatus</span>

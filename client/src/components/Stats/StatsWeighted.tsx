@@ -35,7 +35,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
                   <div className="text-[0.725rem]">
                     We&apos;re counting all
                     <span className="inline semibold"> Settled</span> and
-                    <span className="inline semibold"> Unsettled</span> votes
+                    <span className="inline semibold"> Unsettled</span> signals
                     that adhere to our signalling convention.
                   </div>
                 </div>

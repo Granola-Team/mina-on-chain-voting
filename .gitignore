@@ -1,5 +1,20 @@
 .pg
 .env
+.vscode
 result
 
-flake.lock
+database_dumps
+
+.DS_Store
+
+target
+result
+.env
+
+.idea/
+dist/
+build/
+node_modules/
+src/**/*.jsx
+tests/__coverage__/
+tests/**/*.jsx

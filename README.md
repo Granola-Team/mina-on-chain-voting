@@ -6,20 +6,24 @@ Folders added represent each component needed for this project.
 # Server & Client
 
 An actix_web server that communicates with a MINA archive node to provide signalling information, and to host a React application that displays said info.\
-A React SPA that displays and totals signalling results (votes) from the API.
+A React SPA that displays and totals signalling results (votes from the API).
 
-** This Repository Requires the [Flakes](https://nixos.wiki/wiki/Flakes#Installing_nix_flakes) Experimental Feature **
-
-- `nix flake update` -> Updates the server and client
-- `nix run .` -> Builds the server and client and runs the server
+- `nix build` Builds the server and client and outputs to `./result`
+- `nix develop .#server` -> Enter a development shell for the server
+- `nix develop .#client` -> Enter a development shell for the client
+- `nix develop` -> Enter a development shell for this monorepo, with access to its development tools in the path
 
 Environment Variables for `nix run .`:
+These are necessary when running OnChain-Signalling manually (i.e. during local dev)
 
 - DBNAME : the name of the mina archive database (`archive_balances_migrated`)
 - USER : the user that owns the postgres database (`postgres`)
 - PASSWD : the database password (`postgres`)
 - DBPORT : the database's bound port (`5432`)
 - PORT : the port to bind the on-chain-signalling server to (`8080`)
+- HOST : host ip for the postgres database (`localhost`)
+
+(default environment variables conform to test database expectations)
 
 # Tools
 
@@ -34,5 +38,5 @@ A set of scripts to automate development environment management and deployment. 
 - `clean-archive-backups` --
   Removes old archive dumps from the local environment
 
-- `run-onchain-signalling` --
+- `run-end-to-end` --
   Builds and starts the actix-web server and links it to the latest build of the frontend in the nix store

@@ -24,10 +24,6 @@ in {
       inherit pkgs serverDependencies;
     };
 
-    deb-fhs = import ./deb-fhs.nix {
-      inherit pkgs;
-    };
-
     default = pkgs.mkShell {
 
       buildInputs = with pkgs; [

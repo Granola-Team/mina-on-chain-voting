@@ -31,7 +31,6 @@ in pkgs.stdenv.mkDerivation {
   dontConfigure = true;
   dontBuild = true;
 
-
   nativeBuildInputs = with pkgs; [
     autoPatchelfHook
     wrapGAppsHook

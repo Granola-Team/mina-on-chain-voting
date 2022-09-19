@@ -43,11 +43,12 @@ in pkgs.stdenv.mkDerivation {
   '';
 
   # make sure all lib dependencies are linked properly
-  # TODO: change to loop over bin folder
   fixupPhase = ''
-    patchelf \
-      --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-      --set-rpath "${rpath}" \
-      $out/bin/mina
+    for binary in $out/bin/*; do
+      patchelf \
+        --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+        --set-rpath "${rpath}" \
+        "$binary"
+    done
   '';
 }

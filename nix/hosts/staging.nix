@@ -2,8 +2,10 @@
 let
   ocs = import ../../default.nix;
 in rec {
+  # Amazon EC2 Setup --------------------------------------------
   imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
   ec2.hvm = true;
+  # -------------------------------------------------------------
 
   networking.hostName = "ocs-staging";
 

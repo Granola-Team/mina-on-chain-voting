@@ -1,5 +1,6 @@
 { pkgs }:
 let
+  # libraries for patchelf
   rpath = pkgs.lib.makeLibraryPath (with pkgs; [
     postgresql
     dpkg

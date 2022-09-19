@@ -29,6 +29,10 @@ in {
       };
     };
 
+    mina-mainnet = import ./mina-mainnet-1.3.1.1-ff361ba1.nix {
+      inherit pkgs;
+    };
+
     default = pkgs.stdenv.mkDerivation {
       name = "On Chain Signalling";
       version = "1.0.0";

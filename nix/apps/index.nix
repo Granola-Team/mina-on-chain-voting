@@ -1,4 +1,4 @@
-{ pkgs, ocs-client, ocs-server }:
+{ pkgs, ocs-client, ocs-server, source }:
 let
   appDependencies = with pkgs; [
     geos gdal
@@ -29,6 +29,11 @@ in {
 
     run-with-temp-database = import ./run-with-temp-database.nix {
       inherit pkgs run-temp-database ocs-client ocs-server;
+    };
+
+    deploy-ocs = import ./deploy-ocs.nix {
+      inherit pkgs source;
+      appDependencies = with pkgs; [ morph ];
     };
   };
 }

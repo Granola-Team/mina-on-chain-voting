@@ -16,6 +16,7 @@
 
       apps-index = import ./apps/index.nix {
         inherit pkgs;
+        source = sourceDir;
         ocs-client = packages-index.packages.client;
         ocs-server = packages-index.packages.server;
       };

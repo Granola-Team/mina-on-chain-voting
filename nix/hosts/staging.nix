@@ -7,6 +7,12 @@ in rec {
 
   networking.hostName = "ocs-staging";
 
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [ 8080 22 ];
+    allowedUDPPortRanges = [ ];
+  };
+
   services.openssh.enable = true;
 
   environment.systemPackages = [
@@ -66,7 +72,7 @@ in rec {
     serviceConfig = {
       Type = "simple";
       User = "onchain-signalling";
-      ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end &'';         
+      ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end'';         
     };
   };
 

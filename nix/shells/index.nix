@@ -24,6 +24,10 @@ in {
       inherit pkgs serverDependencies;
     };
 
+    deb-fhs = import ./deb-fhs.nix {
+      inherit pkgs;
+    };
+
     default = pkgs.mkShell {
 
       buildInputs = with pkgs; [
@@ -39,6 +43,7 @@ in {
         apps.download-archive-dump
         apps.run-temp-database
         apps.run-end-to-end
+        apps.deploy-ocs
 
         morph
       ];

@@ -10,6 +10,9 @@ use tower_http::cors::{Any, CorsLayer};
 
 extern crate dotenv;
 
+// Command to start the server:
+// cargo run --release -- start
+
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     dotenv::dotenv().ok();

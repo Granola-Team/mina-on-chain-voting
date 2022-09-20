@@ -35,8 +35,6 @@ async fn main() -> anyhow::Result<()> {
                 .await
                 .context("Error: Could not connect to devnet database.")?;
 
-            // Gets all available signals in DB.
-            // Once archive node is activally populating DB -> change this to get signals on request.
             let mainnet_signals = queries::get_signals(&mainnet_db)
                 .await
                 .expect("Error: Could not get mainnet signals.");

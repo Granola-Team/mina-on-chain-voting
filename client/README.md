@@ -1,4 +1,18 @@
-## Directory layout
+# Contributing to the On Chain Signalling Client (ocs_client)
+
+The On Chain Signalling Client is a React SPA built on the TanStack
+that provides a dashboard for visualizing governance signals on the
+Mina Blockchain
+
+## Development Environment
+
+- `nix develop .#client`
+
+Run from the monorepo directory, 
+and ensure Nix Flakes are enabled 
+https://nixos.wiki/wiki/Flakes#Installing_nix_flakes
+
+# Directory layout
 
 > Use short lowercase names at least for the top-level files and folders.
 

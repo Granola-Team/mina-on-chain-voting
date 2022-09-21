@@ -14,8 +14,6 @@ extern crate postgres_derive;
 pub struct ApiContext {
     pub config: Arc<Config>,
     pub ledger: Arc<tokio_rusqlite::Connection>,
-    pub mainnet_signals: Arc<Vec<models::DBResponse>>,
-    pub devnet_signals: Arc<Vec<models::DBResponse>>,
     pub mainnet_db: PgPool,
     pub devnet_db: PgPool,
 }

@@ -10,7 +10,7 @@ use std::collections::HashMap;
 
 use crate::{
     ledger::LedgerDelegations,
-    models::{BlockStatus, ResponseEntity, Signal, SignalStats, SignalStatus},
+    models::{BlockStatus, DBResponse, ResponseEntity, Signal, SignalStats, SignalStatus},
     queries,
 };
 
@@ -44,15 +44,11 @@ fn validate_signal(memo: &str, key: &str) -> bool {
 pub async fn parse_responses(
     key: String,
     latest_block: i64,
+    signals: Vec<DBResponse>,
     ctx: Extension<crate::ApiContext>,
     network: QueryRequestFilter,
     req_filter: Option<QueryRequestFilter>,
 ) -> ResponseEntity {
-    let signals = match network {
-        QueryRequestFilter::Mainnet => ctx.mainnet_signals.clone(),
-        _ => ctx.devnet_signals.clone(),
-    };
-
     ctx.ledger
         .call(move |conn| {
             let mut hash: HashMap<String, Vec<Signal>> = HashMap::new();
@@ -349,10 +345,19 @@ pub async fn handler(
     let filter = params.remove("filter");
 
     if let Some(network) = network_opt {
+        let signals = match network {
+            QueryRequestFilter::Mainnet => queries::get_signals(&ctx.mainnet_db)
+                .await
+                .expect("Error: Could not get mainnet signals."),
+            _ => queries::get_signals(&ctx.devnet_db)
+                .await
+                .expect("Error: Could not get devnet signals."),
+        };
+
         let latest_block_height = queries::get_latest_blockheight(&ctx, &network)
             .await
             .expect("Error: Could not get latest block.");
-        let result = parse_responses(key, latest_block_height, ctx, network, filter).await;
+        let result = parse_responses(key, latest_block_height, signals, ctx, network, filter).await;
 
         return (StatusCode::ACCEPTED, axum::Json(result)).into_response();
     }

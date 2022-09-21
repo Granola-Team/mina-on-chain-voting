@@ -2,16 +2,13 @@ use anyhow::Context;
 use axum::{http::Method, Extension};
 use clap::Parser;
 use log::info;
-use osc_api::{ledger::Ledger, queries, routes::Build, ApiContext, Config, SubCommand};
+use osc_api::{ledger::Ledger, routes::Build, ApiContext, Config, SubCommand};
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
 use tower_http::cors::{Any, CorsLayer};
 
 extern crate dotenv;
-
-// Command to start the server:
-// cargo run --release -- start
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -38,13 +35,6 @@ async fn main() -> anyhow::Result<()> {
                 .await
                 .context("Error: Could not connect to devnet database.")?;
 
-            let mainnet_signals = queries::get_signals(&mainnet_db)
-                .await
-                .expect("Error: Could not get mainnet signals.");
-            let devnet_signals = queries::get_signals(&devnet_db)
-                .await
-                .expect("Error: Could not get devnet signals.");
-
             let cors = CorsLayer::new()
                 .allow_methods([Method::GET, Method::POST])
                 .allow_origin(Any);
@@ -53,8 +43,6 @@ async fn main() -> anyhow::Result<()> {
                 ApiContext {
                     config: Arc::new(config),
                     ledger: Arc::new(ledger.db),
-                    mainnet_signals: Arc::new(mainnet_signals),
-                    devnet_signals: Arc::new(devnet_signals),
                     mainnet_db,
                     devnet_db,
                 },

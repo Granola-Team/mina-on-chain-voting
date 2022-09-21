@@ -15,6 +15,7 @@ export const useFilterParams = (): [
   const executeRoute = (params: RoutesParams): void => {
     const filter = searchParams.get("filter");
     const demo = searchParams.get("demo");
+    const admin = searchParams.get("admin");
 
     const routes = {
       ...((filter || params.filter) && {
@@ -22,6 +23,9 @@ export const useFilterParams = (): [
       }),
       ...((demo || params.demo) && {
         demo: params.demo ? params.demo : demo!,
+      }),
+      ...((admin || params.admin) && {
+        admin: params.admin ? params.admin : admin!,
       }),
     };
 

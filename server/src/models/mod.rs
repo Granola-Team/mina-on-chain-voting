@@ -53,7 +53,7 @@ pub struct ResponseEntity {
 impl ResponseEntity {
     pub fn new(signals: Vec<Signal>) -> Self {
         Self {
-            signals: signals,
+            signals,
             stats: None,
         }
     }

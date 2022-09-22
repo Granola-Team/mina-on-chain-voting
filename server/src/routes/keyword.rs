@@ -41,6 +41,7 @@ fn validate_signal(memo: &str, key: &str) -> bool {
     false
 }
 
+/// It's so bad.
 pub async fn parse_responses(
     key: String,
     latest_block: i64,

@@ -19,6 +19,9 @@ pub async fn get_latest_blockheight(
     Ok(row.0)
 }
 
+/// By default we get all signals every query.
+/// This is wildly inefficient & we should work towards an alternative.
+/// Since we're essentially only interested in memo's - maybe a way to decode base58 on the DB side?
 pub async fn get_signals(db: &Pool<Postgres>) -> Result<Vec<DBResponse>, sqlx::Error> {
     sqlx::query_as!(
         DBResponse,

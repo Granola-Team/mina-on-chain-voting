@@ -27,13 +27,13 @@ export const TableNavElement: React.FC<TableNavElementProps> = ({
     <button
       type="button"
       disabled={active}
-      className={`relative w-20 ${filter !== "All" ? "ml-4" : ""}`}
+      className={`relative md:w-20 ${filter !== "All" ? "ml-4" : ""}`}
       onClick={() => {
         executeRoute({ filter });
       }}
     >
       <span
-        className={`text-content ${
+        className={`text-[0.8rem] md:text-[0.95rem] md:leading-6 ${
           active
             ? "medium"
             : "text-gray-11 hover:text-gray-12 transition-colors duration-100"
@@ -42,7 +42,7 @@ export const TableNavElement: React.FC<TableNavElementProps> = ({
         {title}
       </span>
       {active ? (
-        <div className="absolute inset-x-0 -bottom-4 w-full h-[2.5px] bg-gradient animate-gradient" />
+        <div className="absolute inset-x-0 -bottom-4 w-full h-[2px] rounded-xl bg-gradient animate-gradient" />
       ) : (
         <div />
       )}

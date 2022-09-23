@@ -4,29 +4,29 @@ import {
   ReactQueryClient,
   QueryClientProvider,
   ReactQueryDevtools,
-} from "@/queries";
+} from "@/query";
 
 import { isDarkMode, setTheme } from "@/utils/theme";
-import { useAppStore } from "@/store/app.store";
-import { Home } from "@/pages";
+import { useAppStore } from "@/App.store";
+import { Home, Keyword } from "@/pages";
 
 const App = () => {
   const setDarkMode = useAppStore((state) => state.setDarkMode);
-  const isDev = useAppStore((state) => state.devMode);
 
   useEffect(() => {
     setTheme();
     setDarkMode(isDarkMode());
-  }, []);
+  }, [setDarkMode]);
 
   return (
     <QueryClientProvider client={ReactQueryClient}>
       <Router>
         <Routes>
+          <Route path="/:key" element={<Keyword />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>
-      {isDev ? <ReactQueryDevtools /> : null}
+      {import.meta.env.DEV ? <ReactQueryDevtools /> : null}
     </QueryClientProvider>
   );
 };

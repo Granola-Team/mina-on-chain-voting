@@ -2,6 +2,11 @@ export type BlockStatus = "Canonical" | "Orphaned" | "Pending";
 
 export type SignalStatus = "Invalid" | "Settled" | "Unsettled";
 
+export interface DelegationEntity {
+  delegated_balance: string;
+  total_delegators: number;
+}
+
 export interface SignalEntity {
   height: number;
   timestamp: number;
@@ -9,6 +14,7 @@ export interface SignalEntity {
   memo: string;
   status: BlockStatus;
   signal_status: SignalStatus;
+  delegations: DelegationEntity | null;
 }
 
 export interface StatsEntity {

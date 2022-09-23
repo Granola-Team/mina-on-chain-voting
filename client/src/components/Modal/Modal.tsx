@@ -26,7 +26,7 @@ export const Modal: React.FC<ModalProps> = ({ children, state, setState }) => {
         </Transition.Child>
 
         <div className="absolute top-44 left-0 right-0 w-full z-10">
-          <div className="flex items-center justify-center p-4 text-center sm:p-0">
+          <div className="flex items-center justify-center p-2 text-center lg:p-0">
             {children}
           </div>
         </div>

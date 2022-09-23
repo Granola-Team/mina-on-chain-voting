@@ -1,30 +1,43 @@
+/* eslint-disable no-nested-ternary */
 import React from "react";
 
 import type { TableProps } from "@/types";
 
-import { useFilterParams } from "@/hooks/useFilterParams";
-
-import { TableHeader } from "./TableHeader";
+import { Spinner } from "../Spinner";
+import { TableBodyWrapper } from "./TableBodyWrapper";
 import { TableRow } from "./TableRow";
 
-export const TableBody: React.FC<TableProps> = ({ data }) => {
-  const [searchParams] = useFilterParams();
-  const key = searchParams.get("key");
+export const TableBody: React.FC<TableProps> = ({
+  data,
+  query,
+  isLoading,
+  stats,
+}) => {
+  if (isLoading) {
+    return (
+      <TableBodyWrapper>
+        <div className="py-6 mt-1">
+          <Spinner />
+        </div>
+      </TableBodyWrapper>
+    );
+  }
 
   return (
-    <div className="w-full flex flex-col bg-gray-2 border border-gray-7 rounded-md py-2">
-      <TableHeader />
-      <div className="flex items-center flex-col divide-y divide-gray-7 divide-dashed">
-        {data.signals.length > 0 ? (
-          data.signals.map((signal, index) => (
-            <TableRow key={signal.timestamp / index} signal={signal} />
-          ))
-        ) : (
-          <span className="text-md py-12 medium">
-            No results found for &apos;{key}&apos;
-          </span>
-        )}
-      </div>
-    </div>
+    <TableBodyWrapper>
+      {data.signals.length > 0 ? (
+        data.signals.map((signal, index) => (
+          <TableRow
+            key={data.signals.length + index}
+            stats={stats}
+            signal={signal}
+          />
+        ))
+      ) : (
+        <span className="text-md py-12 medium">
+          No results found for keyword &apos;{query ? query : "_"}&apos;
+        </span>
+      )}
+    </TableBodyWrapper>
   );
 };

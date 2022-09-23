@@ -22,7 +22,7 @@ export const TableBubble: React.FC<TableBubbleProps> = ({
 
   return (
     <div
-      className={`flex items-center justify-center border px-4 py-0.5 rounded-3xl w-24 ${getColor()}`}
+      className={`flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 ${getColor()}`}
     >
       {children}
     </div>

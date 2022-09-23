@@ -1,11 +1,14 @@
 import React from "react";
+import shallow from "zustand/shallow";
 
-import { useAppStore } from "@/store/app.store";
+import { useAppStore } from "@/App.store";
 import { changeTheme } from "@/utils/theme";
 
 export const SettingsDarkMode = () => {
-  const darkMode = useAppStore((state) => state.darkMode);
-  const setDarkMode = useAppStore((state) => state.setDarkMode);
+  const { darkMode, setDarkMode } = useAppStore(
+    (state) => ({ darkMode: state.darkMode, setDarkMode: state.setDarkMode }),
+    shallow,
+  );
 
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDarkMode(e.target.checked);

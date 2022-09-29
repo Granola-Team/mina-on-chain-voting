@@ -29,17 +29,20 @@ const buildAPIUrl = (
 export const fetchKeywordData = async (
   key: string | undefined,
   filter: string | null,
-  network: Network,
+  network: string | null,
 ) => {
   if (!key) {
     throw new Error("Please provide a valid key.");
   }
 
-  const { data } = await axios.get(buildAPIUrl(key, filter, network), {
-    method: "GET",
-    headers: {
-      "Content-type": "application/json",
+  const { data } = await axios.get(
+    buildAPIUrl(key, filter, network ? (network as Network) : "Mainnet"),
+    {
+      method: "GET",
+      headers: {
+        "Content-type": "application/json",
+      },
     },
-  });
+  );
   return data as DataEntity;
 };

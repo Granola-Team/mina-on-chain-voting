@@ -1,5 +1,5 @@
 { self, nixpkgs, flake-utils, flake-compat, rust-overlay, sourceDir }: 
-  flake-utils.lib.eachSystem [ "x86_64-linux" ] (system:
+  flake-utils.lib.eachSystem [ "x86_64-linux" "aarch64-darwin" "x86_64-darwin" ] (system:
     let
       overlays = [ (import rust-overlay) ];
 

@@ -1,6 +1,7 @@
 { modulesPath, config, pkgs, ... }: 
 let
   ocs = import ../../default.nix;
+  mina = import ../packages/mina-mainnet-1.3.1.1-ff361ba1.nix { inherit pkgs; };
 in rec {
   # Amazon EC2 Setup --------------------------------------------
   imports = [ "${modulesPath}/virtualisation/amazon-image.nix" ];
@@ -19,9 +20,17 @@ in rec {
 
   environment.systemPackages = [
     ocs.defaultApp.x86_64-linux
+    mina
   ];
 
   users.users = {
+    mina-daemon = {
+      isNormalUser = true;
+      home = "/home/mina-daemon";
+      description = "Host user for the Mina Daemon";
+      extraGroups = [ "postgres" ];
+    };
+
     archive-node = {
       isNormalUser = true;
       home = "/home/archive-node";
@@ -77,6 +86,13 @@ in rec {
       ExecStart = ''${ocs.defaultApp.x86_64-linux}/bin/run-end-to-end'';         
     };
   };
+
+  # systemd.services.mina-daemon = {
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "network.target" "postgresql.service" ];
+  #   description = "Run the Mina Daemon"; # should we be running a block producer node?
+
+  # }
 
   system.stateVersion = "22.05";
 }

@@ -8,8 +8,8 @@ Mina Blockchain
 
 - `nix develop .#client`
 
-Run from the monorepo directory, 
-and ensure Nix Flakes are enabled 
+Run from the monorepo directory,
+and ensure Nix Flakes are enabled
 https://nixos.wiki/wiki/Flakes#Installing_nix_flakes
 
 # Directory layout

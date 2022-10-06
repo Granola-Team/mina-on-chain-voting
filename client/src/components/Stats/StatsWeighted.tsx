@@ -3,7 +3,7 @@ import moment from "moment";
 
 import type { StatsWeightedProps } from "@/types";
 import { IconTooltip } from "@/components/Tooltip";
-import { useAppStore } from "@/App.store";
+import { useFilterParams } from "@/hooks/useFilterParams";
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -14,7 +14,9 @@ const createPercent = (v: number, t: number): string => {
 };
 
 export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
-  const network = useAppStore((state) => state.network);
+  const [searchParams] = useFilterParams();
+  const network = searchParams.get("network");
+
   const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
   const total = stats.yes + stats.no;
   const yesPercent = createPercent(stats.yes, total);

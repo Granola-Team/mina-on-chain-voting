@@ -14,7 +14,6 @@ import { useKeywordStore } from "./Keyword.store";
 import { fetchKeywordData } from "./Keyword.queries";
 
 import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
-import { useAppStore } from "@/App.store";
 
 export const Keyword = () => {
   const { signals, setSignals, isLoading, setIsLoading } = useKeywordStore(
@@ -37,11 +36,12 @@ export const Keyword = () => {
    * Gets current search parameters.
    * @param {string} filter - Param to control filters. (e.g. 'Settled' only)
    * @param {string} demo - Param to toggle demonstration mode.
+   * @param {string} network - Param to control network. (e.g. Mainnet)
    */
   const [searchParams] = useFilterParams();
   const filter = searchParams.get("filter");
   const demo = searchParams.get("demo");
-  const network = useAppStore((state) => state.network);
+  const network = searchParams.get("network");
 
   /**
    * Executing our query using React Query.

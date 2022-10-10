@@ -2,7 +2,7 @@ use serde::de::DeserializeOwned;
 use serde_json::{self, Deserializer};
 use std::io::{self, Read};
 
-fn read_skipping_ws(mut reader: impl Read) -> io::Result<u8> {
+pub fn read_skipping_ws(mut reader: impl Read) -> io::Result<u8> {
     loop {
         let mut byte = 0u8;
         reader.read_exact(std::slice::from_mut(&mut byte))?;

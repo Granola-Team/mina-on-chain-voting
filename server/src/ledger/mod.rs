@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use tokio_rusqlite::Connection;
 use log::{info, error};
 
-mod stream;
+pub mod stream;
 
 #[derive(Debug, Default, PartialEq, Eq, Clone, FromSql, Serialize, Deserialize)]
 pub struct LedgerDelegations {

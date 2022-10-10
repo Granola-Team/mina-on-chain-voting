@@ -68,3 +68,40 @@ impl ResponseEntity {
         self
     }
 }
+
+
+// #[cfg(test)]
+mod tests {
+    
+    use super::*;
+    use osc_api::ledger::LedgerDelegations;
+
+    #[test]
+    fn sort_ResponseEntity_sorts_signals() {
+        let twosignals = ResponseEntity {
+            signals: Vec<Signal> {
+                {
+                    account: String::from("123"),
+                    memo: String::from("test"),
+                    height: 8,
+                    status: BlockStatus::Canonical,
+                    timestamp: 10,
+                    delegations: Some(LedgerDelegations::default()),
+                    signal_status: Some(SignalStatus::Settled),
+                },
+                {   
+                    account: String::from("124"),
+                    memo: String::from("test2"),
+                    height: 10,
+                    status: BlockStatus::Canonical,
+                    timestamp: 11,
+                    delegations: Some(LedgerDelegations::default()),
+                    signal_status: Some(SignalStatus::Settled),
+                },
+            },
+            stats: None,
+        };
+        let result = ResponseEntity::sort(twosignals); 
+        assert_eq!(result, ResponseEntity);
+    }
+}

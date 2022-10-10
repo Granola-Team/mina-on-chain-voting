@@ -56,3 +56,26 @@ pub fn iter<T: DeserializeOwned, R: Read>(
     let mut at_start = false;
     std::iter::from_fn(move || yield_next_obj(&mut reader, &mut at_start).transpose()).enumerate()
 }
+
+#[cfg(test)]
+mod tests {
+    
+    use super::*;
+
+    #[test]
+    fn read_skipping_ws_reads_data() {
+        let array_eights: [u8; 1] = [1];
+        let result = read_skipping_ws(&array_eights[..]); 
+        assert!(matches!(result, Result::Ok(_)));
+        let result = result.unwrap();
+        assert_eq!(result, 1);
+    }
+
+    #[test]
+    fn read_skipping_ws_skips_whitespace_all() {
+        let array_eights: [u8; 5] = [0x20,0x09,0x0A,0x0C,0x0D];
+        let result = read_skipping_ws(&array_eights[..]);
+        assert!(matches!(result, Result::Err(_))); 
+    }
+   
+}

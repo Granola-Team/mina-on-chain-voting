@@ -9,10 +9,11 @@ let
   ];
 
   serverDependencies = with pkgs; [
-    rust rust-analyzer rustfmt sqlx-cli sqlite
+    rust rust-analyzer rustfmt sqlx-cli
     rnix-lsp nixpkgs-fmt
     pkg-config openssl
-    postgresql
+    haskellPackages.dotenv
+    postgresql sqlite
   ];
 in {
   devShells = {

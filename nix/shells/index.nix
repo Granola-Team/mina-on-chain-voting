@@ -9,7 +9,7 @@ let
   ];
 
   serverDependencies = with pkgs; [
-    rust rust-analyzer rustfmt
+    rust rust-analyzer rustfmt sqlx-cli sqlite
     rnix-lsp nixpkgs-fmt
     pkg-config openssl
     postgresql

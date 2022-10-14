@@ -114,7 +114,6 @@ jobs:
         with:
           command: kcov
           working-directory: server
-          args:
         
       - name: Publish Test Coverage Report
         - uses: actions/checkout@master

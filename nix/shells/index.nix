@@ -9,7 +9,7 @@ let
   ];
 
   serverDependencies = with pkgs; [
-    rust rust-analyzer rustfmt sqlx-cli
+    rust rust-analyzer rustfmt sqlx-cli cargo-kcov
     rnix-lsp nixpkgs-fmt
     pkg-config openssl
     haskellPackages.dotenv

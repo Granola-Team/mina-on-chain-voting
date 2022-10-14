@@ -44,7 +44,7 @@ pub struct SignalStats {
     pub no: f32,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
 pub struct ResponseEntity {
     pub signals: Vec<Signal>,
     pub stats: Option<SignalStats>,
@@ -70,38 +70,40 @@ impl ResponseEntity {
 }
 
 
-// #[cfg(test)]
+#[cfg(test)]
 mod tests {
     
     use super::*;
-    // use osc_api::ledger::LedgerDelegations;
+    use crate::ledger::LedgerDelegations;
 
     #[test]
-    fn sort_ResponseEntity_sorts_signals() {
-        let firstsignal = Signal {
-                account: String::from("123"),
-                memo: String::from("test"),
-                height: 8,
-                status: BlockStatus::Canonical,
-                timestamp: 10,
-                delegations: Some(LedgerDelegations::default()),
-                signal_status: Some(SignalStatus::Settled),
-            };
-        let secondsignal = Signal {
-            account: String::from("124"),
-            memo: String::from("test2"),
+    fn sort_ResponseEntity_sorts_signals_by_height() {
+        let signal1 = Signal {
+            account: String::from(""),
+            memo: String::from(""),
+            height: 8,
+            status: BlockStatus::Canonical,
+            timestamp: 10,
+            delegations: Some(LedgerDelegations::default()),
+            signal_status: Some(SignalStatus::Settled),
+        };
+
+        let signal2 = Signal {
+            account: String::from(""),
+            memo: String::from(""),
             height: 10,
             status: BlockStatus::Canonical,
             timestamp: 11,
             delegations: Some(LedgerDelegations::default()),
             signal_status: Some(SignalStatus::Settled),        
         };
-        let twosignals = ResponseEntity {
-            signals: vec! [firstsignal, secondsignal],
+
+        let response_entity = ResponseEntity {
+            signals: vec! [signal1, signal2.clone()],
             stats: None,
         };
-        let result = ResponseEntity::sort(twosignals); 
-        assert_eq!(result, twosignals); 
+        let result = response_entity.sort(); 
+        assert_eq!(result.signals.get(0).unwrap(), &signal2); 
     }
 
     #[test]

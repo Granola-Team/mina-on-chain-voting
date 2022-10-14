@@ -6,7 +6,7 @@
       pkgs = import nixpkgs { inherit system overlays; };
 
       rust = pkgs.rust-bin.stable.latest.default.override {
-        extensions = [ "rust-src" ];
+        extensions = [ "rust-src" "llvm-tools-preview" ];
       };
 
       packages-index = import ./packages/index.nix {

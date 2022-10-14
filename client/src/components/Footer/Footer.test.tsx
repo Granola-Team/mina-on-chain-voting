@@ -1,17 +1,21 @@
 import React from "react";
 import { expect } from "vitest";
-import { fireEvent, render } from "@testing-library/react";
+import { fireEvent, getByText, render } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import { Footer } from "./Footer"
 
 
 test('should navigate to ... when link is clicked', async () => {
-    render(<Footer />);
+    const rendered = render(<Footer />);
 
-    expect(screen.getByText('GitHub')).toHaveAttribute(
+    const link = rendered.getByText('GitHub'); 
+
+    fireEvent.click(link);
+    
+    expect(link.toHaveAttribute(
         'href', 
         'https://github.com/Granola-Team/onchain-signalling'
-        );
+        ));
 });
 
 test('should navigate to ... when link is clicked', async () => {

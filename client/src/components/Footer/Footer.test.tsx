@@ -1,6 +1,5 @@
-import React from "react";
 import { expect } from "vitest";
-import { screen, fireEvent, getByText, toHaveAttribute, render } from "@testing-library/react";
+import { screen, fireEvent, render } from "@testing-library/react";
 import '@testing-library/jest-dom';
 import { Footer } from "./Footer";
 

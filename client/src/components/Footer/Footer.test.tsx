@@ -2,29 +2,24 @@ import React from "react";
 import { expect } from "vitest";
 import { fireEvent, render } from "@testing-library/react";
 import '@testing-library/jest-dom';
+import { Footer } from "./Footer"
 
-test('should navigate to ... when link is clicked', () => {
-  const { getByText } = render(<a href="https://github.com/Granola-Team/onchain-signalling">GitHub</a>);
 
-  const link = getByText('GitHub'); 
+test('should navigate to ... when link is clicked', async () => {
+    render(<Footer />);
 
-  fireEvent.click(link);
-
-  expect(getByText('GitHub')).toHaveAttribute(
-    'href', 
-    'https://github.com/Granola-Team/onchain-signalling'
-    );
+    expect(screen.getByText('GitHub')).toHaveAttribute(
+        'href', 
+        'https://github.com/Granola-Team/onchain-signalling'
+        );
 });
 
-test('should navigate to ... when link is clicked', () => {
-  const { getByText } = render(<a href="https://granola.team">GitHub</a>);
+test('should navigate to ... when link is clicked', async () => {
+    render(<Footer />);
 
-  const link = getByText('GitHub');
-
-  fireEvent.click(link);
-
-  expect(getByText('GitHub')).toHaveAttribute(
-    'href',
-    'https://granola.team'
-    );
+    expect(screen.getByText('Made with ❤️ by Granola')).toHaveAttribute(
+        'href',
+        'https://granola.team'
+        );
 });
+

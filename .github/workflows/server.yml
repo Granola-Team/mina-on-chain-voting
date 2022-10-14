@@ -1,4 +1,4 @@
-name: OSC Server
+name: OCS Server
 
 on:
   push:
@@ -108,11 +108,19 @@ jobs:
           working-directory: server
           args: --workspace
 
-      - name: Coverage
+      - name: Generate Test Coverage Report
         uses: mxnkarou/cargo@master
         if: steps.server-changes.outputs.changed == 'true'
         with:
           command: kcov
           working-directory: server
           args:
-
+        
+      - name: Publish Test Coverage Report
+        - uses: actions/checkout@master
+        - uses: shallwefootball/s3-upload-action@master
+        with:
+          aws_key_id: ${{ secrets.AWS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: ${{ secrets.AWS_COVERAGE_BUCKET }}
+          source_dir: server/target/cov

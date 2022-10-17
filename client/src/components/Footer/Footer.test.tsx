@@ -6,7 +6,7 @@ import { Footer } from "./Footer";
 test("should navigate to ... when link is clicked", async () => {
     const rendered = render(<Footer />);
 
-    const link = rendered.getByText("GitHub"); 
+    const link = rendered.getByText("GitHub");
 
     fireEvent.click(link);
     
@@ -17,10 +17,10 @@ test("should navigate to ... when link is clicked", async () => {
 test("should navigate to ... when link is clicked", async () => {
     const rendered = render(<Footer />);
 
-    const link = rendered.getByText("Made with ❤️ by Granola"); 
+    const link = rendered.getByText("Made with ❤️ by Granola");
 
     fireEvent.click(link);
-    
+
     expect(screen.getByText("Made with ❤️ by Granola").closest("a"))
         .toHaveAttribute("href", "https://granola.team");
 });

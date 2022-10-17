@@ -1,4 +1,8 @@
 {
+  "env": 
+  {
+    "jest": true
+  },
   "extends": [
     "eslint-config-zoro/react",
     "eslint-config-zoro/typescript",

@@ -9,7 +9,7 @@ test("should navigate to ... when link is clicked", async () => {
     const link = rendered.getByText("GitHub");
 
     fireEvent.click(link);
-    
+
     expect(screen.getByText("GitHub").closest("a"))
         .toHaveAttribute("href", "https://github.com/Granola-Team/onchain-signalling");
 });

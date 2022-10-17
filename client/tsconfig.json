@@ -7,7 +7,7 @@
     "outDir": "build",
     "target": "ESNext",
     "sourceMap": true,
-    "types": ["react/next", "react-dom/next", "vitest/globals"],
+    "types": ["react/next", "react-dom/next", "vitest/globals", "@testing-library/jest-dom"],
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "noImplicitAny": true,

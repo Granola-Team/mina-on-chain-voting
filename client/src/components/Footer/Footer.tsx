@@ -5,7 +5,7 @@ export const Footer = React.memo(() => {
     <footer className="py-1.5 border border-t border-gray-7">
       <div className="mx-auto flex flex-col items-center">
         <a
-          href="https://github.com/Granola-Team/mina-signaling"
+          href="https://github.com/Granola-Team/onchain-signalling"
           className="-mb-1"
         >
           <span className="text-[0.85rem]">GitHub</span>

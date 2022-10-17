@@ -3,7 +3,7 @@ import { screen, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Footer } from "./Footer";
 
-test("should navigate to ... when link is clicked", async () => {
+test("should navigate to GitHub source code when link is clicked", async () => {
     const rendered = render(<Footer />);
 
     const link = rendered.getByText("GitHub");
@@ -14,7 +14,7 @@ test("should navigate to ... when link is clicked", async () => {
         .toHaveAttribute("href", "https://github.com/Granola-Team/onchain-signalling");
 });
 
-test("should navigate to ... when link is clicked", async () => {
+test("should navigate to Granola website when link is clicked", async () => {
     const rendered = render(<Footer />);
 
     const link = rendered.getByText("Made with ❤️ by Granola");

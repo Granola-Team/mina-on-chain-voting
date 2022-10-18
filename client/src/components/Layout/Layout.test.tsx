@@ -1,5 +1,4 @@
 import { expect } from "vitest";
-import { screen, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Layout } from "./Layout";
 import type { ComponentWithChildren } from "@/types";
@@ -8,7 +7,7 @@ import Adapter from "enzyme-adapter-react-16";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
 
-configure({adapter: new Adapter()});
+configure({ adapter: new Adapter() });
 test("Header is rendered", async () => {
     const layout = shallow(<Layout><div><Header /></div> </Layout>);
     expect(layout.getElements()).toMatchSnapshot();

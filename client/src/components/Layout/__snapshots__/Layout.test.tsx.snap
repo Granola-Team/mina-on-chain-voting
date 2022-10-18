@@ -1,0 +1,758 @@
+// Vitest Snapshot v1
+
+exports[`Footer is rendered 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <footer
+        class="py-1.5 border border-t border-gray-7"
+      >
+        <div
+          class="mx-auto flex flex-col items-center"
+        >
+          <a
+            class="-mb-1"
+            href="https://github.com/Granola-Team/onchain-signalling"
+          >
+            <span
+              class="text-[0.85rem]"
+            >
+              GitHub
+            </span>
+          </a>
+          <a
+            href="https://granola.team"
+          >
+            <span
+              class="text-[0.7rem]"
+            >
+              Made with ❤️ by Granola
+            </span>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </body>,
+  "container": <div>
+    <footer
+      class="py-1.5 border border-t border-gray-7"
+    >
+      <div
+        class="mx-auto flex flex-col items-center"
+      >
+        <a
+          class="-mb-1"
+          href="https://github.com/Granola-Team/onchain-signalling"
+        >
+          <span
+            class="text-[0.85rem]"
+          >
+            GitHub
+          </span>
+        </a>
+        <a
+          href="https://granola.team"
+        >
+          <span
+            class="text-[0.7rem]"
+          >
+            Made with ❤️ by Granola
+          </span>
+        </a>
+      </div>
+    </footer>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Header is rendered 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <header
+        class="border-b border-gray-7"
+      >
+        <div
+          class="flex items-center justify-between px-5 py-4 lg:px-10"
+        >
+          <div
+            class="flex items-center"
+          >
+            <a
+              href=""
+            >
+              <h1>
+                Mina On-Chain Signals
+              </h1>
+            </a>
+            <span
+              class="h-5 border-r ml-9 border-gray-7"
+            />
+            <button
+              class="ml-4"
+              type="button"
+            >
+              <div
+                class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
+          <button
+            type="button"
+          >
+            <div
+              class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
+      </header>
+    </div>
+  </body>,
+  "container": <div>
+    <header
+      class="border-b border-gray-7"
+    >
+      <div
+        class="flex items-center justify-between px-5 py-4 lg:px-10"
+      >
+        <div
+          class="flex items-center"
+        >
+          <a
+            href=""
+          >
+            <h1>
+              Mina On-Chain Signals
+            </h1>
+          </a>
+          <span
+            class="h-5 border-r ml-9 border-gray-7"
+          />
+          <button
+            class="ml-4"
+            type="button"
+          >
+            <div
+              class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
+        <button
+          type="button"
+        >
+          <div
+            class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+          >
+            <svg
+              aria-hidden="true"
+              class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                clip-rule="evenodd"
+                d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                fill-rule="evenodd"
+              />
+            </svg>
+          </div>
+        </button>
+      </div>
+    </header>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;
+
+exports[`Layout is rendered 1`] = `
+{
+  "asFragment": [Function],
+  "baseElement": <body>
+    <div>
+      <div
+        class="flex flex-col min-h-screen"
+      >
+        <header
+          class="border-b border-gray-7"
+        >
+          <div
+            class="flex items-center justify-between px-5 py-4 lg:px-10"
+          >
+            <div
+              class="flex items-center"
+            >
+              <a
+                href=""
+              >
+                <h1>
+                  Mina On-Chain Signals
+                </h1>
+              </a>
+              <span
+                class="h-5 border-r ml-9 border-gray-7"
+              />
+              <button
+                class="ml-4"
+                type="button"
+              >
+                <div
+                  class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <button
+              type="button"
+            >
+              <div
+                class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
+        </header>
+        <main
+          class="flex flex-col items-center gap-2 pb-6 mb-auto"
+        >
+          <header
+            class="border-b border-gray-7"
+          >
+            <div
+              class="flex items-center justify-between px-5 py-4 lg:px-10"
+            >
+              <div
+                class="flex items-center"
+              >
+                <a
+                  href=""
+                >
+                  <h1>
+                    Mina On-Chain Signals
+                  </h1>
+                </a>
+                <span
+                  class="h-5 border-r ml-9 border-gray-7"
+                />
+                <button
+                  class="ml-4"
+                  type="button"
+                >
+                  <div
+                    class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        clip-rule="evenodd"
+                        d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                        fill-rule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                </button>
+              </div>
+              <button
+                type="button"
+              >
+                <div
+                  class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
+          </header>
+          <footer
+            class="py-1.5 border border-t border-gray-7"
+          >
+            <div
+              class="mx-auto flex flex-col items-center"
+            >
+              <a
+                class="-mb-1"
+                href="https://github.com/Granola-Team/onchain-signalling"
+              >
+                <span
+                  class="text-[0.85rem]"
+                >
+                  GitHub
+                </span>
+              </a>
+              <a
+                href="https://granola.team"
+              >
+                <span
+                  class="text-[0.7rem]"
+                >
+                  Made with ❤️ by Granola
+                </span>
+              </a>
+            </div>
+          </footer>
+        </main>
+        <footer
+          class="py-1.5 border border-t border-gray-7"
+        >
+          <div
+            class="mx-auto flex flex-col items-center"
+          >
+            <a
+              class="-mb-1"
+              href="https://github.com/Granola-Team/onchain-signalling"
+            >
+              <span
+                class="text-[0.85rem]"
+              >
+                GitHub
+              </span>
+            </a>
+            <a
+              href="https://granola.team"
+            >
+              <span
+                class="text-[0.7rem]"
+              >
+                Made with ❤️ by Granola
+              </span>
+            </a>
+          </div>
+        </footer>
+      </div>
+    </div>
+  </body>,
+  "container": <div>
+    <div
+      class="flex flex-col min-h-screen"
+    >
+      <header
+        class="border-b border-gray-7"
+      >
+        <div
+          class="flex items-center justify-between px-5 py-4 lg:px-10"
+        >
+          <div
+            class="flex items-center"
+          >
+            <a
+              href=""
+            >
+              <h1>
+                Mina On-Chain Signals
+              </h1>
+            </a>
+            <span
+              class="h-5 border-r ml-9 border-gray-7"
+            />
+            <button
+              class="ml-4"
+              type="button"
+            >
+              <div
+                class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
+          <button
+            type="button"
+          >
+            <div
+              class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+            >
+              <svg
+                aria-hidden="true"
+                class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  clip-rule="evenodd"
+                  d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                  fill-rule="evenodd"
+                />
+              </svg>
+            </div>
+          </button>
+        </div>
+      </header>
+      <main
+        class="flex flex-col items-center gap-2 pb-6 mb-auto"
+      >
+        <header
+          class="border-b border-gray-7"
+        >
+          <div
+            class="flex items-center justify-between px-5 py-4 lg:px-10"
+          >
+            <div
+              class="flex items-center"
+            >
+              <a
+                href=""
+              >
+                <h1>
+                  Mina On-Chain Signals
+                </h1>
+              </a>
+              <span
+                class="h-5 border-r ml-9 border-gray-7"
+              />
+              <button
+                class="ml-4"
+                type="button"
+              >
+                <div
+                  class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+                >
+                  <svg
+                    aria-hidden="true"
+                    class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      clip-rule="evenodd"
+                      d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </button>
+            </div>
+            <button
+              type="button"
+            >
+              <div
+                class="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    clip-rule="evenodd"
+                    d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.533 1.533 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.533 1.533 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                    fill-rule="evenodd"
+                  />
+                </svg>
+              </div>
+            </button>
+          </div>
+        </header>
+        <footer
+          class="py-1.5 border border-t border-gray-7"
+        >
+          <div
+            class="mx-auto flex flex-col items-center"
+          >
+            <a
+              class="-mb-1"
+              href="https://github.com/Granola-Team/onchain-signalling"
+            >
+              <span
+                class="text-[0.85rem]"
+              >
+                GitHub
+              </span>
+            </a>
+            <a
+              href="https://granola.team"
+            >
+              <span
+                class="text-[0.7rem]"
+              >
+                Made with ❤️ by Granola
+              </span>
+            </a>
+          </div>
+        </footer>
+      </main>
+      <footer
+        class="py-1.5 border border-t border-gray-7"
+      >
+        <div
+          class="mx-auto flex flex-col items-center"
+        >
+          <a
+            class="-mb-1"
+            href="https://github.com/Granola-Team/onchain-signalling"
+          >
+            <span
+              class="text-[0.85rem]"
+            >
+              GitHub
+            </span>
+          </a>
+          <a
+            href="https://granola.team"
+          >
+            <span
+              class="text-[0.7rem]"
+            >
+              Made with ❤️ by Granola
+            </span>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </div>,
+  "debug": [Function],
+  "findAllByAltText": [Function],
+  "findAllByDisplayValue": [Function],
+  "findAllByLabelText": [Function],
+  "findAllByPlaceholderText": [Function],
+  "findAllByRole": [Function],
+  "findAllByTestId": [Function],
+  "findAllByText": [Function],
+  "findAllByTitle": [Function],
+  "findByAltText": [Function],
+  "findByDisplayValue": [Function],
+  "findByLabelText": [Function],
+  "findByPlaceholderText": [Function],
+  "findByRole": [Function],
+  "findByTestId": [Function],
+  "findByText": [Function],
+  "findByTitle": [Function],
+  "getAllByAltText": [Function],
+  "getAllByDisplayValue": [Function],
+  "getAllByLabelText": [Function],
+  "getAllByPlaceholderText": [Function],
+  "getAllByRole": [Function],
+  "getAllByTestId": [Function],
+  "getAllByText": [Function],
+  "getAllByTitle": [Function],
+  "getByAltText": [Function],
+  "getByDisplayValue": [Function],
+  "getByLabelText": [Function],
+  "getByPlaceholderText": [Function],
+  "getByRole": [Function],
+  "getByTestId": [Function],
+  "getByText": [Function],
+  "getByTitle": [Function],
+  "queryAllByAltText": [Function],
+  "queryAllByDisplayValue": [Function],
+  "queryAllByLabelText": [Function],
+  "queryAllByPlaceholderText": [Function],
+  "queryAllByRole": [Function],
+  "queryAllByTestId": [Function],
+  "queryAllByText": [Function],
+  "queryAllByTitle": [Function],
+  "queryByAltText": [Function],
+  "queryByDisplayValue": [Function],
+  "queryByLabelText": [Function],
+  "queryByPlaceholderText": [Function],
+  "queryByRole": [Function],
+  "queryByTestId": [Function],
+  "queryByText": [Function],
+  "queryByTitle": [Function],
+  "rerender": [Function],
+  "unmount": [Function],
+}
+`;

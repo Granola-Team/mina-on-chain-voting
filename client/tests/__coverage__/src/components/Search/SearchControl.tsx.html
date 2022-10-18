@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.13% </span>
+                <span class="strong">93.1% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>7/29</span>
+                <span class='fraction'>27/29</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/2</span>
+                <span class='fraction'>2/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">24.13% </span>
+                <span class="strong">93.1% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>7/29</span>
+                <span class='fraction'>27/29</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -99,57 +99,57 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React from "react";
 import shallow from "zustand/shallow";
 import { SearchIcon } from "@heroicons/react/solid";
 &nbsp;
 import { useAppStore } from "@/App.store";
 &nbsp;
-export const SearchControl = <span class="fstat-no" title="function not covered" >() =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  const { searchActive, setSearchState } = useAppStore(</span>
-<span class="cstat-no" title="statement not covered" >    (state) =&gt; ({</span>
-<span class="cstat-no" title="statement not covered" >      searchActive: state.searchActive,</span>
-<span class="cstat-no" title="statement not covered" >      setSearchState: state.setSearchState,</span>
-<span class="cstat-no" title="statement not covered" >    }),</span>
-<span class="cstat-no" title="statement not covered" >    shallow,</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" ></span>
-<span class="cstat-no" title="statement not covered" >  return (</span>
-<span class="cstat-no" title="statement not covered" >    &lt;button</span>
-<span class="cstat-no" title="statement not covered" >      type="button"</span>
-<span class="cstat-no" title="statement not covered" >      className="ml-4"</span>
-<span class="cstat-no" title="statement not covered" >      onClick={() =&gt; {</span>
+export const SearchControl = () =&gt; {
+  const { searchActive, setSearchState } = useAppStore(
+    (state) =&gt; ({
+      searchActive: state.searchActive,
+      setSearchState: state.setSearchState,
+    }),
+    shallow,
+  );
+&nbsp;
+  return (
+    &lt;button
+      type="button"
+      className="ml-4"
+      onClick={<span class="fstat-no" title="function not covered" >() =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        setSearchState(!searchActive);</span>
 <span class="cstat-no" title="statement not covered" >      }}</span>
-<span class="cstat-no" title="statement not covered" >    &gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;div className="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"&gt;</span>
-<span class="cstat-no" title="statement not covered" >        &lt;SearchIcon className="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200" /&gt;</span>
-<span class="cstat-no" title="statement not covered" >      &lt;/div&gt;</span>
-<span class="cstat-no" title="statement not covered" >    &lt;/button&gt;</span>
-<span class="cstat-no" title="statement not covered" >  );</span>
-<span class="cstat-no" title="statement not covered" >}<span class="fstat-no" title="function not covered" >;</span></span>
+    &gt;
+      &lt;div className="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md"&gt;
+        &lt;SearchIcon className="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200" /&gt;
+      &lt;/div&gt;
+    &lt;/button&gt;
+  );
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -157,7 +157,7 @@ export const SearchControl = <span class="fstat-no" title="function not covered"
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-10-17T22:18:09.203Z
+                at 2022-10-18T22:58:17.803Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

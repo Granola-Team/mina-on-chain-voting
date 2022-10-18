@@ -1,3 +1,4 @@
+import React from "react";
 import { expect } from "vitest";
 import "@testing-library/jest-dom";
 import { Layout } from "./Layout";

@@ -6,50 +6,16 @@ import { SearchControl } from "../Search/SearchControl";
 import { SettingsControl } from "../Settings/SettingsControl";
 import { Search } from "../Search/Search";
 import { Settings } from "../Settings/Settings";
-import { shallow } from "enzyme";
+import { shallow, configure } from "enzyme";
+import Adapter from "enzyme-adapter-react-16";
 
-// simulate window resize
-function fireResize(width: any) {
-    window.innerWidth = width;
-    window.dispatchEvent(new Event("resize"));
-}
-// Test component that uses the Hook
-function EffecfulComponent() {
-    const viewport = <Header />;
-    return <span>{viewport}</span>;
-}
-
-test("Header listen to window resize and set viewport size responsively", async () => {
-    const { container, rerender } = render(<EffecfulComponent />);
-    const span = container.firstChild;
-
-    fireResize(767);
-
-    rerender(<EffecfulComponent />);
-    expect(span.textContent).toBe("isMobile");
-
-    fireResize(769);
-
-    rerender(<EffecfulComponent />);
-    expect(span.textContent).toBe("!isMobile");
+configure({adapter: new Adapter()});
+test("SearchControl is rendered", async () => {
+    const header = shallow(<Header><div><SearchControl /></div> </Header>);
+    expect(header.getElements()).toMatchSnapshot();
 });
 
 test("renders Child components", async () => {
     const wrapper = shallow(<Header store={store} />);
     expect(wrapper.containsMatchingElement(<SearchControl />)).toEqual(true);
-});
-
-test("renders Child components", async () => {
-    const wrapper = shallow(<Header store={store} />);
-    expect(wrapper.containsMatchingElement(<SettingsControl />)).toEqual(true);
-});
-
-test("renders Child components", async () => {
-    const wrapper = shallow(<Header store={store} />);
-    expect(wrapper.containsMatchingElement(<Search />)).toEqual(true);
-});
-
-test("renders Child components", async () => {
-    const wrapper = shallow(<Header store={store} />);
-    expect(wrapper.containsMatchingElement(<Settings />)).toEqual(true);
 });

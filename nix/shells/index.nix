@@ -29,24 +29,15 @@ in {
     default = pkgs.mkShell {
 
       buildInputs = with pkgs; [
-        haskell-language-server
+        rust rust-analyzer rustfmt sqlx-cli cargo-kcov
         rnix-lsp nixpkgs-fmt
-        geos gdal
-        (postgresql.withPackages (p: [ p.postgis ]))
-        (haskellPackages.ghcWithPackages (self: with haskellPackages; [
-          effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process hlint
-        ]))
-
-        apps.clean-archive-backups
-        apps.download-archive-dump
-        apps.run-temp-database
-        apps.run-end-to-end
-
+        pkg-config openssl
+        haskellPackages.dotenv
+        postgresql sqlite
         morph
       ];
 
       shellHook = ''
-        runghc Tools/downloadArchiveDump.hs
       '';
     };
   };

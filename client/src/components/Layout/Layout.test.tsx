@@ -1,9 +1,9 @@
 import { expect } from "vitest";
+import { render } from "@testing-library/react";
+import { BrowserRouter as Router } from "react-router-dom";
 import { Layout } from "./Layout";
 import { Header } from "../Header";
 import { Footer } from "../Footer";
-import { render } from "@testing-library/react";
-import { BrowserRouter as Router } from "react-router-dom";
 
 test("Header is rendered", async () => {
   const header = render(

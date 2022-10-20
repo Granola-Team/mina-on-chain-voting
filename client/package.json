@@ -23,8 +23,6 @@
     "@tanstack/react-query": "^4.0.10",
     "@tanstack/react-query-devtools": "^4.0.10",
     "axios": "^0.27.2",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
     "ethereum-blockies-base64": "^1.0.2",
     "moment": "^2.29.4",
     "react-router-dom": "^6.3.0",

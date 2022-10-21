@@ -3,7 +3,6 @@ import { screen, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Search } from "./Search";
 import { SearchControl } from "./SearchControl";
-import React, { useState } from "react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
 import { changeTheme } from "@/utils/theme";

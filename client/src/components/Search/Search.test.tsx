@@ -2,30 +2,46 @@ import { expect, vi } from "vitest";
 import { screen, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Search } from "./Search";
-import React from "react";
+import { SearchControl } from "./SearchControl";
+import React, { useState } from "react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter as Router } from "react-router-dom";
+import { changeTheme } from "@/utils/theme";
+import { Modal } from "../Modal";
+
 
 test("State should change for Search", async () => {
     const setStateMock = vi.fn();
     const useStateMock: any = (useState: any) => [useState, setStateMock];
     vi.spyOn(React, "useState").mockImplementation(useStateMock);
-    render(<Router><Search /></Router>);
-    const btnElement = screen.getByRole("Modal");
-    expect(btnElement).toBeInTheDocument();
-    fireEvent.click(btnElement);
-    expect(setStateMock).toBe("!searchActive");
+    render(<Router><SearchControl /></Router>);
+    const BtnElement = screen.getByRole("button");
+    //, {name: "Button", hidden: true
+    expect(BtnElement).toBeInTheDocument();
+    fireEvent.click(BtnElement);
+    // console.log(BtnElement)
+    expect(setStateMock).toHaveBeenCalled();
 });
 
 test("Clicking the Search button triggers the onSubmit function and change in url slug", async () => {
+    const setStateMock = vi.fn();
+    const useStateMock: any = (useState: any) => [useState, setStateMock];
+    vi.spyOn(React, "useState").mockImplementation(useStateMock);
     render(<Router><Search /></Router>);
-    const Btn = screen.getByRole("button");
-    fireEvent.click(Btn);
-    expect(render(<Router><Search /></Router>));
-    userEvent.type(screen.getByRole("dialog"), "test");
-    // console.log(screen);
-    userEvent.click(screen.getByText("Search"));
-    // above should grab the input tag and write test
-    expect(Search.find("Modal").prop("setState")).toBe(false);
-    expect(global.window.location.pathname).toContain("/test?network=Mainnet");
+    userEvent.type(screen.getByRole("textbox"), ""); // enter test in placeholder
+    userEvent.click(screen.getByText("Search")); // press Search button
+    expect(setStateMock).toHaveBeenCalled();
+    // I need to mock window object
 });
+
+/*
+test("should call stateChange callback", () => {
+    const setStateMock = vi.fn();
+    const useStateMock: any = (useState: any) => [useState, setStateMock];
+    const { getByTestId } = render(
+        <Router><SearchControl setSearchState={setStateMock} /></Router>
+    );
+    fireEvent.click(getByTestId("button"));
+    expect(setStateMock).toHaveBeenCalled();
+  });
+*/

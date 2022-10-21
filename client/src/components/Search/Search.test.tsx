@@ -22,6 +22,7 @@ test("State should change for Search", async () => {
     expect(setStateMock).toHaveBeenCalled();
 });
 
+// on the static IP site, Search button works but I know we disabled Advanced Search button which appears still
 test("Clicking the Search button triggers the onSubmit function and change in url slug", async () => {
     const setStateMock = vi.fn();
     const useStateMock: any = (useState: any) => [useState, setStateMock];

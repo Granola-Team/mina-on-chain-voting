@@ -59,13 +59,6 @@ export const Search = () => {
                   />
                 </div>
                 <button
-                  type="button"
-                  className="hidden md:block px-4 py-2 mr-8 font-normal text-center transition-all duration-200 rounded-md hover:bg-gray-6"
-                >
-                  <span className="text-gray-10">Advanced Search</span>
-                </button>
-
-                <button
                   type="submit"
                   className="flex items-center relative transition-all duration-200 rounded-md bg-gradient animate-gradient hover:opacity-[0.85]"
                 >

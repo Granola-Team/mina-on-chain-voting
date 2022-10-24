@@ -10,14 +10,10 @@ import { DEV_API_URL, PROD_API_URL } from "@/constants";
  * @param {string | null} filter
  * @param {Network} network
  */
-const buildAPIUrl = (
-  key: string,
-  filter: string | null,
-  network: Network,
-): string => {
-  return `${import.meta.env.DEV ? DEV_API_URL : PROD_API_URL}/${key}?filter=${
-    filter ?? "All"
-  }&network=${network}`;
+const buildAPIUrl = (key: string, network: Network): string => {
+  return `${import.meta.env.DEV ? DEV_API_URL : PROD_API_URL}/${key}?network=${
+    network[0].toUpperCase() + network.slice(1).toLowerCase()
+  }`;
 };
 
 /**
@@ -28,7 +24,6 @@ const buildAPIUrl = (
  */
 export const fetchKeywordData = async (
   key: string | undefined,
-  filter: string | null,
   network: string | null,
 ) => {
   if (!key) {
@@ -36,7 +31,7 @@ export const fetchKeywordData = async (
   }
 
   const { data } = await axios.get(
-    buildAPIUrl(key, filter, network ? (network as Network) : "Mainnet"),
+    buildAPIUrl(key, network ? (network as Network) : "Mainnet"),
     {
       method: "GET",
       headers: {

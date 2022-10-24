@@ -3,7 +3,6 @@ import type { Network } from "./store";
 import type { RouteFilterType } from "./routes";
 import type {
   BlockStatus,
-  DataEntity,
   SignalEntity,
   SignalStatus,
   StatsEntity,
@@ -18,7 +17,7 @@ export interface SettingsButtonProps {
 }
 
 export interface TableProps {
-  data: DataEntity;
+  data: SignalEntity[];
   query: string | undefined;
   isLoading: boolean;
   stats: StatsEntity;

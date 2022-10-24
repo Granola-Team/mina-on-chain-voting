@@ -13,24 +13,26 @@ import { Table } from "@/components/Table";
 import { useKeywordStore } from "./Keyword.store";
 import { fetchKeywordData } from "./Keyword.queries";
 
-import { unsortedData, settledData, unsettledData, invalidData } from "@/dummy";
-
 export const Keyword = () => {
-  const { signals, setSignals, isLoading, setIsLoading } = useKeywordStore(
-    (state) => ({
-      signals: state.signals,
-      setSignals: state.setSignals,
-      isLoading: state.isLoading,
-      setIsLoading: state.setIsLoading,
-    }),
-    shallow,
-  );
+  const { signals, setSignals, stats, setStats, isLoading, setIsLoading } =
+    useKeywordStore(
+      (state) => ({
+        signals: state.signals,
+        setSignals: state.setSignals,
+        stats: state.stats,
+        setStats: state.setStats,
+        isLoading: state.isLoading,
+        setIsLoading: state.setIsLoading,
+      }),
+      shallow,
+    );
 
   /**
    * Gets current route param.
+   * @param {string} network - Route to control current network. (e.g. "/mainnet")
    * @param {string} key - Route to control current keyword. (e.g. "/magenta")
    */
-  const { key } = useParams();
+  const { key, network } = useParams();
 
   /**
    * Gets current search parameters.
@@ -41,7 +43,6 @@ export const Keyword = () => {
   const [searchParams] = useFilterParams();
   const filter = searchParams.get("filter");
   const demo = searchParams.get("demo");
-  const network = searchParams.get("network");
 
   /**
    * Executing our query using React Query.
@@ -53,10 +54,10 @@ export const Keyword = () => {
     isSuccess,
     isError,
   } = useQuery(
-    [key, filter ?? "All", network],
+    [key, network],
     () => {
       setIsLoading(true);
-      return fetchKeywordData(key, filter, network);
+      return fetchKeywordData(key, network ? network : "mainnet");
     },
     {
       enabled: !demo && !!key,
@@ -73,35 +74,34 @@ export const Keyword = () => {
    */
   useEffect(() => {
     if (isSuccess) {
-      setSignals(queryData);
-    }
-  }, [queryData, isSuccess, setSignals]);
-
-  /**
-   * If in demonstration mode e.g. 'http://localhost:3000/?demo=true':
-   * We'll only serve dummy data.
-   */
-  useEffect(() => {
-    if (demo === "true") {
       switch (filter) {
         case "All":
-          setSignals(unsortedData);
+          setSignals(
+            queryData.settled.concat(queryData.unsettled, queryData.invalid),
+          );
+          setStats(queryData.stats);
           break;
         case "Settled":
-          setSignals(settledData);
+          setSignals(queryData.settled);
+          setStats(queryData.stats);
           break;
         case "Unsettled":
-          setSignals(unsettledData);
+          setSignals(queryData.unsettled);
+          setStats(queryData.stats);
           break;
         case "Invalid":
-          setSignals(invalidData);
+          setSignals(queryData.invalid);
+          setStats(queryData.stats);
           break;
         default:
-          setSignals(unsortedData);
+          setSignals(
+            queryData.settled.concat(queryData.unsettled, queryData.invalid),
+          );
+          setStats(queryData.stats);
           break;
       }
     }
-  }, [demo, key, filter, setSignals]);
+  }, [queryData, isSuccess, setSignals, filter, setStats]);
 
   if (isError) {
     return (
@@ -121,14 +121,14 @@ export const Keyword = () => {
     );
   }
 
-  if ((signals && signals.stats && key) || (signals && signals.stats && demo)) {
+  if ((signals && stats && key) || (signals && stats && demo)) {
     return (
       <Layout>
         <React.Fragment>
-          <StatsWeighted stats={signals.stats} />
+          <StatsWeighted stats={stats} />
           <Table
             data={signals}
-            stats={signals.stats}
+            stats={stats}
             query={key}
             isLoading={isLoading}
           />

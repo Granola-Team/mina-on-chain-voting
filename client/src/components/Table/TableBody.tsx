@@ -25,13 +25,9 @@ export const TableBody: React.FC<TableProps> = ({
 
   return (
     <TableBodyWrapper>
-      {data.signals.length > 0 ? (
-        data.signals.map((signal, index) => (
-          <TableRow
-            key={data.signals.length + index}
-            stats={stats}
-            signal={signal}
-          />
+      {data.length > 0 ? (
+        data.map((signal, index) => (
+          <TableRow key={data.length + index} stats={stats} signal={signal} />
         ))
       ) : (
         <span className="text-md py-12 medium">

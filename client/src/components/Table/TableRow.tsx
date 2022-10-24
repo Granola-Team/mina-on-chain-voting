@@ -30,7 +30,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
         );
       }
     }
-    return "";
+    return "---";
   };
 
   if (isMobile) {
@@ -106,7 +106,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
       </div>
       <div className="place-self-center">
         <span className="grid-table-content">
-          {signal.delegations ? `${percent() ? `${percent()}%` : ""}` : "---"}
+          {signal.delegations ? `${percent()}` : "---"}
         </span>
       </div>
       <div className="place-self-center">

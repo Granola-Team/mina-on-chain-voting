@@ -23,6 +23,8 @@ export interface StatsEntity {
 }
 
 export interface DataEntity {
-  signals: SignalEntity[];
+  settled: SignalEntity[];
+  unsettled: SignalEntity[];
+  invalid: SignalEntity[];
   stats: StatsEntity | null;
 }

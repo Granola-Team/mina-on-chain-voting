@@ -4,6 +4,16 @@ import { StatsWeighted } from "./StatsWeighted";
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
 import { fireEvent, render } from "@testing-library/react";
+import { IconTooltip } from "../Tooltip";
+import { gray, grayDark } from "@radix-ui/colors";
+
+import React from "react";
+import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { styled, keyframes } from "@stitches/react";
+import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+
+import type { ComponentWithChildren } from "@/types";
+import { useAppStore } from "@/App.store";
 
 const createPercent = (v: number, t: number): string => {
     const val = (v / t) * 100;
@@ -34,11 +44,71 @@ test("Signals Results bar is rendering", async () => {
     expect(bar.getByText("Signal Results")).toBeInTheDocument();
 });
 
+const StyledContent = styled(TooltipPrimitive.Content, {
+    borderRadius: 10,
+    padding: "10px 15px",
+    maxWidth: "18rem",
+    userSelect: "none",
+    "@media (prefers-reduced-motion: no-preference)": {
+      animationDuration: "400ms",
+      animationTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
+      willChange: "transform, opacity",
+      '&[data-state="delayed-open"]': {
+        '&[data-side="top"]': {
+          animationName: keyframes({
+            "0%": { opacity: 0, transform: "translateY(-2px)" },
+            "100%": { opacity: 1, transform: "translateY(0)" },
+          }),
+        },
+        '&[data-side="right"]': {
+          animationName: keyframes({
+            "0%": { opacity: 0, transform: "translateX(2px)" },
+            "100%": { opacity: 1, transform: "translateX(0)" },
+          }),
+        },
+        '&[data-side="bottom"]': {
+          animationName: keyframes({
+            "0%": { opacity: 0, transform: "translateX(2px)" },
+            "100%": { opacity: 1, transform: "translateX(0)" },
+          }),
+        },
+        '&[data-side="left"]': {
+          animationName: keyframes({
+            "0%": { opacity: 0, transform: "translateX(-2px)" },
+            "100%": { opacity: 1, transform: "translateX(0)" },
+          }),
+        },
+      },
+    },
+  });
+
+  const StyledArrow = styled(TooltipPrimitive.Arrow, {});
+
+  const Content: React.FC<ComponentWithChildren> = ({ children }) => {
+    return (
+      <TooltipPrimitive.Portal>
+        <StyledContent
+          css={{
+            backgroundColor: grayDark.gray4,
+            border: "1px solid",
+            borderColor: grayDark.gray7,
+            color: grayDark.gray12,
+          }}
+        >
+          {children}
+          <StyledArrow css={{ fill: grayDark.gray7 }} />
+        </StyledContent>
+      </TooltipPrimitive.Portal>
+    );
+  };
+
 test("Tooltip in Signals Results bar is rendering", async () => {
     const rendered = render(
       <Router>
         <Layout>
-          <StatsWeighted stats={stats} />
+            <IconTooltip css={grayDark.gray7} >
+                <StatsWeighted stats={stats} />
+            </IconTooltip>
         </Layout>
       </Router>,
     );

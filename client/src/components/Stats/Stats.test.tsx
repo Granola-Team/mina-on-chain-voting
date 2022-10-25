@@ -81,33 +81,18 @@ const StyledContent = styled(TooltipPrimitive.Content, {
 
 const StyledArrow = styled(TooltipPrimitive.Arrow, {});
 
-const Content: React.FC<ComponentWithChildren> = ({ children }) => {
-  return (
-    <TooltipPrimitive.Portal>
-      <StyledContent
-        css={{
-          backgroundColor: grayDark.gray4,
-          border: "1px solid",
-          borderColor: grayDark.gray7,
-          color: grayDark.gray12,
-        }}
-      >
-        {children}
-        <StyledArrow css={{ fill: grayDark.gray7 }} />
-      </StyledContent>
-    </TooltipPrimitive.Portal>
-  );
-};
-
 test("Tooltip in Signals Results bar is rendering", async () => {
     const rendered = render(
       <Router>
         <Layout>
-            <IconTooltip css={""} >
-                <Content>
-                  <StatsWeighted stats={stats} />
-                </Content>
-            </IconTooltip>
+          <TooltipPrimitive.Portal>
+            <StyledContent>
+              <IconTooltip css={""} >
+                <StatsWeighted stats={stats} />
+              </IconTooltip>
+              <StyledArrow css={{ fill: grayDark.gray7 }} />
+            </StyledContent>
+          </TooltipPrimitive.Portal>
         </Layout>
       </Router>,
     );

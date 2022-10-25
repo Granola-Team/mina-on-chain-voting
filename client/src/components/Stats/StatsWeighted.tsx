@@ -3,7 +3,6 @@ import moment from "moment";
 
 import type { StatsWeightedProps } from "@/types";
 import { IconTooltip } from "@/components/Tooltip";
-import { useFilterParams } from "@/hooks/useFilterParams";
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -13,10 +12,10 @@ const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
-  const [searchParams] = useFilterParams();
-  const network = searchParams.get("network");
-
+export const StatsWeighted: React.FC<StatsWeightedProps> = ({
+  stats,
+  network,
+}) => {
   const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
   const total = stats.yes + stats.no;
   const yesPercent = createPercent(stats.yes, total);
@@ -45,7 +44,8 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
             </div>
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
-              {network} at {now}
+              {network[0].toUpperCase() + network.slice(1).toLowerCase()} at{" "}
+              {now}
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">

@@ -125,7 +125,7 @@ export const Keyword = () => {
     return (
       <Layout>
         <React.Fragment>
-          <StatsWeighted stats={stats} />
+          <StatsWeighted stats={stats} network={network ? network : ""} />
           <Table
             data={signals}
             stats={stats}

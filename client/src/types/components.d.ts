@@ -43,4 +43,5 @@ export interface ModalProps extends ComponentWithChildren {
 
 export interface StatsWeightedProps {
   stats: StatsEntity;
+  network: string;
 }

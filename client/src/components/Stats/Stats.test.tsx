@@ -11,7 +11,7 @@ const createPercent = (v: number, t: number): string => {
       return "XXX";
     }
     return val.toFixed(2);
-  };
+};
 
 const stats = {
     yes: 15,

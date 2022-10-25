@@ -15,6 +15,7 @@ const createPercent = (v: number, t: number): string => {
 
 export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
   const [searchParams] = useFilterParams();
+  const network = searchParams.get("network");
 
   const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
   const total = stats.yes + stats.no;
@@ -45,7 +46,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
             </div>
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
-              {now}
+            {network} at {now}
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">

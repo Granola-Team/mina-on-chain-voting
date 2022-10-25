@@ -1,17 +1,17 @@
 import { expect } from "vitest";
 import "@testing-library/jest-dom";
-import { Table, TableRow } from "./Table";
+import { Table } from "./Table";
+import { createPercent } from "./TableRow"
 // import type { ModalProps } from "@/types";
 import { BrowserRouter as Router } from "react-router-dom";
 import { cleanup, render } from "@testing-library/react";
 afterEach(cleanup);
 
 test("createPercent function in TableRow", async() => {
-    expect(TableRow.createPercent(15, 20).toBeEqual(75.00));
-    expect(TableRow.createPercent(12, 80).toBeEqual((12/80*100).toFixed(2)));
-    expect(TableRow.createPercent(12, "80").toBeEqual("XXX"));
-}); // gives TypeError: Cannot read properties of undefined (reading 'createPercent')
-
+    expect(createPercent(15, 20)).toBe("75.00");
+    expect(createPercent(12, 87)).toBe("13.79");
+    expect(createPercent(12, "80")).toBe("XXX");
+});
 
 
 /*

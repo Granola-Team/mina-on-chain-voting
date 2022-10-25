@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import type { DataEntity, Network } from "@/types";
+import type { DataEntity, EpochEntity, Network } from "@/types";
 
 import { DEV_API_URL, PROD_API_URL } from "@/constants";
 
@@ -40,4 +40,18 @@ export const fetchKeywordData = async (
     },
   );
   return data as DataEntity;
+};
+
+/**
+ * Requests epoch data.
+ */
+export const fetchEpochData = async () => {
+  const { data } = await axios.get("https://api.minaexplorer.com/summary", {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+    },
+  });
+
+  return data as EpochEntity;
 };

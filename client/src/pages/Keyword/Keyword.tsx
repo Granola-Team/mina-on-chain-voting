@@ -11,21 +11,32 @@ import { StatsWeighted } from "@/components/Stats";
 import { Table } from "@/components/Table";
 
 import { useKeywordStore } from "./Keyword.store";
-import { fetchKeywordData } from "./Keyword.queries";
+import { fetchEpochData, fetchKeywordData } from "./Keyword.queries";
+import { EpochTiming } from "@/components/EpochTiming";
 
 export const Keyword = () => {
-  const { signals, setSignals, stats, setStats, isLoading, setIsLoading } =
-    useKeywordStore(
-      (state) => ({
-        signals: state.signals,
-        setSignals: state.setSignals,
-        stats: state.stats,
-        setStats: state.setStats,
-        isLoading: state.isLoading,
-        setIsLoading: state.setIsLoading,
-      }),
-      shallow,
-    );
+  const {
+    signals,
+    setSignals,
+    stats,
+    setStats,
+    isLoading,
+    setIsLoading,
+    timing,
+    setTiming,
+  } = useKeywordStore(
+    (state) => ({
+      signals: state.signals,
+      setSignals: state.setSignals,
+      stats: state.stats,
+      setStats: state.setStats,
+      isLoading: state.isLoading,
+      setIsLoading: state.setIsLoading,
+      timing: state.timing,
+      setTiming: state.setTiming,
+    }),
+    shallow,
+  );
 
   /**
    * Gets current route param.
@@ -42,7 +53,6 @@ export const Keyword = () => {
    */
   const [searchParams] = useFilterParams();
   const filter = searchParams.get("filter");
-  const demo = searchParams.get("demo");
 
   /**
    * Executing our query using React Query.
@@ -55,12 +65,17 @@ export const Keyword = () => {
     isError,
   } = useQuery(
     [key, network],
-    () => {
+    async () => {
       setIsLoading(true);
-      return fetchKeywordData(key, network ? network : "mainnet");
+      const epochData = await fetchEpochData();
+      const keywordData = await fetchKeywordData(
+        key,
+        network ? network : "mainnet",
+      );
+      return { ...epochData, ...keywordData };
     },
     {
-      enabled: !demo && !!key,
+      enabled: !!key,
       onSuccess: () => {
         setIsLoading(false);
       },
@@ -80,28 +95,33 @@ export const Keyword = () => {
             queryData.settled.concat(queryData.unsettled, queryData.invalid),
           );
           setStats(queryData.stats);
+          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
           break;
         case "Settled":
           setSignals(queryData.settled);
           setStats(queryData.stats);
+          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
           break;
         case "Unsettled":
           setSignals(queryData.unsettled);
           setStats(queryData.stats);
+          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
           break;
         case "Invalid":
           setSignals(queryData.invalid);
           setStats(queryData.stats);
+          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
           break;
         default:
           setSignals(
             queryData.settled.concat(queryData.unsettled, queryData.invalid),
           );
           setStats(queryData.stats);
+          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
           break;
       }
     }
-  }, [queryData, isSuccess, setSignals, filter, setStats]);
+  }, [queryData, isSuccess, setSignals, filter, setStats, setTiming]);
 
   if (isError) {
     return (
@@ -121,10 +141,13 @@ export const Keyword = () => {
     );
   }
 
-  if ((signals && stats && key) || (signals && stats && demo)) {
+  if (signals && stats && key && timing.epoch && timing.slot) {
     return (
       <Layout>
         <React.Fragment>
+          {network === "mainnet" ? (
+            <EpochTiming epoch={timing.epoch} slot={timing.slot} />
+          ) : null}
           <StatsWeighted stats={stats} network={network ? network : ""} />
           <Table
             data={signals}

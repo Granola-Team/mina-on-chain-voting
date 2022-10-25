@@ -28,3 +28,8 @@ export interface DataEntity {
   invalid: SignalEntity[];
   stats: StatsEntity | null;
 }
+
+export interface EpochEntity {
+  epoch: number;
+  slot: number;
+}

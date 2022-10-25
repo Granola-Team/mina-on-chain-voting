@@ -15,7 +15,6 @@ const createPercent = (v: number, t: number): string => {
 
 export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
   const [searchParams] = useFilterParams();
-  const network = searchParams.get("network");
 
   const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
   const total = stats.yes + stats.no;
@@ -32,7 +31,8 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
                 Signal Results
               </span>
               <IconTooltip css="h-[1.1rem] w-[1.1rem] md:mt-0.5">
-                <div className="flex flex-col items-start justify-center">
+                <div className="flex flex-col items-start justify-center"
+                  data-testid="connection-sign">
                   <span className="medium text-sm">Information:</span>
                   <div className="text-[0.725rem]">
                     We&apos;re counting all
@@ -45,7 +45,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
             </div>
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
-              {network} at {now}
+              {now}
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">

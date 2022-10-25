@@ -5,7 +5,7 @@ import type { StatsWeightedProps } from "@/types";
 import { IconTooltip } from "@/components/Tooltip";
 import { useFilterParams } from "@/hooks/useFilterParams";
 
-const createPercent = (v: number, t: number): string => {
+export const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
   if (Number.isNaN(val)) {
     return "XXX";

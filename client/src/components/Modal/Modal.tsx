@@ -6,6 +6,7 @@ import type { ModalProps } from "@/types";
 export const Modal: React.FC<ModalProps> = ({ children, state, setState }) => {
   return (
     <Transition.Root show={state} as={React.Fragment}>
+      <div data-testid="modal-container">
       <Dialog
         as="div"
         className="absolute z-10 inset-0"
@@ -25,13 +26,13 @@ export const Modal: React.FC<ModalProps> = ({ children, state, setState }) => {
           <div className="absolute inset-0 transition-opacity backdrop-blur-[8px] bg-gray-600/5 dark:bg-gray-900/5 dark:backdrop-blur-md" />
         </Transition.Child>
 
-        <div className="absolute top-44 left-0 right-0 w-full z-10"
-        data-testid="modal-container">
+        <div className="absolute top-44 left-0 right-0 w-full z-10">
           <div className="flex items-center justify-center p-2 text-center lg:p-0">
             {children}
           </div>
         </div>
       </Dialog>
+      </div>
     </Transition.Root>
   );
 };

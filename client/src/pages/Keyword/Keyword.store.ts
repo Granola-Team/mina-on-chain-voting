@@ -1,21 +1,43 @@
 import create from "zustand";
+import type { SignalEntity, StatsEntity } from "@/types";
 
-import type { DataEntity } from "@/types";
+interface Timing {
+  epoch: number | null;
+  slot: number | null;
+}
 
 interface KeywordPageStore {
-  signals: DataEntity | undefined;
+  key: string | null;
+  signals: SignalEntity[] | null;
+  stats: StatsEntity | null;
   isLoading: boolean;
-  setSignals: (d: DataEntity) => void;
+  timing: Timing;
+  setKey: (x: string) => void;
+  setSignals: (x: SignalEntity[]) => void;
+  setStats: (x: StatsEntity | null) => void;
   setIsLoading: (value: boolean) => void;
+  setTiming: (x: Timing) => void;
 }
 
 export const useKeywordStore = create<KeywordPageStore>((set) => ({
-  signals: undefined,
+  key: null,
+  signals: null,
+  stats: null,
   isLoading: false,
-  setSignals: (signals: DataEntity) => {
+  timing: { epoch: null, slot: null },
+  setKey: (key: string) => {
+    set({ key });
+  },
+  setSignals: (signals: SignalEntity[]) => {
     set(() => ({ signals }));
   },
-  setIsLoading: (v: boolean) => {
-    set(() => ({ isLoading: v }));
+  setStats: (stats: StatsEntity | null) => {
+    set(() => ({ stats }));
+  },
+  setIsLoading: (isLoading: boolean) => {
+    set(() => ({ isLoading }));
+  },
+  setTiming: (timing: Timing) => {
+    set({ timing });
   },
 }));

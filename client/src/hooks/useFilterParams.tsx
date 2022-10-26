@@ -14,18 +14,10 @@ export const useFilterParams = (): [
 
   const executeRoute = (params: RoutesParams): void => {
     const filter = searchParams.get("filter");
-    const demo = searchParams.get("demo");
-    const network = searchParams.get("network");
 
     const routes = {
       ...((filter || params.filter) && {
         filter: params.filter ? params.filter : filter!,
-      }),
-      ...((demo || params.demo) && {
-        demo: params.demo ? params.demo : demo!,
-      }),
-      ...((network || params.network) && {
-        network: params.network ? params.network : network!,
       }),
     };
 

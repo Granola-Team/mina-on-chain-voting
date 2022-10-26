@@ -22,7 +22,7 @@ const App = () => {
     <QueryClientProvider client={ReactQueryClient}>
       <Router>
         <Routes>
-          <Route path="/:key" element={<Keyword />} />
+          <Route path="/:network/:key" element={<Keyword />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>

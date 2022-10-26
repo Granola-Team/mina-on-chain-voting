@@ -1,7 +1,5 @@
 import create from "zustand";
 
-import type { Network } from "@/types";
-
 interface AppStore {
   darkMode: boolean;
   settingsActive: boolean;

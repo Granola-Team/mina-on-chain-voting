@@ -22,7 +22,7 @@ export const Search = () => {
     const target = e.target as typeof e.target & {
       search: { value: string };
     };
-    navigate(`/${target.search.value.toLowerCase()}?network=Mainnet`, {
+    navigate(`/mainnet/${target.search.value.toLowerCase()}`, {
       replace: true,
     });
     setSearchState(false);

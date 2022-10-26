@@ -12,7 +12,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
   const percentage = (slot / 7140) * 89.78;
 
   return (
-    <div className="content-full-width px-2 md:px-4 lg:px-8 mt-4 md:mt-6">
+    <div className="content-full-width px-2 md:px-4 lg:px-8">
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
         <div className="flex flex-col justify-center px-3 md:px-6 py-2 gap-1.5">
           <div className="flex-col flex md:flex-row items-center justify-between">
@@ -50,7 +50,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
                 style={{
                   marginLeft: `${percentage}%`,
                 }}
-                className="w-1.5 h-[20px] bg-black absolute"
+                className="w-[5px] h-[20px] bg-black absolute"
               />
             </div>
           </div>

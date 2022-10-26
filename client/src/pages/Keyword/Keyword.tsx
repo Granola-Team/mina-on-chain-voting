@@ -1,21 +1,22 @@
 import React, { useEffect } from "react";
-import shallow from "zustand/shallow";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 
+import shallow from "zustand/shallow";
+import { useKeywordStore } from "./Keyword.store";
 import { useFilterParams } from "@/hooks/useFilterParams";
+import { fetchEpochData, fetchKeywordData } from "./Keyword.queries";
 
+import { Instructions } from "@/components/Instructions";
+import { EpochTiming } from "@/components/EpochTiming";
+import { StatsWeighted } from "@/components/Stats";
 import { Spinner } from "@/components/Spinner";
 import { Layout } from "@/components/Layout";
-import { StatsWeighted } from "@/components/Stats";
 import { Table } from "@/components/Table";
-
-import { useKeywordStore } from "./Keyword.store";
-import { fetchEpochData, fetchKeywordData } from "./Keyword.queries";
-import { EpochTiming } from "@/components/EpochTiming";
 
 export const Keyword = () => {
   const {
+    setKey,
     signals,
     setSignals,
     stats,
@@ -26,6 +27,7 @@ export const Keyword = () => {
     setTiming,
   } = useKeywordStore(
     (state) => ({
+      setKey: state.setKey,
       signals: state.signals,
       setSignals: state.setSignals,
       stats: state.stats,
@@ -88,7 +90,8 @@ export const Keyword = () => {
    * @param {any[]} queryData - Our query's data result.
    */
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccess && key) {
+      setKey(key);
       switch (filter) {
         case "All":
           setSignals(
@@ -121,7 +124,16 @@ export const Keyword = () => {
           break;
       }
     }
-  }, [queryData, isSuccess, setSignals, filter, setStats, setTiming]);
+  }, [
+    queryData,
+    isSuccess,
+    setSignals,
+    filter,
+    setStats,
+    setTiming,
+    setKey,
+    key,
+  ]);
 
   if (isError) {
     return (
@@ -145,6 +157,7 @@ export const Keyword = () => {
     return (
       <Layout>
         <React.Fragment>
+          <Instructions key={key} />
           {network === "mainnet" ? (
             <EpochTiming epoch={timing.epoch} slot={timing.slot} />
           ) : null}

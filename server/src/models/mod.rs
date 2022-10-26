@@ -44,7 +44,7 @@ pub struct SignalStats {
     pub no: f32,
 }
 
-#[derive(Debug, PartialEq, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
 pub struct ResponseEntity {
     pub settled: Vec<Signal>,
     pub unsettled: Vec<Signal>,

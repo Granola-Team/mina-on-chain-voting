@@ -149,13 +149,6 @@ mod tests {
         assert_eq!(obj_yielded, db_response);
     }
     
-    pub fn iter<T: DeserializeOwned, R: Read>(
-        mut reader: R,
-    ) -> impl Iterator<Item = (usize, Result<T, io::Error>)> {
-        let mut at_start = false;
-        std::iter::from_fn(move || yield_next_obj(&mut reader, &mut at_start).transpose()).enumerate()
-    }
-    
     #[test]
     fn iter_iters_json_objects() {
         use crate::models::DBResponse;

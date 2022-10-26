@@ -5,12 +5,8 @@ import { Layout } from "../Layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
 import { fireEvent, render } from "@testing-library/react";
 import { IconTooltip } from "../Tooltip";
-import { gray, grayDark } from "@radix-ui/colors";
-import React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { styled, keyframes } from "@stitches/react";
-import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import type { ComponentWithChildren } from "@/types";
 
 const createPercent = (v: number, t: number): string => {
     const val = (v / t) * 100;
@@ -39,9 +35,11 @@ test("Signals Results bar is rendering", async () => {
         </Router>,
     );
     expect(bar.getByText("Signal Results")).toBeInTheDocument();
+    expect(bar.getByText("Yes")).toBeInTheDocument();
+    expect(bar.getByText("No")).toBeInTheDocument();
 });
 
-const StyledContent = styled(TooltipPrimitive.Content, {
+const StyledToolTip = styled(TooltipPrimitive.Content, {
   borderRadius: 10,
   padding: "10px 15px",
   maxWidth: "18rem",
@@ -79,20 +77,15 @@ const StyledContent = styled(TooltipPrimitive.Content, {
   },
 });
 
-const StyledArrow = styled(TooltipPrimitive.Arrow, {});
-
 test("Tooltip in Signals Results bar is rendering", async () => {
     const rendered = render(
       <Router>
         <Layout>
-          <TooltipPrimitive.Portal>
-            <StyledContent>
-              <IconTooltip css={""} >
-                <StatsWeighted stats={stats} />
-              </IconTooltip>
-              <StyledArrow css={{ fill: grayDark.gray7 }} />
-            </StyledContent>
-          </TooltipPrimitive.Portal>
+          <StatsWeighted stats={stats} >
+            <StyledToolTip>
+              <IconTooltip css={""} children={undefined} />
+            </StyledToolTip>
+          </StatsWeighted>
         </Layout>
       </Router>,
     );

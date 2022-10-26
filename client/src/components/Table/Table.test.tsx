@@ -1,12 +1,11 @@
 import { expect } from "vitest";
 import "@testing-library/jest-dom";
 import { Table } from "./Table";
-import { TableRow } from "./TableRow"
-import { TableNavigation } from "./TableNavigation";
-import { TableBody } from "./TableBody";
+import { Search } from "../Search/Search";
 import { TableHeader } from "./TableHeader";
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
+import userEvent from "@testing-library/user-event";
 import { cleanup, fireEvent, render } from "@testing-library/react";
 afterEach(cleanup);
 
@@ -134,60 +133,25 @@ describe("testing TableBody error working properly", () => {
         yes: 15,
         no: 10,
     };
-
-    const data = {
-        signals: [
-            {
-                height: 10,
-                timestamp: 12,
-                account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
-                memo: "magenta",
-                status: "Canonical",
-                signal_status: "Settled",
-                delegations: {
-                    delegated_balance: "ten",
-                    total_delegators: 2,
-                }
-            },
-            {
-                height: 8,
-                timestamp: 11,
-                account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
-                memo: "no magenta",
-                status: "Pending",
-                signal_status: "Unsettled",
-                delegations: {
-                    delegated_balance: "ten",
-                    total_delegators: 2,
-                }
-            },
-            {
-                height: 7,
-                timestamp: 10,
-                account: "5u2ab1qlg2aye0h6yhf6vn3mdgcadvcr0838tcjefu",
-                memo: "no@#$%magenta",
-                status: "Orphaned",
-                signal_status: "Invalid",
-                delegations: null,
-            },
-        ],
-        stats: stats,
-    };
-
-    const query = "test";
+    const data = null;
+    const query = "magenta";
     const isLoading = false;
 
     test("TableBody throws error when appropiate", async () => {
-        const rendered = render(
+        const { container } = render(
             <Router>
                 <Layout>
+                    <Search />
                     <Table data={data} query={query} isLoading={isLoading} stats={stats} />
                 </Layout>
             </Router>,
         );
 
-        // need to finish this last test
-
+        const button = container.querySelector("[xmlns='http://www.w3.org/2000/svg']");
+        fireEvent.click(button!);
+        userEvent.type(screen.getByRole("text"), "magenta");
+        userEvent.click(screen.getByText("Search"));
+        expect(screen.queryByText("No results found for keyword")).toBeInTheDocument();
     });
 
 });

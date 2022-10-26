@@ -13,7 +13,8 @@ extern crate postgres_derive;
 #[derive(Clone)]
 pub struct ApiContext {
     pub config: Arc<Config>,
-    pub ledger: Arc<tokio_rusqlite::Connection>,
+    pub mainnet_ledger: Arc<tokio_rusqlite::Connection>,
+    pub devnet_ledger: Arc<tokio_rusqlite::Connection>,
     pub mainnet_db: PgPool,
     pub devnet_db: PgPool,
 }
@@ -28,9 +29,12 @@ pub struct Config {
     /// The path to the current frontend build.
     #[clap(long, env)]
     pub client_path: String,
-    /// The path to the current staking ledger.
+    /// The path to the mainnet staking ledger.
     #[clap(long, env)]
-    pub ledger_path: String,
+    pub mainnet_ledger_path: String,
+    /// The path to the devnet staking ledger.
+    #[clap(long, env)]
+    pub devnet_ledger_path: String,
     #[clap(subcommand)]
     pub subcmd: SubCommand,
 }

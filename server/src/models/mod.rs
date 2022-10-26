@@ -46,20 +46,26 @@ pub struct SignalStats {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize)]
 pub struct ResponseEntity {
-    pub signals: Vec<Signal>,
+    pub settled: Vec<Signal>,
+    pub unsettled: Vec<Signal>,
+    pub invalid: Vec<Signal>,
     pub stats: Option<SignalStats>,
 }
 
 impl ResponseEntity {
-    pub fn new(signals: Vec<Signal>) -> Self {
+    pub fn new(settled: Vec<Signal>, unsettled: Vec<Signal>, invalid: Vec<Signal>) -> Self {
         Self {
-            signals,
+            settled,
+            unsettled,
+            invalid,
             stats: None,
         }
     }
 
     pub fn sort(mut self) -> Self {
-        self.signals.sort_by(|a, b| b.height.cmp(&a.height));
+        self.settled.sort_by(|a, b| b.height.cmp(&a.height));
+        self.unsettled.sort_by(|a, b| b.height.cmp(&a.height));
+        self.invalid.sort_by(|a, b| b.height.cmp(&a.height));
         self
     }
 

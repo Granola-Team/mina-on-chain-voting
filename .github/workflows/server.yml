@@ -8,7 +8,8 @@ on:
 
 env:
   DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
-  LEDGER_PATH: ./ledger.json
+  MAINNET_LEDGER_PATH: ./mainnet_ledger.json
+  DEVNET_LEDGER_PATH: ./devnet_ledger.json
   CLIENT_PATH: ../client/build
 
 defaults:

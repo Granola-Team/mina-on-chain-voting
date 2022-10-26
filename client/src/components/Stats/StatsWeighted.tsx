@@ -3,7 +3,6 @@ import moment from "moment";
 
 import type { StatsWeightedProps } from "@/types";
 import { IconTooltip } from "@/components/Tooltip";
-import { useFilterParams } from "@/hooks/useFilterParams";
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -13,17 +12,17 @@ const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
-  const [searchParams] = useFilterParams();
-  const network = searchParams.get("network");
-
+export const StatsWeighted: React.FC<StatsWeightedProps> = ({
+  stats,
+  network,
+}) => {
   const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
   const total = stats.yes + stats.no;
   const yesPercent = createPercent(stats.yes, total);
   const noPercent = createPercent(stats.no, total);
 
   return (
-    <div className="content-full-width px-2 md:px-4 lg:px-8 mt-4 md:mt-6">
+    <div className={`content-full-width px-2 md:px-4 lg:px-8 `}>
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
         <div className="flex flex-col justify-center px-3 md:px-6 py-2 gap-1">
           <div className="flex-col flex md:flex-row items-center justify-between">
@@ -45,7 +44,8 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
             </div>
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
-              {network} at {now}
+              {network[0].toUpperCase() + network.slice(1).toLowerCase()} at{" "}
+              {now}
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">
@@ -72,7 +72,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ stats }) => {
                 style={{
                   width: `${yesPercent === "XXX" ? "50" : yesPercent}%`,
                 }}
-                className={`bg-green-11 h-full ${
+                className={`bg-green-11 opacity-80 h-full ${
                   yesPercent === "100.00" ? "rounded-md" : "rounded-l-md"
                 }`}
               />

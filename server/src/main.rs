@@ -19,9 +19,13 @@ async fn main() -> anyhow::Result<()> {
 
     match config.subcmd {
         SubCommand::Start => {
-            let ledger = Ledger::init()
+            let mainnet_ledger = Ledger::init(&config.mainnet_ledger_path)
                 .await
-                .expect("Error: Could not create ledger.");
+                .expect("Error: Could not create mainnet ledger.");
+
+            let devnet_ledger = Ledger::init(&config.devnet_ledger_path)
+                .await
+                .expect("Error: Could not create devnet ledger.");
 
             let mainnet_db = PgPoolOptions::new()
                 .max_connections(25)
@@ -42,7 +46,8 @@ async fn main() -> anyhow::Result<()> {
             let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
                 ApiContext {
                     config: Arc::new(config),
-                    ledger: Arc::new(ledger.db),
+                    mainnet_ledger: Arc::new(mainnet_ledger.db),
+                    devnet_ledger: Arc::new(devnet_ledger.db),
                     mainnet_db,
                     devnet_db,
                 },

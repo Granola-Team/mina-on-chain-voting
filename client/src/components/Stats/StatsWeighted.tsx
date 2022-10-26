@@ -22,11 +22,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
   const noPercent = createPercent(stats.no, total);
 
   return (
-    <div
-      className={`content-full-width px-2 md:px-4 lg:px-8 ${
-        network === "mainnet" ? "" : "mt-4 md:mt-6"
-      }`}
-    >
+    <div className={`content-full-width px-2 md:px-4 lg:px-8 `}>
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
         <div className="flex flex-col justify-center px-3 md:px-6 py-2 gap-1">
           <div className="flex-col flex md:flex-row items-center justify-between">

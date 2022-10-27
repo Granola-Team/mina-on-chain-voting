@@ -14,10 +14,6 @@ test("should navigate to faucet when link is clicked", async () => {
 test("Instructions are rendered and visible", async () => {
     render(<Instructions />);
     expect(screen.getByText("Instructions")).toBeInTheDocument();
-    expect(screen.getByText("Create your wallet")).toBeInTheDocument();
-    expect(screen.getByText("Get testnet mina from the official")).toBeInTheDocument();
-    expect(screen.getByText("Send yourself a transaction with")).toBeInTheDocument();
-    expect(screen.getByText("Your signal should appear in")).toBeInTheDocument();
 });
 
 test("Snapshot test passes", async () => {

@@ -6,7 +6,14 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { fireEvent, render } from "@testing-library/react";
 import { IconTooltip } from "../Tooltip";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { styled, keyframes } from "@stitches/react";
+import { keyframes } from "@stitches/react"; // might need to add styled back
+// import {createStyled} from '@stitches/react'
+const { createStyled } = require('@stitches/react'); // using require () because importing didn't work
+// import {matchers} from 'jest-stitches';
+const { matchers } = require('jest-stitches'); // using require () because importing didn't work
+const {styled, css} = createStyled({})
+// Add the custom matchers provided by 'jest-stitches'
+expect.extend(matchers)
 
 const createPercent = (v: number, t: number): string => {
     const val = (v / t) * 100;
@@ -16,28 +23,40 @@ const createPercent = (v: number, t: number): string => {
     return val.toFixed(2);
 };
 
-const stats = {
-    yes: 15,
-    no: 20,
-};
-
 test("createPercent function in StatsWeighted", async () => {
     expect(createPercent(15, 20)).toBe("75.00");
     expect(createPercent(12, 87)).toBe("13.79");
 });
 
+const stats = {
+  yes: 15,
+  no: 20,
+};
+
 test("Signals Results bar is rendering", async () => {
+
+    const AddStyle = styled(IconTooltip, {
+      [`& ${IconTooltip}`]: {
+        length: 400,
+      },
+    });
+
     const bar = render(
         <Router>
         <Layout>
-            <StatsWeighted stats={stats} />
+            <AddStyle>
+              <StatsWeighted stats={stats} network={""} />
+            </AddStyle>
         </Layout>
-        </Router>,
+        </Router>
     );
+    console.log(bar);
     expect(bar.getByText("Signal Results")).toBeInTheDocument();
     expect(bar.getByText("Yes")).toBeInTheDocument();
     expect(bar.getByText("No")).toBeInTheDocument();
 });
+
+/*        /////// [`& ${IconTooltip}`]: { length = 40 }
 
 const StyledToolTip = styled(TooltipPrimitive.Content, {
   borderRadius: 10,
@@ -81,7 +100,7 @@ test("Tooltip in Signals Results bar is rendering", async () => {
     const rendered = render(
       <Router>
         <Layout>
-          <StatsWeighted stats={stats} >
+          <StatsWeighted stats={stats} network={""} >
             <StyledToolTip>
               <IconTooltip css={""} children={undefined} />
             </StyledToolTip>
@@ -96,3 +115,4 @@ test("Tooltip in Signals Results bar is rendering", async () => {
       ),
     ).toBeInTheDocument();
 });
+*/

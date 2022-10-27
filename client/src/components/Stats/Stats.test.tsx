@@ -37,6 +37,7 @@ test("Signals Results bar is rendering", async () => {
     const AddStyle = styled(IconTooltip, {
       [`& ${IconTooltip}`]: {
         length: 400,
+        animationDuration: "400ms",
       },
     });
 
@@ -59,6 +60,7 @@ test("Tooltip in Signals Results bar is rendering", async () => {
   const AddStyle = styled(IconTooltip, {
     [`& ${IconTooltip}`]: {
       length: 400,
+      animationDuration: "400ms",
     },
   });
 

@@ -11,9 +11,9 @@ import { keyframes } from "@stitches/react"; // might need to add styled back
 const { createStyled } = require('@stitches/react'); // using require () because importing didn't work
 // import {matchers} from 'jest-stitches';
 const { matchers } = require('jest-stitches'); // using require () because importing didn't work
-const {styled, css} = createStyled({})
+const {styled, css} = createStyled({});
 // Add the custom matchers provided by 'jest-stitches'
-expect.extend(matchers)
+expect.extend(matchers);
 
 const createPercent = (v: number, t: number): string => {
     const val = (v / t) * 100;

@@ -53,6 +53,7 @@ export const Search = () => {
                   <input
                     className="w-full bg-transparent outline-none overflow-ellipsis placeholder:text-xs md:placeholder:text-base placeholder:text-gray-10 text-gray-11"
                     type="text"
+                    role="textbox"
                     name="search"
                     autoComplete="off"
                     placeholder="Enter a keyword to search for... 🔍 "

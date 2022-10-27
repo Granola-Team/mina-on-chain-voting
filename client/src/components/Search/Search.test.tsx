@@ -1,34 +1,37 @@
 import { expect } from "vitest";
-import { screen, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import userEvent from "@testing-library/user-event";
 import { Search } from "./Search";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Layout } from "../Layout/Layout";
-
-test("Clicking search icon should open modal, which implies state change for both SearchControl and Search", async () => {
-    const { container } = render(
-        <Router>
-            <Layout>
-                <Search />
-            </Layout>
-        </Router>);
-    const button = container.querySelector("[xmlns='http://www.w3.org/2000/svg']");
+import { SearchControl } from "./SearchControl";
+import { cleanup, screen, render, waitFor } from "@testing-library/react";
+afterEach(cleanup);
+/*
+test("Search icon visible", async () => {
+    const rendered = render(
+            <Router>
+                <SearchControl />
+            </Router>
+            );
+    const button = rendered.getByTestId('SC-element');
     expect(button).toBeInTheDocument();
-    fireEvent.click(button!);
-    expect(screen.getByText("What are you looking for?")).toBeInTheDocument();
 });
-
-test("Clicking the Search button triggers the onSubmit function and change in url slug", async () => {
-    const { container } = render(
+*/
+test("Click Search icon-button for modal pop-up, click search button to change url slug", async () => {
+    const rendered = render(
         <Router>
             <Layout>
                 <Search />
             </Layout>
         </Router>);
-    const button = container.querySelector("[xmlns='http://www.w3.org/2000/svg']");
-    fireEvent.click(button!);
-    userEvent.type(screen.getByRole("text"), "test");
+    const button = rendered.getByRole('button', { pressed: true })
+    expect(button).toBeInTheDocument();
+    userEvent.click(button!);
+    await waitFor(() =>
+        expect(screen.getByText("What are you looking for?")).toBeInTheDocument());
+
+    userEvent.type(screen.getByRole("textbox"), "test");
     userEvent.click(screen.getByText("Search"));
-    expect(global.window.location.pathname).toContain("http://signals.mina.granola.team/test?network=Mainnet");
+    expect(window.location.href).toContain("/test?network=Mainnet");
 });

@@ -34,23 +34,23 @@ const stats = {
 };
 
 test("Signals Results bar is rendering", async () => {
-  const scaleUp = keyframes({
-    '0%': { transform: 'scale(1)' },
-    '100%': { transform: 'scale(1.5)' },
+  const length = keyframes({
+    '0%': { length: 0 },
+    '100%': { length: 400 },
+  });
+  const MoreStyle = styled('IconTooltip', {
+    '&:animationName': {
+      length: `${length} 400ms`,
+    },
   });
   const AddStyle = styled("IconTooltip", {
     [`& ${IconTooltip}`]: {
       length: 400,
-      animation: `${IconTooltip} 400ms`,
-    },
-  });
-  const MoreStyle = styled('IconTooltip', {
-    '&:animation': {
-      length: `${scaleUp} 400ms`,
+      animationName: `${IconTooltip} 400ms`,
     },
   });
 
-    const bar = render(
+  const bar = render(
         <Router>
         <Layout>
             <MoreStyle>

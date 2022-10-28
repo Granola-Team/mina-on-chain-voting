@@ -7,7 +7,7 @@ import { Layout } from "../Layout/Layout";
 import { SearchControl } from "./SearchControl";
 import { cleanup, screen, render, waitFor } from "@testing-library/react";
 afterEach(cleanup);
-/*
+
 test("Search icon visible", async () => {
     const rendered = render(
             <Router>
@@ -17,7 +17,7 @@ test("Search icon visible", async () => {
     const button = rendered.getByTestId('SC-element');
     expect(button).toBeInTheDocument();
 });
-*/
+
 test("Click Search icon-button for modal pop-up, click search button to change url slug", async () => {
     const rendered = render(
         <Router>
@@ -25,11 +25,12 @@ test("Click Search icon-button for modal pop-up, click search button to change u
                 <Search />
             </Layout>
         </Router>);
-    const button = rendered.getByRole('button', { pressed: true })
+    const button = rendered.getByRole("button", { pressed: true });
     expect(button).toBeInTheDocument();
-    userEvent.click(button!);
-    await waitFor(() =>
-        expect(screen.getByText("What are you looking for?")).toBeInTheDocument());
+    userEvent.click(button);
+    await waitFor(() => {
+        expect(screen.getByText("What are you looking for?")).toBeInTheDocument();
+    });
 
     userEvent.type(screen.getByRole("textbox"), "test");
     userEvent.click(screen.getByText("Search"));

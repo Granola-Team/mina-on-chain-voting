@@ -23,9 +23,7 @@ export const SearchControl = () => {
       }}
     >
       <div className="group px-2 md:px-3 py-1.5 hover:bg-gray-4 transition-all duration-200 rounded-md">
-        <SearchIcon className="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200"
-        data-testid="SC-element"
-      />
+        <SearchIcon className="w-[25px] h-[25px] text-gray-9 group-hover:text-gray-12 transition-all duration-200" data-testid="SC-element" />
       </div>
     </button>
   );

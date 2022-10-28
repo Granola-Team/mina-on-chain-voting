@@ -1,5 +1,5 @@
 {
-  "env": 
+  "env":
   {
     "jest": true
   },
@@ -36,7 +36,8 @@
         "react/no-array-index-key": "off",
         "@typescript-eslint/brace-style": "off",
         "@typescript-eslint/comma-dangle": "off",
-        "@typescript-eslint/no-var-requires": 0
+        "@typescript-eslint/no-var-requires": 0,
+        "@typescript-eslint/consistent-type-imports": "error"
       }
     }
   ]

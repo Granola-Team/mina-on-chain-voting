@@ -7,7 +7,7 @@ import type { TableRowProps } from "@/types";
 
 import { TableBubble } from "./TableBubble";
 
-const createPercent = (v: number, t: number): string => {
+export const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
   if (Number.isNaN(val)) {
     return "XXX";

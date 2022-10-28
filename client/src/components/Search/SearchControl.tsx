@@ -16,7 +16,7 @@ export const SearchControl = () => {
   return (
     <button
       type="button"
-      aria-pressed="true"
+      data-testid="search-control-button"
       className="ml-4"
       onClick={() => {
         setSearchState(!searchActive);

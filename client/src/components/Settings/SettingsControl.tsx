@@ -17,7 +17,7 @@ export const SettingsControl = () => {
   return (
     <button
       type="button"
-      aria-pressed="false"
+      data-testid="settings-control-button"
       onClick={() => {
         setSettingsState(!settingsActive);
       }}

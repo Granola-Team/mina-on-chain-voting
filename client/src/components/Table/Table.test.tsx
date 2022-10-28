@@ -1,10 +1,10 @@
-import { expect } from "vitest";
+import { expect, vi } from "vitest";
 import "@testing-library/jest-dom";
 import { Table } from "./Table";
 import { TableHeader } from "./TableHeader";
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
-import { BlockStatus, DelegationEntity, SignalStatus } from "@/types";
+import type { BlockStatus, DelegationEntity, SignalStatus } from "@/types";
 import { cleanup, fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { TableNavigation } from "./TableNavigation";
@@ -80,7 +80,6 @@ const data = [
 ];
 
 describe("testing TableRow, TableBubble, TableNavigation, and TableNavElement", () => {
-
     const query = "magenta";
     const isLoading = false;
 
@@ -102,7 +101,6 @@ describe("testing TableRow, TableBubble, TableNavigation, and TableNavElement", 
     });
 
     test("TableNavigation and TableNavElement working", async () => {
-
         const setStateMock = vi.fn();
         const useStateMock: any = (useState: any) => [useState, setStateMock];
         vi.spyOn(React, "useState").mockImplementation(useStateMock);
@@ -129,7 +127,5 @@ describe("testing TableRow, TableBubble, TableNavigation, and TableNavElement", 
         expect(InvalidCheck).toBeInTheDocument();
         fireEvent.click(InvalidCheck);
         expect(setStateMock).toHaveBeenCalled();
-
     });
-
 });

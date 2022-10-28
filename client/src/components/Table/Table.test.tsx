@@ -1,13 +1,11 @@
 import { expect } from "vitest";
 import "@testing-library/jest-dom";
 import { Table } from "./Table";
-import { Search } from "../Search/Search";
 import { TableHeader } from "./TableHeader";
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
-import userEvent from "@testing-library/user-event";
 import { BlockStatus, DelegationEntity, SignalStatus } from "@/types";
-import { cleanup, fireEvent, getByText, queryByText, render } from "@testing-library/react";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { TableNavigation } from "./TableNavigation";
 afterEach(cleanup);
@@ -135,28 +133,3 @@ describe("testing TableRow, TableBubble, TableNavigation, and TableNavElement", 
     });
 
 });
-/*
-describe("testing TableBody error function", () => {
-
-    const query = "test";
-    const isLoading = false;
-
-    test("TableBody throws error when appropiate", async () => {
-        const { container } = render(
-            <Router>
-                <Layout>
-                    <Search />
-                    <Table data={data} query={query} isLoading={isLoading} stats={stats} />
-                </Layout>
-            </Router>,
-        );
-
-        const button = container.querySelector("[xmlns='http://www.w3.org/2000/svg']");
-        fireEvent.click(button!);
-        userEvent.type(screen.getByRole("text"), "test");
-        userEvent.click(screen.getByText("Search"));
-        expect(screen.queryByText("No results found for keyword")).toBeInTheDocument();
-    });
-
-});
-*/

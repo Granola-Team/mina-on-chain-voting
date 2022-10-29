@@ -102,11 +102,13 @@ mod tests {
         };
 
         let response_entity = ResponseEntity {
-            signals: vec![signal1, signal2.clone()],
+            settled: vec![signal1, signal2.clone()],
+            unsettled: vec![],
+            invalid: vec![],
             stats: None,
         };
         let result = response_entity.sort();
-        assert_eq!(result.signals.get(0).unwrap(), &signal2);
+        assert_eq!(result.settled[0], signal2);
     }
 
     #[test]

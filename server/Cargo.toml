@@ -16,6 +16,7 @@ postgres-derive = "0.4.2"
 postgres = "0.19.3"
 postgres-types = { version = "0.2.3", features = ["derive"] }
 tokio-rusqlite = "0.3.0"
+rusqlite = "0.28"
 
 tower = "0.4.11"
 tower-http = { version = "0.3.4", features = ["trace", "cors"] }

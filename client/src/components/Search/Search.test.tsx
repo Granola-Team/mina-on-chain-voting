@@ -44,4 +44,5 @@ test("Click Search icon-button for modal pop-up, click search button to change u
     userEvent.click(screen.getByText("Search"));
     expect(window.location.href).toContain("/test?network=Mainnet");
 });
+
 */

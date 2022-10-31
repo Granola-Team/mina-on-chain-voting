@@ -1,6 +1,6 @@
 // Vitest Snapshot v1
 
-exports[`EpochTiming Tests > should render 1`] = `
+exports[`Search Tests > should render 1`] = `
 {
   "asFragment": [Function],
   "baseElement": <body>

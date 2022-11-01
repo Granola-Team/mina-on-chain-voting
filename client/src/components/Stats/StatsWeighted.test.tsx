@@ -1,7 +1,6 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { StatsWeighted } from "./StatsWeighted";
-import { screen } from '@testing-library/react'
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;

@@ -7,14 +7,14 @@ import { cleanup, fireEvent, render } from "@testing-library/react";
 import React from "react";
 import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
-import { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
+import type { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
 import { TableRow } from "./TableRow";
 afterEach(cleanup);
 
 describe("Table Tests", () => {
   const props = {
     stats: {
-      yes:  15,
+      yes: 15,
       no: 10,
     },
     query: "magenta",

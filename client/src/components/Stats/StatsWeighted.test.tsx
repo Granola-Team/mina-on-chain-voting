@@ -48,6 +48,6 @@ describe("StatsWeighted Tests", () => {
     expect(network).toBe("Mainnet");
 
     expect(string).toBe("66.67%");
-    expect(screen.getByText("66.67%")).toHaveAttribute("className", "text-sm md:text-lg semibold text-green-11");
+    expect(screen.getByText("66.67%")).toHaveAttribute("class", "text-sm md:text-lg semibold text-green-11");
   });
 });

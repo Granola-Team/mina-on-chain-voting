@@ -1,5 +1,5 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { StatsWeighted } from "./StatsWeighted";
 
 const createPercent = (v: number, t: number): string => {
@@ -9,6 +9,11 @@ const createPercent = (v: number, t: number): string => {
   }
   return val.toFixed(2);
 };
+
+test("createPercent function in StatsWeighted", async () => {
+  expect(createPercent(15, 20)).toBe("75.00");
+  expect(createPercent(12, 87)).toBe("13.79");
+});
 
 describe("StatsWeighted Tests", () => {
   const props = {
@@ -23,7 +28,7 @@ describe("StatsWeighted Tests", () => {
     render(<StatsWeighted {...props} />);
   });
 
-  test("should render props", () => {
+  test("should render props and checks signals bar functionality", () => {
     const total = props.stats.yes + props.stats.no;
     const yesPercent = createPercent(props.stats.yes, total);
     const noPercent = createPercent(props.stats.no, total);
@@ -35,5 +40,13 @@ describe("StatsWeighted Tests", () => {
     const elementTwo = view.getByText(stringTwo);
     expect(element).toBeInTheDocument();
     expect(elementTwo).toBeInTheDocument();
+
+    const title = view.getByText("Signal Results");
+    expect(title).toBeInTheDocument();
+    const network = props.network[0].toUpperCase() + props.network.slice(1).toLowerCase();
+    expect(network).toBe("Mainnet");
+
+    expect(string).toBe("66.67%");
+    expect(screen.getByText("66.67%")).toHaveAttribute("class", "text-sm md:text-lg semibold text-green-11");
   });
 });

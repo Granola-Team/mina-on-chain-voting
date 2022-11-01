@@ -1,6 +1,7 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
 import { StatsWeighted } from "./StatsWeighted";
+import { screen } from '@testing-library/react'
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -28,7 +29,7 @@ describe("StatsWeighted Tests", () => {
     render(<StatsWeighted {...props} />);
   });
 
-  test("should render props", () => {
+  test("should render props and checks signals bar functionality", () => {
     const total = props.stats.yes + props.stats.no;
     const yesPercent = createPercent(props.stats.yes, total);
     const noPercent = createPercent(props.stats.no, total);
@@ -40,76 +41,14 @@ describe("StatsWeighted Tests", () => {
     const elementTwo = view.getByText(stringTwo);
     expect(element).toBeInTheDocument();
     expect(elementTwo).toBeInTheDocument();
+
+    const title = view.getByText("Signal Results");
+    expect(title).toBeInTheDocument();
+
+    const network = props.network[0].toUpperCase() + props.network.slice(1).toLowerCase();
+    expect(network).toBe("Mainnet");
+
+    expect(string).toBe("66.67%");
+    expect(screen.getByText("66.67%")).toHaveAttribute("className", "text-sm md:text-lg semibold text-green-11");
   });
 });
-
-/*
-test("Signals Results bar is rendering", async () => {
-  const length = keyframes({
-    '0%': { length: 0 },
-    '100%': { length: 400 },
-  });
-  const MoreStyle = styled('IconTooltip', {
-    '&:animationName': {
-      length: `${length} 400ms`,
-    },
-  });
-  const AddStyle = styled("IconTooltip", {
-    [`& ${IconTooltip}`]: {
-      length: 400,
-      animationName: `${IconTooltip} 400ms`,
-    },
-  });
-
-  const bar = render(
-        <Router>
-        <Layout>
-            <MoreStyle>
-              <AddStyle>
-              <StatsWeighted stats={stats} network={""} />
-            </AddStyle>
-            </MoreStyle>
-        </Layout>
-        </Router>
-    );
-
-    expect(bar.getByText("Signal Results")).toBeInTheDocument();
-    expect(bar.getByText("Yes")).toBeInTheDocument();
-    expect(bar.getByText("No")).toBeInTheDocument();
-});
-/*
-test("Tooltip in Signals Results bar is rendering", async () => {
-  const scaleUp = keyframes({
-    '0%': { transform: 'scale(1)' },
-    '100%': { transform: 'scale(1.5)' },
-  });
-  const AddStyle = styled("IconTooltip", {
-    [`& ${IconTooltip}`]: {
-      length: 400,
-      animation: `${IconTooltip} 400ms`,
-    },
-  });
-  const MoreStyle = styled('IconTooltip', {
-    '&:length': {
-      animation: `${scaleUp} 400ms`,
-    },
-  });
-      const rendered = render(
-        <Router>
-        <Layout>
-            <MoreStyle>
-            <AddStyle>
-              <StatsWeighted stats={stats} network={""} />
-            </AddStyle>
-            </MoreStyle>
-        </Layout>
-        </Router>
-    );
-    fireEvent.mouseOver(await rendered.findByTestId("connection-sign"));
-    expect(
-      await rendered.findByText(
-        "signals that adhere to our signalling convention",
-      ),
-    ).toBeInTheDocument();
-});
-*/

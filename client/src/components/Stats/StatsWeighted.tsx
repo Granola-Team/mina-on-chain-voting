@@ -29,7 +29,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
             <div className="flex items-center gap-1.5">
               <span className="semibold text-lg md:text-xl leading-8">
                 Signal Results
-              </span>
+              </span >
               <IconTooltip css="h-[1.1rem] w-[1.1rem] md:mt-0.5">
                 <div className="flex flex-col items-start justify-center">
                   <span className="medium text-sm">Information:</span>

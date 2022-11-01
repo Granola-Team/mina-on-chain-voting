@@ -44,7 +44,6 @@ describe("StatsWeighted Tests", () => {
 
     const title = view.getByText("Signal Results");
     expect(title).toBeInTheDocument();
-
     const network = props.network[0].toUpperCase() + props.network.slice(1).toLowerCase();
     expect(network).toBe("Mainnet");
 

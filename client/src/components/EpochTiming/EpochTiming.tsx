@@ -51,6 +51,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
                   marginLeft: `${percentage}%`,
                 }}
                 className="w-[5px] h-[20px] bg-black absolute"
+                data-testid="bar-percentage"
               />
             </div>
           </div>

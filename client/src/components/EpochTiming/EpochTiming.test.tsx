@@ -29,6 +29,6 @@ describe("EpochTiming Tests", () => {
     const view = render(<EpochTiming {...props} />);
     const percentage = (props.slot / 7140) * 89.78;
     expect(view.getByTestId("bar-percentage"))
-      .toHaveAttribute("style", `margin-left: ${percentage}%;` );
+      .toHaveAttribute("style", `margin-left: ${percentage}%;`);
   });
 });

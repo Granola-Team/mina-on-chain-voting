@@ -1,7 +1,10 @@
 import "@testing-library/jest-dom";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Search } from "./Search";
+import { SearchControl } from "./SearchControl";
+import { useAppStore } from "@/App.store";
+import shallow from "zustand/shallow";
 
 describe("Search Tests", () => {
   test("should render", () => {
@@ -13,6 +16,42 @@ describe("Search Tests", () => {
       ),
     ).toMatchSnapshot();
   });
+
+  test("handles onClick", async () => {
+    const { searchActive, setSearchState } = useAppStore(
+      (state) => ({
+        searchActive: state.searchActive,
+        setSearchState: state.setSearchState,
+      }),
+      shallow,
+    );
+    const rendered = render(
+      <Router>
+        <SearchControl />
+      </Router>
+    );
+    const btnElement = rendered.getByRole("button");
+    fireEvent.click(btnElement);
+    expect(btnElement).toBe(!searchActive);
+    });
+/*
+    test("testing state change", async () => {
+    const setStateMock = vi.fn();
+    const useStateMock: any = (useState: any) => [useState, setStateMock];
+    vi.spyOn(React, "useState").mockImplementation(useStateMock);
+    const rendered = render(
+      <Router>
+        <Layout>
+          <TableNavigation />
+        </Layout>
+      </Router>,
+    );
+    const SettledCheck = rendered.getByRole("button", { name: "Settled" });
+    expect(SettledCheck).toBeInTheDocument();
+    fireEvent.click(SettledCheck);
+    expect(setStateMock).toHaveBeenCalled();
+  });
+  */
 });
 
 /*

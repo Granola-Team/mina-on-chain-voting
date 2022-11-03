@@ -5,8 +5,11 @@ import { Search } from "./Search";
 import { SearchControl } from "./SearchControl";
 import { useAppStore } from "@/App.store";
 import shallow from "zustand/shallow";
+import { immer } from 'zustand/middleware/immer'
+import { useStore } from "zustand";
+import create from "zustand";
 
-describe("Search Tests", () => {
+describe("unit tests", () => {
   test("should render", () => {
     expect(
       render(
@@ -16,23 +19,50 @@ describe("Search Tests", () => {
       ),
     ).toMatchSnapshot();
   });
+});
 
-  test("handles onClick", async () => {
-    const { searchActive, setSearchState } = useAppStore(
-      (state) => ({
-        searchActive: state.searchActive,
-        setSearchState: state.setSearchState,
-      }),
-      shallow,
-    );
-    const rendered = render(
-      <Router>
-        <SearchControl />
-      </Router>
-    );
-    const btnElement = rendered.getByRole("button");
+describe("integration tests", () => {
+  const originalState = useAppStore.getState();
+  beforeEach(() => {
+    useAppStore.setState(originalState);
+  });
+
+  vi.mock("@/App.store");
+  const mockState = {
+    darkMode: false,
+    settingsActive: false,
+    searchActive: false,
+    isLoading: false,
+    setDarkMode: (v: boolean) => {
+      () => ({ darkMode: v });
+    },
+    setSettingsState: (v: boolean) => {
+      () => ({ settingsActive: v });
+    },
+    setSearchState: (v: boolean) => {
+      () => ({ searchActive: v });
+    },
+  };
+  useAppStore.getState = () => mockState;
+  test("state changes to true", () => {
+    expect(SearchControl()).toBeTruthy();
+  });
+});
+
+/*
+});
+    test("handles onClick", () => {
+      const rendered = render(
+        <Router>
+          <SearchControl />
+        </Router>
+      );
+          const btnElement = rendered.getByRole("button");
     fireEvent.click(btnElement);
     expect(btnElement).toBe(!searchActive);
+
+      expect(rendered.getByTestId("search-control-button"))
+        .toHaveAttribute("style", `margin-left: ${percentage}%;`);
     });
 /*
     test("testing state change", async () => {
@@ -52,7 +82,7 @@ describe("Search Tests", () => {
     expect(setStateMock).toHaveBeenCalled();
   });
   */
-});
+
 
 /*
 test("Search icon visible", async () => {

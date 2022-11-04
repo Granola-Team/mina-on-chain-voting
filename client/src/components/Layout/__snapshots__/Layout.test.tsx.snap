@@ -143,6 +143,7 @@ exports[`Header is rendered 1`] = `
             />
             <button
               class="ml-4"
+              data-testid="search-control-btn"
               type="button"
             >
               <div
@@ -211,6 +212,7 @@ exports[`Header is rendered 1`] = `
           />
           <button
             class="ml-4"
+            data-testid="search-control-btn"
             type="button"
           >
             <div
@@ -339,6 +341,7 @@ exports[`Layout is rendered 1`] = `
               />
               <button
                 class="ml-4"
+                data-testid="search-control-btn"
                 type="button"
               >
                 <div
@@ -407,6 +410,7 @@ exports[`Layout is rendered 1`] = `
                 />
                 <button
                   class="ml-4"
+                  data-testid="search-control-btn"
                   type="button"
                 >
                   <div
@@ -534,6 +538,7 @@ exports[`Layout is rendered 1`] = `
             />
             <button
               class="ml-4"
+              data-testid="search-control-btn"
               type="button"
             >
               <div
@@ -602,6 +607,7 @@ exports[`Layout is rendered 1`] = `
               />
               <button
                 class="ml-4"
+                data-testid="search-control-btn"
                 type="button"
               >
                 <div

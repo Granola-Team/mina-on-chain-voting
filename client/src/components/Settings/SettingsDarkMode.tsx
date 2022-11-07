@@ -34,6 +34,7 @@ export const SettingsDarkMode = () => {
             type="checkbox"
             id="theme-toggle"
             className="sr-only"
+            data-testid="toggle"
           />
           <div
             className={`rounded-full p-[2px] ${

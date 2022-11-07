@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.43% </span>
+                <span class="strong">82.6% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/46</span>
+                <span class='fraction'>38/46</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">66.66% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>6/9</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.43% </span>
+                <span class="strong">82.6% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>14/46</span>
+                <span class='fraction'>38/46</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -113,14 +113,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -130,77 +123,84 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/**
  * Checks if darkmode is activated &amp; changes the theme accordingly.
  */
-export const changeTheme = (state: boolean): void =&gt; <span class="fstat-no" title="function not covered" >{</span>
-<span class="cstat-no" title="statement not covered" >  if (state) {</span>
+export const changeTheme = (state: boolean): void =&gt; {
+  if (state) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    document.documentElement.classList.remove("dark");</span>
 <span class="cstat-no" title="statement not covered" >    document.body.classList.remove("theme-dark");</span>
 <span class="cstat-no" title="statement not covered" >    document.body.classList.add("theme-light");</span>
 <span class="cstat-no" title="statement not covered" >    localStorage.setItem("theme", "light");</span>
-<span class="cstat-no" title="statement not covered" >  } else {</span>
-<span class="cstat-no" title="statement not covered" >    document.documentElement.classList.add("dark");</span>
-<span class="cstat-no" title="statement not covered" >    document.body.classList.remove("theme-light");</span>
-<span class="cstat-no" title="statement not covered" >    document.body.classList.add("theme-dark");</span>
-<span class="cstat-no" title="statement not covered" >    localStorage.setItem("theme", "dark");</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >};</span></span>
+  } else {
+    document.documentElement.classList.add("dark");
+    document.body.classList.remove("theme-light");
+    document.body.classList.add("theme-dark");
+    localStorage.setItem("theme", "dark");
+  }
+};
 &nbsp;
 /**
  * Checks if localstorage for native theme &amp; sets darkmode accordingly.
  */
-export const setTheme = <span class="fstat-no" title="function not covered" >(): void =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (</span>
-<span class="cstat-no" title="statement not covered" >    localStorage.theme === "dark" ||</span>
-<span class="cstat-no" title="statement not covered" >    (!("theme" in localStorage) &amp;&amp;</span>
-<span class="cstat-no" title="statement not covered" >      window.matchMedia("(prefers-color-scheme: dark)").matches)</span>
-<span class="cstat-no" title="statement not covered" >  ) {</span>
+export const setTheme = (): void =&gt; {
+  if (
+    localStorage.theme === "dark" ||
+    (!("theme" in localStorage) &amp;&amp;
+      window.matchMedia("(prefers-color-scheme: dark)").matches)
+  ) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    document.documentElement.classList.add("dark");</span>
 <span class="cstat-no" title="statement not covered" >    document.body.classList.remove("theme-light");</span>
 <span class="cstat-no" title="statement not covered" >    document.body.classList.add("theme-dark");</span>
-<span class="cstat-no" title="statement not covered" >  } else {</span>
-<span class="cstat-no" title="statement not covered" >    document.documentElement.classList.remove("dark");</span>
-<span class="cstat-no" title="statement not covered" >    document.body.classList.remove("theme-dark");</span>
-<span class="cstat-no" title="statement not covered" >    document.body.classList.add("theme-light");</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >};</span></span>
+  } else {
+    document.documentElement.classList.remove("dark");
+    document.body.classList.remove("theme-dark");
+    document.body.classList.add("theme-light");
+  }
+};
 &nbsp;
 /**
  * Checks if darkmode is represented in our current HTML Classlist.
  */
-export const isDarkMode = <span class="fstat-no" title="function not covered" >(): boolean =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >  if (document.documentElement.classList.contains("dark")) {</span>
+export const isDarkMode = (): boolean =&gt; {
+  if (document.documentElement.classList.contains("dark")) <span class="branch-0 cbranch-no" title="branch not covered" >{</span>
 <span class="cstat-no" title="statement not covered" >    return true;</span>
-<span class="cstat-no" title="statement not covered" >  } else {</span>
-<span class="cstat-no" title="statement not covered" >    return false;</span>
-<span class="cstat-no" title="statement not covered" >  }</span>
-<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >};</span></span>
+  } else {
+    return false;
+  }
+};
 &nbsp;</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
@@ -208,7 +208,7 @@ export const isDarkMode = <span class="fstat-no" title="function not covered" >(
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-10-31T14:34:55.362Z
+                at 2022-11-07T17:37:55.803Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

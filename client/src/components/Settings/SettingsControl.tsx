@@ -17,6 +17,7 @@ export const SettingsControl = () => {
   return (
     <button
       type="button"
+      data-testid="settings-control-btn"
       onClick={() => {
         setSettingsState(!settingsActive);
       }}

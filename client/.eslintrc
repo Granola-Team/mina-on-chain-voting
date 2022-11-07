@@ -15,7 +15,6 @@
       "parserOptions": {
         "sourceType": "module",
         "project": ["./tsconfig.json"],
-        "tsconfigRootDir": "__src",
         "ecmaVersion": 2020,
         "ecmaFeatures": {
           "jsx": true

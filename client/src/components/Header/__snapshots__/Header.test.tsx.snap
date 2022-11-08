@@ -3,7 +3,9 @@
 exports[`Header renders title 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": <body>
+  "baseElement": <body
+    class="theme-light"
+  >
     <div>
       <header
         class="border-b border-gray-7"
@@ -200,7 +202,9 @@ exports[`Header renders title 1`] = `
 exports[`Search is rendered 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": <body>
+  "baseElement": <body
+    class="theme-light"
+  >
     <div />
   </body>,
   "container": <div />,
@@ -261,7 +265,9 @@ exports[`Search is rendered 1`] = `
 exports[`Settings is rendered 1`] = `
 {
   "asFragment": [Function],
-  "baseElement": <body>
+  "baseElement": <body
+    class="theme-light"
+  >
     <div />
   </body>,
   "container": <div />,

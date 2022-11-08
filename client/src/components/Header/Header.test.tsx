@@ -1,5 +1,5 @@
 import { expect } from "vitest";
-import { render } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Header } from "../Header/Header";
 import { Search } from "../Search/Search";
@@ -34,4 +34,16 @@ test("Header renders title", async () => {
     const title = header.getByRole("heading", { level: 1 })
         .innerHTML;
     expect(title).toContain("Mina On-Chain Signals");
+});
+
+test("should navigate to home page when link is clicked", async () => {
+    const rendered = render(
+        <Router>
+            <Header />
+        </Router>,
+    );
+    const link = rendered.getByText("Mina On-Chain Signals");
+    fireEvent.click(link);
+    expect(rendered.getByText("Mina On-Chain Signals").closest("a"))
+        .toHaveAttribute("href", "");
 });

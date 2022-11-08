@@ -7,7 +7,7 @@ on:
     branches: ['main']
 
 env:
-  DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+  SQLX_OFFLINE: true
   MAINNET_LEDGER_PATH: ./mainnet_ledger.json
   DEVNET_LEDGER_PATH: ./devnet_ledger.json
   CLIENT_PATH: ../client/build

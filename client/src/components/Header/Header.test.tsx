@@ -8,7 +8,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import App from "../../App";
 import mediaQuery from "css-mediaquery";
 
-function createMatchMedia(width) {
+function createMatchMedia(width: string) {
     Object.defineProperty(window, 'matchMedia', {
     writable: true,
     value: vi.fn().mockImplementation(query => ({
@@ -33,6 +33,18 @@ beforeEach(() =>
 describe("isMobile function", () =>
     {
     afterEach(cleanup);
+
+    test("Renders small screen", async () =>
+    {
+        createMatchMedia("500px");
+        const appOne = render(<App />)
+    });
+
+    test("Renders big screen", async () =>
+    {
+        createMatchMedia("1000px");
+        const appTwo = render(<App />)
+    });
 
     test("Activates isMobile", async () =>
     {

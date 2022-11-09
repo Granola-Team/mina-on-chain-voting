@@ -10,7 +10,7 @@ import { TableBody } from "./TableBody";
 import type { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
 import { TableRow } from "./TableRow";
 import { Table } from "./Table";
-import mediaQuery from "css-mediaquery";
+
 afterEach(cleanup);
 
 describe("Table Tests", () => {
@@ -23,37 +23,37 @@ describe("Table Tests", () => {
     isLoading: false,
     data: [
       {
-          height: 10,
-          timestamp: 12,
-          account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
-          memo: "magenta",
-          status: "Canonical" as BlockStatus,
-          signal_status: "Settled" as SignalStatus,
-          delegations: {
-              delegated_balance: "ten",
-              total_delegators: 2,
-          } as DelegationEntity,
+        height: 10,
+        timestamp: 12,
+        account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
+        memo: "magenta",
+        status: "Canonical" as BlockStatus,
+        signal_status: "Settled" as SignalStatus,
+        delegations: {
+          delegated_balance: "ten",
+          total_delegators: 2,
+        } as DelegationEntity,
       },
       {
-          height: 8,
-          timestamp: 11,
-          account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
-          memo: "no magenta",
-          status: "Pending" as BlockStatus,
-          signal_status: "Unsettled" as SignalStatus,
-          delegations: {
-              delegated_balance: "ten",
-              total_delegators: 2,
-          } as DelegationEntity,
+        height: 8,
+        timestamp: 11,
+        account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
+        memo: "no magenta",
+        status: "Pending" as BlockStatus,
+        signal_status: "Unsettled" as SignalStatus,
+        delegations: {
+          delegated_balance: "ten",
+          total_delegators: 2,
+        } as DelegationEntity,
       },
       {
-          height: 7,
-          timestamp: 10,
-          account: "5u2ab1qlg2aye0h6yhf6vn3mdgcadvcr0838tcjefu",
-          memo: "no@#$%magenta",
-          status: "Orphaned" as BlockStatus,
-          signal_status: "Invalid" as SignalStatus,
-          delegations: null,
+        height: 7,
+        timestamp: 10,
+        account: "5u2ab1qlg2aye0h6yhf6vn3mdgcadvcr0838tcjefu",
+        memo: "no@#$%magenta",
+        status: "Orphaned" as BlockStatus,
+        signal_status: "Invalid" as SignalStatus,
+        delegations: null,
       },
     ],
   };
@@ -83,25 +83,33 @@ describe("Table Tests", () => {
 
   test("TableBubble colors working", () => {
     const view = render(<TableBody {...props} />);
-    expect(view.getByText("Pending").closest("div"))
-      .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7");
-    expect(view.getByText("Canonical").closest("div"))
-      .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7");
-    expect(view.getByText("Orphaned").closest("div"))
-      .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7");
+    expect(view.getByText("Pending").closest("div")).toHaveAttribute(
+      "class",
+      "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
+    );
+    expect(view.getByText("Canonical").closest("div")).toHaveAttribute(
+      "class",
+      "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7",
+    );
+    expect(view.getByText("Orphaned").closest("div")).toHaveAttribute(
+      "class",
+      "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7",
+    );
   });
 
   test("Table file", () => {
     const rendered = render(
       <Router>
-        <Table {...props} >
+        <Table {...props}>
           <TableNavigation />
           <TableBody {...props} />
         </Table>
-      </Router>
+      </Router>,
     );
-    expect(rendered.getByText("Pending").closest("div"))
-      .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7");
+    expect(rendered.getByText("Pending").closest("div")).toHaveAttribute(
+      "class",
+      "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
+    );
   });
 });
 
@@ -147,28 +155,32 @@ const createPercent = (v: number, t: number): string => {
 test("TableRow createPercent function", async () => {
   expect(createPercent(15, 20)).toBe("75.00");
   expect(createPercent(12, 87)).toBe("13.79");
-  expect(createPercent("hello" as unknown as number, "helloTwo" as unknown as number)).toBe("XXX");
+  expect(
+    createPercent(
+      "hello" as unknown as number,
+      "helloTwo" as unknown as number,
+    ),
+  ).toBe("XXX");
 });
 
 describe("StatsWeighted Tests", () => {
   const props = {
-    signal:
-      {
-          height: 10,
-          timestamp: 12,
-          account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
-          memo: "magenta",
-          status: "Canonical" as BlockStatus,
-          signal_status: "Settled" as SignalStatus,
-          delegations: {
-              delegated_balance: "10.761231314",
-              total_delegators: 2,
-          } as DelegationEntity,
-      },
+    signal: {
+      height: 10,
+      timestamp: 12,
+      account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
+      memo: "magenta",
+      status: "Canonical" as BlockStatus,
+      signal_status: "Settled" as SignalStatus,
+      delegations: {
+        delegated_balance: "10.761231314",
+        total_delegators: 2,
+      } as DelegationEntity,
+    },
     stats: {
-        yes: 15,
-        no: 10,
-      }
+      yes: 15,
+      no: 10,
+    },
   };
 
   test("should render", () => {
@@ -193,7 +205,9 @@ describe("StatsWeighted Tests", () => {
     };
 
     const view = render(<TableRow {...props} />);
-    const string = `${parseFloat(props.signal.delegations.delegated_balance).toFixed(4)}`;
+    const string = `${parseFloat(
+      props.signal.delegations.delegated_balance,
+    ).toFixed(4)}`;
     const element = view.getByText(string);
     expect(element).toBeInTheDocument();
   });
@@ -214,42 +228,6 @@ test("TableHeader is rendering", async () => {
   expect(rendered.getByText("Classification")).toBeInTheDocument();
 });
 
-function createMatchMedia(width) {
-  Object.defineProperty(window, 'matchMedia', {
-  writable: true,
-  value: vi.fn().mockImplementation(query => ({
-      matches: mediaQuery.match(query, { width }),
-      media: query,
-      onchange: null,
-      addListener: vi.fn(), // deprecated
-      removeListener: vi.fn(), // deprecated
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-      dispatchEvent: vi.fn(),
-  })),
-  });
-};
-
-beforeEach(() =>
-  {
-  window.scrollTo = vi.fn();
-  window.HTMLDivElement.prototype.scrollIntoView = vi.fn();
-  });
-
-describe("isMobile function", () =>
-  {
-  afterEach(cleanup);
-
-  test("Activates isMobile", async () =>
-  {
-      createMatchMedia("500px");
-      const appOne = render(<TableHeader />)
-      createMatchMedia("1000px");
-      const appTwo = render(<TableHeader />)
-      expect(appOne).not.toBe(appTwo);
-  });
-});
-
 describe("Testing isLoading", () => {
   const props = {
     stats: {
@@ -260,28 +238,28 @@ describe("Testing isLoading", () => {
     isLoading: true,
     data: [
       {
-          height: 10,
-          timestamp: 12,
-          account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
-          memo: "magenta",
-          status: "Canonical" as BlockStatus,
-          signal_status: "Settled" as SignalStatus,
-          delegations: {
-              delegated_balance: "ten",
-              total_delegators: 2,
-          } as DelegationEntity,
+        height: 10,
+        timestamp: 12,
+        account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
+        memo: "magenta",
+        status: "Canonical" as BlockStatus,
+        signal_status: "Settled" as SignalStatus,
+        delegations: {
+          delegated_balance: "ten",
+          total_delegators: 2,
+        } as DelegationEntity,
       },
       {
-          height: 8,
-          timestamp: 11,
-          account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
-          memo: "no magenta",
-          status: "Pending" as BlockStatus,
-          signal_status: "Unsettled" as SignalStatus,
-          delegations: {
-              delegated_balance: "ten",
-              total_delegators: 2,
-          } as DelegationEntity,
+        height: 8,
+        timestamp: 11,
+        account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
+        memo: "no magenta",
+        status: "Pending" as BlockStatus,
+        signal_status: "Unsettled" as SignalStatus,
+        delegations: {
+          delegated_balance: "ten",
+          total_delegators: 2,
+        } as DelegationEntity,
       },
     ],
   };
@@ -289,11 +267,11 @@ describe("Testing isLoading", () => {
   test("isLoading in TableBody", () => {
     const view = render(
       <Router>
-        <Table {...props} >
+        <Table {...props}>
           <TableNavigation />
           <TableBody {...props} />
         </Table>
-      </Router>
+      </Router>,
     );
   });
 });
@@ -308,28 +286,28 @@ describe("Testing table errors functions", () => {
     isLoading: false,
     data: [
       {
-          height: 10,
-          timestamp: 12,
-          account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
-          memo: "magenta",
-          status: "Canonical" as BlockStatus,
-          signal_status: "Settled" as SignalStatus,
-          delegations: {
-              delegated_balance: "ten",
-              total_delegators: 2,
-          } as DelegationEntity,
+        height: 10,
+        timestamp: 12,
+        account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
+        memo: "magenta",
+        status: "Canonical" as BlockStatus,
+        signal_status: "Settled" as SignalStatus,
+        delegations: {
+          delegated_balance: "ten",
+          total_delegators: 2,
+        } as DelegationEntity,
       },
       {
-          height: 8,
-          timestamp: 11,
-          account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
-          memo: "no magenta",
-          status: "Pending" as BlockStatus,
-          signal_status: "Unsettled" as SignalStatus,
-          delegations: {
-              delegated_balance: "ten",
-              total_delegators: 2,
-          } as DelegationEntity,
+        height: 8,
+        timestamp: 11,
+        account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
+        memo: "no magenta",
+        status: "Pending" as BlockStatus,
+        signal_status: "Unsettled" as SignalStatus,
+        delegations: {
+          delegated_balance: "ten",
+          total_delegators: 2,
+        } as DelegationEntity,
       },
     ],
   };
@@ -337,7 +315,7 @@ describe("Testing table errors functions", () => {
     const view = render(
       <Router>
         <TableBody {...props} />
-      </Router>
+      </Router>,
     );
     /*
     const tabFilter = view.getByText("Invalid");

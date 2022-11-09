@@ -210,6 +210,9 @@ describe("StatsWeighted Tests", () => {
     ).toFixed(4)}`;
     const element = view.getByText(string);
     expect(element).toBeInTheDocument();
+    const stringTwo = `${percent()}`;
+    const elementTwo = view.getByText(stringTwo);
+    expect(elementTwo).toBeInTheDocument();
   });
 });
 

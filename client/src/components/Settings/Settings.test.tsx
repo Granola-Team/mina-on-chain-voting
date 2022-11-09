@@ -4,7 +4,9 @@ import { Settings } from "./Settings";
 import { SettingsControl } from "./SettingsControl";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SettingsDarkMode } from "./SettingsDarkMode";
+import { SettingsButton } from "./SettingsButton";
 import { cleanup, fireEvent, render } from "@testing-library/react";
+import { SettingsNetwork } from "./SettingsNetwork";
 afterEach(cleanup);
 
 describe("Settings and Theme Tests", () => {
@@ -79,6 +81,24 @@ describe("Settings and Theme Tests", () => {
             .toHaveAttribute("href", "");
         */
     });
+});
+
+test("SettingsNetwork is rendered", async () => {
+  const search = render(
+    <Router>
+      <SettingsNetwork />
+    </Router>,
+  );
+  expect(search).toMatchSnapshot();
+});
+
+test("SettingsButton is rendered", async () => {
+  const search = render(
+    <Router>
+      <SettingsButton title={"Devnet"} />
+    </Router>,
+  );
+  expect(search).toMatchSnapshot();
 });
 
 // more options - for testing modal

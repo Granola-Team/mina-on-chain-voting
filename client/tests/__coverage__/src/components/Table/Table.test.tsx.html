@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.7% </span>
+                <span class="strong">99.39% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>312/326</span>
+                <span class='fraction'>327/329</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">91.3% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>21/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>20/20</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">95.7% </span>
+                <span class="strong">99.39% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>312/326</span>
+                <span class='fraction'>327/329</span>
             </div>
         
             
@@ -389,7 +389,10 @@
 <a name='L324'></a><a href='#L324'>324</a>
 <a name='L325'></a><a href='#L325'>325</a>
 <a name='L326'></a><a href='#L326'>326</a>
-<a name='L327'></a><a href='#L327'>327</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -536,12 +539,14 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -581,19 +586,20 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -905,20 +911,20 @@ describe("StatsWeighted Tests", () =&gt; {
   });
 &nbsp;
   test("should render props and renders 4 digit delegation", () =&gt; {
-    const percent: () =&gt; string = <span class="fstat-no" title="function not covered" >(): string =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      if (</span>
-<span class="cstat-no" title="statement not covered" >        props.signal.signal_status === "Settled" ||</span>
+    const percent: () =&gt; string = (): string =&gt; {
+      if (
+        props.signal.signal_status === <span class="branch-0 cbranch-no" title="branch not covered" >"Settled" ||</span>
 <span class="cstat-no" title="statement not covered" >        props.signal.signal_status === "Unsettled"</span>
-<span class="cstat-no" title="statement not covered" >      ) {</span>
-<span class="cstat-no" title="statement not covered" >        const total = props.stats.yes + props.stats.no;</span>
-<span class="cstat-no" title="statement not covered" >        if (props.signal.delegations) {</span>
-<span class="cstat-no" title="statement not covered" >          return createPercent(</span>
-<span class="cstat-no" title="statement not covered" >            parseFloat(props.signal.delegations.delegated_balance),</span>
-<span class="cstat-no" title="statement not covered" >            total,</span>
-<span class="cstat-no" title="statement not covered" >          );</span>
-<span class="cstat-no" title="statement not covered" >        }</span>
-<span class="cstat-no" title="statement not covered" >      }</span>
-<span class="cstat-no" title="statement not covered" >      return "---";</span>
+      ) {
+        const total = props.stats.yes + props.stats.no;
+        if (props.signal.delegations) {
+          return createPercent(
+            parseFloat(props.signal.delegations.delegated_balance),
+            total,
+          );
+        }
+      }
+<span class="branch-0 cbranch-no" title="branch not covered" >      return "---";</span>
 <span class="cstat-no" title="statement not covered" >    };</span>
 &nbsp;
     const view = render(&lt;TableRow {...props} /&gt;);
@@ -927,6 +933,9 @@ describe("StatsWeighted Tests", () =&gt; {
     ).toFixed(4)}`;
     const element = view.getByText(string);
     expect(element).toBeInTheDocument();
+    const stringTwo = `${percent()}`;
+    const elementTwo = view.getByText(stringTwo);
+    expect(elementTwo).toBeInTheDocument();
   });
 });
 &nbsp;
@@ -1048,7 +1057,7 @@ describe("Testing table errors functions", () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-11-09T21:07:30.621Z
+                at 2022-11-09T21:45:42.422Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

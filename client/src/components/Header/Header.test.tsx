@@ -1,58 +1,45 @@
 import { expect } from "vitest";
-import { cleanup, fireEvent, render } from "@testing-library/react";
+import { act, cleanup, fireEvent, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { Header } from "../Header/Header";
 import { Search } from "../Search/Search";
 import { Settings } from "../Settings/Settings";
 import { BrowserRouter as Router } from "react-router-dom";
-import App from "../../App";
 import mediaQuery from "css-mediaquery";
 
-function createMatchMedia(width: string) {
-    Object.defineProperty(window, 'matchMedia', {
-    writable: true,
-    value: vi.fn().mockImplementation(query => ({
-        matches: mediaQuery.match(query, { width }),
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-    })),
+/*function resizeTo(num: number) {
+    window.innerWidth = num;
+    window.dispatchEvent(new Event("resize"));
+}
+*/
+const resize = (x: number, y: number) => {
+    window.innerWidth = x;
+    window.innerHeight = y;
+    act(() => {
+        window.dispatchEvent(new Event('resize'));
     });
 };
-
-beforeEach(() =>
-    {
-    window.scrollTo = vi.fn();
-    window.HTMLDivElement.prototype.scrollIntoView = vi.fn();
-    });
-
-describe("isMobile function", () =>
-    {
+describe("isMobile function", () => {
     afterEach(cleanup);
-
-    test("Renders small screen", async () =>
-    {
-        createMatchMedia("500px");
-        const appOne = render(<App />)
-    });
-
-    test("Renders big screen", async () =>
-    {
-        createMatchMedia("1000px");
-        const appTwo = render(<App />)
-    });
-
-    test("Activates isMobile", async () =>
-    {
-        createMatchMedia("500px");
-        const appOne = render(<App />)
-        createMatchMedia("1000px");
-        const appTwo = render(<App />)
-        expect(appOne).not.toBe(appTwo);
+    test("Activates isMobile", () => {
+        resize(2800, 1080);
+        console.log(window.innerWidth);
+        const appOne = render(
+        <Router>
+            <Header />
+        </Router>
+        );
+        expect(appOne.getByTestId("header-container"))
+            .toHaveAttribute("class", "flex items-center justify-between px-5 py-4 lg:px-10");
+        resize(300, 500);
+        console.log(window.innerWidth);
+        const appTwo = render(
+        <Router>
+            <Header />
+        </Router>
+        );
+        expect(appTwo.getByTestId("header-container"))
+            .toHaveAttribute("class", "flex items-center justify-between py-4 px-3.5");
     });
 });
 

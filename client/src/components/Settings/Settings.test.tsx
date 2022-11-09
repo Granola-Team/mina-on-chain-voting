@@ -68,7 +68,7 @@ describe("Settings and Theme Tests", () => {
         fireEvent.click(buttonTwo);
         expect(rendered.getByTestId("theme-change").closest("div"))
             .toHaveAttribute("class", "rounded-full p-[2px] bg-gradient animate-gradient");
-        // the below works logically but not functionally
+        // below needs tweaking
         /*
         const buttonThree = rendered.getByTestId("close-modal");
         expect(buttonThree).toBeInTheDocument();
@@ -85,62 +85,14 @@ describe("Settings and Theme Tests", () => {
 
 /*
 test('modal shows the children and a close button', () => {
-  // Arrange
-  const handleClose = jest.fn()
-
-  // Act
+  const handleClose = vi.fn()
   const {getByText} = render(
     <Modal onClose={handleClose}>
       <div>test</div>
     </Modal>,
   )
-  // Assert
   expect(getByText('test')).toBeTruthy()
-
-  // Act
   fireEvent.click(getByText(/close/i))
-
-  // Assert
   expect(handleClose).toHaveBeenCalledTimes(1)
 })
-/*
-
-/*import "@testing-library/jest-dom";
-import { vi } from "vitest";
-import { Settings } from "../Settings/Settings";
-import { SettingsControl } from "../Settings/SettingsControl";
-import { BrowserRouter as Router } from "react-router-dom";
-import { SettingsDarkMode } from "../Settings/SettingsDarkMode";
-import { cleanup, fireEvent, render } from "@testing-library/react";
-afterEach(cleanup);
-
-describe("Set-up for testing modal closing", () => {
-    beforeEach(() => {
-        const mock = vi.fn();
-        mock.mockReturnValue({
-            observe: () => null,
-            unobserve: () => null,
-            disconnect: () => null,
-    });
-        window.IntersectionObserver = mock;
-    });
-
-    test("Testing modal closing", async () => {
-        const rendered = render(
-          <Router>
-            <SettingsControl />
-            <Settings />
-            <SettingsDarkMode />
-          </Router>,
-        );
-        const button = rendered.getByTestId("settings-control-btn");
-        fireEvent.click(button);
-        const buttonTwo = rendered.getByTestId("toggle");
-        expect(buttonTwo).toBeInTheDocument();
-        fireEvent.click(buttonTwo);
-        expect(rendered.getByTestId("theme-change").closest("div"))
-            .toHaveAttribute("class", "rounded-full p-[2px] bg-gradient animate-gradient");
-
-    });
-});
 */

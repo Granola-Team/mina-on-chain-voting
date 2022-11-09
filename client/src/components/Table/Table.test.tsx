@@ -9,6 +9,8 @@ import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
 import type { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
 import { TableRow } from "./TableRow";
+import { Table } from "./Table";
+import mediaQuery from "css-mediaquery";
 afterEach(cleanup);
 
 describe("Table Tests", () => {
@@ -87,6 +89,18 @@ describe("Table Tests", () => {
       .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7");
     expect(view.getByText("Orphaned").closest("div"))
       .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7");
+  });
+  test("Table file", () => {
+    const rendered = render(
+      <Router>
+        <Table {...props} >
+          <TableNavigation />
+          <TableBody {...props} />
+        </Table>
+      </Router>
+    );
+    expect(rendered.getByText("Pending").closest("div"))
+      .toHaveAttribute("class", "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7");
   });
 });
 
@@ -197,4 +211,91 @@ test("TableHeader is rendering", async () => {
   expect(rendered.getByText("Delegated Stake")).toBeInTheDocument();
   expect(rendered.getByText("Delegated Stake %")).toBeInTheDocument();
   expect(rendered.getByText("Classification")).toBeInTheDocument();
+});
+
+function createMatchMedia(width) {
+  Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: vi.fn().mockImplementation(query => ({
+      matches: mediaQuery.match(query, { width }),
+      media: query,
+      onchange: null,
+      addListener: vi.fn(), // deprecated
+      removeListener: vi.fn(), // deprecated
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+  })),
+  });
+};
+
+beforeEach(() =>
+  {
+  window.scrollTo = vi.fn();
+  window.HTMLDivElement.prototype.scrollIntoView = vi.fn();
+  });
+
+describe("isMobile function", () =>
+  {
+  afterEach(cleanup);
+
+  test("Activates isMobile", async () =>
+  {
+      createMatchMedia("500px");
+      const appOne = render(<TableHeader />)
+      createMatchMedia("1000px");
+      const appTwo = render(<TableHeader />)
+      expect(appOne).not.toBe(appTwo);
+  });
+});
+
+describe("Testing table errors functions", () => {
+  const props = {
+    stats: {
+      yes: 15,
+      no: 10,
+    },
+    query: "magenta",
+    isLoading: false,
+    data: [
+      {
+          height: 10,
+          timestamp: 12,
+          account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
+          memo: "magenta",
+          status: "Canonical" as BlockStatus,
+          signal_status: "Settled" as SignalStatus,
+          delegations: {
+              delegated_balance: "ten",
+              total_delegators: 2,
+          } as DelegationEntity,
+      },
+      {
+          height: 8,
+          timestamp: 11,
+          account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
+          memo: "no magenta",
+          status: "Pending" as BlockStatus,
+          signal_status: "Unsettled" as SignalStatus,
+          delegations: {
+              delegated_balance: "ten",
+              total_delegators: 2,
+          } as DelegationEntity,
+      },
+    ],
+  };
+
+  test("should give error result", () => {
+    const view = render(
+      <Router>
+        <Table {...props} >
+          <TableNavigation />
+          <TableBody {...props} />
+        </Table>
+      </Router>
+    );
+    const tabFilter = view.getByText("Invalid");
+    fireEvent.click(tabFilter);
+    expect(view.getByText("No results found for")).toBeInTheDocument();
+  });
 });

@@ -86,7 +86,7 @@ test("SettingsNetwork is rendered", async () => {
 test("SettingsButton is rendered", async () => {
   const search = render(
     <Router>
-      <SettingsButton title={"Devnet"} />
+      <SettingsButton title="Devnet" />
     </Router>,
   );
   expect(search).toMatchSnapshot();

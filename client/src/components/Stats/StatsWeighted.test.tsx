@@ -13,6 +13,7 @@ const createPercent = (v: number, t: number): string => {
 test("createPercent function in StatsWeighted", async () => {
   expect(createPercent(15, 20)).toBe("75.00");
   expect(createPercent(12, 87)).toBe("13.79");
+  expect(createPercent("hello" as unknown as number, "helloTwo" as unknown as number)).toBe("XXX");
 });
 
 describe("StatsWeighted Tests", () => {

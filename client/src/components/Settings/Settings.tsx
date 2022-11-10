@@ -49,6 +49,7 @@ export const Settings = () => {
                     setSettingsState(false);
                   }}
                   className="w-6 h-6 cursor-pointer text-gray-12"
+                  data-testid="close-modal"
                   aria-hidden="true"
                 />
               </div>

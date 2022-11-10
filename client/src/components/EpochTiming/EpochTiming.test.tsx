@@ -1,6 +1,5 @@
 import "@testing-library/jest-dom";
 import { render } from "@testing-library/react";
-import moment from "moment";
 import { EpochTiming } from "./EpochTiming";
 
 describe("EpochTiming Tests", () => {

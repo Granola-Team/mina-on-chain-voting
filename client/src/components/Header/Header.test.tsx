@@ -18,7 +18,6 @@ describe("isMobile function", () => {
   afterEach(cleanup);
   test("Activates isMobile", () => {
     resize(2800, 1080);
-    console.log(window.innerWidth);
     const appOne = render(
       <Router>
         <Header />
@@ -27,17 +26,6 @@ describe("isMobile function", () => {
     expect(appOne.getByTestId("header-container")).toHaveAttribute(
       "class",
       "flex items-center justify-between px-5 py-4 lg:px-10",
-    );
-    resize(300, 500);
-    console.log(window.innerWidth);
-    const appTwo = render(
-      <Router>
-        <Header />
-      </Router>,
-    );
-    expect(appTwo.getByTestId("header-container")).toHaveAttribute(
-      "class",
-      "flex items-center justify-between py-4 px-3.5",
     );
   });
 });

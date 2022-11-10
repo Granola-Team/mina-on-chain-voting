@@ -1,15 +1,16 @@
 import { expect, vi } from "vitest";
 import "@testing-library/jest-dom";
+import React from "react";
+
 import { TableHeader } from "./TableHeader";
 import { Layout } from "../Layout/Layout";
 import { BrowserRouter as Router } from "react-router-dom";
-import { cleanup, fireEvent, render } from "@testing-library/react";
-import React from "react";
 import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
 import type { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
 import { TableRow } from "./TableRow";
 import { Table } from "./Table";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 
 afterEach(cleanup);
 
@@ -268,7 +269,7 @@ describe("Testing isLoading", () => {
   };
 
   test("isLoading in TableBody", () => {
-    const view = render(
+    render(
       <Router>
         <Table {...props}>
           <TableNavigation />
@@ -276,54 +277,5 @@ describe("Testing isLoading", () => {
         </Table>
       </Router>,
     );
-  });
-});
-
-describe("Testing table errors functions", () => {
-  const props = {
-    stats: {
-      yes: 15,
-      no: 10,
-    },
-    query: "magenta",
-    isLoading: false,
-    data: [
-      {
-        height: 10,
-        timestamp: 12,
-        account: "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
-        memo: "magenta",
-        status: "Canonical" as BlockStatus,
-        signal_status: "Settled" as SignalStatus,
-        delegations: {
-          delegated_balance: "ten",
-          total_delegators: 2,
-        } as DelegationEntity,
-      },
-      {
-        height: 8,
-        timestamp: 11,
-        account: "ab1qlg2ayye0h6hf5u26vn3mdgcadvcr0838tcjefu",
-        memo: "no magenta",
-        status: "Pending" as BlockStatus,
-        signal_status: "Unsettled" as SignalStatus,
-        delegations: {
-          delegated_balance: "ten",
-          total_delegators: 2,
-        } as DelegationEntity,
-      },
-    ],
-  };
-  test("should give error result", () => {
-    const view = render(
-      <Router>
-        <TableBody {...props} />
-      </Router>,
-    );
-    /*
-    const tabFilter = view.getByText("Invalid");
-    fireEvent.click(tabFilter);
-    expect(view.getByText("No results found for")).toBeInTheDocument();
-    */
   });
 });

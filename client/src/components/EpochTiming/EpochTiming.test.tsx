@@ -18,4 +18,16 @@ describe("EpochTiming Tests", () => {
     const element = view.getByText(string);
     expect(element).toBeInTheDocument();
   });
+
+  test("title renders", () => {
+    const view = render(<EpochTiming {...props} />);
+    expect(view.getByText("Signal Timing")).toBeInTheDocument();
+  });
+
+  test("bar meter percentage", () => {
+    const view = render(<EpochTiming {...props} />);
+    const percentage = (props.slot / 7140) * 89.78;
+    expect(view.getByTestId("bar-percentage"))
+      .toHaveAttribute("style", `margin-left: ${percentage}%;`);
+  });
 });

@@ -34,11 +34,13 @@ export const SettingsDarkMode = () => {
             type="checkbox"
             id="theme-toggle"
             className="sr-only"
+            data-testid="toggle"
           />
           <div
             className={`rounded-full p-[2px] ${
               darkMode ? "bg-gradient animate-gradient" : ""
             }`}
+            data-testid="theme-change"
           >
             <div className="block h-[22px] bg-gray-8 rounded-full w-14" />
           </div>

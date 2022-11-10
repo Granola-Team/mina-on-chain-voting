@@ -16,6 +16,7 @@ export const SearchControl = () => {
   return (
     <button
       type="button"
+      data-testid="search-control-btn"
       className="ml-4"
       onClick={() => {
         setSearchState(!searchActive);

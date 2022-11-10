@@ -2,7 +2,11 @@ use anyhow::Context;
 use axum::{http::Method, Extension};
 use clap::Parser;
 use log::info;
-use osc_api::{ledger::Ledger, routes::Build, ApiContext, Config, SubCommand};
+use osc_api::{
+    ledger::{HasConnectionAsync, Ledger},
+    routes::Build,
+    ApiContext, Config, SubCommand,
+};
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
@@ -19,11 +23,11 @@ async fn main() -> anyhow::Result<()> {
 
     match config.subcmd {
         SubCommand::Start => {
-            let mainnet_ledger = Ledger::init(&config.mainnet_ledger_path)
+            let mainnet_ledger = Ledger::init_async(&config.mainnet_ledger_path)
                 .await
                 .expect("Error: Could not create mainnet ledger.");
 
-            let devnet_ledger = Ledger::init(&config.devnet_ledger_path)
+            let devnet_ledger = Ledger::init_async(&config.devnet_ledger_path)
                 .await
                 .expect("Error: Could not create devnet ledger.");
 

@@ -325,11 +325,11 @@ mod tests {
         });
     }
 
-    #[test]
-    pub fn ledger_init_creates_connection() {
-        let _devnet: Ledger<tokio_rusqlite::Connection> =
-            pollster::block_on(HasConnectionAsync::init_async("./devnet_ledger.json")).unwrap();
-        let _mainnet: Ledger<tokio_rusqlite::Connection> =
-            pollster::block_on(HasConnectionAsync::init_async("./mainnet_ledger.json")).unwrap();
-    }
+    // #[test]
+    // pub fn ledger_init_creates_connection() {
+    //     let _devnet: Ledger<tokio_rusqlite::Connection> =
+    //         pollster::block_on(HasConnectionAsync::init_async("./devnet_ledger.json")).unwrap();
+    //     let _mainnet: Ledger<tokio_rusqlite::Connection> =
+    //         pollster::block_on(HasConnectionAsync::init_async("./mainnet_ledger.json")).unwrap();
+    // }
 }

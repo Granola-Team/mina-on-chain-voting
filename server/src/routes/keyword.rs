@@ -4,7 +4,7 @@ use axum::{
     response::IntoResponse,
     Extension,
 };
-use base58check::FromBase58Check;
+use base58check::{FromBase58Check, ToBase58Check};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -14,17 +14,26 @@ use crate::{
     queries,
 };
 
-fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
+pub fn mina_encode(memo: &str) -> String {
+    let bytes = memo.as_bytes();
+    let mut encoded = Vec::new();
+    encoded.push(1 as u8);
+    encoded.push(memo.len() as u8);
+    for byte in bytes.iter() {
+        encoded.push(*byte);
+    }
+
+    encoded.as_slice().to_base58check(0)
+}
+
+pub fn decode_memo(memo: &str) -> Option<String> {
     if let Ok((_ver, bytes)) = memo.from_base58check() {
         if *bytes.first()? != 1u8 {
             return None;
         };
         let end_idx = *bytes.get(1)? as usize + 2;
         match std::str::from_utf8(&bytes[2..end_idx]) {
-            Ok(str) => match str.to_lowercase().contains(keyword) {
-                true => Some(str.to_string()),
-                false => None,
-            },
+            Ok(str) => Some(str.to_string()),
             Err(_) => None,
         }
     } else {
@@ -229,7 +238,7 @@ fn iter_signals(
     let mut invalid: Vec<Signal> = Vec::with_capacity(signals.len());
     let (mut yes, mut no) = (0.0, 0.0);
     for res in signals.iter() {
-        if let Some(memo_str) = decode_memo(&res.memo, &key) {
+        if let Some(memo_str) = decode_memo(&res.memo) {
             process_signal(
                 &memo_str,
                 &key,
@@ -291,7 +300,7 @@ fn classify_settled_unsettled(
     (settled, unsettled)
 }
 
-fn construct_responses(
+pub fn construct_responses(
     conn: &mut rusqlite::Connection,
     key: String,
     latest_block: i64,

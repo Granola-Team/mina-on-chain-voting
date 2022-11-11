@@ -17,7 +17,7 @@ use crate::{
 pub fn mina_encode(memo: &str) -> String {
     let bytes = memo.as_bytes();
     let mut encoded = Vec::new();
-    encoded.push(1 as u8);
+    encoded.push(1);
     encoded.push(memo.len() as u8);
     for byte in bytes.iter() {
         encoded.push(*byte);
@@ -55,8 +55,8 @@ fn validate_signal(memo: &str, key: &str) -> bool {
 
 fn add_signal_to_existing_account(
     stmt: &mut rusqlite::Statement,
-    memo_str: &String,
-    key: &String,
+    memo_str: &str,
+    key: &str,
     res: &DBResponse,
     yes: &mut f32,
     no: &mut f32,
@@ -92,7 +92,7 @@ fn add_signal_to_existing_account(
         signals.push(Signal {
             account: res.account.clone(),
             height: res.height,
-            memo: memo_str.clone(),
+            memo: memo_str.to_string(),
             status: res.status,
             timestamp: res.timestamp,
             signal_status: None,
@@ -103,8 +103,8 @@ fn add_signal_to_existing_account(
 
 fn add_signal_to_new_account(
     stmt: &mut rusqlite::Statement,
-    memo_str: &String,
-    key: &String,
+    memo_str: &str,
+    key: &str,
     res: &DBResponse,
     yes: &mut f32,
     no: &mut f32,
@@ -141,7 +141,7 @@ fn add_signal_to_new_account(
             vec![Signal {
                 account: res.account.clone(),
                 height: res.height,
-                memo: memo_str.clone(),
+                memo: memo_str.to_string(),
                 status: res.status,
                 timestamp: res.timestamp,
                 signal_status: None,
@@ -157,8 +157,8 @@ fn add_signal_to_new_account(
 fn process_invalid_signal(
     stmt: &mut rusqlite::Statement,
     res: &DBResponse,
-    memo_str: &String,
-    key: &String,
+    memo_str: &str,
+    key: &str,
     yes: &mut f32,
     no: &mut f32,
     invalid: &mut Vec<Signal>,
@@ -192,7 +192,7 @@ fn process_invalid_signal(
 
         invalid.push(Signal {
             account: res.account.clone(),
-            memo: memo_str.clone(),
+            memo: memo_str.to_string(),
             height: res.height,
             status: res.status,
             timestamp: res.timestamp,
@@ -202,9 +202,10 @@ fn process_invalid_signal(
     }
 }
 
+#[allow(clippy::too_many_arguments)]
 fn process_signal(
-    memo_str: &String,
-    key: &String,
+    memo_str: &str,
+    key: &str,
     hash: &mut HashMap<String, Vec<Signal>>,
     res: &DBResponse,
     stmt: &mut rusqlite::Statement,
@@ -212,7 +213,8 @@ fn process_signal(
     no: &mut f32,
     invalid: &mut Vec<Signal>,
 ) {
-    if validate_signal(&memo_str, &key) {
+    if validate_signal(memo_str, key) {
+        println!("{}", memo_str);
         match hash.get_mut(&res.account) {
             Some(signals) => {
                 add_signal_to_existing_account(stmt, memo_str, key, res, yes, no, signals)

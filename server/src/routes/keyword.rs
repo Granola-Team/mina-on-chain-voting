@@ -26,14 +26,17 @@ pub fn mina_encode(memo: &str) -> String {
     encoded.as_slice().to_base58check(0)
 }
 
-pub fn decode_memo(memo: &str) -> Option<String> {
+fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
     if let Ok((_ver, bytes)) = memo.from_base58check() {
         if *bytes.first()? != 1u8 {
             return None;
         };
         let end_idx = *bytes.get(1)? as usize + 2;
         match std::str::from_utf8(&bytes[2..end_idx]) {
-            Ok(str) => Some(str.to_string()),
+            Ok(str) => match str.to_lowercase().contains(keyword) {
+                true => Some(str.to_string()),
+                false => None,
+            },
             Err(_) => None,
         }
     } else {
@@ -238,7 +241,7 @@ fn iter_signals(
     let mut invalid: Vec<Signal> = Vec::with_capacity(signals.len());
     let (mut yes, mut no) = (0.0, 0.0);
     for res in signals.iter() {
-        if let Some(memo_str) = decode_memo(&res.memo) {
+        if let Some(memo_str) = decode_memo(&res.memo, &key) {
             process_signal(
                 &memo_str,
                 &key,

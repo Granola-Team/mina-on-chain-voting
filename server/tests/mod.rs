@@ -240,7 +240,7 @@ mod tests {
         let key = "magenta";
         let signal = DBResponse {
             account: "A".to_string(),
-            memo: mina_encode("invalid signal"),
+            memo: mina_encode("invalid magenta signal"),
             height: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
@@ -255,7 +255,7 @@ mod tests {
         let key = "magenta";
         let signal = DBResponse {
             account: "A".to_string(),
-            memo: mina_encode("invalid signal"),
+            memo: mina_encode("invalid magenta signal"),
             height: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,

@@ -285,9 +285,9 @@ pub async fn handler(
         return (StatusCode::ACCEPTED, axum::Json(result)).into_response();
     }
 
-    return (
+    (
         StatusCode::BAD_REQUEST,
         axum::Json("Error: Network param not provided."),
     )
-        .into_response();
+        .into_response()
 }

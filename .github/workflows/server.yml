@@ -107,7 +107,7 @@ jobs:
         with:
           command: install
           working-directory: server
-          args: kcov
+          args: cargo-kcov
 
       - name: KCov
         uses: mxnkarou/cargo@master

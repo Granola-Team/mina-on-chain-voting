@@ -214,7 +214,6 @@ fn process_signal(
     invalid: &mut Vec<Signal>,
 ) {
     if validate_signal(memo_str, key) {
-        println!("{}", memo_str);
         match hash.get_mut(&res.account) {
             Some(signals) => {
                 add_signal_to_existing_account(stmt, memo_str, key, res, yes, no, signals)

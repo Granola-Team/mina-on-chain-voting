@@ -4,7 +4,7 @@ use axum::{
     response::IntoResponse,
     Extension,
 };
-use base58check::FromBase58Check;
+use base58check::{FromBase58Check, ToBase58Check};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
@@ -13,6 +13,18 @@ use crate::{
     models::{BlockStatus, DBResponse, ResponseEntity, Signal, SignalStats, SignalStatus},
     queries,
 };
+
+pub fn mina_encode(memo: &str) -> String {
+    let bytes = memo.as_bytes();
+    let mut encoded = Vec::new();
+    encoded.push(1);
+    encoded.push(memo.len() as u8);
+    for byte in bytes.iter() {
+        encoded.push(*byte);
+    }
+
+    encoded.as_slice().to_base58check(0)
+}
 
 fn decode_memo(memo: &str, keyword: &str) -> Option<String> {
     if let Ok((_ver, bytes)) = memo.from_base58check() {
@@ -41,160 +53,224 @@ fn validate_signal(memo: &str, key: &str) -> bool {
     false
 }
 
-fn construct_responses(
-    conn: &mut rusqlite::Connection,
-    key: String,
-    latest_block: i64,
-    signals: Vec<DBResponse>,
-) -> ResponseEntity {
-    let mut hash: HashMap<String, Vec<Signal>> = HashMap::new();
-    let mut settled: HashMap<String, Signal> = HashMap::new();
-    let mut unsettled: Vec<Signal> = Vec::with_capacity(signals.len());
-    let mut invalid: Vec<Signal> = Vec::with_capacity(signals.len());
-    let mut yes: f32 = 0.00;
-    let mut no: f32 = 0.00;
+fn add_signal_to_existing_account(
+    stmt: &mut rusqlite::Statement,
+    memo_str: &str,
+    key: &str,
+    res: &DBResponse,
+    yes: &mut f32,
+    no: &mut f32,
+    signals: &mut Vec<Signal>,
+) {
+    let rows_iter = stmt
+        .query_map([res.account.clone()], |row| {
+            Ok(LedgerDelegations {
+                delegated_balance: row.get(0).unwrap_or_default(),
+                total_delegators: row.get(1).unwrap_or_default(),
+            })
+        })
+        .expect("Error: Error unwrapping rows.");
 
-    let mut stmt = conn
-        .prepare(
-            "
-            SELECT CAST(SUM(CAST(balance AS DECIMAL)) AS TEXT), COUNT(pk) as delegators
-            FROM Ledger
-            WHERE delegate = (?)
-            GROUP BY delegate
-        ",
-        )
-        .expect("Error preparing statement.");
+    let mut stake: LedgerDelegations = LedgerDelegations::default();
 
-    for res in signals.iter() {
-        if let Some(memo_str) = decode_memo(&res.memo, &key) {
-            if validate_signal(&memo_str, &key) {
-                match hash.get_mut(&res.account) {
-                    Some(x) => {
-                        let rows_iter = stmt
-                            .query_map([res.account.clone()], |row| {
-                                Ok(LedgerDelegations {
-                                    delegated_balance: row.get(0).unwrap_or_default(),
-                                    total_delegators: row.get(1).unwrap_or_default(),
-                                })
-                            })
-                            .expect("Error: Error unwrapping rows.");
-
-                        let mut stake: LedgerDelegations = LedgerDelegations::default();
-
-                        for res in rows_iter {
-                            match res {
-                                Ok(x) => stake = x,
-                                Err(err) => println!("{}", err),
-                            }
-                        }
-
-                        if !stake.is_default() {
-                            if memo_str.to_lowercase() == key.to_lowercase() {
-                                yes += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
-                            }
-
-                            if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) {
-                                no += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
-                            }
-
-                            x.push(Signal {
-                                account: res.account.clone(),
-                                height: res.height,
-                                memo: memo_str,
-                                status: res.status,
-                                timestamp: res.timestamp,
-                                signal_status: None,
-                                delegations: Some(stake),
-                            })
-                        }
-                    }
-                    None => {
-                        let rows_iter = stmt
-                            .query_map([res.account.clone()], |row| {
-                                Ok(LedgerDelegations {
-                                    delegated_balance: row.get(0).unwrap_or_default(),
-                                    total_delegators: row.get(1).unwrap_or_default(),
-                                })
-                            })
-                            .expect("Error: Error unwrapping rows.");
-
-                        let mut stake: LedgerDelegations = LedgerDelegations::default();
-
-                        for res in rows_iter {
-                            match res {
-                                Ok(x) => stake = x,
-                                Err(err) => println!("{}", err),
-                            }
-                        }
-
-                        if !stake.is_default() {
-                            if memo_str.to_lowercase() == key.to_lowercase() {
-                                yes += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
-                            }
-
-                            if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) {
-                                no += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
-                            }
-
-                            hash.entry(res.account.clone()).or_insert_with_key(|_| {
-                                vec![Signal {
-                                    account: res.account.clone(),
-                                    height: res.height,
-                                    memo: memo_str,
-                                    status: res.status,
-                                    timestamp: res.timestamp,
-                                    signal_status: None,
-                                    delegations: match stake.is_default() {
-                                        true => None,
-                                        false => Some(stake),
-                                    },
-                                }]
-                            });
-                        }
-                    }
-                }
-            } else {
-                let rows_iter = stmt
-                    .query_map([res.account.clone()], |row| {
-                        Ok(LedgerDelegations {
-                            delegated_balance: row.get(0).unwrap_or_default(),
-                            total_delegators: row.get(1).unwrap_or_default(),
-                        })
-                    })
-                    .expect("Error: Error unwrapping rows.");
-
-                let mut stake: LedgerDelegations = LedgerDelegations::default();
-
-                for res in rows_iter {
-                    match res {
-                        Ok(x) => stake = x,
-                        Err(err) => println!("{}", err),
-                    }
-                }
-
-                if !stake.is_default() {
-                    if memo_str.to_lowercase() == key.to_lowercase() {
-                        yes += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
-                    }
-
-                    if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) {
-                        no += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
-                    }
-
-                    invalid.push(Signal {
-                        account: res.account.clone(),
-                        memo: memo_str,
-                        height: res.height,
-                        status: res.status,
-                        timestamp: res.timestamp,
-                        signal_status: Some(SignalStatus::Invalid),
-                        delegations: Some(stake),
-                    })
-                }
-            }
+    for res in rows_iter {
+        match res {
+            Ok(x) => stake = x,
+            Err(err) => println!("{}", err),
         }
     }
 
+    if !stake.is_default() {
+        if memo_str.to_lowercase() == key.to_lowercase() {
+            *yes += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+        }
+
+        if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) {
+            *no += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+        }
+
+        signals.push(Signal {
+            account: res.account.clone(),
+            height: res.height,
+            memo: memo_str.to_string(),
+            status: res.status,
+            timestamp: res.timestamp,
+            signal_status: None,
+            delegations: Some(stake),
+        })
+    }
+}
+
+fn add_signal_to_new_account(
+    stmt: &mut rusqlite::Statement,
+    memo_str: &str,
+    key: &str,
+    res: &DBResponse,
+    yes: &mut f32,
+    no: &mut f32,
+    hash: &mut HashMap<String, Vec<Signal>>,
+) {
+    let rows_iter = stmt
+        .query_map([res.account.clone()], |row| {
+            Ok(LedgerDelegations {
+                delegated_balance: row.get(0).unwrap_or_default(),
+                total_delegators: row.get(1).unwrap_or_default(),
+            })
+        })
+        .expect("Error: Error unwrapping rows.");
+
+    let mut stake: LedgerDelegations = LedgerDelegations::default();
+
+    for res in rows_iter {
+        match res {
+            Ok(x) => stake = x,
+            Err(err) => println!("{}", err),
+        }
+    }
+
+    if !stake.is_default() {
+        if memo_str.to_lowercase() == key.to_lowercase() {
+            *yes += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+        }
+
+        if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) {
+            *no += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+        }
+
+        hash.entry(res.account.clone()).or_insert_with_key(|_| {
+            vec![Signal {
+                account: res.account.clone(),
+                height: res.height,
+                memo: memo_str.to_string(),
+                status: res.status,
+                timestamp: res.timestamp,
+                signal_status: None,
+                delegations: match stake.is_default() {
+                    true => None,
+                    false => Some(stake),
+                },
+            }]
+        });
+    }
+}
+
+fn process_invalid_signal(
+    stmt: &mut rusqlite::Statement,
+    res: &DBResponse,
+    memo_str: &str,
+    key: &str,
+    yes: &mut f32,
+    no: &mut f32,
+    invalid: &mut Vec<Signal>,
+) {
+    let rows_iter = stmt
+        .query_map([res.account.clone()], |row| {
+            Ok(LedgerDelegations {
+                delegated_balance: row.get(0).unwrap_or_default(),
+                total_delegators: row.get(1).unwrap_or_default(),
+            })
+        })
+        .expect("Error: Error unwrapping rows.");
+
+    let mut stake: LedgerDelegations = LedgerDelegations::default();
+
+    for res in rows_iter {
+        match res {
+            Ok(x) => stake = x,
+            Err(err) => println!("{}", err),
+        }
+    }
+
+    if !stake.is_default() {
+        if memo_str.to_lowercase() == key.to_lowercase() {
+            *yes += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+        }
+
+        if memo_str.to_lowercase() == format!("no {}", key.to_lowercase()) {
+            *no += stake.delegated_balance.parse::<f32>().unwrap_or(0.00)
+        }
+
+        invalid.push(Signal {
+            account: res.account.clone(),
+            memo: memo_str.to_string(),
+            height: res.height,
+            status: res.status,
+            timestamp: res.timestamp,
+            signal_status: Some(SignalStatus::Invalid),
+            delegations: Some(stake),
+        })
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn process_signal(
+    memo_str: &str,
+    key: &str,
+    hash: &mut HashMap<String, Vec<Signal>>,
+    res: &DBResponse,
+    stmt: &mut rusqlite::Statement,
+    yes: &mut f32,
+    no: &mut f32,
+    invalid: &mut Vec<Signal>,
+) {
+    if validate_signal(memo_str, key) {
+        match hash.get_mut(&res.account) {
+            Some(signals) => {
+                add_signal_to_existing_account(stmt, memo_str, key, res, yes, no, signals)
+            }
+            None => add_signal_to_new_account(stmt, memo_str, key, res, yes, no, hash),
+        }
+    } else {
+        process_invalid_signal(stmt, res, memo_str, key, yes, no, invalid);
+    }
+}
+
+#[derive(Debug, Clone, PartialEq)]
+struct BlockProcessingResult {
+    hash: HashMap<String, Vec<Signal>>,
+    invalid: Vec<Signal>,
+    yes: f32,
+    no: f32,
+}
+
+fn iter_signals(
+    signals: &Vec<DBResponse>,
+    key: String,
+    stmt: &mut rusqlite::Statement,
+) -> BlockProcessingResult {
+    let mut hash: HashMap<String, Vec<Signal>> = HashMap::new();
+    let mut invalid: Vec<Signal> = Vec::with_capacity(signals.len());
+    let (mut yes, mut no) = (0.0, 0.0);
+    for res in signals.iter() {
+        if let Some(memo_str) = decode_memo(&res.memo, &key) {
+            process_signal(
+                &memo_str,
+                &key,
+                &mut hash,
+                res,
+                stmt,
+                &mut yes,
+                &mut no,
+                &mut invalid,
+            );
+        }
+    }
+
+    BlockProcessingResult {
+        hash,
+        invalid,
+        yes,
+        no,
+    }
+}
+
+fn classify_settled_unsettled(
+    hash: HashMap<String, Vec<Signal>>,
+    signals: &Vec<DBResponse>,
+    latest_block: i64,
+) -> (HashMap<String, Signal>, Vec<Signal>) {
+    let mut settled: HashMap<String, Signal> = HashMap::new();
+    let mut unsettled: Vec<Signal> = Vec::with_capacity(signals.len());
     for (_, v) in hash.into_iter() {
         for mut i in v.into_iter() {
             match settled.get_mut(&i.account) {
@@ -225,10 +301,46 @@ fn construct_responses(
         }
     }
 
-    let settled_vec = settled.into_iter().map(|(_, v)| v).collect::<Vec<Signal>>();
-    let statistics = SignalStats { yes, no };
+    (settled, unsettled)
+}
 
-    ResponseEntity::new(settled_vec, unsettled, invalid)
+pub fn construct_responses(
+    conn: &mut rusqlite::Connection,
+    key: String,
+    latest_block: i64,
+    signals: Vec<DBResponse>,
+) -> ResponseEntity {
+    let mut stmt = conn
+        .prepare(
+            "
+            SELECT 
+                CAST(
+                    SUM(
+                        CAST(
+                            balance AS DECIMAL
+                        )
+                    ) AS TEXT
+                ), 
+                COUNT(pk) as delegators
+            FROM Ledger
+            WHERE delegate = (?)
+            GROUP BY delegate
+        ",
+        )
+        .expect("Error preparing statement.");
+
+    let block_result = iter_signals(&signals, key, &mut stmt);
+
+    let (settled, unsettled) =
+        classify_settled_unsettled(block_result.hash, &signals, latest_block);
+
+    let settled_vec = settled.into_iter().map(|(_, v)| v).collect::<Vec<Signal>>();
+    let statistics = SignalStats {
+        yes: block_result.yes,
+        no: block_result.no,
+    };
+
+    ResponseEntity::new(settled_vec, unsettled, block_result.invalid)
         .with_stats(statistics)
         .sort()
 }

@@ -1,6 +1,6 @@
 {
   "db": "PostgreSQL",
-  "bc52b65e550b7e8c20d59bc6611fbf0c84ac1a3daf006ff4d9804c335df7dbd6": {
+  "37cf113301a1eb1c4ed3f64ce8312731384ae85d42910e72d0f7dc9f896e8014": {
     "describe": {
       "columns": [
         {
@@ -51,6 +51,6 @@
         "Left": []
       }
     },
-    "query": "\n        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as \"status: BlockStatus\", b.timestamp as timestamp\n        FROM user_commands AS uc\n        JOIN blocks_user_commands AS buc\n        ON uc.id = buc.user_command_id\n        JOIN blocks AS b\n        ON buc.block_id = b.id\n        JOIN public_keys AS pk\n        ON uc.source_id = pk.id\n        WHERE uc.type = 'payment'\n        AND uc.source_id = uc.receiver_id\n        AND uc.token = 1\n        AND NOT b.chain_status = 'orphaned'\n        AND buc.status = 'applied'\n        "
+    "query": "\n        SELECT DISTINCT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as \"status: BlockStatus\", b.timestamp as timestamp\n        FROM user_commands AS uc\n        JOIN blocks_user_commands AS buc\n        ON uc.id = buc.user_command_id\n        JOIN blocks AS b\n        ON buc.block_id = b.id\n        JOIN public_keys AS pk\n        ON uc.source_id = pk.id\n        WHERE uc.type = 'payment'\n        AND uc.source_id = uc.receiver_id\n        AND uc.token = 1\n        AND NOT b.chain_status = 'orphaned'\n        AND buc.status = 'applied'\n        "
   }
 }

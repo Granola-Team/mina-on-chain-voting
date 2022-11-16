@@ -40,7 +40,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
             </span>
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
-              Updated at {now}
+              Updated at {now} UTC
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">

@@ -1,24 +1,22 @@
+pub mod processor;
+
 use super::Config;
 use axum::{
+    extract::{Path, Query as AxumQuery},
     http::StatusCode,
+    response::IntoResponse,
     routing::{get, get_service},
-    Router,
+    Extension, Router,
 };
 use axum_extra::routing::SpaRouter;
 use tower_http::services::ServeFile;
 
-use axum::{
-    extract::{Path, Query as AxumQuery},
-    response::IntoResponse,
-    Extension,
-};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 use crate::queries;
 
 use processor::SignalProcessor;
-pub mod processor;
 
 pub trait Build {
     fn build_v1(cfg: &Config) -> Router;

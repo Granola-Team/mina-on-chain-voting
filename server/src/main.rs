@@ -4,7 +4,7 @@ use clap::Parser;
 use log::info;
 use osc_api::{
     ledger::{HasConnectionAsync, Ledger},
-    routes::Build,
+    router::Build,
     ApiContext, Config, SubCommand,
 };
 use sqlx::postgres::PgPoolOptions;

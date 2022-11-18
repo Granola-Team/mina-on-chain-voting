@@ -5,7 +5,7 @@ pub mod constants;
 pub mod ledger;
 pub mod models;
 pub mod queries;
-pub mod routes;
+pub mod router;
 
 #[macro_use]
 extern crate postgres_derive;

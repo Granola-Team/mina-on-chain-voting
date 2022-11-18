@@ -3,7 +3,7 @@ mod tests {
     use core::panic;
     use base58check::ToBase58Check;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
-    use osc_api::routes::processor::SignalProcessor;
+    use osc_api::router::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
         models::DBResponse

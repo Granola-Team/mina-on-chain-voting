@@ -66,11 +66,9 @@ impl SignalProcessor {
                     total_delegators: row.get(1).unwrap_or_default(),
                 })
             })
-            .expect("Error: Error unwrapping rows.")
+            .expect("Error: Error unwrapping rows.").flatten()
         {
-            if let Ok(delegation) = res {
-                delegations = delegation;
-            }
+                delegations = res;
         }
 
         delegations
@@ -166,7 +164,7 @@ impl SignalProcessor {
             .collect::<Vec<&Signal>>()
         {
             let delegated_balance = signal
-                .delegations.as_ref().unwrap()
+                .delegations.as_ref().expect("delegations option pending removal")
                 .delegated_balance
                 .parse::<f32>()
                 .unwrap_or(0.00);
@@ -198,7 +196,7 @@ impl SignalProcessor {
     }
 
     pub fn run(mut self) -> ResponseEntity {
-        while (self.signal_transactions.len() > 0) {
+        while !self.signal_transactions.is_empty() {
             if let Some(signal) = self.parse_next_transaction() {
                 self.process_signal(signal);
             }

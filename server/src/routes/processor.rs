@@ -11,8 +11,8 @@ use crate::{
 pub type AccountSignalsMap = HashMap<String, Vec<Signal>>;
 pub type AccountSettledSignalMap = HashMap<String, Signal>;
 
-pub struct SignalProcessor {
-    conn: rusqlite::Connection, // staking ledger SQLite DB Connection (from crate::ledger::Ledger::connection())
+pub struct SignalProcessor<'a> {
+    conn: Box<&'a mut rusqlite::Connection>, // staking ledger SQLite DB Connection (from crate::ledger::Ledger::connection())
     key: String,                //signalling key, i.e. 'magenta'
     latest_block: i64,          // the current highest block
     signal_transactions: Vec<DBResponse>, // transactions from the canonical OnChainSignalling archive node db query
@@ -23,9 +23,9 @@ pub struct SignalProcessor {
     invalid_signals: Vec<Signal>, // ----/
 }
 
-impl SignalProcessor {
+impl <'a> SignalProcessor<'a> {
     pub fn new(
-        conn: rusqlite::Connection,
+            conn: Box<&'a mut rusqlite::Connection>,
         key: &str,
         latest_block: i64,
         signal_transactions: Vec<DBResponse>,

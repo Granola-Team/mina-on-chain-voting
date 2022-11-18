@@ -1,13 +1,25 @@
 #[cfg(test)]
 mod tests {
     use core::panic;
+    use base58check::ToBase58Check;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
-    use osc_api::routes::keyword::mina_encode;
+    use osc_api::routes::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
-        models::DBResponse,
-        routes
+        models::DBResponse
     };
+
+    pub fn mina_encode(memo: &str) -> String {
+        let bytes = memo.as_bytes();
+        let mut encoded = Vec::new();
+        encoded.push(1);
+        encoded.push(memo.len() as u8);
+        for byte in bytes.iter() {
+            encoded.push(*byte);
+        }
+
+        encoded.as_slice().to_base58check(0)
+    }
 
     pub fn with_ledger_mock<T, C>(mock: &str, test: T) -> ()
     where
@@ -29,12 +41,7 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = routes::keyword::construct_responses_1(
-                conn,
-                key.to_string(),
-                latest_block,
-                signals,
-            );
+            let response_entity = SignalProcessor::new(Box::new(&mut conn), &key, latest_block, signals).run();
 
             assert_eq!(signal_stats, response_entity.stats.unwrap());
         });
@@ -50,12 +57,7 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = routes::keyword::construct_responses_1(
-                conn,
-                key.to_string(),
-                latest_block,
-                signals,
-            );
+            let response_entity = SignalProcessor::new(Box::new(&mut conn), &key, latest_block, signals).run();
 
             match signal_status {
                 SignalStatus::Settled => assert!(response_entity.settled.len() > 0),
@@ -286,7 +288,7 @@ mod tests {
             };
             let signals = vec![signal.clone(), signal];
             let response_entity =
-                routes::keyword::construct_responses(&mut conn, key.to_string(), 0, signals);
+            SignalProcessor::new(Box::new(&mut conn), &key, 0, signals).run();
 
             assert_eq!(
                 SignalStats { yes: 2.0, no: 0.0 },
@@ -314,7 +316,7 @@ mod tests {
             };
             let signals = vec![signal.clone(), signal];
             let response_entity =
-                routes::keyword::construct_responses(&mut conn, key.to_string(), 20, signals);
+            SignalProcessor::new(Box::new(&mut conn), &key, 20, signals).run();
 
             assert!(response_entity.settled.len() > 0);
             assert_eq!(

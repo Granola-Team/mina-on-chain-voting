@@ -41,7 +41,7 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(Box::new(&mut conn), &key, latest_block, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             assert_eq!(signal_stats, response_entity.stats.unwrap());
         });
@@ -57,7 +57,7 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(Box::new(&mut conn), &key, latest_block, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             match signal_status {
                 SignalStatus::Settled => assert!(response_entity.settled.len() > 0),

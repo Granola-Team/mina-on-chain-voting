@@ -120,8 +120,8 @@ impl <'a> SignalProcessor<'a> {
             height: transaction.height,
             status: transaction.status,
             timestamp: transaction.timestamp,
-            delegations: Some(delegations),
-            signal_status: Some(signal_status),
+            delegations,
+            signal_status,
         };
         Some(signal)
     }
@@ -135,25 +135,22 @@ impl <'a> SignalProcessor<'a> {
                 .or_insert_with_key(|_| Vec::new()),
         };
         signals.push(signal.clone());
-
-        if let Some(status) = signal.signal_status {
-            match status {
-                SignalStatus::Settled => match self.current_settled.get_mut(&signal.account) {
-                    Some(settled_signal) => {
-                        if signal.height > settled_signal.height {
-                            *settled_signal = signal.clone();
-                        }
-                        self.settled_signals.push(signal);
+        match signal.signal_status {
+            SignalStatus::Settled => match self.current_settled.get_mut(&signal.account) {
+                Some(settled_signal) => {
+                    if signal.height > settled_signal.height {
+                        *settled_signal = signal.clone();
                     }
-                    None => {
-                        self.current_settled
-                            .insert(signal.account.clone(), signal.clone());
-                        self.settled_signals.push(signal);
-                    }
-                },
-                SignalStatus::Unsettled => self.unsettled_signals.push(signal),
-                SignalStatus::Invalid => self.invalid_signals.push(signal),
-            }
+                    self.settled_signals.push(signal);
+                }
+                None => {
+                    self.current_settled
+                        .insert(signal.account.clone(), signal.clone());
+                    self.settled_signals.push(signal);
+                }
+            },
+            SignalStatus::Unsettled => self.unsettled_signals.push(signal),
+            SignalStatus::Invalid => self.invalid_signals.push(signal),
         }
     }
 
@@ -164,7 +161,7 @@ impl <'a> SignalProcessor<'a> {
             .collect::<Vec<&Signal>>()
         {
             let delegated_balance = signal
-                .delegations.as_ref().expect("delegations option pending removal")
+                .delegations
                 .delegated_balance
                 .parse::<f32>()
                 .unwrap_or(0.00);
@@ -185,7 +182,7 @@ impl <'a> SignalProcessor<'a> {
         for signal in self.settled_signals.iter()
         {
             let delegated_balance = signal
-            .delegations.as_ref().expect("delegations option pending removal")
+            .delegations
             .delegated_balance
             .parse::<f32>()
             .unwrap_or(0.00);
@@ -201,7 +198,7 @@ impl <'a> SignalProcessor<'a> {
         for signal in self.unsettled_signals.iter()
         {
             let delegated_balance = signal
-            .delegations.as_ref().expect("delegations option pending removal")
+            .delegations
             .delegated_balance
             .parse::<f32>()
             .unwrap_or(0.00);
@@ -228,7 +225,7 @@ impl <'a> SignalProcessor<'a> {
             settled,
             unsettled: self.unsettled_signals,
             invalid: self.invalid_signals,
-            stats: Some(stats)
+            stats
         }
     }
 

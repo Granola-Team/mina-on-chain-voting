@@ -43,7 +43,7 @@ mod tests {
             let signals = vec![signal];
             let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
-            assert_eq!(signal_stats, response_entity.stats.unwrap());
+            assert_eq!(signal_stats, response_entity.stats);
         });
     }
 
@@ -292,7 +292,7 @@ mod tests {
 
             assert_eq!(
                 SignalStats { yes: 2.0, no: 0.0 },
-                response_entity.stats.unwrap()
+                response_entity.stats
             );
         });
     }
@@ -321,7 +321,7 @@ mod tests {
             assert!(response_entity.settled.len() > 0);
             assert_eq!(
                 SignalStats { yes: 2.0, no: 0.0 },
-                response_entity.stats.unwrap()
+                response_entity.stats
             );
         });
     }

@@ -288,7 +288,7 @@ mod tests {
             };
             let signals = vec![signal.clone(), signal];
             let response_entity =
-            SignalProcessor::new(Box::new(&mut conn), &key, 0, signals).run();
+            SignalProcessor::new(&mut conn, &key, 0, signals).run();
 
             assert_eq!(
                 SignalStats { yes: 2.0, no: 0.0 },

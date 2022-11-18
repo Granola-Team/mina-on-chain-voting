@@ -24,12 +24,12 @@ pub async fn parse_responses(
     match network {
         QueryRequestFilter::Mainnet => {
             ctx.mainnet_ledger
-                .call(move |conn| SignalProcessor::new(Box::new(conn), &key, latest_block, signals).run())
+                .call(move |conn| SignalProcessor::new(conn, &key, latest_block, signals).run())
                 .await
         }
         QueryRequestFilter::Devnet => {
             ctx.devnet_ledger
-                .call(move |conn| SignalProcessor::new(Box::new(conn), &key, latest_block, signals).run())
+                .call(move |conn| SignalProcessor::new(conn, &key, latest_block, signals).run())
                 .await
         }
     }

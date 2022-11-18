@@ -180,8 +180,45 @@ impl SignalProcessor {
         stats
     }
 
+    pub fn stats(&self) -> SignalStats {
+        let mut stats = SignalStats { yes: 0.0, no: 0.0 };
+        for signal in self.settled_signals.iter()
+        {
+            let delegated_balance = signal
+            .delegations.as_ref().expect("delegations option pending removal")
+            .delegated_balance
+            .parse::<f32>()
+            .unwrap_or(0.00);
+
+            if signal.memo.to_lowercase() == self.key.to_lowercase() {
+                stats.yes += delegated_balance;
+            }
+            if signal.memo.to_lowercase() == format!("no {}", self.key.to_lowercase()) {
+                stats.no += delegated_balance;
+            }
+        }
+
+        for signal in self.unsettled_signals.iter()
+        {
+            let delegated_balance = signal
+            .delegations.as_ref().expect("delegations option pending removal")
+            .delegated_balance
+            .parse::<f32>()
+            .unwrap_or(0.00);
+
+            if signal.memo.to_lowercase() == self.key.to_lowercase() {
+                stats.yes += delegated_balance;
+            }
+            if signal.memo.to_lowercase() == format!("no {}", self.key.to_lowercase()) {
+                stats.no += delegated_balance;
+            }
+        }
+
+        stats
+    }
+
     fn generate_response(self) -> ResponseEntity {
-        let stats = self.settled_stats();
+        let stats = self.stats();
         let settled = self.current_settled
             .into_iter()
             .map(|(_, v)| v)

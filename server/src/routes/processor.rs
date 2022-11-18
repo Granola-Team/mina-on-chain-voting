@@ -12,14 +12,12 @@ pub type AccountSignalsMap = HashMap<String, Vec<Signal>>;
 pub type AccountSettledSignalMap = HashMap<String, Signal>;
 
 pub struct SignalProcessor {
-    conn: rusqlite::Connection, // staking ledger SQLite DB Connection (from Ledger)
+    conn: rusqlite::Connection, // staking ledger SQLite DB Connection (from crate::ledger::Ledger::connection())
     key: String,                //signalling key, i.e. 'magenta'
-    latest_block: i64,          // the current highest block (??)
+    latest_block: i64,          // the current highest block
     signal_transactions: Vec<DBResponse>, // transactions from the canonical OnChainSignalling archive node db query
     signallers_cache: AccountSignalsMap, // ongoing cache of accounts that have had a signal processed
     current_settled: AccountSettledSignalMap, // ongoing association of a single settled signal per account
-    current_total_settled: SignalStats, // ongoing tally of stake alloted to yes and no only for settled accounts
-    current_total: SignalStats, //ongoing tally of stake allotted to yes and no for all signals
     settled_signals: Vec<Signal>, // ----\
     unsettled_signals: Vec<Signal>, // ------> ongoing collections of signals
     invalid_signals: Vec<Signal>, // ----/
@@ -39,8 +37,6 @@ impl SignalProcessor {
             signal_transactions,
             signallers_cache: HashMap::new(),
             current_settled: HashMap::new(),
-            current_total_settled: SignalStats { yes: 0.0, no: 0.0 },
-            current_total: SignalStats { yes: 0.0, no: 0.0 },
             settled_signals: Vec::new(),
             unsettled_signals: Vec::new(),
             invalid_signals: Vec::new(),

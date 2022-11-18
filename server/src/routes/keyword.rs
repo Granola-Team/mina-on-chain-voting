@@ -14,6 +14,8 @@ use crate::{
     queries,
 };
 
+use super::processor::SignalProcessor;
+
 pub fn mina_encode(memo: &str) -> String {
     let bytes = memo.as_bytes();
     let mut encoded = Vec::new();
@@ -302,6 +304,15 @@ fn classify_settled_unsettled(
     }
 
     (settled, unsettled)
+}
+
+pub fn construct_responses_1(
+        conn: rusqlite::Connection,
+        key: String,
+        latest_block: i64,
+        signals: Vec<DBResponse>,
+        ) -> ResponseEntity {
+    SignalProcessor::new(conn, &key, latest_block, signals).run()
 }
 
 pub fn construct_responses(

@@ -29,8 +29,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = routes::keyword::construct_responses(
-                &mut conn,
+            let response_entity = routes::keyword::construct_responses_1(
+                conn,
                 key.to_string(),
                 latest_block,
                 signals,
@@ -50,8 +50,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = routes::keyword::construct_responses(
-                &mut conn,
+            let response_entity = routes::keyword::construct_responses_1(
+                conn,
                 key.to_string(),
                 latest_block,
                 signals,

@@ -34,7 +34,10 @@ export const Header = React.memo(() => {
 
   return (
     <header className="border-b border-gray-7">
-      <div className="flex items-center justify-between px-5 py-4 lg:px-10">
+      <div
+        className="flex items-center justify-between px-5 py-4 lg:px-10"
+        data-testid="header-container"
+      >
         <div className="flex items-center">
           <a
             onClick={() => {

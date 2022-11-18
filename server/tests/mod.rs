@@ -1,13 +1,12 @@
 #[cfg(test)]
 mod tests {
     use core::panic;
-    use osc_api::ledger::HasConnectionAsync;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
     use osc_api::routes::keyword::mina_encode;
     use osc_api::{
         ledger::{HasConnection, Ledger},
         models::DBResponse,
-        routes::{self},
+        routes
     };
 
     pub fn with_ledger_mock<T, C>(mock: &str, test: T) -> ()

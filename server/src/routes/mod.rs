@@ -5,6 +5,7 @@ use self::keyword::handler;
 use super::Config;
 
 pub mod keyword;
+pub mod processor;
 
 pub trait Build {
     fn build_v1(cfg: &Config) -> Router;

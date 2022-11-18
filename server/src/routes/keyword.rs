@@ -7,33 +7,9 @@ use axum::{
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-use crate::{
-    models::{DBResponse, ResponseEntity},
-    queries,
-};
+use crate::queries;
 
 use super::processor::SignalProcessor;
-
-pub async fn parse_responses(
-    key: String,
-    latest_block: i64,
-    signals: Vec<DBResponse>,
-    ctx: Extension<crate::ApiContext>,
-    network: QueryRequestFilter,
-) -> ResponseEntity {
-    match network {
-        QueryRequestFilter::Mainnet => {
-            ctx.mainnet_ledger
-                .call(move |conn| SignalProcessor::new(conn, &key, latest_block, signals).run().sort())
-                .await
-        }
-        QueryRequestFilter::Devnet => {
-            ctx.devnet_ledger
-                .call(move |conn| SignalProcessor::new(conn, &key, latest_block, signals).run().sort())
-                .await
-        }
-    }
-}
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub enum QueryRequestFilter {
@@ -61,9 +37,29 @@ pub async fn handler(
         let latest_block_height = queries::get_latest_blockheight(&ctx, &network)
             .await
             .expect("Error: Could not get latest block.");
-        let result = parse_responses(key, latest_block_height, signals, ctx, network).await;
 
-        return (StatusCode::ACCEPTED, axum::Json(result)).into_response();
+        let response_entity = match network {
+            QueryRequestFilter::Mainnet => {
+                ctx.mainnet_ledger
+                    .call(move |conn| {
+                        SignalProcessor::new(conn, &key, latest_block_height, signals)
+                            .run()
+                            .sort()
+                    })
+                    .await
+            }
+            QueryRequestFilter::Devnet => {
+                ctx.devnet_ledger
+                    .call(move |conn| {
+                        SignalProcessor::new(conn, &key, latest_block_height, signals)
+                            .run()
+                            .sort()
+                    })
+                    .await
+            }
+        };
+
+        return (StatusCode::ACCEPTED, axum::Json(response_entity)).into_response();
     }
 
     (

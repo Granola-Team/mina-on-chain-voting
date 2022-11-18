@@ -23,11 +23,9 @@ pub async fn get_latest_blockheight(
 /// This is wildly inefficient & we should work towards an alternative.
 /// Since we're essentially only interested in memo's - maybe a way to decode base58 on the DB side?
 pub async fn get_signals(db: &Pool<Postgres>) -> Result<Vec<DBResponse>, sqlx::Error> {
-    sqlx::query_as!(
-        DBResponse,
-        // language=PostgreSQL,
+    sqlx::query_as!(DBResponse,
         r#"
-        SELECT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
+        SELECT DISTINCT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id

@@ -135,6 +135,7 @@ exports[`Header is rendered 1`] = `
       >
         <div
           class="flex items-center justify-between px-5 py-4 lg:px-10"
+          data-testid="header-container"
         >
           <div
             class="flex items-center"
@@ -179,6 +180,7 @@ exports[`Header is rendered 1`] = `
     >
       <div
         class="flex items-center justify-between px-5 py-4 lg:px-10"
+        data-testid="header-container"
       >
         <div
           class="flex items-center"
@@ -283,6 +285,7 @@ exports[`Layout is rendered 1`] = `
         >
           <div
             class="flex items-center justify-between px-5 py-4 lg:px-10"
+            data-testid="header-container"
           >
             <div
               class="flex items-center"
@@ -327,6 +330,7 @@ exports[`Layout is rendered 1`] = `
           >
             <div
               class="flex items-center justify-between px-5 py-4 lg:px-10"
+              data-testid="header-container"
             >
               <div
                 class="flex items-center"
@@ -438,6 +442,7 @@ exports[`Layout is rendered 1`] = `
       >
         <div
           class="flex items-center justify-between px-5 py-4 lg:px-10"
+          data-testid="header-container"
         >
           <div
             class="flex items-center"
@@ -482,6 +487,7 @@ exports[`Layout is rendered 1`] = `
         >
           <div
             class="flex items-center justify-between px-5 py-4 lg:px-10"
+            data-testid="header-container"
           >
             <div
               class="flex items-center"

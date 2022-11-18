@@ -11,7 +11,10 @@ export const Header = React.memo(() => {
   if (isMobile) {
     return (
       <header className="border-b border-gray-7">
-        <div className="flex items-center justify-between py-4 px-3.5">
+        <div
+          className="flex items-center justify-between py-4 px-3.5"
+          data-testid="header-container"
+        >
           <a
             onClick={() => {
               navigate("/");

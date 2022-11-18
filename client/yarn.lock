@@ -2230,6 +2230,11 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
+css-mediaquery@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/css-mediaquery/-/css-mediaquery-0.1.2.tgz#6a2c37344928618631c54bd33cedd301da18bea0"
+  integrity sha512-COtn4EROW5dBGlE/4PiKnh6rZpAPxDeFLaEEwt4i10jpDMFt2EhQGS79QmmrO+iKCHv0PU/HrOWEhijFd1x99Q==
+
 css-select@^4.2.1:
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/css-select/-/css-select-4.3.0.tgz#db7129b2846662fd8628cfc496abb2b59e41529b"
@@ -3723,6 +3728,11 @@ make-error@^1.1.1:
   version "1.3.6"
   resolved "https://registry.yarnpkg.com/make-error/-/make-error-1.3.6.tgz#2eb2e37ea9b67c4891f684a1394799af484cf7a2"
   integrity sha512-s8UhlNe7vPKomQhC1qFelMokr/Sc3AgNbso3n74mVPA5LTZwkB9NlXf4XPamLxJE8h0gh73rM94xvwRT2CVInw==
+
+mediaquery@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/mediaquery/-/mediaquery-0.0.4.tgz#4aa7e6bcdca6ce469ac43811afa90dce0004cc91"
+  integrity sha512-7BjXCnE4T8HXK6QZO8x2hyLUVb1kp5ZS2IFOJY59rQy/DDM6UI9ofjwE2QrwF52jjMDvgOUrKuHfPT7Ccmbk7g==
 
 merge2@^1.3.0, merge2@^1.4.1:
   version "1.4.1"

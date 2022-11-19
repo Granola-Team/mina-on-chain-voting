@@ -11,6 +11,9 @@ module.exports = {
         lg: "1024px",
         xl: "1200px",
       },
+      textColor: {
+        "OrangeMINA": "#FF603B",
+      },
       fontFamily: {
         sans: [
           "Inter Regular",

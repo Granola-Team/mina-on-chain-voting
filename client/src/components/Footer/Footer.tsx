@@ -6,12 +6,12 @@ export const Footer = React.memo(() => {
       <div className="mx-auto flex flex-col items-center">
         <a
           href="https://github.com/Granola-Team/onchain-signalling"
-          className="-mb-1"
+          className="text-OrangeMINA -mb-1"
         >
-          <span className="text-[0.85rem]">GitHub</span>
+          <span className="text-[0.85rem]"><u>GitHub</u></span>
         </a>
         <a href="https://granola.team">
-          <span className="text-[0.7rem]">Made with ❤️ by Granola</span>
+          <span className="text-OrangeMINA text-[0.7rem]"><u>Made with ❤️ by Granola</u></span>
         </a>
       </div>
     </footer>

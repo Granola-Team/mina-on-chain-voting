@@ -45,7 +45,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
               {network[0].toUpperCase() + network.slice(1).toLowerCase()} at{" "}
-              {now}
+              {now} UTC
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">

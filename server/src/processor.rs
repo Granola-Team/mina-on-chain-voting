@@ -154,22 +154,20 @@ impl <'a> SignalProcessor<'a> {
         }
     }
 
-    pub fn settled_stats(&self) -> SignalStats {
-        let mut stats = SignalStats { yes: 0.0, no: 0.0 };
-        for signal in self.current_settled.iter()
-            .map(|(_, v)| v)
-            .collect::<Vec<&Signal>>()
-        {
+    fn get_stats_for(signals: Vec<Signal>, key: &str) -> SignalStats {
+        let mut stats: SignalStats = Default::default();
+        for signal in signals.iter() {
             let delegated_balance = signal
                 .delegations
                 .delegated_balance
                 .parse::<f32>()
                 .unwrap_or(0.00);
 
-            if signal.memo.to_lowercase() == self.key.to_lowercase() {
+            if signal.memo.to_lowercase() == key.to_lowercase() {
                 stats.yes += delegated_balance;
             }
-            if signal.memo.to_lowercase() == format!("no {}", self.key.to_lowercase()) {
+
+            if signal.memo.to_lowercase() == format!("no {}", key.to_lowercase()) {
                 stats.no += delegated_balance;
             }
         }
@@ -177,41 +175,33 @@ impl <'a> SignalProcessor<'a> {
         stats
     }
 
-    pub fn stats(&self) -> SignalStats {
+    pub fn settled_stats(&self) -> SignalStats {
         let mut stats = SignalStats { yes: 0.0, no: 0.0 };
-        for signal in self.settled_signals.iter()
-        {
-            let delegated_balance = signal
-            .delegations
-            .delegated_balance
-            .parse::<f32>()
-            .unwrap_or(0.00);
+        let signals = self.current_settled.clone()
+            .into_iter()
+            .map(|(_, v)| v)
+            .collect::<Vec<Signal>>();
 
-            if signal.memo.to_lowercase() == self.key.to_lowercase() {
-                stats.yes += delegated_balance;
-            }
-            if signal.memo.to_lowercase() == format!("no {}", self.key.to_lowercase()) {
-                stats.no += delegated_balance;
-            }
-        }
+        Self::get_stats_for(signals, &self.key)
 
-        for signal in self.unsettled_signals.iter()
-        {
-            let delegated_balance = signal
-            .delegations
-            .delegated_balance
-            .parse::<f32>()
-            .unwrap_or(0.00);
+    }
 
-            if signal.memo.to_lowercase() == self.key.to_lowercase() {
-                stats.yes += delegated_balance;
-            }
-            if signal.memo.to_lowercase() == format!("no {}", self.key.to_lowercase()) {
-                stats.no += delegated_balance;
-            }
-        }
+    pub fn stats(&self) -> SignalStats {
+        let mut total_stats: SignalStats = Default::default();
+        let settled_signals = self.current_settled.clone()
+            .into_iter()
+            .map(|(_, v)| v)
+            .collect::<Vec<Signal>>();
 
-        stats
+        let settled_stats = Self::get_stats_for(settled_signals, &self.key);
+        let unsettled_stats = Self::get_stats_for(self.unsettled_signals.clone(), &self.key);
+
+        total_stats.yes += settled_stats.yes;
+        total_stats.yes += unsettled_stats.yes;
+        total_stats.no += settled_stats.no;
+        total_stats.no += unsettled_stats.no;
+
+        total_stats
     }
 
     fn generate_response(self) -> ResponseEntity {

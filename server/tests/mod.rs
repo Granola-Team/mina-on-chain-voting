@@ -3,7 +3,7 @@ mod tests {
     use core::panic;
     use base58check::ToBase58Check;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
-    use osc_api::router::api::processor::SignalProcessor;
+    use osc_api::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
         models::DBResponse
@@ -320,7 +320,7 @@ mod tests {
 
             assert!(response_entity.settled.len() > 0);
             assert_eq!(
-                SignalStats { yes: 2.0, no: 0.0 },
+                SignalStats { yes: 1.0, no: 0.0 },
                 response_entity.stats
             );
         });

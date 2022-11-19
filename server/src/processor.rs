@@ -186,18 +186,28 @@ impl <'a> SignalProcessor<'a> {
 
     pub fn stats(&self) -> SignalStats {
         let mut total_stats: SignalStats = Default::default();
-        let settled_signals = self.current_settled.clone()
-            .into_iter()
-            .map(|(_, v)| v)
-            .collect::<Vec<Signal>>();
 
-        let settled_stats = Self::get_stats_for(settled_signals, &self.key);
-        let unsettled_stats = Self::get_stats_for(self.unsettled_signals.clone(), &self.key);
+        for (_account, signals) in self.signallers_cache.iter() {
+            let mut signals = signals.clone();
+            signals.sort_by(|x, y| x.height.cmp(&y.height));
+            if let Some(signal) = signals.get(0) {
+                if signal.signal_status != SignalStatus::Invalid {
+                    let delegated_balance = signal
+                        .delegations
+                        .delegated_balance
+                        .parse::<f32>()
+                        .unwrap_or(0.00);
 
-        total_stats.yes += settled_stats.yes;
-        total_stats.yes += unsettled_stats.yes;
-        total_stats.no += settled_stats.no;
-        total_stats.no += unsettled_stats.no;
+                    if signal.memo.to_lowercase() == self.key.to_lowercase() {
+                        total_stats.yes += delegated_balance;
+                    }
+
+                    if signal.memo.to_lowercase() == format!("no {}", &self.key.to_lowercase()) {
+                        total_stats.no += delegated_balance;
+                    }
+                }
+            }
+        }
 
         total_stats
     }

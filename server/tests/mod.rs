@@ -291,7 +291,7 @@ mod tests {
             SignalProcessor::new(&mut conn, &key, 0, signals).run();
 
             assert_eq!(
-                SignalStats { yes: 2.0, no: 0.0 },
+                SignalStats { yes: 1.0, no: 0.0 },
                 response_entity.stats
             );
         });

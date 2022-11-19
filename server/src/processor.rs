@@ -176,14 +176,12 @@ impl <'a> SignalProcessor<'a> {
     }
 
     pub fn settled_stats(&self) -> SignalStats {
-        let mut stats = SignalStats { yes: 0.0, no: 0.0 };
         let signals = self.current_settled.clone()
             .into_iter()
             .map(|(_, v)| v)
             .collect::<Vec<Signal>>();
 
         Self::get_stats_for(signals, &self.key)
-
     }
 
     pub fn stats(&self) -> SignalStats {

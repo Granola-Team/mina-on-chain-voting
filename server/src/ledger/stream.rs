@@ -105,6 +105,7 @@ mod tests {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
+            nonce: 0,
             status: crate::models::BlockStatus::Canonical,
             timestamp: 20901343,
         };
@@ -142,6 +143,7 @@ mod tests {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
+            nonce: 0,
             status: crate::models::BlockStatus::Canonical,
             timestamp: 20901343,
         };
@@ -180,6 +182,7 @@ mod tests {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
+            nonce: 0,
             status: crate::models::BlockStatus::Canonical,
             timestamp: 20901343,
         };

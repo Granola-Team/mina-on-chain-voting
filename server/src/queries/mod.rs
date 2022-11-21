@@ -1,5 +1,5 @@
 use crate::{
-    models::DBResponse,
+    models::{BlockStatus, DBResponse},
     router::QueryRequestFilter,
     ApiContext,
 };

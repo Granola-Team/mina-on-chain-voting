@@ -214,22 +214,21 @@ impl <'a> SignalProcessor<'a> {
     }
 
     fn generate_response(self) -> ResponseEntity {
-        let mut stats_option = None;
-        let mut stats = self.stats();
-        let settled = self.current_settled
-            .into_iter()
-            .map(|(_, v)| v)
-            .collect::<Vec<Signal>>();
-
-        if stats.yes != 0. && stats.no != 0. {
-            stats_option = Some(stats);
-        }
+        let stats = self.stats();
+        let settled = self
+        .current_settled
+        .into_iter()
+        .map(|(_, v)| v)
+        .collect::<Vec<Signal>>();
 
         ResponseEntity {
             settled,
             unsettled: self.unsettled_signals,
             invalid: self.invalid_signals,
-            stats: stats_option
+            stats: match stats.yes != 0. && stats.no != 0. {
+                true => Some(stats),
+                false => None,
+            },
         }
     }
 

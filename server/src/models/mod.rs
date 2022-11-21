@@ -70,7 +70,7 @@ impl ResponseEntity {
     }
 
     pub fn with_stats(mut self, stats: SignalStats) -> Self {
-        self.stats = stats;
+        self.stats = Some(stats);
         self
     }
 }

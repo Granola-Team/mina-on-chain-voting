@@ -224,7 +224,7 @@ impl <'a> SignalProcessor<'a> {
         }
 
         for (_account, signal) in self.current_unsettled.iter() {
-            if let None = self.current_settled.get(&signal.account) {
+            if self.current_settled.get(&signal.account).is_none() {
                 self.add_delegation(&mut total_stats, signal);
             }
         }

@@ -95,7 +95,9 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           className="h-5 w-5 lg:w-6 lg:h-6 rounded-full opacity-70"
           src={makeBlockie(signal.account)}
         />
-        <span className="grid-table-content medium">{signal.account}</span>
+        <span className="grid-table-content medium select-text">
+          {signal.account}
+        </span>
       </div>
       <div className="place-self-center">
         <span className="grid-table-content">

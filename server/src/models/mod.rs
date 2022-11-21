@@ -27,8 +27,8 @@ pub struct Signal {
     pub height: i64,
     pub status: BlockStatus,
     pub timestamp: i64,
-    pub delegations: Option<LedgerDelegations>,
-    pub signal_status: Option<SignalStatus>,
+    pub delegations: LedgerDelegations,
+    pub signal_status: SignalStatus,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
@@ -38,7 +38,7 @@ pub enum SignalStatus {
     Invalid,
 }
 
-#[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize)]
+#[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize, Default)]
 pub struct SignalStats {
     pub yes: f32,
     pub no: f32,
@@ -58,7 +58,7 @@ impl ResponseEntity {
             settled,
             unsettled,
             invalid,
-            stats: None,
+            stats: Default::default(),
         }
     }
 
@@ -87,8 +87,8 @@ mod tests {
             height: 8,
             status: BlockStatus::Canonical,
             timestamp: 10,
-            delegations: Some(LedgerDelegations::default()),
-            signal_status: Some(SignalStatus::Settled),
+            delegations: LedgerDelegations::default(),
+            signal_status: SignalStatus::Settled,
         };
 
         let signal2 = Signal {
@@ -97,15 +97,15 @@ mod tests {
             height: 10,
             status: BlockStatus::Canonical,
             timestamp: 11,
-            delegations: Some(LedgerDelegations::default()),
-            signal_status: Some(SignalStatus::Settled),
+            delegations: LedgerDelegations::default(),
+            signal_status: SignalStatus::Settled,
         };
 
         let response_entity = ResponseEntity {
             settled: vec![signal1, signal2.clone()],
             unsettled: vec![],
             invalid: vec![],
-            stats: None,
+            stats: Default::default(),
         };
         let result = response_entity.sort();
         assert_eq!(result.settled[0], signal2);
@@ -116,6 +116,6 @@ mod tests {
         let response_entity = ResponseEntity::default();
         let stats = SignalStats { yes: 100., no: 50. };
         let with_stats = response_entity.with_stats(stats);
-        assert_eq!(Some(stats), with_stats.stats);
+        assert_eq!(stats, with_stats.stats.unwrap());
     }
 }

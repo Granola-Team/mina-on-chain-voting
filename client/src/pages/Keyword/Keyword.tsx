@@ -153,7 +153,7 @@ export const Keyword = () => {
     );
   }
 
-  if (signals && stats && key && timing.epoch && timing.slot) {
+  if (signals && key && timing.epoch && timing.slot) {
     return (
       <Layout>
         <React.Fragment>
@@ -161,7 +161,9 @@ export const Keyword = () => {
           {network === "mainnet" ? (
             <EpochTiming epoch={timing.epoch} slot={timing.slot} />
           ) : null}
-          <StatsWeighted stats={stats} network={network ? network : ""} />
+          {stats ? (
+            <StatsWeighted stats={stats} network={network ? network : ""} />
+          ) : null}
           <Table
             data={signals}
             stats={stats}

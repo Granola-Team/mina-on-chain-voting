@@ -184,7 +184,7 @@ impl <'a> SignalProcessor<'a> {
         Self::get_stats_for(signals, &self.key)
     }
 
-    pub fn stats(&self) -> SignalStats {
+    pub fn stats(&self) -> Option<SignalStats> {
         let mut total_stats: SignalStats = Default::default();
 
         for (_account, signals) in self.signallers_cache.iter() {
@@ -210,7 +210,10 @@ impl <'a> SignalProcessor<'a> {
             }
         }
 
-        total_stats
+        match total_stats.yes != 0. || total_stats.no != 0. {
+            true => Some(total_stats),
+            false => None,
+        }
     }
 
     fn generate_response(self) -> ResponseEntity {
@@ -225,10 +228,7 @@ impl <'a> SignalProcessor<'a> {
             settled,
             unsettled: self.unsettled_signals,
             invalid: self.invalid_signals,
-            stats: match stats.yes != 0. || stats.no != 0. {
-                true => Some(stats),
-                false => None,
-            },
+            stats
         }
     }
 

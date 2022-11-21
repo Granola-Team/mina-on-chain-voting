@@ -226,8 +226,8 @@ impl <'a> SignalProcessor<'a> {
             unsettled: self.unsettled_signals,
             invalid: self.invalid_signals,
             stats: match stats.yes != 0. && stats.no != 0. {
-                true => Some(stats),
-                false => None,
+                true => None,
+                false => Some(stats),
             },
         }
     }

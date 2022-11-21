@@ -191,6 +191,7 @@ impl <'a> SignalProcessor<'a> {
             let mut signals = signals.clone();
             signals.sort_by(|x, y| x.height.cmp(&y.height));
             if let Some(signal) = signals.get(0) {
+
                 if signal.signal_status != SignalStatus::Invalid {
                     let delegated_balance = signal
                         .delegations
@@ -213,17 +214,22 @@ impl <'a> SignalProcessor<'a> {
     }
 
     fn generate_response(self) -> ResponseEntity {
-        let stats = self.stats();
+        let mut stats_option = None;
+        let mut stats = self.stats();
         let settled = self.current_settled
             .into_iter()
             .map(|(_, v)| v)
             .collect::<Vec<Signal>>();
 
+        if stats.yes != 0. && stats.no != 0. {
+            stats_option = Some(stats);
+        }
+
         ResponseEntity {
             settled,
             unsettled: self.unsettled_signals,
             invalid: self.invalid_signals,
-            stats
+            stats: stats_option
         }
     }
 

@@ -49,7 +49,7 @@ pub struct ResponseEntity {
     pub settled: Vec<Signal>,
     pub unsettled: Vec<Signal>,
     pub invalid: Vec<Signal>,
-    pub stats: SignalStats,
+    pub stats: Option<SignalStats>,
 }
 
 impl ResponseEntity {
@@ -116,6 +116,6 @@ mod tests {
         let response_entity = ResponseEntity::default();
         let stats = SignalStats { yes: 100., no: 50. };
         let with_stats = response_entity.with_stats(stats);
-        assert_eq!(stats, with_stats.stats);
+        assert_eq!(stats, with_stats.stats.unwrap());
     }
 }

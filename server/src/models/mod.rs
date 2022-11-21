@@ -10,6 +10,7 @@ pub struct DBResponse {
     pub height: i64,
     pub status: BlockStatus,
     pub timestamp: i64,
+    pub nonce: i64
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]

@@ -18,6 +18,7 @@ pub struct SignalProcessor<'a> {
     signal_transactions: Vec<DBResponse>, // transactions from the canonical OnChainSignalling archive node db query
     signallers_cache: AccountSignalsMap, // ongoing cache of accounts that have had a signal processed
     current_settled: AccountSettledSignalMap, // ongoing association of a single settled signal per account
+    current_unsettled: AccountSettledSignalMap, // one unsettled signal per account
     settled_signals: Vec<Signal>, // ----\
     unsettled_signals: Vec<Signal>, // ------> ongoing collections of signals
     invalid_signals: Vec<Signal>, // ----/
@@ -37,6 +38,7 @@ impl <'a> SignalProcessor<'a> {
             signal_transactions,
             signallers_cache: HashMap::new(),
             current_settled: HashMap::new(),
+            current_unsettled: HashMap::new(),
             settled_signals: Vec::new(),
             unsettled_signals: Vec::new(),
             invalid_signals: Vec::new(),
@@ -142,6 +144,7 @@ impl <'a> SignalProcessor<'a> {
                         *settled_signal = signal.clone();
                     }
                     self.settled_signals.push(signal);
+                    self.invalid_signals.push(settled_signal.clone());
                 }
                 None => {
                     self.current_settled
@@ -149,7 +152,20 @@ impl <'a> SignalProcessor<'a> {
                     self.settled_signals.push(signal);
                 }
             },
-            SignalStatus::Unsettled => self.unsettled_signals.push(signal),
+            SignalStatus::Unsettled => match self.current_unsettled.get_mut(&signal.account) {
+                Some(unsettled_signal) => {
+                    if signal.height > unsettled_signal.height {
+                        *unsettled_signal = signal.clone();
+                    }
+                    self.unsettled_signals.push(signal);
+                    self.invalid_signals.push(unsettled_signal.clone());
+                }
+                None => {
+                    self.current_unsettled
+                        .insert(signal.account.clone(), signal.clone());
+                    self.unsettled_signals.push(signal);
+                }
+            },
             SignalStatus::Invalid => self.invalid_signals.push(signal),
         }
     }
@@ -184,29 +200,32 @@ impl <'a> SignalProcessor<'a> {
         Self::get_stats_for(signals, &self.key)
     }
 
+    pub fn add_delegation(&self, stats: &mut SignalStats, signal: &Signal) {
+        let delegated_balance = signal
+        .delegations
+        .delegated_balance
+        .parse::<f32>()
+        .unwrap_or(0.00);
+
+        if signal.memo.to_lowercase() == self.key.to_lowercase() {
+            stats.yes += delegated_balance;
+        }
+
+        if signal.memo.to_lowercase() == format!("no {}", &self.key.to_lowercase()) {
+            stats.no += delegated_balance;
+        }
+    }
+
     pub fn stats(&self) -> Option<SignalStats> {
         let mut total_stats: SignalStats = Default::default();
 
-        for (_account, signals) in self.signallers_cache.iter() {
-            let mut signals = signals.clone();
-            signals.sort_by(|x, y| x.height.cmp(&y.height));
-            if let Some(signal) = signals.get(0) {
+        for (_account, signal) in self.current_settled.iter() {
+            self.add_delegation(&mut total_stats, signal);
+        }
 
-                if signal.signal_status != SignalStatus::Invalid {
-                    let delegated_balance = signal
-                        .delegations
-                        .delegated_balance
-                        .parse::<f32>()
-                        .unwrap_or(0.00);
-
-                    if signal.memo.to_lowercase() == self.key.to_lowercase() {
-                        total_stats.yes += delegated_balance;
-                    }
-
-                    if signal.memo.to_lowercase() == format!("no {}", &self.key.to_lowercase()) {
-                        total_stats.no += delegated_balance;
-                    }
-                }
+        for (_account, signal) in self.current_unsettled.iter() {
+            if let None = self.current_settled.get(&signal.account) {
+                self.add_delegation(&mut total_stats, signal);
             }
         }
 

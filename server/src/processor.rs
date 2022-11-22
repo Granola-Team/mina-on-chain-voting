@@ -27,10 +27,10 @@ pub struct SignalProcessor<'a> {
 impl <'a> SignalProcessor<'a> {
     pub fn new(
             conn: &'a mut rusqlite::Connection,
-        key: &str,
-        latest_block: i64,
-        signal_transactions: Vec<DBResponse>,
-    ) -> Self {
+            key: &str,
+            latest_block: i64,
+            signal_transactions: Vec<DBResponse>,
+            ) -> Self {
         SignalProcessor {
             conn,
             key: key.to_string(),
@@ -48,8 +48,8 @@ impl <'a> SignalProcessor<'a> {
     pub fn delegations(&mut self, account: &str) -> LedgerDelegations {
         let mut delegations: LedgerDelegations = LedgerDelegations::default();
         let mut stmt = self
-            .conn
-            .prepare(
+        .conn
+        .prepare(
                 "
                 SELECT
                 CAST(SUM(CAST(balance AS DECIMAL)) AS TEXT),
@@ -58,19 +58,19 @@ impl <'a> SignalProcessor<'a> {
                 WHERE delegate = (?)
                 GROUP BY delegate
                 ",
-            )
-            .expect("Error preparing statement.");
+        )
+        .expect("Error preparing statement.");
 
         for res in stmt
-            .query_map([account.to_string()], |row| {
-                Ok(LedgerDelegations {
-                    delegated_balance: row.get(0).unwrap_or_default(),
-                    total_delegators: row.get(1).unwrap_or_default(),
-                })
+        .query_map([account.to_string()], |row| {
+            Ok(LedgerDelegations {
+                delegated_balance: row.get(0).unwrap_or_default(),
+                total_delegators: row.get(1).unwrap_or_default(),
             })
-            .expect("Error: Error unwrapping rows.").flatten()
+        })
+        .expect("Error: Error unwrapping rows.").flatten()
         {
-                delegations = res;
+            delegations = res;
         }
 
         delegations
@@ -105,10 +105,10 @@ impl <'a> SignalProcessor<'a> {
 
         let mut signal_status = SignalStatus::Invalid;
         if memo_decoded.to_lowercase() == self.key.to_lowercase()
-            || memo_decoded.to_lowercase() == format!("no {}", self.key.to_lowercase())
+           || memo_decoded.to_lowercase() == format!("no {}", self.key.to_lowercase())
         {
             if transaction.height + SETTLED_DENOMINATOR <= self.latest_block
-                && matches!(transaction.status, BlockStatus::Canonical)
+               && matches!(transaction.status, BlockStatus::Canonical)
             {
                 signal_status = SignalStatus::Settled;
             } else {
@@ -133,19 +133,19 @@ impl <'a> SignalProcessor<'a> {
         let signals = match self.signallers_cache.get_mut(&signal.account) {
             Some(signals) => signals,
             None => self
-                .signallers_cache
-                .entry(signal.account.clone())
-                .or_insert_with_key(|_| Vec::new()),
+            .signallers_cache
+            .entry(signal.account.clone())
+            .or_insert_with_key(|_| Vec::new()),
         };
         signals.push(signal.clone());
         match signal.signal_status {
             SignalStatus::Settled => match self.current_settled.get_mut(&signal.account) {
                 Some(settled_signal) => {
-                    if signal.nonce > settled_signal.nonce {
+                    if signal.height > settled_signal.height || signal.nonce > settled_signal.nonce {
                         *settled_signal = signal.clone();
+                        self.settled_signals.push(signal);
+                        self.invalid_signals.push(settled_signal.clone());
                     }
-                    self.settled_signals.push(signal);
-                    self.invalid_signals.push(settled_signal.clone());
                 }
                 None => {
                     self.current_settled
@@ -155,11 +155,11 @@ impl <'a> SignalProcessor<'a> {
             },
             SignalStatus::Unsettled => match self.current_unsettled.get_mut(&signal.account) {
                 Some(unsettled_signal) => {
-                    if signal.nonce > unsettled_signal.nonce {
+                    if signal.height > unsettled_signal.height || signal.nonce > unsettled_signal.nonce {
                         *unsettled_signal = signal.clone();
+                        self.unsettled_signals.push(signal);
+                        self.invalid_signals.push(unsettled_signal.clone());
                     }
-                    self.unsettled_signals.push(signal);
-                    self.invalid_signals.push(unsettled_signal.clone());
                 }
                 None => {
                     self.current_unsettled

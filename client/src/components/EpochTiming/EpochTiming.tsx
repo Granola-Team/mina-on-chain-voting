@@ -12,9 +12,9 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
   const percentage = (slot / 7140) * 89.78;
   const oppositePercentage = 100 - percentage;
   const begSlotMinutes = slot * 3;
-  const begEpoch = moment(now).subtract(begSlotMinutes, "minutes").toDate();
+  const begEpoch = moment().subtract(begSlotMinutes, "minutes").toDate();
   const endSlotMinutes = (7140 - slot) * 3;
-  const endEpoch = moment(now).subtract(endSlotMinutes, "minutes").toDate();
+  const endEpoch = moment().add(endSlotMinutes, "minutes").toDate();
   const days = Math.floor(endSlotMinutes / 60 / 24);
   const hours = Math.floor(((endSlotMinutes / 60 / 24) - days) * 24);
   const minutes = Math.floor(((((endSlotMinutes / 60 / 24) - days) * 24) - hours) * 60);

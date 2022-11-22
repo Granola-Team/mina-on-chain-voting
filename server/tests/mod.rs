@@ -75,6 +75,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: osc_api::models::BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -96,6 +97,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: osc_api::models::BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -117,6 +119,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: osc_api::models::BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -138,6 +141,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -159,6 +163,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -180,6 +185,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -201,6 +207,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -222,6 +229,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -243,6 +251,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("invalid magenta signal"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -258,6 +267,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("invalid magenta signal"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -283,6 +293,7 @@ mod tests {
                 account: "A".to_string(),
                 memo: mina_encode("magenta"),
                 height: 0,
+                nonce: 0,
                 status: BlockStatus::Canonical,
                 timestamp: 0,
             };
@@ -311,6 +322,7 @@ mod tests {
                 account: "A".to_string(),
                 memo: mina_encode("magenta"),
                 height: 0,
+                nonce: 0,
                 status: BlockStatus::Canonical,
                 timestamp: 0,
             };

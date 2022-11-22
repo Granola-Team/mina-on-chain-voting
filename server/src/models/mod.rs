@@ -10,6 +10,7 @@ pub struct DBResponse {
     pub height: i64,
     pub status: BlockStatus,
     pub timestamp: i64,
+    pub nonce: i64
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]
@@ -27,6 +28,7 @@ pub struct Signal {
     pub height: i64,
     pub status: BlockStatus,
     pub timestamp: i64,
+    pub nonce: i64,
     pub delegations: LedgerDelegations,
     pub signal_status: SignalStatus,
 }
@@ -87,6 +89,7 @@ mod tests {
             height: 8,
             status: BlockStatus::Canonical,
             timestamp: 10,
+            nonce: 0,
             delegations: LedgerDelegations::default(),
             signal_status: SignalStatus::Settled,
         };
@@ -97,6 +100,7 @@ mod tests {
             height: 10,
             status: BlockStatus::Canonical,
             timestamp: 11,
+            nonce: 0,
             delegations: LedgerDelegations::default(),
             signal_status: SignalStatus::Settled,
         };

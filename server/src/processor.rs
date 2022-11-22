@@ -18,18 +18,17 @@ pub struct SignalProcessor<'a> {
     signal_transactions: Vec<DBResponse>, // transactions from the canonical OnChainSignalling archive node db query
     signallers_cache: AccountSignalsMap, // ongoing cache of accounts that have had a signal processed
     current_settled: AccountSettledSignalMap, // ongoing association of a single settled signal per account
-    settled_signals: Vec<Signal>, // ----\
-    unsettled_signals: Vec<Signal>, // ------> ongoing collections of signals
+    current_unsettled: AccountSettledSignalMap, // one unsettled signal per account
     invalid_signals: Vec<Signal>, // ----/
 }
 
 impl <'a> SignalProcessor<'a> {
     pub fn new(
             conn: &'a mut rusqlite::Connection,
-        key: &str,
-        latest_block: i64,
-        signal_transactions: Vec<DBResponse>,
-    ) -> Self {
+            key: &str,
+            latest_block: i64,
+            signal_transactions: Vec<DBResponse>,
+            ) -> Self {
         SignalProcessor {
             conn,
             key: key.to_string(),
@@ -37,8 +36,7 @@ impl <'a> SignalProcessor<'a> {
             signal_transactions,
             signallers_cache: HashMap::new(),
             current_settled: HashMap::new(),
-            settled_signals: Vec::new(),
-            unsettled_signals: Vec::new(),
+            current_unsettled: HashMap::new(),
             invalid_signals: Vec::new(),
         }
     }
@@ -46,8 +44,8 @@ impl <'a> SignalProcessor<'a> {
     pub fn delegations(&mut self, account: &str) -> LedgerDelegations {
         let mut delegations: LedgerDelegations = LedgerDelegations::default();
         let mut stmt = self
-            .conn
-            .prepare(
+        .conn
+        .prepare(
                 "
                 SELECT
                 CAST(SUM(CAST(balance AS DECIMAL)) AS TEXT),
@@ -56,19 +54,19 @@ impl <'a> SignalProcessor<'a> {
                 WHERE delegate = (?)
                 GROUP BY delegate
                 ",
-            )
-            .expect("Error preparing statement.");
+        )
+        .expect("Error preparing statement.");
 
         for res in stmt
-            .query_map([account.to_string()], |row| {
-                Ok(LedgerDelegations {
-                    delegated_balance: row.get(0).unwrap_or_default(),
-                    total_delegators: row.get(1).unwrap_or_default(),
-                })
+        .query_map([account.to_string()], |row| {
+            Ok(LedgerDelegations {
+                delegated_balance: row.get(0).unwrap_or_default(),
+                total_delegators: row.get(1).unwrap_or_default(),
             })
-            .expect("Error: Error unwrapping rows.").flatten()
+        })
+        .expect("Error: Error unwrapping rows.").flatten()
         {
-                delegations = res;
+            delegations = res;
         }
 
         delegations
@@ -103,10 +101,10 @@ impl <'a> SignalProcessor<'a> {
 
         let mut signal_status = SignalStatus::Invalid;
         if memo_decoded.to_lowercase() == self.key.to_lowercase()
-            || memo_decoded.to_lowercase() == format!("no {}", self.key.to_lowercase())
+           || memo_decoded.to_lowercase() == format!("no {}", self.key.to_lowercase())
         {
             if transaction.height + SETTLED_DENOMINATOR <= self.latest_block
-                && matches!(transaction.status, BlockStatus::Canonical)
+               && matches!(transaction.status, BlockStatus::Canonical)
             {
                 signal_status = SignalStatus::Settled;
             } else {
@@ -120,93 +118,73 @@ impl <'a> SignalProcessor<'a> {
             height: transaction.height,
             status: transaction.status,
             timestamp: transaction.timestamp,
+            nonce: transaction.nonce,
             delegations,
             signal_status,
         };
         Some(signal)
     }
 
+    fn compare_current_assoc(signals: &mut AccountSettledSignalMap, invalid_signals: &mut Vec<Signal>, mut signal: Signal) {
+        match signals.get_mut(&signal.account) {
+            Some(prev_signal) => {
+                if is_higher(&signal, prev_signal) {
+                    prev_signal.signal_status = SignalStatus::Invalid;
+                    invalid_signals.push(prev_signal.clone());
+                    *prev_signal = signal.clone();
+                } else {
+                    signal.signal_status = SignalStatus::Invalid;
+                    invalid_signals.push(signal)
+                }
+            }
+            None => {
+                signals.insert(signal.account.clone(), signal);
+            }
+        }
+    }
+
     pub fn process_signal(&mut self, signal: Signal) {
         let signals = match self.signallers_cache.get_mut(&signal.account) {
             Some(signals) => signals,
             None => self
-                .signallers_cache
-                .entry(signal.account.clone())
-                .or_insert_with_key(|_| Vec::new()),
+            .signallers_cache
+            .entry(signal.account.clone())
+            .or_insert_with_key(|_| Vec::new()),
         };
         signals.push(signal.clone());
         match signal.signal_status {
-            SignalStatus::Settled => match self.current_settled.get_mut(&signal.account) {
-                Some(settled_signal) => {
-                    if signal.height > settled_signal.height {
-                        *settled_signal = signal.clone();
-                    }
-                    self.settled_signals.push(signal);
-                }
-                None => {
-                    self.current_settled
-                        .insert(signal.account.clone(), signal.clone());
-                    self.settled_signals.push(signal);
-                }
-            },
-            SignalStatus::Unsettled => self.unsettled_signals.push(signal),
+            SignalStatus::Settled => Self::compare_current_assoc(&mut self.current_settled, &mut self.invalid_signals, signal),
+            SignalStatus::Unsettled => Self::compare_current_assoc(&mut self.current_unsettled, &mut self.invalid_signals, signal),
             SignalStatus::Invalid => self.invalid_signals.push(signal),
         }
     }
 
-    fn get_stats_for(signals: Vec<Signal>, key: &str) -> SignalStats {
-        let mut stats: SignalStats = Default::default();
-        for signal in signals.iter() {
-            let delegated_balance = signal
-                .delegations
-                .delegated_balance
-                .parse::<f32>()
-                .unwrap_or(0.00);
+    pub fn add_delegation(&self, stats: &mut SignalStats, signal: &Signal) {
+        let delegated_balance = signal
+        .delegations
+        .delegated_balance
+        .parse::<f32>()
+        .unwrap_or(0.00);
 
-            if signal.memo.to_lowercase() == key.to_lowercase() {
-                stats.yes += delegated_balance;
-            }
-
-            if signal.memo.to_lowercase() == format!("no {}", key.to_lowercase()) {
-                stats.no += delegated_balance;
-            }
+        if signal.memo.to_lowercase() == self.key.to_lowercase() {
+            stats.yes += delegated_balance;
         }
 
-        stats
-    }
-
-    pub fn settled_stats(&self) -> SignalStats {
-        let signals = self.current_settled.clone()
-            .into_iter()
-            .map(|(_, v)| v)
-            .collect::<Vec<Signal>>();
-
-        Self::get_stats_for(signals, &self.key)
+        if signal.memo.to_lowercase() == format!("no {}", &self.key.to_lowercase()) {
+            stats.no += delegated_balance;
+        }
     }
 
     pub fn stats(&self) -> Option<SignalStats> {
         let mut total_stats: SignalStats = Default::default();
 
-        for (_account, signals) in self.signallers_cache.iter() {
-            let mut signals = signals.clone();
-            signals.sort_by(|x, y| x.height.cmp(&y.height));
-            if let Some(signal) = signals.get(0) {
+        for (_account, signal) in self.current_settled.iter() {
+            self.add_delegation(&mut total_stats, signal);
+        }
 
-                if signal.signal_status != SignalStatus::Invalid {
-                    let delegated_balance = signal
-                        .delegations
-                        .delegated_balance
-                        .parse::<f32>()
-                        .unwrap_or(0.00);
-
-                    if signal.memo.to_lowercase() == self.key.to_lowercase() {
-                        total_stats.yes += delegated_balance;
-                    }
-
-                    if signal.memo.to_lowercase() == format!("no {}", &self.key.to_lowercase()) {
-                        total_stats.no += delegated_balance;
-                    }
-                }
+        for (_account, signal) in self.current_unsettled.iter() {
+            if self.current_settled.get(&signal.account).is_none() {
+                self.add_delegation(&mut total_stats, signal);
             }
         }
 
@@ -224,9 +202,15 @@ impl <'a> SignalProcessor<'a> {
         .map(|(_, v)| v)
         .collect::<Vec<Signal>>();
 
+        let unsettled = self
+        .current_unsettled
+        .into_iter()
+        .map(|(_, v)| v)
+        .collect::<Vec<Signal>>();
+
         ResponseEntity {
             settled,
-            unsettled: self.unsettled_signals,
+            unsettled,
             invalid: self.invalid_signals,
             stats
         }
@@ -241,4 +225,8 @@ impl <'a> SignalProcessor<'a> {
 
         self.generate_response()
     }
+}
+
+fn is_higher(s1: &Signal, s2: &Signal) -> bool {
+    s1.height > s2.height || (s1.height == s2.height && s1.nonce > s2.nonce)
 }

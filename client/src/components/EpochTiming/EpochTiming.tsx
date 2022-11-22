@@ -12,9 +12,9 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
   const percentage = (slot / 7140) * 89.78;
   const oppositePercentage = 100 - percentage;
   const begSlotMinutes = slot * 3;
-  const begEpoch = moment().subtract(begSlotMinutes, "minutes").toDate();
+  const begEpoch = moment().subtract(begSlotMinutes, "minutes").format("YYYY-MM-DD | hh:mm:ss Z");
   const endSlotMinutes = (7140 - slot) * 3;
-  const endEpoch = moment().add(endSlotMinutes, "minutes").toDate();
+  const endEpoch = moment().add(endSlotMinutes, "minutes").format("YYYY-MM-DD | hh:mm:ss Z");
   const days = Math.floor(endSlotMinutes / 60 / 24);
   const hours = Math.floor(((endSlotMinutes / 60 / 24) - days) * 24);
   const minutes = Math.floor(((((endSlotMinutes / 60 / 24) - days) * 24) - hours) * 60);
@@ -58,7 +58,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
                   Start Date
                 </span>
                 <span className="text-sm md:text-lg semibold text-blue-400/80">
-                  {begEpoch.toString()}
+                  {begEpoch.toString()} UTC
                 </span>
               </div>
               <div className="flex flex-col items-end">
@@ -66,7 +66,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
                   End Date
                 </span>
                 <span className="text-sm md:text-lg semibold text-violet-600">
-                  {endEpoch.toString()}
+                  {endEpoch.toString()} UTC
                 </span>
               </div>
             </div>
@@ -83,8 +83,8 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
             </div>
           </div>
           <div className="flex flex-col items-left">
-            <span className="semibold text-lg leading-8">
-              Next epoch in {days} days, {hours} hours, {minutes} minutes
+            <span className="text-xs md:text-sm medium text-gray-11 mb-1">
+              Next epoch estimated to end in {days} days {hours} hours {minutes} minutes
             </span>
           </div>
         </div>

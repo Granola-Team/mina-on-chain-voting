@@ -227,12 +227,6 @@ impl <'a> SignalProcessor<'a> {
     }
 }
 
-fn is_higher(signal_1: &Signal, signal_2: &Signal) -> bool {
-    signal_1.height > signal_2.height
-        || (
-            signal_1.height == signal_2.height
-                        &&
-            signal_1.nonce > signal_2.nonce
-        )
-
+fn is_higher(s1: &Signal, s2: &Signal) -> bool {
+    s1.height > s2.height || (s1.height == s2.height && s1.nonce > s2.nonce)
 }

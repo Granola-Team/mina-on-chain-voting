@@ -128,7 +128,7 @@ impl <'a> SignalProcessor<'a> {
     fn compare_current_assoc(signals: &mut AccountSettledSignalMap, invalid_signals: &mut Vec<Signal>, signal: &Signal) {
         match signals.get_mut(&signal.account) {
             Some(prev_signal) => {
-                if signal.height > prev_signal.height || signal.nonce > prev_signal.nonce {
+                if is_higher(&signal, &prev_signal) {
                     prev_signal.signal_status = SignalStatus::Invalid;
                     invalid_signals.push(prev_signal.clone());
                     *prev_signal = signal.clone();
@@ -252,4 +252,14 @@ impl <'a> SignalProcessor<'a> {
 
         self.generate_response()
     }
+}
+
+fn is_higher(signal_1: &Signal, signal_2: &Signal) -> bool {
+    signal_1.height > signal_2.height
+        || (
+            signal_1.height == signal_2.height
+                        &&
+            signal_1.nonce > signal_2.nonce
+        )
+
 }

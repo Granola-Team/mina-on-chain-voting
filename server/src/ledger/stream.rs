@@ -97,6 +97,7 @@ mod tests {
             "memo":     "magenta",
             "height":   10,
             "status":   "Canonical",
+            "nonce":    0,
             "timestamp": 20901343
         }"#.as_bytes();
         
@@ -134,6 +135,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             }
         ]"#.as_bytes();
@@ -161,6 +163,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             },
             {
@@ -168,6 +171,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             },
             {
@@ -175,6 +179,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             }
         ]"#.as_bytes();

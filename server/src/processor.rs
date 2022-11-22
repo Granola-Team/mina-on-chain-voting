@@ -122,6 +122,7 @@ impl <'a> SignalProcessor<'a> {
             height: transaction.height,
             status: transaction.status,
             timestamp: transaction.timestamp,
+            nonce: transaction.nonce,
             delegations,
             signal_status,
         };
@@ -140,7 +141,7 @@ impl <'a> SignalProcessor<'a> {
         match signal.signal_status {
             SignalStatus::Settled => match self.current_settled.get_mut(&signal.account) {
                 Some(settled_signal) => {
-                    if signal.height > settled_signal.height {
+                    if signal.nonce > settled_signal.nonce {
                         *settled_signal = signal.clone();
                     }
                     self.settled_signals.push(signal);
@@ -154,7 +155,7 @@ impl <'a> SignalProcessor<'a> {
             },
             SignalStatus::Unsettled => match self.current_unsettled.get_mut(&signal.account) {
                 Some(unsettled_signal) => {
-                    if signal.height > unsettled_signal.height {
+                    if signal.nonce > unsettled_signal.nonce {
                         *unsettled_signal = signal.clone();
                     }
                     self.unsettled_signals.push(signal);

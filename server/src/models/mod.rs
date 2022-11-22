@@ -28,6 +28,7 @@ pub struct Signal {
     pub height: i64,
     pub status: BlockStatus,
     pub timestamp: i64,
+    pub nonce: i64,
     pub delegations: LedgerDelegations,
     pub signal_status: SignalStatus,
 }

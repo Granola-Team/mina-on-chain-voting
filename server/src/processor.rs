@@ -180,15 +180,6 @@ impl <'a> SignalProcessor<'a> {
         stats
     }
 
-    pub fn settled_stats(&self) -> SignalStats {
-        let signals = self.current_settled.clone()
-            .into_iter()
-            .map(|(_, v)| v)
-            .collect::<Vec<Signal>>();
-
-        Self::get_stats_for(signals, &self.key)
-    }
-
     pub fn add_delegation(&self, stats: &mut SignalStats, signal: &Signal) {
         let delegated_balance = signal
         .delegations

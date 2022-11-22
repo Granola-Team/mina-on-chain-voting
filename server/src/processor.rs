@@ -159,27 +159,6 @@ impl <'a> SignalProcessor<'a> {
         }
     }
 
-    fn get_stats_for(signals: Vec<Signal>, key: &str) -> SignalStats {
-        let mut stats: SignalStats = Default::default();
-        for signal in signals.iter() {
-            let delegated_balance = signal
-                .delegations
-                .delegated_balance
-                .parse::<f32>()
-                .unwrap_or(0.00);
-
-            if signal.memo.to_lowercase() == key.to_lowercase() {
-                stats.yes += delegated_balance;
-            }
-
-            if signal.memo.to_lowercase() == format!("no {}", key.to_lowercase()) {
-                stats.no += delegated_balance;
-            }
-        }
-
-        stats
-    }
-
     pub fn add_delegation(&self, stats: &mut SignalStats, signal: &Signal) {
         let delegated_balance = signal
         .delegations

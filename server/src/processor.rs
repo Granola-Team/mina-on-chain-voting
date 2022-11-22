@@ -125,17 +125,20 @@ impl <'a> SignalProcessor<'a> {
         Some(signal)
     }
 
-    fn compare_current_assoc(signals: &mut AccountSettledSignalMap, invalid_signals: &mut Vec<Signal>, signal: &Signal) {
+    fn compare_current_assoc(signals: &mut AccountSettledSignalMap, invalid_signals: &mut Vec<Signal>, mut signal: Signal) {
         match signals.get_mut(&signal.account) {
             Some(prev_signal) => {
                 if is_higher(&signal, &prev_signal) {
                     prev_signal.signal_status = SignalStatus::Invalid;
                     invalid_signals.push(prev_signal.clone());
                     *prev_signal = signal.clone();
+                } else {
+                    signal.signal_status = SignalStatus::Invalid;
+                    invalid_signals.push(signal)
                 }
             }
             None => {
-                signals.insert(signal.account.clone(), signal.clone());
+                signals.insert(signal.account.clone(), signal);
             }
         }
     }
@@ -150,8 +153,8 @@ impl <'a> SignalProcessor<'a> {
         };
         signals.push(signal.clone());
         match signal.signal_status {
-            SignalStatus::Settled => Self::compare_current_assoc(&mut self.current_settled, &mut self.invalid_signals, &signal),
-            SignalStatus::Unsettled => Self::compare_current_assoc(&mut self.current_unsettled, &mut self.invalid_signals, &signal),
+            SignalStatus::Settled => Self::compare_current_assoc(&mut self.current_settled, &mut self.invalid_signals, signal),
+            SignalStatus::Unsettled => Self::compare_current_assoc(&mut self.current_unsettled, &mut self.invalid_signals, signal),
             SignalStatus::Invalid => self.invalid_signals.push(signal),
         }
     }

@@ -89,6 +89,7 @@ mod tests {
             height: 8,
             status: BlockStatus::Canonical,
             timestamp: 10,
+            nonce: 0,
             delegations: LedgerDelegations::default(),
             signal_status: SignalStatus::Settled,
         };
@@ -99,6 +100,7 @@ mod tests {
             height: 10,
             status: BlockStatus::Canonical,
             timestamp: 11,
+            nonce: 0,
             delegations: LedgerDelegations::default(),
             signal_status: SignalStatus::Settled,
         };

@@ -128,7 +128,7 @@ impl <'a> SignalProcessor<'a> {
     fn compare_current_assoc(signals: &mut AccountSettledSignalMap, invalid_signals: &mut Vec<Signal>, mut signal: Signal) {
         match signals.get_mut(&signal.account) {
             Some(prev_signal) => {
-                if is_higher(&signal, &prev_signal) {
+                if is_higher(&signal, prev_signal) {
                     prev_signal.signal_status = SignalStatus::Invalid;
                     invalid_signals.push(prev_signal.clone());
                     *prev_signal = signal.clone();

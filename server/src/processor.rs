@@ -129,9 +129,9 @@ impl <'a> SignalProcessor<'a> {
         match signals.get_mut(&signal.account) {
             Some(prev_signal) => {
                 if signal.height > prev_signal.height || signal.nonce > prev_signal.nonce {
-                    *prev_signal = signal.clone();
                     prev_signal.signal_status = SignalStatus::Invalid;
                     invalid_signals.push(prev_signal.clone());
+                    *prev_signal = signal.clone();
                 }
             }
             None => {

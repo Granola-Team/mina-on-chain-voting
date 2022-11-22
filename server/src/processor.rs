@@ -19,8 +19,6 @@ pub struct SignalProcessor<'a> {
     signallers_cache: AccountSignalsMap, // ongoing cache of accounts that have had a signal processed
     current_settled: AccountSettledSignalMap, // ongoing association of a single settled signal per account
     current_unsettled: AccountSettledSignalMap, // one unsettled signal per account
-    settled_signals: Vec<Signal>, // ----\
-    unsettled_signals: Vec<Signal>, // ------> ongoing collections of signals
     invalid_signals: Vec<Signal>, // ----/
 }
 
@@ -39,8 +37,6 @@ impl <'a> SignalProcessor<'a> {
             signallers_cache: HashMap::new(),
             current_settled: HashMap::new(),
             current_unsettled: HashMap::new(),
-            settled_signals: Vec::new(),
-            unsettled_signals: Vec::new(),
             invalid_signals: Vec::new(),
         }
     }
@@ -129,6 +125,21 @@ impl <'a> SignalProcessor<'a> {
         Some(signal)
     }
 
+    fn compare_current_assoc(signals: &mut AccountSettledSignalMap, invalid_signals: &mut Vec<Signal>, signal: &Signal) {
+        match signals.get_mut(&signal.account) {
+            Some(prev_signal) => {
+                if signal.height > prev_signal.height || signal.nonce > prev_signal.nonce {
+                    *prev_signal = signal.clone();
+                    prev_signal.signal_status = SignalStatus::Invalid;
+                    invalid_signals.push(prev_signal.clone());
+                }
+            }
+            None => {
+                signals.insert(signal.account.clone(), signal.clone());
+            }
+        }
+    }
+
     pub fn process_signal(&mut self, signal: Signal) {
         let signals = match self.signallers_cache.get_mut(&signal.account) {
             Some(signals) => signals,
@@ -139,36 +150,8 @@ impl <'a> SignalProcessor<'a> {
         };
         signals.push(signal.clone());
         match signal.signal_status {
-            SignalStatus::Settled => match self.current_settled.get_mut(&signal.account) {
-                Some(settled_signal) => {
-                    if signal.height > settled_signal.height || signal.nonce > settled_signal.nonce {
-                        *settled_signal = signal.clone();
-                        self.settled_signals.push(signal);
-                        settled_signal.signal_status = SignalStatus::Invalid;
-                        self.invalid_signals.push(settled_signal.clone());
-                    }
-                }
-                None => {
-                    self.current_settled
-                        .insert(signal.account.clone(), signal.clone());
-                    self.settled_signals.push(signal);
-                }
-            },
-            SignalStatus::Unsettled => match self.current_unsettled.get_mut(&signal.account) {
-                Some(unsettled_signal) => {
-                    if signal.height > unsettled_signal.height || signal.nonce > unsettled_signal.nonce {
-                        *unsettled_signal = signal.clone();
-                        self.unsettled_signals.push(signal);
-                        unsettled_signal.signal_status = SignalStatus::Invalid;
-                        self.invalid_signals.push(unsettled_signal.clone());
-                    }
-                }
-                None => {
-                    self.current_unsettled
-                        .insert(signal.account.clone(), signal.clone());
-                    self.unsettled_signals.push(signal);
-                }
-            },
+            SignalStatus::Settled => Self::compare_current_assoc(&mut self.current_settled, &mut self.invalid_signals, &signal),
+            SignalStatus::Unsettled => Self::compare_current_assoc(&mut self.current_unsettled, &mut self.invalid_signals, &signal),
             SignalStatus::Invalid => self.invalid_signals.push(signal),
         }
     }
@@ -246,9 +229,15 @@ impl <'a> SignalProcessor<'a> {
         .map(|(_, v)| v)
         .collect::<Vec<Signal>>();
 
+        let unsettled = self
+        .current_unsettled
+        .into_iter()
+        .map(|(_, v)| v)
+        .collect::<Vec<Signal>>();
+
         ResponseEntity {
             settled,
-            unsettled: self.unsettled_signals,
+            unsettled,
             invalid: self.invalid_signals,
             stats
         }

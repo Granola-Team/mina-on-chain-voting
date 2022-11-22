@@ -144,6 +144,7 @@ impl <'a> SignalProcessor<'a> {
                     if signal.height > settled_signal.height || signal.nonce > settled_signal.nonce {
                         *settled_signal = signal.clone();
                         self.settled_signals.push(signal);
+                        settled_signal.signal_status = SignalStatus::Invalid;
                         self.invalid_signals.push(settled_signal.clone());
                     }
                 }
@@ -158,6 +159,7 @@ impl <'a> SignalProcessor<'a> {
                     if signal.height > unsettled_signal.height || signal.nonce > unsettled_signal.nonce {
                         *unsettled_signal = signal.clone();
                         self.unsettled_signals.push(signal);
+                        unsettled_signal.signal_status = SignalStatus::Invalid;
                         self.invalid_signals.push(unsettled_signal.clone());
                     }
                 }

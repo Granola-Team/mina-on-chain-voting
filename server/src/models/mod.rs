@@ -3,54 +3,94 @@ use sqlx::{FromRow, Type};
 
 use crate::ledger::LedgerDelegations;
 
+/// represents a choice between the Mainnet and Devnet chains
+#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+pub enum QueryRequestFilter {
+    /// the current live MINA chain
+    Mainnet,
+    /// the current live MINA development chain
+    Devnet,
+}
+
+/// represents a transaction returned by an Archive Node to be processed for signals
 #[derive(Debug, PartialEq, Eq, Clone, FromRow, Serialize, Deserialize)]
 pub struct DBResponse {
+    /// The transaction's associated account
     pub account: String,
+    /// The (encoded) memo to be parsed for a key
     pub memo: String,
+    /// the block height of the transactions
     pub height: i64,
+    /// the block status of the transaction
     pub status: BlockStatus,
+    /// the exact time the transaction's block was verified
     pub timestamp: i64,
+    /// the relative height of the transaction within its block
     pub nonce: i64
 }
 
+/// represents the on-chain status of a transaction
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]
 #[sqlx(rename_all = "lowercase")]
 pub enum BlockStatus {
+    /// the transaction is potentially on the canonical chain
     Pending,
+    /// the transaction is definitely on the canonical chain
     Canonical,
+    /// the transaction is definitely not on the canonical chain
     Orphaned,
 }
 
+/// A transaction with its memo decoded and ledger delegations and signalling status attached
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Signal {
+    /// the signal's associated account
     pub account: String,
+    /// the decoded signalling memo
     pub memo: String,
+    /// the block height of the signal
     pub height: i64,
+    /// the block status of the signal
     pub status: BlockStatus,
+    /// the time the signal's block was verified
     pub timestamp: i64,
+    /// the relative height of the signal within the block
     pub nonce: i64,
+    /// the amount of delegated MINA to the signal's account and the number of delegators
     pub delegations: LedgerDelegations,
+    /// the signalling status of the signal
     pub signal_status: SignalStatus,
 }
 
+/// represents the status of a signal related to the current signalling key and block height
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize)]
 pub enum SignalStatus {
+    /// the signal has existed for more blocks than the current settled denominator without being invalidated
     Settled,
+    /// the signal is valid but hasn't lasted the settled denominator
     Unsettled,
+    /// the signal's memo doesn't match the signalling key or the signal has been shadowed by a more recent one
     Invalid,
 }
 
+
+/// represents the total MINA allocated to yes and no for a MIP
 #[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize, Default)]
 pub struct SignalStats {
     pub yes: f32,
     pub no: f32,
 }
 
+/// represents the data sent to the OCS client by this server
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
 pub struct ResponseEntity {
+    /// the processed settled signals
     pub settled: Vec<Signal>,
+    /// the processed unsettled signals
     pub unsettled: Vec<Signal>,
+    /// all invalidated signals
     pub invalid: Vec<Signal>,
+    /// the total signalling results
     pub stats: Option<SignalStats>,
 }
 

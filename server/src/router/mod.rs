@@ -1,11 +1,15 @@
 pub mod api;
 
+use self::api::keyword;
+
 use super::Config;
 use axum::{
     http::StatusCode,
     routing::{get, get_service},
     Router,
 };
+
+use crate::models::QueryRequestFilter;
 
 use axum_extra::routing::SpaRouter;
 use serde::{Deserialize, Serialize};
@@ -29,13 +33,7 @@ impl Build for Router {
 
         Router::new()
             .merge(spa)
-            .route("/api/v1/:keyword", get(api::keyword::handler))
+            .route("/api/v1/:keyword", get(keyword::handler))
             .fallback(react_router_fallback)
     }
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub enum QueryRequestFilter {
-    Mainnet,
-    Devnet,
 }

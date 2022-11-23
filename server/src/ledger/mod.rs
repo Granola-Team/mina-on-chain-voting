@@ -5,9 +5,12 @@ use tokio_rusqlite::Connection;
 
 mod stream;
 
+/// represents the total MINA allocated to an account with the total accounts that have delegated to it
 #[derive(Debug, Default, PartialEq, Eq, Clone, FromSql, Serialize, Deserialize)]
 pub struct LedgerDelegations {
+    /// MINA balace allocated
     pub delegated_balance: String,
+    /// total number of accounts contributing to this delegation
     pub total_delegators: i32,
 }
 

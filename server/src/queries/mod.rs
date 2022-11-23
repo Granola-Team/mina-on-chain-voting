@@ -1,6 +1,5 @@
 use crate::{
-    models::{BlockStatus, DBResponse},
-    router::QueryRequestFilter,
+    models::{BlockStatus, DBResponse, QueryRequestFilter},
     ApiContext,
 };
 use axum::Extension;

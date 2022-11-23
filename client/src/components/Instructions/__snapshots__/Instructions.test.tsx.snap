@@ -65,7 +65,7 @@ exports[`Snapshot test passes 1`] = `
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  To signal, send yourself a transaction with the memo
+                  To vote, send yourself a transaction with the memo
                    
                   <span
                     class="font-semibold"
@@ -79,7 +79,7 @@ exports[`Snapshot test passes 1`] = `
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  Your signal should appear in 10-15 minutes
+                  Your vote should appear in 10-15 minutes
                 </span>
               </p>
             </div>
@@ -149,7 +149,7 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="text-[0.875rem] font-normal"
               >
-                To signal, send yourself a transaction with the memo
+                To vote, send yourself a transaction with the memo
                  
                 <span
                   class="font-semibold"
@@ -163,7 +163,7 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="text-[0.875rem] font-normal"
               >
-                Your signal should appear in 10-15 minutes
+                Your vote should appear in 10-15 minutes
               </span>
             </p>
           </div>

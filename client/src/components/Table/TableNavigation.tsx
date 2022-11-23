@@ -6,7 +6,7 @@ import { TableNavElement } from "./TableNavElement";
 
 const navElements: Array<{ title: string; filter: RouteFilterType }> = [
   {
-    title: "All Signals",
+    title: "All Votes",
     filter: "All",
   },
   {

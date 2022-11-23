@@ -26,7 +26,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
           <div className="flex-col flex md:flex-row items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="semibold text-lg md:text-xl leading-8">
-                Signal Timing
+                Voting Timing
               </span>
 
               <IconTooltip css="h-[1.1rem] w-[1.1rem] md:mt-0.5">

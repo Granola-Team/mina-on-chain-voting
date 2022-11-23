@@ -21,7 +21,7 @@ export const Header = React.memo(() => {
             }}
             href=""
           >
-            <h1 className="text-base">Mina On-Chain Signals</h1>
+            <h1 className="text-base">Mina On-Chain Votes</h1>
           </a>
           <div className="flex items-center gap-1">
             <SettingsControl />
@@ -45,7 +45,7 @@ export const Header = React.memo(() => {
             }}
             href=""
           >
-            <h1>Mina On-Chain Signals</h1>
+            <h1>Mina On-Chain Votes</h1>
           </a>
         </div>
         <SettingsControl />

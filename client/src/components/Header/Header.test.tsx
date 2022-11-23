@@ -38,7 +38,7 @@ test("Header renders title", async () => {
   );
   expect(header).toMatchSnapshot();
   const title = header.getByRole("heading", { level: 1 }).innerHTML;
-  expect(title).toContain("Mina On-Chain Signals");
+  expect(title).toContain("Mina On-Chain Votes");
 });
 
 test("Should navigate to home page when link is clicked", async () => {
@@ -47,10 +47,10 @@ test("Should navigate to home page when link is clicked", async () => {
       <Header />
     </Router>,
   );
-  const link = rendered.getByText("Mina On-Chain Signals");
+  const link = rendered.getByText("Mina On-Chain Votes");
   fireEvent.click(link);
   expect(
-    rendered.getByText("Mina On-Chain Signals").closest("a"),
+    rendered.getByText("Mina On-Chain Votes").closest("a"),
   ).toHaveAttribute("href", "");
 });
 

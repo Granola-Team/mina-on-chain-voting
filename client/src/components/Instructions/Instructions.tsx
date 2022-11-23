@@ -38,14 +38,14 @@ export const Instructions: React.FC = () => {
             <p className="font-semibold">
               Step 3 -{" "}
               <span className="text-[0.875rem] font-normal">
-                To signal, send yourself a transaction with the memo{" "}
+                To vote, send yourself a transaction with the memo{" "}
                 <span className="font-semibold">&apos;{key}&apos;</span>
               </span>
             </p>
 
             <p>
               <span className="text-[0.875rem] font-normal">
-                Your signal should appear in 10-15 minutes
+                Your vote should appear in 10-15 minutes
               </span>
             </p>
           </div>

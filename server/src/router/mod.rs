@@ -12,7 +12,6 @@ use axum::{
 use crate::models::QueryRequestFilter;
 
 use axum_extra::routing::SpaRouter;
-use serde::{Deserialize, Serialize};
 use tower_http::services::ServeFile;
 pub trait Build {
     fn build_v1(cfg: &Config) -> Router;

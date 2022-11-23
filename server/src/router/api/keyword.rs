@@ -19,18 +19,14 @@ pub async fn handler(
     let network_opt = params.remove("network");
 
     if let Some(network) = network_opt {
-        let signals = match network {
-            QueryRequestFilter::Mainnet => queries::get_signals(&ctx.mainnet_db)
+        let signals = ctx
+            .get_signals(&network)
             .await
-            .expect("Error: Could not get mainnet signals."),
-            QueryRequestFilter::Devnet => queries::get_signals(&ctx.devnet_db)
-            .await
-            .expect("Error: Could not get devnet signals."),
-        };
+            .expect(&format!("Could not get signals on {:?}!", &network));
 
-        let latest_block_height = queries::get_latest_blockheight(&ctx, &network)
-        .await
-        .expect("Error: Could not get latest block.");
+        let latest_block_height = ctx.get_latest_block_height(&network)
+            .await
+            .expect("Error: Could not get latest block.");
 
         let response_entity = match network {
             QueryRequestFilter::Mainnet => {

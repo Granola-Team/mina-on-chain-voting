@@ -1,13 +1,24 @@
 #[cfg(test)]
 mod tests {
     use core::panic;
+    use axum::Router;
+    use axum::body::Body;
+    use axum::http::Request;
+    use axum::response::Response;
     use base58check::ToBase58Check;
+    use tower::util::ServiceExt;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
     use osc_api::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
         models::DBResponse
     };
+
+    pub async fn request(app: Router, url: &'static str, body: Body) -> Response {
+        app.oneshot(Request::builder().uri(url).body(body).unwrap())
+            .await
+            .unwrap()
+    }
 
     pub fn mina_encode(memo: &str) -> String {
         let bytes = memo.as_bytes();

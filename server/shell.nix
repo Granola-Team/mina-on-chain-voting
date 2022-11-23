@@ -2,7 +2,7 @@
 pkgs.mkShell {
     buildInputs = with pkgs; [
         rustup rust-analyzer rustfmt cargo-kcov
-        git pkg-config 
+        git pkg-config glibc
         openssl postgresql sqlite
     ];
 }

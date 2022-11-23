@@ -84,7 +84,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
           </div>
           <div className="flex flex-col items-left">
             <span className="text-xs md:text-sm medium text-gray-11 mb-1">
-              Next epoch estimated to end in {days} days {hours} hours {minutes} minutes
+              Next epoch estimated to begin in {days} days {hours} hours {minutes} minutes
             </span>
           </div>
         </div>

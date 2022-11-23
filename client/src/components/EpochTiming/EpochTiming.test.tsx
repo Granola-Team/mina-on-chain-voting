@@ -40,7 +40,7 @@ describe("EpochTiming Tests", () => {
     const hours = Math.floor(((endSlotMinutes / 60 / 24) - days) * 24);
     const minutes = Math.floor(((((endSlotMinutes / 60 / 24) - days) * 24) - hours) * 60);
 
-    const stringTwo = `Next epoch estimated to end in ${days} days ${hours} hours ${minutes} minutes`;
+    const stringTwo = `Next epoch estimated to begin in ${days} days ${hours} hours ${minutes} minutes`;
     const elementTwo = view.getByText(stringTwo);
     expect(elementTwo).toBeInTheDocument();
   });

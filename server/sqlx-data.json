@@ -1,62 +1,62 @@
 {
-  "db": "PostgreSQL",
-  "1524aa971f0003deef084ffa37cc1777644bdd66e6603d892187882ae3258497": {
-    "describe": {
-      "columns": [
-        {
-          "name": "account",
-          "ordinal": 0,
-          "type_info": "Text"
-        },
-        {
-          "name": "memo",
-          "ordinal": 1,
-          "type_info": "Text"
-        },
-        {
-          "name": "nonce",
-          "ordinal": 2,
-          "type_info": "Int8"
-        },
-        {
-          "name": "height",
-          "ordinal": 3,
-          "type_info": "Int8"
-        },
-        {
-          "name": "status: BlockStatus",
-          "ordinal": 4,
-          "type_info": {
-            "Custom": {
-              "kind": {
-                "Enum": [
-                  "canonical",
-                  "orphaned",
-                  "pending"
-                ]
-              },
-              "name": "chain_status_type"
+    "db": "PostgreSQL",
+    "1524aa971f0003deef084ffa37cc1777644bdd66e6603d892187882ae3258497": {
+        "describe": {
+            "columns": [
+                {
+                    "name": "account",
+                    "ordinal": 0,
+                    "type_info": "Text"
+                },
+                {
+                    "name": "memo",
+                    "ordinal": 1,
+                    "type_info": "Text"
+                },
+                {
+                    "name": "nonce",
+                    "ordinal": 2,
+                    "type_info": "Int8"
+                },
+                {
+                    "name": "height",
+                    "ordinal": 3,
+                    "type_info": "Int8"
+                },
+                {
+                    "name": "status: BlockStatus",
+                    "ordinal": 4,
+                    "type_info": {
+                        "Custom": {
+                            "kind": {
+                                "Enum": [
+                                    "canonical",
+                                    "orphaned",
+                                    "pending"
+                                ]
+                            },
+                            "name": "chain_status_type"
+                        }
+                    }
+                },
+                {
+                    "name": "timestamp",
+                    "ordinal": 5,
+                    "type_info": "Int8"
+                }
+            ],
+            "nullable": [
+                false,
+                false,
+                false,
+                false,
+                false,
+                false
+            ],
+            "parameters": {
+                "Left": []
             }
-          }
         },
-        {
-          "name": "timestamp",
-          "ordinal": 5,
-          "type_info": "Int8"
-        }
-      ],
-      "nullable": [
-        false,
-        false,
-        false,
-        false,
-        false,
-        false
-      ],
-      "parameters": {
-        "Left": []
-      }
-    },
-    "query": "\n        SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as \"status: BlockStatus\", b.timestamp as timestamp\n        FROM user_commands AS uc\n        JOIN blocks_user_commands AS buc\n        ON uc.id = buc.user_command_id\n        JOIN blocks AS b\n        ON buc.block_id = b.id\n        JOIN public_keys AS pk\n        ON uc.source_id = pk.id\n        WHERE uc.type = 'payment'\n        AND uc.source_id = uc.receiver_id\n        AND uc.token = 1\n        AND NOT b.chain_status = 'orphaned'\n        AND buc.status = 'applied'\n        "
-  }
+        "query": "\n        SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as \"status: BlockStatus\", b.timestamp as timestamp\n        FROM user_commands AS uc\n        JOIN blocks_user_commands AS buc\n        ON uc.id = buc.user_command_id\n        JOIN blocks AS b\n        ON buc.block_id = b.id\n        JOIN public_keys AS pk\n        ON uc.source_id = pk.id\n        WHERE uc.type = 'payment'\n        AND uc.source_id = uc.receiver_id\n        AND uc.token = 1\n        AND NOT b.chain_status = 'orphaned'\n        AND buc.status = 'applied'\n        "
+    }
 }

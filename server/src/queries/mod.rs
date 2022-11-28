@@ -137,9 +137,8 @@ pub fn create_config() -> Option<Config> {
 
 #[cfg(test)]
 mod tests {
-    use std::{collections::VecDeque, env::VarError};
 
-    use crate::{router::QueryRequestFilter, ApiContext, Config, SubCommand};
+    use crate::{router::QueryRequestFilter, ApiContext};
 
     use super::create_config;
 

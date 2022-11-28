@@ -1,16 +1,9 @@
 use anyhow::Context;
-use axum::{http::Method, Extension};
 use clap::Parser;
 use log::info;
 use osc_api::{
-    ledger::{HasConnectionAsync, Ledger},
-    router::Build,
     ApiContext, Config, SubCommand, queries,
 };
-use sqlx::postgres::PgPoolOptions;
-use std::sync::Arc;
-use tower::ServiceBuilder;
-use tower_http::cors::{Any, CorsLayer};
 
 extern crate dotenv;
 
@@ -34,8 +27,4 @@ async fn main() -> anyhow::Result<()> {
                 .context("Error: Could not start webserver.")
         }
     }
-}
-
-fn router(cfg: &Config) -> axum::Router {
-    axum::Router::build_v1(cfg)
 }

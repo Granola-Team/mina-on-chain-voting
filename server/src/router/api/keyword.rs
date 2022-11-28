@@ -7,7 +7,7 @@ use axum::{
     Extension,
 };
 
-use crate::{queries, router::QueryRequestFilter};
+use crate::router::QueryRequestFilter;
 
 use crate::processor::SignalProcessor;
 
@@ -22,7 +22,7 @@ pub async fn handler(
         let signals = ctx
             .get_signals(&network)
             .await
-            .expect(&format!("Could not get signals on {:?}!", &network));
+            .unwrap_or_else(|_| panic!("Could not get signals on {:?}!", &network));
 
         let latest_block_height = ctx.get_latest_block_height(&network)
             .await

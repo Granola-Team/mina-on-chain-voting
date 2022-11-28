@@ -149,7 +149,9 @@ impl HasConnectionAsync for Ledger<tokio_rusqlite::Connection> {
     }
 
     async fn init_async(path: &str) -> anyhow::Result<Self> {
-        let reader = BufReader::new(File::open(path).expect(&format!("Error: Could not open ledger {}.", path)));
+        let reader = BufReader::new(
+            File::open(path).unwrap_or_else(|_| panic!("Error: Could not open ledger {}.", path)),
+        );
         let db = Connection::open_in_memory()
             .await
             .expect("Error: Could not create connection.");

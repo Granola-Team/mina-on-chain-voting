@@ -30,7 +30,7 @@ impl Build for Router {
         Router::new()
             .merge(spa)
             .route("/api/v1/:keyword", get(api::keyword::handler))
-            .fallback(react_router_fallback)
+            .fallback_service(react_router_fallback)
     }
 }
 

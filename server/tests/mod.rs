@@ -1,13 +1,25 @@
 #[cfg(test)]
 mod tests {
-    use core::panic;
+    use axum::body::Body;
+    use axum::http::{Request, StatusCode};
+    use axum::Router;
     use base58check::ToBase58Check;
+    use core::panic;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
     use osc_api::processor::SignalProcessor;
+    use osc_api::queries::{build_router, create_config};
+    use osc_api::ApiContext;
     use osc_api::{
         ledger::{HasConnection, Ledger},
-        models::DBResponse
+        models::DBResponse,
     };
+    use tower::ServiceExt;
+
+    pub async fn request(app: Router, url: &'static str, body: Body) -> axum::response::Response {
+        app.oneshot(Request::builder().uri(url).body(body).unwrap())
+            .await
+            .unwrap()
+    }
 
     pub fn mina_encode(memo: &str) -> String {
         let bytes = memo.as_bytes();
@@ -41,7 +53,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+            let response_entity =
+                SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             assert_eq!(Some(signal_stats), response_entity.stats);
         });
@@ -57,7 +70,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+            let response_entity =
+                SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             match signal_status {
                 SignalStatus::Settled => assert!(response_entity.settled.len() > 0),
@@ -298,8 +312,7 @@ mod tests {
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
-            let response_entity =
-            SignalProcessor::new(&mut conn, &key, 0, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, 0, signals).run();
 
             assert_eq!(
                 Some(SignalStats { yes: 1.0, no: 0.0 }),
@@ -327,8 +340,7 @@ mod tests {
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
-            let response_entity =
-            SignalProcessor::new(&mut conn, &key, 20, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, 20, signals).run();
 
             assert!(response_entity.settled.len() > 0);
             assert_eq!(
@@ -336,6 +348,39 @@ mod tests {
                 response_entity.stats
             );
         });
+    }
+
+    #[tokio::test]
+    pub async fn router_bad_network_param_gives_bad_request() {
+        if let Some(config) = create_config() {
+            let api_context = ApiContext::new(config).await.unwrap();
+            let router = build_router(api_context).await;
+
+            let response = request(router, "/api/v1/magenta?network=badnet", Body::empty()).await;
+            assert_eq!(response.status(), StatusCode::BAD_REQUEST)
+        }
+    }
+
+    #[tokio::test]
+    pub async fn router_mainnet_gives_ok() {
+        if let Some(config) = create_config() {
+            let api_context = ApiContext::new(config).await.unwrap();
+            let router = build_router(api_context).await;
+
+            let response = request(router, "/api/v1/magenta?network=Mainnet", Body::empty()).await;
+            assert_eq!(response.status(), StatusCode::ACCEPTED)
+        }
+    }
+
+    #[tokio::test]
+    pub async fn router_devnet_gives_ok() {
+        if let Some(config) = create_config() {
+            let api_context = ApiContext::new(config).await.unwrap();
+            let router = build_router(api_context).await;
+
+            let response = request(router, "/api/v1/magenta?network=Devnet", Body::empty()).await;
+            assert_eq!(response.status(), StatusCode::ACCEPTED)
+        }
     }
 
     // #[test]

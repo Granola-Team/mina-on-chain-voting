@@ -1,10 +1,10 @@
-use std::sync::Arc;
+use std::{sync::Arc, collections::VecDeque, env::VarError};
 
 use crate::{
     ledger::{HasConnectionAsync, Ledger},
     models::{BlockStatus, DBResponse},
     router::{Build, QueryRequestFilter},
-    ApiContext, Config,
+    ApiContext, Config, SubCommand,
 };
 
 use anyhow::Context;
@@ -100,38 +100,40 @@ pub async fn build_router(context: ApiContext) -> Router {
         .layer(ServiceBuilder::new().layer(cors).layer(Extension(context)))
 }
 
+pub fn create_config() -> Option<Config> {
+    dotenv::dotenv().ok();
+    if let Ok(mut env_vars) = vec![
+    "MAINNET_DATABASE_URL",
+    "DEVNET_DATABASE_URL",
+    "MAINNET_LEDGER_PATH",
+    "DEVNET_LEDGER_PATH",
+    ]
+    .into_iter()
+    .map(|key| std::env::var(key))
+    .collect::<Result<VecDeque<String>, VarError>>()
+    {
+        let config = Config {
+            mainnet_database_url: env_vars.pop_front().unwrap(),
+            devnet_database_url: env_vars.pop_front().unwrap(),
+            client_path: "../client/build".to_string(),
+            mainnet_ledger_path: env_vars.pop_front().unwrap(),
+            devnet_ledger_path: env_vars.pop_front().unwrap(),
+            subcmd: SubCommand::Start,
+        };
+
+        return Some(config);
+    }
+    println!("Unable to test api context, secrets missing!");
+    None
+}
+
 #[cfg(test)]
 mod tests {
     use std::{collections::VecDeque, env::VarError};
 
     use crate::{ApiContext, Config, SubCommand, router::QueryRequestFilter};
 
-    fn create_config() -> Option<Config> {
-        dotenv::dotenv().ok();
-        if let Ok(mut env_vars) = vec![
-            "MAINNET_DATABASE_URL",
-            "DEVNET_DATABASE_URL",
-            "MAINNET_LEDGER_PATH",
-            "DEVNET_LEDGER_PATH",
-        ]
-        .into_iter()
-        .map(|key| std::env::var(key))
-        .collect::<Result<VecDeque<String>, VarError>>()
-        {
-            let config = Config {
-                mainnet_database_url: env_vars.pop_front().unwrap(),
-                devnet_database_url: env_vars.pop_front().unwrap(),
-                client_path: "../client/build".to_string(),
-                mainnet_ledger_path: env_vars.pop_front().unwrap(),
-                devnet_ledger_path: env_vars.pop_front().unwrap(),
-                subcmd: SubCommand::Start,
-            };
-
-            return Some(config);
-        }
-        println!("Unable to test api context, secrets missing!");
-        None
-    }
+    use super::create_config;
 
     #[tokio::test]
     pub async fn api_context_new() {

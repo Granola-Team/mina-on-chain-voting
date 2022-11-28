@@ -97,6 +97,7 @@ mod tests {
             "memo":     "magenta",
             "height":   10,
             "status":   "Canonical",
+            "nonce":    0,
             "timestamp": 20901343
         }"#.as_bytes();
         
@@ -105,6 +106,7 @@ mod tests {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
+            nonce: 0,
             status: crate::models::BlockStatus::Canonical,
             timestamp: 20901343,
         };
@@ -133,6 +135,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             }
         ]"#.as_bytes();
@@ -142,6 +145,7 @@ mod tests {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
+            nonce: 0,
             status: crate::models::BlockStatus::Canonical,
             timestamp: 20901343,
         };
@@ -159,6 +163,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             },
             {
@@ -166,6 +171,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             },
             {
@@ -173,6 +179,7 @@ mod tests {
                 "memo":     "magenta",
                 "height":   10,
                 "status":   "Canonical",
+                "nonce":    0,
                 "timestamp": 20901343
             }
         ]"#.as_bytes();
@@ -180,6 +187,7 @@ mod tests {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
+            nonce: 0,
             status: crate::models::BlockStatus::Canonical,
             timestamp: 20901343,
         };

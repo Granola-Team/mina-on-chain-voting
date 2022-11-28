@@ -1,14 +1,25 @@
 #[cfg(test)]
 mod tests {
     use core::panic;
-    use osc_api::ledger::HasConnectionAsync;
+    use base58check::ToBase58Check;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
-    use osc_api::routes::keyword::mina_encode;
+    use osc_api::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
-        models::DBResponse,
-        routes::{self},
+        models::DBResponse
     };
+
+    pub fn mina_encode(memo: &str) -> String {
+        let bytes = memo.as_bytes();
+        let mut encoded = Vec::new();
+        encoded.push(1);
+        encoded.push(memo.len() as u8);
+        for byte in bytes.iter() {
+            encoded.push(*byte);
+        }
+
+        encoded.as_slice().to_base58check(0)
+    }
 
     pub fn with_ledger_mock<T, C>(mock: &str, test: T) -> ()
     where
@@ -30,14 +41,9 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = routes::keyword::construct_responses(
-                &mut conn,
-                key.to_string(),
-                latest_block,
-                signals,
-            );
+            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
-            assert_eq!(signal_stats, response_entity.stats.unwrap());
+            assert_eq!(Some(signal_stats), response_entity.stats);
         });
     }
 
@@ -51,12 +57,7 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = routes::keyword::construct_responses(
-                &mut conn,
-                key.to_string(),
-                latest_block,
-                signals,
-            );
+            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             match signal_status {
                 SignalStatus::Settled => assert!(response_entity.settled.len() > 0),
@@ -74,6 +75,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: osc_api::models::BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -95,6 +97,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: osc_api::models::BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -116,6 +119,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: osc_api::models::BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -137,6 +141,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -158,6 +163,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -179,6 +185,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -200,6 +207,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -221,6 +229,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("no magenta"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -242,6 +251,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("invalid magenta signal"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -257,6 +267,7 @@ mod tests {
             account: "A".to_string(),
             memo: mina_encode("invalid magenta signal"),
             height: 0,
+            nonce: 0,
             status: BlockStatus::Canonical,
             timestamp: 0,
         };
@@ -282,16 +293,17 @@ mod tests {
                 account: "A".to_string(),
                 memo: mina_encode("magenta"),
                 height: 0,
+                nonce: 0,
                 status: BlockStatus::Canonical,
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
             let response_entity =
-                routes::keyword::construct_responses(&mut conn, key.to_string(), 0, signals);
+            SignalProcessor::new(&mut conn, &key, 0, signals).run();
 
             assert_eq!(
-                SignalStats { yes: 2.0, no: 0.0 },
-                response_entity.stats.unwrap()
+                Some(SignalStats { yes: 1.0, no: 0.0 }),
+                response_entity.stats
             );
         });
     }
@@ -310,17 +322,18 @@ mod tests {
                 account: "A".to_string(),
                 memo: mina_encode("magenta"),
                 height: 0,
+                nonce: 0,
                 status: BlockStatus::Canonical,
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
             let response_entity =
-                routes::keyword::construct_responses(&mut conn, key.to_string(), 20, signals);
+            SignalProcessor::new(&mut conn, &key, 20, signals).run();
 
             assert!(response_entity.settled.len() > 0);
             assert_eq!(
-                SignalStats { yes: 2.0, no: 0.0 },
-                response_entity.stats.unwrap()
+                Some(SignalStats { yes: 1.0, no: 0.0 }),
+                response_entity.stats
             );
         });
     }

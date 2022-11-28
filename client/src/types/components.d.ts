@@ -20,7 +20,7 @@ export interface TableProps {
   data: SignalEntity[];
   query: string | undefined;
   isLoading: boolean;
-  stats: StatsEntity;
+  stats: StatsEntity | null;
 }
 export interface TableRowProps {
   signal: SignalEntity;

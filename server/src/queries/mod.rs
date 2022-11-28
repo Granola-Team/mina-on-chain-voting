@@ -1,6 +1,6 @@
 use crate::{
     models::{BlockStatus, DBResponse},
-    routes::keyword::QueryRequestFilter,
+    router::QueryRequestFilter,
     ApiContext,
 };
 use axum::Extension;
@@ -25,7 +25,7 @@ pub async fn get_latest_blockheight(
 pub async fn get_signals(db: &Pool<Postgres>) -> Result<Vec<DBResponse>, sqlx::Error> {
     sqlx::query_as!(DBResponse,
         r#"
-        SELECT DISTINCT pk.value as account, uc.memo as memo, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
+        SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id

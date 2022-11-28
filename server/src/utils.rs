@@ -14,9 +14,14 @@ pub async fn run_router_request(
     url: &'static str,
     body: Body,
 ) -> axum::response::Response {
-    app.oneshot(Request::builder().uri(url).body(body).unwrap())
-        .await
-        .unwrap()
+    app.oneshot(
+        Request::builder()
+            .uri(url)
+            .body(body)
+            .unwrap_or_else(|_| panic!("Could not create Request")),
+    )
+    .await
+    .unwrap_or_else(|_| panic!("Could not create App"))
 }
 
 pub fn encode_transaction_memo(memo: &str) -> String {
@@ -31,13 +36,14 @@ pub fn encode_transaction_memo(memo: &str) -> String {
     encoded.as_slice().to_base58check(0)
 }
 
-pub fn with_ledger_mock<T, C>(mock: &str, test: T) -> ()
+pub fn with_ledger_mock<T, C>(mock: &str, test: T)
 where
     Ledger<C>: HasConnection,
-    T: FnOnce(Ledger<C>) -> () + panic::UnwindSafe,
+    T: FnOnce(Ledger<C>),
 {
     let filename = format!("./tests/__mocks__/{}.json", mock);
-    let ledger = HasConnection::init(&filename).unwrap();
+    let ledger = HasConnection::init(&filename)
+        .unwrap_or_else(|_| panic!("Could not init Ledger at {:?}", filename));
     test(ledger)
 }
 
@@ -51,7 +57,7 @@ pub fn assert_signal_stats(
     with_ledger_mock(mock, |ledger| {
         let mut conn = ledger.db;
         let signals = vec![signal];
-        let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+        let response_entity = SignalProcessor::new(&mut conn, key, latest_block, signals).run();
 
         assert_eq!(Some(signal_stats), response_entity.stats);
     });
@@ -67,12 +73,12 @@ pub fn assert_signal_status(
     with_ledger_mock(mock, |ledger| {
         let mut conn = ledger.db;
         let signals = vec![signal];
-        let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+        let response_entity = SignalProcessor::new(&mut conn, key, latest_block, signals).run();
 
         match signal_status {
-            SignalStatus::Settled => assert!(response_entity.settled.len() > 0),
-            SignalStatus::Unsettled => assert!(response_entity.unsettled.len() > 0),
-            SignalStatus::Invalid => assert!(response_entity.invalid.len() > 0),
+            SignalStatus::Settled => assert!(!response_entity.settled.is_empty()),
+            SignalStatus::Unsettled => assert!(!response_entity.unsettled.is_empty()),
+            SignalStatus::Invalid => assert!(!response_entity.invalid.is_empty()),
         }
     });
 }

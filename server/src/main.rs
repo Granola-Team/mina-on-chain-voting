@@ -1,9 +1,7 @@
 use anyhow::Context;
 use clap::Parser;
 use log::info;
-use osc_api::{
-    ApiContext, Config, SubCommand, queries,
-};
+use osc_api::{queries, ApiContext, Config, SubCommand};
 
 extern crate dotenv;
 

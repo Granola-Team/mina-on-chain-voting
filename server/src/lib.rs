@@ -1,5 +1,5 @@
-use std::sync::Arc;
 use sqlx::PgPool;
+use std::sync::Arc;
 
 pub mod constants;
 pub mod ledger;
@@ -7,6 +7,7 @@ pub mod models;
 pub mod processor;
 pub mod queries;
 pub mod router;
+pub mod utils;
 
 #[macro_use]
 extern crate postgres_derive;

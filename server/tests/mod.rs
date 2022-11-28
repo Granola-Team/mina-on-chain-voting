@@ -1,18 +1,22 @@
 #[cfg(test)]
 mod tests {
-    use core::panic;
-    use axum::Router;
     use axum::body::Body;
     use axum::http::Request;
     use axum::response::Response;
+    use axum::Router;
     use base58check::ToBase58Check;
-    use tower::util::ServiceExt;
-    use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
+    use core::panic;
+    use log::info;
+    use osc_api::models::{BlockStatus, QueryRequestFilter, SignalStats, SignalStatus};
     use osc_api::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
-        models::DBResponse
+        models::DBResponse,
     };
+    use osc_api::{ApiContext, Config};
+    use std::collections::VecDeque;
+    use std::env::VarError;
+    use tower::util::ServiceExt;
 
     pub async fn request(app: Router, url: &'static str, body: Body) -> Response {
         app.oneshot(Request::builder().uri(url).body(body).unwrap())
@@ -52,7 +56,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+            let response_entity =
+                SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             assert_eq!(Some(signal_stats), response_entity.stats);
         });
@@ -68,7 +73,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+            let response_entity =
+                SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             match signal_status {
                 SignalStatus::Settled => assert!(response_entity.settled.len() > 0),
@@ -309,8 +315,7 @@ mod tests {
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
-            let response_entity =
-            SignalProcessor::new(&mut conn, &key, 0, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, 0, signals).run();
 
             assert_eq!(
                 Some(SignalStats { yes: 1.0, no: 0.0 }),
@@ -338,8 +343,7 @@ mod tests {
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
-            let response_entity =
-            SignalProcessor::new(&mut conn, &key, 20, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, 20, signals).run();
 
             assert!(response_entity.settled.len() > 0);
             assert_eq!(

@@ -1,18 +1,19 @@
 use std::sync::Arc;
 
 use crate::{
+    ledger::{HasConnectionAsync, Ledger},
     models::{BlockStatus, DBResponse, QueryRequestFilter},
     router::Build,
-    ApiContext, Config, ledger::{Ledger, HasConnectionAsync},
+    ApiContext, Config,
 };
 
+use anyhow::Context;
 use axum::{http::Method, Extension, Router};
 use mockall::predicate::*;
 use mockall::*;
 use sqlx::postgres::PgPoolOptions;
 use tower::ServiceBuilder;
 use tower_http::cors::{Any, CorsLayer};
-use anyhow::Context;
 
 #[automock]
 impl ApiContext {
@@ -97,4 +98,88 @@ pub async fn build_router(context: ApiContext) -> Router {
         .allow_origin(Any);
     axum::Router::build_v1(&context.config)
         .layer(ServiceBuilder::new().layer(cors).layer(Extension(context)))
+}
+
+#[cfg(test)]
+mod tests {
+    use std::{env::VarError, collections::VecDeque};
+
+    use crate::{Config, SubCommand, ApiContext, models::QueryRequestFilter};
+
+    fn create_config() -> Option<Config> {
+        dotenv::dotenv().ok();
+        if let Ok(mut env_vars) = vec![
+            "MAINNET_DATABASE_URL",
+            "DEVNET_DATABASE_URL",
+            "MAINNET_LEDGER_PATH",
+            "DEVNET_LEDGER_PATH",
+        ]
+        .into_iter()
+        .map(|key| std::env::var(key))
+        .collect::<Result<VecDeque<String>, VarError>>()
+        {
+            let config = Config {
+                mainnet_database_url: env_vars.pop_front().unwrap(),
+                devnet_database_url: env_vars.pop_front().unwrap(),
+                client_path: "../client/build".to_string(),
+                mainnet_ledger_path: env_vars.pop_front().unwrap(),
+                devnet_ledger_path: env_vars.pop_front().unwrap(),
+                subcmd: SubCommand::Start,
+            };
+
+            return Some(config);
+        }
+        println!("Unable to test api context, secrets missing!");
+        None
+    }
+
+    #[tokio::test]
+    pub async fn api_context_new() {
+        if let Some(config) = create_config() {
+            let ctx = ApiContext::new(config).await;
+            assert_ok::assert_ok!(ctx);
+        }
+    }
+
+    #[tokio::test]
+    pub async fn api_context_get_latest_block_height_mainnet() {
+        if let Some(config) = create_config() {
+            let ctx = ApiContext::new(config).await.unwrap();
+
+            let latest_height =
+                ctx.get_latest_block_height(&QueryRequestFilter::Mainnet).await;
+            assert_ok::assert_ok!(latest_height);
+        }
+    }
+
+    #[tokio::test]
+    pub async fn api_context_get_signals_mainnet() {
+        if let Some(config) = create_config() {
+            let ctx = ApiContext::new(config).await.unwrap();
+
+            let signals = ctx.get_signals(&QueryRequestFilter::Mainnet).await;
+            assert_ok::assert_ok!(signals);
+        }
+    }
+
+    #[tokio::test]
+    pub async fn api_context_get_latest_block_height_devnet() {
+        if let Some(config) = create_config() {
+            let ctx = ApiContext::new(config).await.unwrap();
+
+            let latest_height =
+                ctx.get_latest_block_height(&QueryRequestFilter::Devnet).await;
+            assert_ok::assert_ok!(latest_height);
+        }
+    }
+
+    #[tokio::test]
+    pub async fn api_context_get_signals_devnet() {
+        if let Some(config) = create_config() {
+            let ctx = ApiContext::new(config).await.unwrap();
+
+            let signals = ctx.get_signals(&QueryRequestFilter::Devnet).await;
+            assert_ok::assert_ok!(signals);
+        }
+    }
 }

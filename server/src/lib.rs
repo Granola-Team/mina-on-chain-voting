@@ -27,7 +27,7 @@ pub struct ApiContext {
 }
 
 /// Application configuration used to gather and store secrets and env vars
-#[derive(clap::Parser)]
+#[derive(clap::Parser, Debug)]
 pub struct Config {
     /// The connection URL for the Postgres database this application should use.
     #[clap(long, env)]

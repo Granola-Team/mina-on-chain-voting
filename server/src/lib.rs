@@ -2,7 +2,7 @@ use anyhow::Context;
 use ledger::{HasConnectionAsync, Ledger};
 use mockall::automock;
 use router::QueryRequestFilter;
-use sqlx::{postgres::PgPoolOptions, PgPool};
+use sqlx::PgPool;
 use std::sync::Arc;
 
 pub mod constants;

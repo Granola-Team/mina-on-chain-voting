@@ -115,17 +115,17 @@ pub fn create_config() -> Option<Config> {
         let config = Config {
             mainnet_database_url: env_vars
                 .pop_front()
-                .unwrap_or_else(|_| panic!("Error: Missing MAINNET_DATABASE_URL")),
+                .unwrap_or_else(|| panic!("Error: Missing MAINNET_DATABASE_URL")),
             devnet_database_url: env_vars
                 .pop_front()
-                .unwrap_or_else(|_| panic!("Error: Missing DEVNET_DATABASE_URL")),
+                .unwrap_or_else(|| panic!("Error: Missing DEVNET_DATABASE_URL")),
             client_path: "../client/build".to_string(),
             mainnet_ledger_path: env_vars
                 .pop_front()
-                .unwrap_or_else(|_| panic!("Error: Missing MAINNET_LEDGER")),
+                .unwrap_or_else(|| panic!("Error: Missing MAINNET_LEDGER")),
             devnet_ledger_path: env_vars
                 .pop_front()
-                .unwrap_or_else(|_| panic!("Error: Missing DEVNET_LEDGER")),
+                .unwrap_or_else(|| panic!("Error: Missing DEVNET_LEDGER")),
             subcmd: SubCommand::Start,
         };
 

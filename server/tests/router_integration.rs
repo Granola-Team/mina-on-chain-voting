@@ -1,7 +1,6 @@
 use axum::{body::Body, http::StatusCode};
 use osc_api::{
-    queries::{build_router, create_config},
-    utils, ApiContext,
+    utils::{self, create_config}, ApiContext, router::api::build_router,
 };
 
 #[tokio::test]

@@ -1,4 +1,4 @@
-use osc_api::{queries::create_config, router::QueryRequestFilter, ApiContext};
+use osc_api::{router::QueryRequestFilter, ApiContext, utils::create_config, queries::{get_latest_block_height, get_signals}};
 
 #[tokio::test]
 pub async fn api_context_new() {
@@ -13,8 +13,7 @@ pub async fn api_context_get_latest_block_height_mainnet() {
     if let Some(config) = create_config() {
         let ctx = ApiContext::new(config).await.unwrap();
 
-        let latest_height = ctx
-            .get_latest_block_height(&QueryRequestFilter::Mainnet)
+        let latest_height = get_latest_block_height(&ctx, &QueryRequestFilter::Mainnet)
             .await;
         assert_ok::assert_ok!(latest_height);
     }
@@ -25,7 +24,7 @@ pub async fn api_context_get_signals_mainnet() {
     if let Some(config) = create_config() {
         let ctx = ApiContext::new(config).await.unwrap();
 
-        let signals = ctx.get_signals(&QueryRequestFilter::Mainnet).await;
+        let signals = get_signals(&ctx, &QueryRequestFilter::Mainnet).await;
         assert_ok::assert_ok!(signals);
     }
 }
@@ -35,8 +34,7 @@ pub async fn api_context_get_latest_block_height_devnet() {
     if let Some(config) = create_config() {
         let ctx = ApiContext::new(config).await.unwrap();
 
-        let latest_height = ctx
-            .get_latest_block_height(&QueryRequestFilter::Devnet)
+        let latest_height = get_latest_block_height(&ctx, &QueryRequestFilter::Devnet)
             .await;
         assert_ok::assert_ok!(latest_height);
     }
@@ -47,7 +45,7 @@ pub async fn api_context_get_signals_devnet() {
     if let Some(config) = create_config() {
         let ctx = ApiContext::new(config).await.unwrap();
 
-        let signals = ctx.get_signals(&QueryRequestFilter::Devnet).await;
+        let signals = get_signals(&ctx, &QueryRequestFilter::Devnet).await;
         assert_ok::assert_ok!(signals);
     }
 }

@@ -59,6 +59,3 @@ pub async fn handler(
     )
         .into_response()
 }
-
-#[cfg(test)]
-mod tests {}

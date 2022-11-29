@@ -1,9 +1,9 @@
-use std::panic;
+use std::{panic, collections::VecDeque, env::VarError};
 
 use crate::{
     ledger::{HasConnection, Ledger},
     models::{DBResponse, SignalStats, SignalStatus},
-    processor::SignalProcessor,
+    processor::SignalProcessor, Config, SubCommand,
 };
 use axum::{body::Body, http::Request, Router};
 use base58check::ToBase58Check;
@@ -81,4 +81,39 @@ pub fn assert_signal_status(
             SignalStatus::Invalid => assert!(!response_entity.invalid.is_empty()),
         }
     });
+}
+
+pub fn create_config() -> Option<Config> {
+    dotenv::dotenv().ok();
+    if let Ok(mut env_vars) = vec![
+    "MAINNET_DATABASE_URL",
+    "DEVNET_DATABASE_URL",
+    "MAINNET_LEDGER_PATH",
+    "DEVNET_LEDGER_PATH",
+    ]
+    .into_iter()
+    .map(std::env::var)
+    .collect::<Result<VecDeque<String>, VarError>>()
+    {
+        let config = Config {
+            mainnet_database_url: env_vars
+            .pop_front()
+            .unwrap_or_else(|| panic!("Error: Missing MAINNET_DATABASE_URL")),
+            devnet_database_url: env_vars
+            .pop_front()
+            .unwrap_or_else(|| panic!("Error: Missing DEVNET_DATABASE_URL")),
+            client_path: "../client/build".to_string(),
+            mainnet_ledger_path: env_vars
+            .pop_front()
+            .unwrap_or_else(|| panic!("Error: Missing MAINNET_LEDGER")),
+            devnet_ledger_path: env_vars
+            .pop_front()
+            .unwrap_or_else(|| panic!("Error: Missing DEVNET_LEDGER")),
+            subcmd: SubCommand::Start,
+        };
+
+        return Some(config);
+    }
+    println!("Unable to test api context, secrets missing!");
+    None
 }

@@ -1,6 +1,7 @@
-use ledger::Ledger;
+use ledger::{Ledger, HasConnectionAsync};
 use sqlx::{PgPool, postgres::PgPoolOptions};
 use std::sync::Arc;
+use anyhow::Context;
 
 pub mod constants;
 pub mod ledger;

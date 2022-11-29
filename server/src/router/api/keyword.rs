@@ -7,7 +7,10 @@ use axum::{
     Extension,
 };
 
-use crate::router::QueryRequestFilter;
+use crate::{
+    queries::{get_latest_block_height, get_signals},
+    router::QueryRequestFilter,
+};
 
 use crate::processor::SignalProcessor;
 
@@ -19,13 +22,11 @@ pub async fn handler(
     let network_opt = params.remove("network");
 
     if let Some(network) = network_opt {
-        let signals = ctx
-            .get_signals(&network)
+        let signals = get_signals(&ctx, &network)
             .await
             .unwrap_or_else(|_| panic!("Error: Could not get {:?} signals.", network));
 
-        let latest_block_height = ctx
-            .get_latest_block_height(&network)
+        let latest_block_height = get_latest_block_height(&ctx, &network)
             .await
             .expect("Error: Could not get latest block.");
 

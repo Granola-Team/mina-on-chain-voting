@@ -6,7 +6,7 @@ use crate::{
 
 
 pub async fn get_latest_block_height(
-    &ctx: ApiContext,
+    ctx: &ApiContext,
     network: &QueryRequestFilter,
 ) -> Result<i64, sqlx::Error> {
     let row: (i64,) = sqlx::query_as("SELECT MAX(height) FROM blocks;")
@@ -22,7 +22,7 @@ pub async fn get_latest_block_height(
 /// This is wildly inefficient & we should work towards an alternative.
 /// Since we're essentially only interested in memo's - maybe a way to decode base58 on the DB side?
 pub async fn get_signals(
-    &ctx: ApiContext,
+    ctx: &ApiContext,
     network: &QueryRequestFilter,
 ) -> Result<Vec<DBResponse>, sqlx::Error> {
     let db = match network {

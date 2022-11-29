@@ -1,7 +1,7 @@
 use anyhow::Context;
 use clap::Parser;
 use log::info;
-use osc_api::{queries, ApiContext, Config, SubCommand};
+use osc_api::{ApiContext, Config, SubCommand, router::api::build_router};
 
 extern crate dotenv;
 
@@ -15,7 +15,7 @@ async fn main() -> anyhow::Result<()> {
     match config.subcmd {
         SubCommand::Start => {
             let api_context = ApiContext::new(config).await?;
-            let app = queries::build_router(api_context).await;
+            let app = build_router(api_context).await;
 
             info!("Axum runtime started.");
 

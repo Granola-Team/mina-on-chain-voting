@@ -29,7 +29,7 @@ pub struct Signal {
     pub status: BlockStatus,
     pub timestamp: i64,
     pub nonce: i64,
-    pub delegations: LedgerDelegations,
+    pub delegations: Option<LedgerDelegations>,
     pub signal_status: SignalStatus,
 }
 
@@ -42,8 +42,10 @@ pub enum SignalStatus {
 
 #[derive(Debug, PartialEq, Clone, Copy, Serialize, Deserialize, Default)]
 pub struct SignalStats {
-    pub yes: f32,
-    pub no: f32,
+    pub yes_stake: f32,
+    pub no_stake: f32,
+    pub yes_votes: u64,
+    pub no_votes: u64
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Default)]
@@ -90,7 +92,7 @@ mod tests {
             status: BlockStatus::Canonical,
             timestamp: 10,
             nonce: 0,
-            delegations: LedgerDelegations::default(),
+            delegations: Some(LedgerDelegations::default()),
             signal_status: SignalStatus::Settled,
         };
 
@@ -101,7 +103,7 @@ mod tests {
             status: BlockStatus::Canonical,
             timestamp: 11,
             nonce: 0,
-            delegations: LedgerDelegations::default(),
+            delegations: Some(LedgerDelegations::default()),
             signal_status: SignalStatus::Settled,
         };
 
@@ -118,7 +120,7 @@ mod tests {
     #[test]
     fn response_entity_with_stats_adds_stats() {
         let response_entity = ResponseEntity::default();
-        let stats = SignalStats { yes: 100., no: 50. };
+        let stats = SignalStats { yes_stake: 100., no_stake: 50., yes_votes: 100, no_votes: 50 };
         let with_stats = response_entity.with_stats(stats);
         assert_eq!(stats, with_stats.stats.unwrap());
     }

@@ -1,12 +1,12 @@
 #[cfg(test)]
 mod tests {
-    use core::panic;
     use base58check::ToBase58Check;
+    use core::panic;
     use osc_api::models::{BlockStatus, SignalStats, SignalStatus};
     use osc_api::processor::SignalProcessor;
     use osc_api::{
         ledger::{HasConnection, Ledger},
-        models::DBResponse
+        models::DBResponse,
     };
 
     pub fn mina_encode(memo: &str) -> String {
@@ -41,7 +41,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+            let response_entity =
+                SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             assert_eq!(Some(signal_stats), response_entity.stats);
         });
@@ -57,7 +58,8 @@ mod tests {
         with_ledger_mock(mock, |ledger| {
             let mut conn = ledger.db;
             let signals = vec![signal];
-            let response_entity = SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
+            let response_entity =
+                SignalProcessor::new(&mut conn, &key, latest_block, signals).run();
 
             match signal_status {
                 SignalStatus::Settled => assert!(response_entity.settled.len() > 0),
@@ -84,7 +86,12 @@ mod tests {
             signal.clone(),
             key,
             0,
-            SignalStats { yes: 1.0, no: 0.0 },
+            SignalStats {
+                yes_stake: 1.0,
+                no_stake: 0.0,
+                yes_votes: 1,
+                no_votes: 0,
+            },
         );
         test_signal_status(mock, signal, key, 0, SignalStatus::Unsettled);
     }
@@ -106,7 +113,12 @@ mod tests {
             signal.clone(),
             "magenta",
             0,
-            SignalStats { yes: 1.0, no: 0.0 },
+            SignalStats {
+                yes_stake: 1.0,
+                no_stake: 0.0,
+                yes_votes: 1,
+                no_votes: 0,
+            },
         );
         test_signal_status(mock, signal, key, 0, SignalStatus::Unsettled);
     }
@@ -128,7 +140,12 @@ mod tests {
             signal.clone(),
             key,
             0,
-            SignalStats { yes: 0.0, no: 1.0 },
+            SignalStats {
+                yes_stake: 0.0,
+                no_stake: 1.0,
+                yes_votes: 0,
+                no_votes: 1,
+            },
         );
         test_signal_status(mock, signal, key, 0, SignalStatus::Unsettled);
     }
@@ -150,7 +167,12 @@ mod tests {
             signal.clone(),
             key,
             0,
-            SignalStats { yes: 0.0, no: 1.0 },
+            SignalStats {
+                yes_stake: 0.0,
+                no_stake: 1.0,
+                yes_votes: 0,
+                no_votes: 1,
+            },
         );
         test_signal_status(mock, signal, key, 0, SignalStatus::Unsettled);
     }
@@ -172,7 +194,12 @@ mod tests {
             signal.clone(),
             "magenta",
             20,
-            SignalStats { yes: 1.0, no: 0.0 },
+            SignalStats {
+                yes_stake: 1.0,
+                no_stake: 0.0,
+                yes_votes: 1,
+                no_votes: 0,
+            },
         );
         test_signal_status(mock, signal, key, 20, SignalStatus::Settled);
     }
@@ -194,7 +221,12 @@ mod tests {
             signal.clone(),
             "magenta",
             20,
-            SignalStats { yes: 1.0, no: 0.0 },
+            SignalStats {
+                yes_stake: 1.0,
+                no_stake: 0.0,
+                yes_votes: 1,
+                no_votes: 0,
+            },
         );
         test_signal_status(mock, signal, key, 20, SignalStatus::Settled);
     }
@@ -216,7 +248,12 @@ mod tests {
             signal.clone(),
             "magenta",
             20,
-            SignalStats { yes: 0.0, no: 1.0 },
+            SignalStats {
+                yes_stake: 0.0,
+                no_stake: 1.0,
+                yes_votes: 0,
+                no_votes: 1,
+            },
         );
         test_signal_status(mock, signal, key, 20, SignalStatus::Settled);
     }
@@ -238,7 +275,12 @@ mod tests {
             signal.clone(),
             "magenta",
             20,
-            SignalStats { yes: 0.0, no: 1.0 },
+            SignalStats {
+                yes_stake: 0.0,
+                no_stake: 1.0,
+                yes_votes: 0,
+                no_votes: 1,
+            },
         );
         test_signal_status(mock, signal, key, 20, SignalStatus::Settled);
     }
@@ -298,11 +340,15 @@ mod tests {
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
-            let response_entity =
-            SignalProcessor::new(&mut conn, &key, 0, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, 0, signals).run();
 
             assert_eq!(
-                Some(SignalStats { yes: 1.0, no: 0.0 }),
+                Some(SignalStats {
+                    yes_stake: 1.0,
+                    no_stake: 0.0,
+                    yes_votes: 1,
+                    no_votes: 0
+                }),
                 response_entity.stats
             );
         });
@@ -327,22 +373,18 @@ mod tests {
                 timestamp: 0,
             };
             let signals = vec![signal.clone(), signal];
-            let response_entity =
-            SignalProcessor::new(&mut conn, &key, 20, signals).run();
+            let response_entity = SignalProcessor::new(&mut conn, &key, 20, signals).run();
 
             assert!(response_entity.settled.len() > 0);
             assert_eq!(
-                Some(SignalStats { yes: 1.0, no: 0.0 }),
+                Some(SignalStats {
+                    yes_stake: 1.0,
+                    no_stake: 0.0,
+                    yes_votes: 1,
+                    no_votes: 0
+                }),
                 response_entity.stats
             );
         });
     }
-
-    // #[test]
-    // pub fn ledger_init_creates_connection() {
-    //     let _devnet: Ledger<tokio_rusqlite::Connection> =
-    //         pollster::block_on(HasConnectionAsync::init_async("./devnet_ledger.json")).unwrap();
-    //     let _mainnet: Ledger<tokio_rusqlite::Connection> =
-    //         pollster::block_on(HasConnectionAsync::init_async("./mainnet_ledger.json")).unwrap();
-    // }
 }

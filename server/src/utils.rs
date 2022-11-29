@@ -2,7 +2,7 @@ use std::{panic, collections::VecDeque, env::VarError};
 
 use crate::{
     ledger::{HasConnection, Ledger},
-    models::{SignalTrainsaction, SignalStats, SignalStatus},
+    models::{DBResponse, SignalStats, SignalStatus},
     processor::SignalProcessor, Config, SubCommand,
 };
 use axum::{body::Body, http::Request, Router};
@@ -49,7 +49,7 @@ where
 
 pub fn assert_signal_stats(
     mock: &str,
-    signal: SignalTrainsaction,
+    signal: DBResponse,
     key: &str,
     latest_block: i64,
     signal_stats: SignalStats,
@@ -65,7 +65,7 @@ pub fn assert_signal_stats(
 
 pub fn assert_signal_status(
     mock: &str,
-    signal: SignalTrainsaction,
+    signal: DBResponse,
     key: &str,
     latest_block: i64,
     signal_status: SignalStatus,

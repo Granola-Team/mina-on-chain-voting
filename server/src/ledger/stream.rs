@@ -91,7 +91,7 @@ mod tests {
     
     #[test]
     fn deserialize_single_deserializes_json() {
-        use crate::models::SignalTrainsaction;
+        use crate::models::DBResponse;
         let json = r#"{
             "account":  "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
             "memo":     "magenta",
@@ -101,8 +101,8 @@ mod tests {
             "timestamp": 20901343
         }"#.as_bytes();
         
-        let deserialized: SignalTrainsaction = deserialize_single(json).unwrap();
-        let db_response = SignalTrainsaction {
+        let deserialized: DBResponse = deserialize_single(json).unwrap();
+        let db_response = DBResponse {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
@@ -116,10 +116,10 @@ mod tests {
     
     #[test]
     fn deserialize_single_detects_early_eof() {
-        use crate::models::SignalTrainsaction;
+        use crate::models::DBResponse;
         let json = r#""#.as_bytes();
         
-        if let Err(e) = deserialize_single::<SignalTrainsaction, _>(json) {
+        if let Err(e) = deserialize_single::<DBResponse, _>(json) {
             assert_eq!(&e.to_string(), "premature EOF")
         } else {
             assert!(false)
@@ -128,7 +128,7 @@ mod tests {
     
     #[test]
     fn yeild_next_obj_yeilds_json() {
-        use crate::models::SignalTrainsaction;
+        use crate::models::DBResponse;
         let json = r#"[
             {
                 "account":  "bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu",
@@ -140,8 +140,8 @@ mod tests {
             }
         ]"#.as_bytes();
         
-        let obj_yielded: SignalTrainsaction = yield_next_obj(json, &mut false).unwrap().unwrap();
-        let db_response = SignalTrainsaction {
+        let obj_yielded: DBResponse = yield_next_obj(json, &mut false).unwrap().unwrap();
+        let db_response = DBResponse {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
@@ -155,7 +155,7 @@ mod tests {
     
     #[test]
     fn iter_iters_json_objects() {
-        use crate::models::SignalTrainsaction;
+        use crate::models::DBResponse;
     
         let json = r#"[
             {
@@ -183,7 +183,7 @@ mod tests {
                 "timestamp": 20901343
             }
         ]"#.as_bytes();
-        let db_response = SignalTrainsaction {
+        let db_response = DBResponse {
             account: String::from("bc1qlg2ayye0h6hf5u26vn3mdgcadvcr3808tcjefu"),
             memo: String::from("magenta"),
             height: 10,
@@ -193,7 +193,7 @@ mod tests {
         };
     
         let mut num_deserialized: u8 = 0;
-        for (_bytes, result) in iter::<SignalTrainsaction, _>(json) {
+        for (_bytes, result) in iter::<DBResponse, _>(json) {
             let deserialized = result.unwrap();
             assert_eq!(deserialized, db_response);
             num_deserialized += 1;

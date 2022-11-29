@@ -5,7 +5,7 @@ use base58check::FromBase58Check;
 use crate::{
     constants::SETTLED_DENOMINATOR,
     ledger::LedgerDelegations,
-    models::{BlockStatus, SignalTrainsaction, ResponseEntity, Signal, SignalStats, SignalStatus},
+    models::{BlockStatus, DBResponse, ResponseEntity, Signal, SignalStats, SignalStatus},
 };
 
 pub type AccountSignalsMap = HashMap<String, Vec<Signal>>;
@@ -15,7 +15,7 @@ pub struct SignalProcessor<'a> {
     conn: &'a mut rusqlite::Connection, // staking ledger SQLite DB Connection (from crate::ledger::Ledger::connection())
     key: String,                //signalling key, i.e. 'magenta'
     latest_block: i64,          // the current highest block
-    signal_transactions: Vec<SignalTrainsaction>, // transactions from the canonical OnChainSignalling archive node db query
+    signal_transactions: Vec<DBResponse>, // transactions from the canonical OnChainSignalling archive node db query
     signallers_cache: AccountSignalsMap, // ongoing cache of accounts that have had a signal processed
     current_settled: AccountSettledSignalMap, // ongoing association of a single settled signal per account
     current_unsettled: AccountSettledSignalMap, // one unsettled signal per account
@@ -27,7 +27,7 @@ impl <'a> SignalProcessor<'a> {
             conn: &'a mut rusqlite::Connection,
             key: &str,
             latest_block: i64,
-            signal_transactions: Vec<SignalTrainsaction>,
+            signal_transactions: Vec<DBResponse>,
             ) -> Self {
         SignalProcessor {
             conn,

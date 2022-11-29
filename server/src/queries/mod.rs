@@ -1,5 +1,5 @@
 use crate::{
-    models::{BlockStatus, DBResponse},
+    models::{BlockStatus, SignalTrainsaction},
     router::QueryRequestFilter,
     ApiContext,
 };
@@ -24,7 +24,7 @@ pub async fn get_latest_block_height(
 pub async fn get_signals(
     ctx: &ApiContext,
     network: &QueryRequestFilter,
-) -> Result<Vec<DBResponse>, sqlx::Error> {
+) -> Result<Vec<SignalTrainsaction>, sqlx::Error> {
     let db = match network {
         QueryRequestFilter::Mainnet => &ctx.mainnet_db,
         QueryRequestFilter::Devnet => &ctx.devnet_db,

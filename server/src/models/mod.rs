@@ -4,7 +4,7 @@ use sqlx::{FromRow, Type};
 use crate::ledger::LedgerDelegations;
 
 #[derive(Debug, PartialEq, Eq, Clone, FromRow, Serialize, Deserialize)]
-pub struct DBResponse {
+pub struct SignalTrainsaction {
     pub account: String,
     pub memo: String,
     pub height: i64,

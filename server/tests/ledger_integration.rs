@@ -1,5 +1,5 @@
 use osc_api::{
-    models::{BlockStatus, DBResponse, SignalStats, SignalStatus},
+    models::{BlockStatus, SignalTrainsaction, SignalStats, SignalStatus},
     processor::SignalProcessor,
     utils,
 };
@@ -8,7 +8,7 @@ use osc_api::{
 pub fn undelegated_account_unsettled_signal_adds_balance_to_yes() {
     let mock = "undelegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("magenta"),
         height: 0,
@@ -30,7 +30,7 @@ pub fn undelegated_account_unsettled_signal_adds_balance_to_yes() {
 pub fn delegated_account_unsettled_signal_adds_balance_to_yes() {
     let mock = "delegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("magenta"),
         height: 0,
@@ -52,7 +52,7 @@ pub fn delegated_account_unsettled_signal_adds_balance_to_yes() {
 pub fn undelegated_account_unsettled_signal_adds_balance_to_no() {
     let mock = "undelegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("no magenta"),
         height: 0,
@@ -74,7 +74,7 @@ pub fn undelegated_account_unsettled_signal_adds_balance_to_no() {
 pub fn delegated_account_unsettled_signal_adds_balance_to_no() {
     let mock = "delegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("no magenta"),
         height: 0,
@@ -96,7 +96,7 @@ pub fn delegated_account_unsettled_signal_adds_balance_to_no() {
 pub fn undelegated_account_settled_signal_adds_balance_to_yes() {
     let mock = "undelegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("magenta"),
         height: 0,
@@ -118,7 +118,7 @@ pub fn undelegated_account_settled_signal_adds_balance_to_yes() {
 pub fn delegated_account_settled_signal_adds_balance_to_yes() {
     let mock = "delegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("magenta"),
         height: 0,
@@ -140,7 +140,7 @@ pub fn delegated_account_settled_signal_adds_balance_to_yes() {
 pub fn undelegated_account_settled_signal_adds_balance_to_no() {
     let mock = "undelegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("no magenta"),
         height: 0,
@@ -162,7 +162,7 @@ pub fn undelegated_account_settled_signal_adds_balance_to_no() {
 pub fn delegated_account_settled_signal_adds_balance_to_no() {
     let mock = "delegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("no magenta"),
         height: 0,
@@ -184,7 +184,7 @@ pub fn delegated_account_settled_signal_adds_balance_to_no() {
 pub fn delegated_account_invalid_signal() {
     let mock = "delegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("invalid magenta signal"),
         height: 0,
@@ -200,7 +200,7 @@ pub fn delegated_account_invalid_signal() {
 pub fn undelegated_account_invalid_signal() {
     let mock = "undelegated_account";
     let key = "magenta";
-    let signal = DBResponse {
+    let signal = SignalTrainsaction {
         account: "A".to_string(),
         memo: utils::encode_transaction_memo("invalid magenta signal"),
         height: 0,
@@ -226,7 +226,7 @@ pub fn repeat_signals_use_hash_map() {
     utils::with_ledger_mock("delegated_account", |ledger| {
         let mut conn = ledger.db;
         let key = "magenta";
-        let signal = DBResponse {
+        let signal = SignalTrainsaction {
             account: "A".to_string(),
             memo: utils::encode_transaction_memo("magenta"),
             height: 0,
@@ -254,7 +254,7 @@ pub fn repeat_settled_signals_bypass_signal_status_check() {
     utils::with_ledger_mock("delegated_account", |ledger| {
         let mut conn = ledger.db;
         let key = "magenta";
-        let signal = DBResponse {
+        let signal = SignalTrainsaction {
             account: "A".to_string(),
             memo: utils::encode_transaction_memo("magenta"),
             height: 0,

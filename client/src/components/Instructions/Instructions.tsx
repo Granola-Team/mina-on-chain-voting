@@ -11,7 +11,7 @@ export const Instructions: React.FC = () => {
         <div className="flex flex-col justify-center px-3 md:px-6 py-2 gap-1.5">
           <div className="flex-col flex md:flex-row items-center justify-between">
             <span className="semibold text-lg md:text-xl leading-8">
-              Instructions
+              Instructions For Testnet
             </span>
           </div>
           <div className="flex flex-col items-start justify-start md:gap-1">
@@ -49,6 +49,39 @@ export const Instructions: React.FC = () => {
                 Your signal should appear in 10-15 minutes
               </span>
             </p>
+          </div>
+          <div className="flex-col flex md:flex-row items-center justify-between">
+            <span className="semibold text-lg md:text-xl leading-8">
+              Instructions For Mainnet
+            </span>
+          </div>
+          <div className="flex flex-col items-start justify-start md:gap-1">
+            <p className="font-semibold">
+              Step 1 -{" "}
+              <span className="text-[0.875rem] font-normal">
+                Send yourself a transaction with the keyword(s) in the memo field
+              </span>
+            </p>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+                Your signal should appear in the dashboard within 10-15 minutes
+                <span className="font-semibold">&apos;{key}&apos;</span>
+              </span>
+            </p>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+              See Frequently Asked Questions ({" "}) for more information
+                <a
+                  href="https://faucet.minaprotocol.com/"
+                  className="font-semibold hover:opacity-80 transition-all duration-200"
+                >
+                  FAQs
+                </a>
+              </span>
+            </p>
+
           </div>
         </div>
       </div>

@@ -57,22 +57,22 @@ export const Instructions: React.FC = () => {
           </div>
           <div className="flex flex-col items-start justify-start md:gap-1">
             <p className="font-semibold">
-              Step 1 -{" "}
+              {" "}
               <span className="text-[0.875rem] font-normal">
-                Send yourself a transaction with the keyword(s) in the memo field
+              Send yourself a transaction with the keyword(s) in the memo field
               </span>
             </p>
 
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
-                Your signal should appear in the dashboard within 10-15 minutes
+                Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
                 <span className="font-semibold">&apos;{key}&apos;</span>
               </span>
             </p>
 
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
-              See Frequently Asked Questions ({" "}) for more information
+              See Frequently Asked Questions for more information ({" "}), including how to send yourself a transaction
                 <a
                   href="https://faucet.minaprotocol.com/"
                   className="font-semibold hover:opacity-80 transition-all duration-200"

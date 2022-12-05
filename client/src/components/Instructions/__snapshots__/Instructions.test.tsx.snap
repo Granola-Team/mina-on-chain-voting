@@ -20,7 +20,7 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="semibold text-lg md:text-xl leading-8"
               >
-                Instructions
+                Instructions For Testnet
               </span>
             </div>
             <div
@@ -85,6 +85,61 @@ exports[`Snapshot test passes 1`] = `
                 </span>
               </p>
             </div>
+            <div
+              class="flex-col flex md:flex-row items-center justify-between"
+            >
+              <span
+                class="semibold text-lg md:text-xl leading-8"
+              >
+                Instructions For Mainnet
+              </span>
+            </div>
+            <div
+              class="flex flex-col items-start justify-start md:gap-1"
+            >
+              <p
+                class="font-semibold"
+              >
+                 
+                <span
+                  class="text-[0.875rem] font-normal"
+                >
+                  Send yourself a transaction with the keyword(s) in the memo field
+                </span>
+              </p>
+              <p
+                class="font-semibold"
+              >
+                <span
+                  class="text-[0.875rem] font-normal"
+                >
+                  Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
+                  <span
+                    class="font-semibold"
+                  >
+                    '
+                    '
+                  </span>
+                </span>
+              </p>
+              <p
+                class="font-semibold"
+              >
+                <span
+                  class="text-[0.875rem] font-normal"
+                >
+                  See Frequently Asked Questions for more information (
+                   
+                  ), including how to send yourself a transaction
+                  <a
+                    class="font-semibold hover:opacity-80 transition-all duration-200"
+                    href="https://faucet.minaprotocol.com/"
+                  >
+                    FAQs
+                  </a>
+                </span>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -106,7 +161,7 @@ exports[`Snapshot test passes 1`] = `
             <span
               class="semibold text-lg md:text-xl leading-8"
             >
-              Instructions
+              Instructions For Testnet
             </span>
           </div>
           <div
@@ -168,6 +223,61 @@ exports[`Snapshot test passes 1`] = `
                 class="text-[0.875rem] font-normal"
               >
                 Your signal should appear in 10-15 minutes
+              </span>
+            </p>
+          </div>
+          <div
+            class="flex-col flex md:flex-row items-center justify-between"
+          >
+            <span
+              class="semibold text-lg md:text-xl leading-8"
+            >
+              Instructions For Mainnet
+            </span>
+          </div>
+          <div
+            class="flex flex-col items-start justify-start md:gap-1"
+          >
+            <p
+              class="font-semibold"
+            >
+               
+              <span
+                class="text-[0.875rem] font-normal"
+              >
+                Send yourself a transaction with the keyword(s) in the memo field
+              </span>
+            </p>
+            <p
+              class="font-semibold"
+            >
+              <span
+                class="text-[0.875rem] font-normal"
+              >
+                Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
+                <span
+                  class="font-semibold"
+                >
+                  '
+                  '
+                </span>
+              </span>
+            </p>
+            <p
+              class="font-semibold"
+            >
+              <span
+                class="text-[0.875rem] font-normal"
+              >
+                See Frequently Asked Questions for more information (
+                 
+                ), including how to send yourself a transaction
+                <a
+                  class="font-semibold hover:opacity-80 transition-all duration-200"
+                  href="https://faucet.minaprotocol.com/"
+                >
+                  FAQs
+                </a>
               </span>
             </p>
           </div>

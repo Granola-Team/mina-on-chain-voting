@@ -81,7 +81,7 @@ exports[`Snapshot test passes 1`] = `
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  Your signal should appear in 10-15 minutes
+                  Your vote should appear in 10-15 minutes
                 </span>
               </p>
             </div>
@@ -133,7 +133,7 @@ exports[`Snapshot test passes 1`] = `
                   ), including how to send yourself a transaction
                   <a
                     class="font-semibold hover:opacity-80 transition-all duration-200"
-                    href="https://faucet.minaprotocol.com/"
+                    href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
                   >
                     FAQs
                   </a>
@@ -222,7 +222,7 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="text-[0.875rem] font-normal"
               >
-                Your signal should appear in 10-15 minutes
+                Your vote should appear in 10-15 minutes
               </span>
             </p>
           </div>
@@ -274,7 +274,7 @@ exports[`Snapshot test passes 1`] = `
                 ), including how to send yourself a transaction
                 <a
                   class="font-semibold hover:opacity-80 transition-all duration-200"
-                  href="https://faucet.minaprotocol.com/"
+                  href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
                 >
                   FAQs
                 </a>

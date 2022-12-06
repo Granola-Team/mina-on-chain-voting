@@ -14,20 +14,34 @@ describe("EpochTiming Tests", () => {
 
   test("should render props", () => {
     const view = render(<EpochTiming {...props} />);
-    const string = "Epoch 24 - Slot 5000";
+    const string = "Epoch 24 | Slot 5000";
     const element = view.getByText(string);
     expect(element).toBeInTheDocument();
   });
 
   test("title renders", () => {
     const view = render(<EpochTiming {...props} />);
-    expect(view.getByText("Signal Timing")).toBeInTheDocument();
+    expect(view.getByText("Voting Timing")).toBeInTheDocument();
   });
 
   test("bar meter percentage", () => {
     const view = render(<EpochTiming {...props} />);
     const percentage = (props.slot / 7140) * 89.78;
+    const oppositePercentage = 100 - percentage;
     expect(view.getByTestId("bar-percentage"))
-      .toHaveAttribute("style", `margin-left: ${percentage}%;`);
+      .toHaveAttribute("style", `margin-right: ${oppositePercentage}%;`);
+  });
+
+  test("countdown displays", () => {
+    const view = render(<EpochTiming {...props} />);
+
+    const endSlotMinutes = (7140 - props.slot) * 3;
+    const days = Math.floor(endSlotMinutes / 60 / 24);
+    const hours = Math.floor(((endSlotMinutes / 60 / 24) - days) * 24);
+    const minutes = Math.floor(((((endSlotMinutes / 60 / 24) - days) * 24) - hours) * 60);
+
+    const stringTwo = `Next epoch estimated to begin in ${days} days ${hours} hours ${minutes} minutes`;
+    const elementTwo = view.getByText(stringTwo);
+    expect(elementTwo).toBeInTheDocument();
   });
 });

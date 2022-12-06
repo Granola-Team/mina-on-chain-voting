@@ -45,13 +45,15 @@ exports[`Snapshot test passes 1`] = `
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  Get testnet mina from the official
+                  Get testnet MINA from the official
                    
                   <a
-                    class="font-semibold hover:opacity-80 transition-all duration-200"
+                    class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                     href="https://faucet.minaprotocol.com/"
                   >
-                    Faucet
+                    <u>
+                      Faucet
+                    </u>
                   </a>
                 </span>
               </p>
@@ -63,7 +65,7 @@ exports[`Snapshot test passes 1`] = `
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  Send yourself a transaction with the memo
+                  To vote, send yourself a transaction with the memo
                    
                   <span
                     class="font-semibold"
@@ -73,11 +75,7 @@ exports[`Snapshot test passes 1`] = `
                   </span>
                 </span>
               </p>
-              <p
-                class="font-semibold"
-              >
-                Step 4 -
-                 
+              <p>
                 <span
                   class="text-[0.875rem] font-normal"
                 >
@@ -186,13 +184,15 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="text-[0.875rem] font-normal"
               >
-                Get testnet mina from the official
+                Get testnet MINA from the official
                  
                 <a
-                  class="font-semibold hover:opacity-80 transition-all duration-200"
+                  class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                   href="https://faucet.minaprotocol.com/"
                 >
-                  Faucet
+                  <u>
+                    Faucet
+                  </u>
                 </a>
               </span>
             </p>
@@ -204,7 +204,7 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="text-[0.875rem] font-normal"
               >
-                Send yourself a transaction with the memo
+                To vote, send yourself a transaction with the memo
                  
                 <span
                   class="font-semibold"
@@ -214,11 +214,7 @@ exports[`Snapshot test passes 1`] = `
                 </span>
               </span>
             </p>
-            <p
-              class="font-semibold"
-            >
-              Step 4 -
-               
+            <p>
               <span
                 class="text-[0.875rem] font-normal"
               >

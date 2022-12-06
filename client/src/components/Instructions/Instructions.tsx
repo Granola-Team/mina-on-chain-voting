@@ -25,12 +25,12 @@ export const Instructions: React.FC = () => {
             <p className="font-semibold">
               Step 2 -{" "}
               <span className="text-[0.875rem] font-normal">
-                Get testnet mina from the official{" "}
+                Get testnet MINA from the official{" "}
                 <a
                   href="https://faucet.minaprotocol.com/"
-                  className="font-semibold hover:opacity-80 transition-all duration-200"
+                  className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
-                  Faucet
+                  <u>Faucet</u>
                 </a>
               </span>
             </p>
@@ -38,13 +38,12 @@ export const Instructions: React.FC = () => {
             <p className="font-semibold">
               Step 3 -{" "}
               <span className="text-[0.875rem] font-normal">
-                Send yourself a transaction with the memo{" "}
+                To vote, send yourself a transaction with the memo{" "}
                 <span className="font-semibold">&apos;{key}&apos;</span>
               </span>
             </p>
 
-            <p className="font-semibold">
-              Step 4 -{" "}
+            <p>
               <span className="text-[0.875rem] font-normal">
                 Your vote should appear in 10-15 minutes
               </span>

@@ -46,7 +46,7 @@ export const Instructions: React.FC = () => {
             <p className="font-semibold">
               Step 4 -{" "}
               <span className="text-[0.875rem] font-normal">
-                Your signal should appear in 10-15 minutes
+                Your vote should appear in 10-15 minutes
               </span>
             </p>
           </div>
@@ -74,7 +74,7 @@ export const Instructions: React.FC = () => {
               <span className="text-[0.875rem] font-normal">
               See Frequently Asked Questions for more information ({" "}), including how to send yourself a transaction
                 <a
-                  href="https://faucet.minaprotocol.com/"
+                  href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
                   className="font-semibold hover:opacity-80 transition-all duration-200"
                 >
                   FAQs

@@ -22,7 +22,7 @@ pub struct QueryParams {
 
 pub async fn handler(
         Path(key): Path<String>,
-        AxumQuery(mut params): AxumQuery<QueryParams>,
+        AxumQuery(params): AxumQuery<QueryParams>,
         ctx: Extension<crate::ApiContext>,
         ) -> impl IntoResponse {
     let network_opt = params.network;

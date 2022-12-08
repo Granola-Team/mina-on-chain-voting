@@ -1,4 +1,5 @@
-use std::collections::HashMap;
+use core::fmt;
+use std::{collections::HashMap, str::FromStr};
 
 use axum::{
     extract::{Path, Query as AxumQuery},
@@ -6,19 +7,26 @@ use axum::{
     response::IntoResponse,
     Extension,
 };
+use serde::{de, Deserialize, Deserializer};
 
 use crate::{queries, router::QueryRequestFilter};
 
 use crate::processor::SignalProcessor;
 
+#[derive(Debug, Deserialize)]
+pub struct QueryParams {
+    #[serde(default, deserialize_with = "empty_string_as_none")]
+    timestamp: Option<i64>,
+    network: HashMap<String, QueryRequestFilter>
+}
+
 pub async fn handler(
         Path(key): Path<String>,
-        AxumQuery(mut network_params): AxumQuery<HashMap<String, QueryRequestFilter>>,
-        AxumQuery(mut timestamp_params): AxumQuery<HashMap<String, i64>>,
+        AxumQuery(mut params): AxumQuery<QueryParams>,
         ctx: Extension<crate::ApiContext>,
         ) -> impl IntoResponse {
-    let network_opt = network_params.remove("network");
-    let timestamp_opt = timestamp_params.remove("timestamp");
+    let network_opt = params.network.remove("network");
+    let timestamp_opt = params.timestamp;
 
     if let Some(network) = network_opt {
         let signals = match network {
@@ -63,4 +71,18 @@ pub async fn handler(
     axum::Json("Error: Network param not provided."),
     )
     .into_response()
+}
+
+/// Serde deserialization decorator to map empty Strings to None,
+fn empty_string_as_none<'de, D, T>(de: D) -> Result<Option<T>, D::Error>
+where
+D: Deserializer<'de>,
+T: FromStr,
+T::Err: fmt::Display,
+{
+    let opt = Option::<String>::deserialize(de)?;
+    match opt.as_deref() {
+        None | Some("") => Ok(None),
+        Some(s) => FromStr::from_str(s).map_err(de::Error::custom).map(Some),
+    }
 }

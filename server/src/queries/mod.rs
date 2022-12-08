@@ -1,3 +1,5 @@
+use std::{error::Error, ops::Sub, time::Duration};
+
 use crate::{
     models::{BlockStatus, DBResponse},
     router::QueryRequestFilter,
@@ -25,47 +27,31 @@ pub async fn get_latest_blockheight(
 pub async fn get_signals(
     db: &Pool<Postgres>,
     timestamp: Option<i64>,
-) -> Result<Vec<DBResponse>, sqlx::Error> {
-    match timestamp {
-        Some(timestamp) => {
-            sqlx::query_as!(DBResponse,
-            r#"
-            SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
-            FROM user_commands AS uc
-            JOIN blocks_user_commands AS buc
-            ON uc.id = buc.user_command_id
-            JOIN blocks AS b
-            ON buc.block_id = b.id
-            JOIN public_keys AS pk
-            ON uc.source_id = pk.id
-            WHERE uc.type = 'payment'
-            AND uc.source_id = uc.receiver_id
-            AND uc.token = 1
-            AND NOT b.chain_status = 'orphaned'
-            AND buc.status = 'applied'
-            AND b.timestamp > $1
-            "#, timestamp
-            ).fetch_all(db).await
-        },
-        None => {
-            sqlx::query_as!(DBResponse,
-            r#"
-            SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
-            FROM user_commands AS uc
-            JOIN blocks_user_commands AS buc
-            ON uc.id = buc.user_command_id
-            JOIN blocks AS b
-            ON buc.block_id = b.id
-            JOIN public_keys AS pk
-            ON uc.source_id = pk.id
-            WHERE uc.type = 'payment'
-            AND uc.source_id = uc.receiver_id
-            AND uc.token = 1
-            AND NOT b.chain_status = 'orphaned'
-            AND buc.status = 'applied'
-            AND b.timestamp > (select extract(epoch from now())) - $1
-            "#, (2629800 * 3) as _
-            ).fetch_all(db).await
-        }
+) -> Result<Vec<DBResponse>, Box<dyn Error>> {
+    let three_months_ago: i64 = std::time::SystemTime::now()
+        .sub(Duration::from_secs(2629800 * 3))
+        .duration_since(std::time::UNIX_EPOCH)?
+        .as_secs() as i64;
+
+    Ok(sqlx::query_as!(DBResponse,
+    r#"
+    SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
+    FROM user_commands AS uc
+    JOIN blocks_user_commands AS buc
+    ON uc.id = buc.user_command_id
+    JOIN blocks AS b
+    ON buc.block_id = b.id
+    JOIN public_keys AS pk
+    ON uc.source_id = pk.id
+    WHERE uc.type = 'payment'
+    AND uc.source_id = uc.receiver_id
+    AND uc.token = 1
+    AND NOT b.chain_status = 'orphaned'
+    AND buc.status = 'applied'
+    AND b.timestamp > $1
+    "#, match timestamp {
+        Some(timestamp) => timestamp,
+    None => three_months_ago
     }
+    ).fetch_all(db).await?)
 }

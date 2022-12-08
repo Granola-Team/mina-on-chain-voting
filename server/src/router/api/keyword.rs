@@ -13,17 +13,19 @@ use crate::processor::SignalProcessor;
 
 pub async fn handler(
         Path(key): Path<String>,
-        AxumQuery(mut params): AxumQuery<HashMap<String, QueryRequestFilter>>,
+        AxumQuery(mut network_params): AxumQuery<HashMap<String, QueryRequestFilter>>,
+        AxumQuery(mut timestamp_params): AxumQuery<HashMap<String, i64>>,
         ctx: Extension<crate::ApiContext>,
         ) -> impl IntoResponse {
-    let network_opt = params.remove("network");
+    let network_opt = network_params.remove("network");
+    let timestamp_opt = timestamp_params.remove("timestamp");
 
     if let Some(network) = network_opt {
         let signals = match network {
-            QueryRequestFilter::Mainnet => queries::get_signals(&ctx.mainnet_db)
+            QueryRequestFilter::Mainnet => queries::get_signals(&ctx.mainnet_db, timestamp_opt)
             .await
             .expect("Error: Could not get mainnet signals."),
-            QueryRequestFilter::Devnet => queries::get_signals(&ctx.devnet_db)
+            QueryRequestFilter::Devnet => queries::get_signals(&ctx.devnet_db, timestamp_opt)
             .await
             .expect("Error: Could not get devnet signals."),
         };

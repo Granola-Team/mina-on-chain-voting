@@ -17,7 +17,7 @@ use crate::processor::SignalProcessor;
 pub struct QueryParams {
     #[serde(default, deserialize_with = "empty_string_as_none")]
     timestamp: Option<i64>,
-    network: HashMap<String, QueryRequestFilter>
+    network: Option<QueryRequestFilter>
 }
 
 pub async fn handler(
@@ -25,7 +25,7 @@ pub async fn handler(
         AxumQuery(mut params): AxumQuery<QueryParams>,
         ctx: Extension<crate::ApiContext>,
         ) -> impl IntoResponse {
-    let network_opt = params.network.remove("network");
+    let network_opt = params.network;
     let timestamp_opt = params.timestamp;
 
     if let Some(network) = network_opt {

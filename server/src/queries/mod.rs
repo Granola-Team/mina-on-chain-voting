@@ -22,10 +22,13 @@ pub async fn get_latest_blockheight(
 /// By default we get all signals every query.
 /// This is wildly inefficient & we should work towards an alternative.
 /// Since we're essentially only interested in memo's - maybe a way to decode base58 on the DB side?
-pub async fn get_signals(db: &Pool<Postgres>, timestamp: Option<i64>) -> Result<Vec<DBResponse>, sqlx::Error> {
+pub async fn get_signals(
+    db: &Pool<Postgres>,
+    timestamp: Option<i64>,
+) -> Result<Vec<DBResponse>, sqlx::Error> {
     match timestamp {
         Some(timestamp) => {
-            return sqlx::query_as!(DBResponse,
+            sqlx::query_as!(DBResponse,
             r#"
             SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
             FROM user_commands AS uc
@@ -45,7 +48,7 @@ pub async fn get_signals(db: &Pool<Postgres>, timestamp: Option<i64>) -> Result<
             ).fetch_all(db).await
         },
         None => {
-            return sqlx::query_as!(DBResponse,
+            sqlx::query_as!(DBResponse,
             r#"
             SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
             FROM user_commands AS uc
@@ -64,5 +67,5 @@ pub async fn get_signals(db: &Pool<Postgres>, timestamp: Option<i64>) -> Result<
             "#, (2629800 * 3) as _
             ).fetch_all(db).await
         }
-    };
+    }
 }

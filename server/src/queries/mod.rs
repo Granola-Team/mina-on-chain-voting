@@ -63,7 +63,7 @@ pub async fn get_signals(
             AND uc.token = 1
             AND NOT b.chain_status = 'orphaned'
             AND buc.status = 'applied'
-            AND b.timestamp >  (select extract(epoch from now())) - $1
+            AND b.timestamp > (select extract(epoch from now())) - $1
             "#, (2629800 * 3) as _
             ).fetch_all(db).await
         }

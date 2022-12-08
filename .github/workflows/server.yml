@@ -103,7 +103,7 @@ jobs:
 
       - name: Install KCov Dependencies
         run: |
-          sudo apt-get update
+          sudo apt-get update && sudo apt dist-upgrade
           sudo apt-get install cmake g++ pkg-config jq -y
           sudo apt-get install libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev kcov -y
 

@@ -59,6 +59,11 @@ export const Instructions: React.FC = () => {
               {" "}
               <span className="text-[0.875rem] font-normal">
               Send yourself a transaction with the keyword(s) in the memo field
+              <ul>
+                To vote in favor of the proposal enter {" "} in the memo field
+                To vote against the proposal enter no {" "} in the memo field
+                <span className="font-semibold">&apos;{key}&apos;</span>
+              </ul>
               </span>
             </p>
 

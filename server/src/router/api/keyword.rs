@@ -1,5 +1,5 @@
 use core::fmt;
-use std::{collections::HashMap, str::FromStr};
+use std::str::FromStr;
 
 use axum::{
     extract::{Path, Query as AxumQuery},

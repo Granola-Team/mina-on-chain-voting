@@ -103,6 +103,19 @@ exports[`Snapshot test passes 1`] = `
                   class="text-[0.875rem] font-normal"
                 >
                   Send yourself a transaction with the keyword(s) in the memo field
+                  <ul>
+                    To vote in favor of the proposal enter 
+                     
+                     in the memo field To vote against the proposal enter no 
+                     
+                     in the memo field
+                    <span
+                      class="font-semibold"
+                    >
+                      '
+                      '
+                    </span>
+                  </ul>
                 </span>
               </p>
               <p
@@ -242,6 +255,19 @@ exports[`Snapshot test passes 1`] = `
                 class="text-[0.875rem] font-normal"
               >
                 Send yourself a transaction with the keyword(s) in the memo field
+                <ul>
+                  To vote in favor of the proposal enter 
+                   
+                   in the memo field To vote against the proposal enter no 
+                   
+                   in the memo field
+                  <span
+                    class="font-semibold"
+                  >
+                    '
+                    '
+                  </span>
+                </ul>
               </span>
             </p>
             <p

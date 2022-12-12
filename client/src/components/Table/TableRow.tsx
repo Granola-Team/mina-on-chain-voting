@@ -100,36 +100,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
         </span>
       </div>
       <div className="place-self-center">
-        <span className="grid-table-content">
-          {signal.delegations
-            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(4)}`
-            : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
-        <span className="grid-table-content">
-          {signal.delegations ? `${percent()}` : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
-        <span className="grid-table-content medium">
-          {signal.delegations ? signal.delegations.total_delegators : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
         <span className="grid-table-content medium">{signal.memo}</span>
-      </div>
-      <div className="place-self-center">
-        <TableBubble status={signal.status}>
-          <span className="grid-table-content medium">{signal.status}</span>
-        </TableBubble>
-      </div>
-      <div className="place-self-center">
-        <TableBubble status={signal.signal_status}>
-          <span className="grid-table-content medium">
-            {signal.signal_status}
-          </span>
-        </TableBubble>
       </div>
     </div>
   );

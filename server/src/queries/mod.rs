@@ -1,3 +1,5 @@
+use std::error::Error;
+
 use crate::{
     models::{BlockStatus, DBResponse},
     router::QueryRequestFilter,
@@ -22,9 +24,21 @@ pub async fn get_latest_blockheight(
 /// By default we get all signals every query.
 /// This is wildly inefficient & we should work towards an alternative.
 /// Since we're essentially only interested in memo's - maybe a way to decode base58 on the DB side?
-pub async fn get_signals(db: &Pool<Postgres>) -> Result<Vec<DBResponse>, sqlx::Error> {
-    sqlx::query_as!(DBResponse,
-        r#"
+pub async fn get_signals(
+    db: &Pool<Postgres>,
+    timestamp: Option<i64>,
+) -> Result<Vec<DBResponse>, Box<dyn Error>> {
+    use crate::constants::THREE_MONTHS_MILLIS;
+    let voting_frontier_timestamp = match timestamp {
+        Some(timestamp) => timestamp,
+        None =>  std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .expect("SystemTime::now() should not be before the UNIX EPOCH")
+            .as_millis() as i64 - THREE_MONTHS_MILLIS, // maybe worry about integer overflow?
+    };
+    Ok(sqlx::query_as!(
+    DBResponse,
+    r#"
         SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
@@ -38,6 +52,7 @@ pub async fn get_signals(db: &Pool<Postgres>) -> Result<Vec<DBResponse>, sqlx::E
         AND uc.token = 1
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
-        "#
-    ).fetch_all(db).await
+        AND b.timestamp > $1;
+    "#, voting_frontier_timestamp
+    ).fetch_all(db).await?)
 }

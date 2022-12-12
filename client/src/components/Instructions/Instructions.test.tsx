@@ -13,7 +13,7 @@ test("should navigate to faucet when link is clicked", async () => {
 
 test("Instructions are rendered and visible", async () => {
     render(<Instructions />);
-    expect(screen.getByText("Instructions For Testnet")).toBeInTheDocument();
+    expect(screen.getByText("Instructions")).toBeInTheDocument();
 });
 
 test("Snapshot test passes", async () => {

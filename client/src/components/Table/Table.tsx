@@ -2,7 +2,6 @@ import React from "react";
 
 import type { TableProps } from "@/types";
 
-import { TableNavigation } from "./TableNavigation";
 import { TableBody } from "./TableBody";
 
 export const Table: React.FC<TableProps> = ({
@@ -14,7 +13,6 @@ export const Table: React.FC<TableProps> = ({
   return (
     <div className="content-full-width">
       <div className="px-2 md:px-4 lg:px-8 w-full flex flex-col items-center">
-        <TableNavigation />
         <TableBody
           data={data}
           stats={stats}

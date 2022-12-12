@@ -1,15 +1,15 @@
-import {expect, vi} from "vitest";
+import { expect, vi } from "vitest";
 import "@testing-library/jest-dom";
 import React from "react";
 
-import {TableHeader} from "./TableHeader";
-import {Layout} from "../Layout/Layout";
-import {BrowserRouter as Router} from "react-router-dom";
-import {TableBody} from "./TableBody";
-import type {BlockStatus, SignalStatus, DelegationEntity} from "@/types";
-import {TableRow} from "./TableRow";
-import {Table} from "./Table";
-import {cleanup, fireEvent, render} from "@testing-library/react";
+import { TableHeader } from "./TableHeader";
+import { Layout } from "../Layout/Layout";
+import { BrowserRouter as Router } from "react-router-dom";
+import { TableBody } from "./TableBody";
+import type { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
+import { TableRow } from "./TableRow";
+import { Table } from "./Table";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 
 afterEach(cleanup);
 
@@ -75,36 +75,36 @@ describe("Table Tests", () => {
         expect(elementFive).toBeInTheDocument();
     });
 
-//    test("TableBubble colors working", () => {
-//        const view = render(<TableBody {...props} />);
-//        expect(view.getByText("Pending").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
-//        );
-//        expect(view.getByText("Canonical").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7",
-//        );
-//        expect(view.getByText("Orphaned").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7",
-//        );
-//    });
+    //    test("TableBubble colors working", () => {
+    //        const view = render(<TableBody {...props} />);
+    //        expect(view.getByText("Pending").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
+    //        );
+    //        expect(view.getByText("Canonical").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7",
+    //        );
+    //        expect(view.getByText("Orphaned").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7",
+    //        );
+    //    });
 
-//    test("Table file", () => {
-//        const rendered = render(
-//            <Router>
-//                <Table {...props}>
-//                    <TableNavigation/>
-//                    <TableBody {...props} />
-//                </Table>
-//            </Router>,
-//        );
-//        expect(rendered.getByText("Pending").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
-//        );
-//    });
+    //    test("Table file", () => {
+    //        const rendered = render(
+    //            <Router>
+    //                <Table {...props}>
+    //                    <TableNavigation/>
+    //                    <TableBody {...props} />
+    //                </Table>
+    //            </Router>,
+    //        );
+    //        expect(rendered.getByText("Pending").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
+    //        );
+    //    });
 });
 
 const createPercent = (v: number, t: number): string => {
@@ -154,7 +154,7 @@ describe("StatsWeighted Tests", () => {
         const rendered = render(
             <Router>
                 <Layout>
-                    <TableHeader/>
+                    <TableHeader />
                 </Layout>
             </Router>,
         );

@@ -12,20 +12,20 @@ exports[`Snapshot test passes 1`] = `
           class="bg-gray-2 border border-gray-7 rounded-xl w-full"
         >
           <div
-            class="flex flex-col justify-center px-3 md:px-6 py-2 gap-1.5"
+            class="flex flex-row justify-between px-3 md:px-6 py-2 gap-1.5"
           >
-            <div
-              class="flex-col flex md:flex-row items-center justify-between"
-            >
-              <span
-                class="semibold text-lg md:text-xl leading-8"
-              >
-                Instructions For Testnet
-              </span>
-            </div>
             <div
               class="flex flex-col items-start justify-start md:gap-1"
             >
+              <div
+                class="flex-col flex md:flex-row items-center justify-between"
+              >
+                <span
+                  class="semibold text-lg md:text-xl leading-8"
+                >
+                  Instructions For Testnet
+                </span>
+              </div>
               <p
                 class="font-semibold"
               >
@@ -84,17 +84,17 @@ exports[`Snapshot test passes 1`] = `
               </p>
             </div>
             <div
-              class="flex-col flex md:flex-row items-center justify-between"
-            >
-              <span
-                class="semibold text-lg md:text-xl leading-8"
-              >
-                Instructions For Mainnet
-              </span>
-            </div>
-            <div
               class="flex flex-col items-start justify-start md:gap-1"
             >
+              <div
+                class="flex-col flex md:flex-row items-center justify-between"
+              >
+                <span
+                  class="semibold text-lg md:text-xl leading-8"
+                >
+                  Instructions For Mainnet
+                </span>
+              </div>
               <p
                 class="font-semibold"
               >
@@ -104,11 +104,22 @@ exports[`Snapshot test passes 1`] = `
                 >
                   Send yourself a transaction with the keyword(s) in the memo field
                   <ul>
-                    To vote in favor of the proposal enter 
-                     
-                     in the memo field To vote against the proposal enter no 
-                     
-                     in the memo field
+                    <li>
+                      To vote in favor of the proposal, enter 
+                       
+                       in the memo field
+                    </li>
+                    <span
+                      class="font-semibold"
+                    >
+                      '
+                      '
+                    </span>
+                    <li>
+                      To vote against the proposal enter no 
+                       
+                       in the memo field
+                    </li>
                     <span
                       class="font-semibold"
                     >
@@ -125,12 +136,6 @@ exports[`Snapshot test passes 1`] = `
                   class="text-[0.875rem] font-normal"
                 >
                   Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
-                  <span
-                    class="font-semibold"
-                  >
-                    '
-                    '
-                  </span>
                 </span>
               </p>
               <p
@@ -139,15 +144,14 @@ exports[`Snapshot test passes 1`] = `
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  See Frequently Asked Questions for more information (
-                   
-                  ), including how to send yourself a transaction
+                  See Frequently Asked Questions
                   <a
                     class="font-semibold hover:opacity-80 transition-all duration-200"
                     href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
                   >
-                    FAQs
+                     (FAQ) 
                   </a>
+                  for more information, including how to send yourself a transaction
                 </span>
               </p>
             </div>
@@ -164,20 +168,20 @@ exports[`Snapshot test passes 1`] = `
         class="bg-gray-2 border border-gray-7 rounded-xl w-full"
       >
         <div
-          class="flex flex-col justify-center px-3 md:px-6 py-2 gap-1.5"
+          class="flex flex-row justify-between px-3 md:px-6 py-2 gap-1.5"
         >
-          <div
-            class="flex-col flex md:flex-row items-center justify-between"
-          >
-            <span
-              class="semibold text-lg md:text-xl leading-8"
-            >
-              Instructions For Testnet
-            </span>
-          </div>
           <div
             class="flex flex-col items-start justify-start md:gap-1"
           >
+            <div
+              class="flex-col flex md:flex-row items-center justify-between"
+            >
+              <span
+                class="semibold text-lg md:text-xl leading-8"
+              >
+                Instructions For Testnet
+              </span>
+            </div>
             <p
               class="font-semibold"
             >
@@ -236,17 +240,17 @@ exports[`Snapshot test passes 1`] = `
             </p>
           </div>
           <div
-            class="flex-col flex md:flex-row items-center justify-between"
-          >
-            <span
-              class="semibold text-lg md:text-xl leading-8"
-            >
-              Instructions For Mainnet
-            </span>
-          </div>
-          <div
             class="flex flex-col items-start justify-start md:gap-1"
           >
+            <div
+              class="flex-col flex md:flex-row items-center justify-between"
+            >
+              <span
+                class="semibold text-lg md:text-xl leading-8"
+              >
+                Instructions For Mainnet
+              </span>
+            </div>
             <p
               class="font-semibold"
             >
@@ -256,11 +260,22 @@ exports[`Snapshot test passes 1`] = `
               >
                 Send yourself a transaction with the keyword(s) in the memo field
                 <ul>
-                  To vote in favor of the proposal enter 
-                   
-                   in the memo field To vote against the proposal enter no 
-                   
-                   in the memo field
+                  <li>
+                    To vote in favor of the proposal, enter 
+                     
+                     in the memo field
+                  </li>
+                  <span
+                    class="font-semibold"
+                  >
+                    '
+                    '
+                  </span>
+                  <li>
+                    To vote against the proposal enter no 
+                     
+                     in the memo field
+                  </li>
                   <span
                     class="font-semibold"
                   >
@@ -277,12 +292,6 @@ exports[`Snapshot test passes 1`] = `
                 class="text-[0.875rem] font-normal"
               >
                 Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
-                <span
-                  class="font-semibold"
-                >
-                  '
-                  '
-                </span>
               </span>
             </p>
             <p
@@ -291,15 +300,14 @@ exports[`Snapshot test passes 1`] = `
               <span
                 class="text-[0.875rem] font-normal"
               >
-                See Frequently Asked Questions for more information (
-                 
-                ), including how to send yourself a transaction
+                See Frequently Asked Questions
                 <a
                   class="font-semibold hover:opacity-80 transition-all duration-200"
                   href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
                 >
-                  FAQs
+                   (FAQ) 
                 </a>
+                for more information, including how to send yourself a transaction
               </span>
             </p>
           </div>

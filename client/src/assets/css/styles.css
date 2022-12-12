@@ -29,7 +29,7 @@ p {
 
 .grid-table-el {
   @apply grid md:px-6 gap-4
-  grid-cols-[minmax(0px,_80px)_minmax(0px,_150px)_minmax(0px,_3fr)_minmax(0px,_1fr)_minmax(0px,_1fr)_minmax(0px,_100px)_minmax(0px,_1fr)_minmax(0px,_150px)_minmax(0px,_150px)];
+  grid-cols-[minmax(0px,_80px)_minmax(0px,_150px)_minmax(0px,_3fr)_minmax(0px,_1fr)];
 }
 
 .grid-table-heading {

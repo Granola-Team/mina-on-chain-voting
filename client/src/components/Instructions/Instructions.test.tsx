@@ -5,15 +5,15 @@ import { Instructions } from "./Instructions";
 
 test("should navigate to faucet when link is clicked", async () => {
     const rendered = render(<Instructions />);
-    const link = rendered.getByText("Faucet");
+    const link = rendered.getByText("FAQs");
     fireEvent.click(link);
-    expect(screen.getByText("Faucet").closest("a"))
+    expect(screen.getByText("FAQs").closest("a"))
         .toHaveAttribute("href", "https://faucet.minaprotocol.com/");
 });
 
 test("Instructions are rendered and visible", async () => {
     render(<Instructions />);
-    expect(screen.getByText("Instructions for Testnet")).toBeInTheDocument();
+    expect(screen.getByText("Instructions")).toBeInTheDocument();
 });
 
 test("Snapshot test passes", async () => {

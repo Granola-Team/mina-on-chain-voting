@@ -8,13 +8,15 @@ interface Props {
 }
 
 export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
-  const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
+  const now = moment(new Date()).utc().format("YYYY-MM-DD | hh:mm:ss A");
   const percentage = (slot / 7140) * 89.78;
   const oppositePercentage = 100 - percentage;
   const begSlotMinutes = slot * 3;
-  const begEpoch = moment().subtract(begSlotMinutes, "minutes").format("YYYY-MM-DD | hh:mm:ss Z");
+  const begEpoch = moment().utc().subtract(begSlotMinutes, "minutes")
+    .format("YYYY-MM-DD | hh:mm:ss A");
   const endSlotMinutes = (7140 - slot) * 3;
-  const endEpoch = moment().add(endSlotMinutes, "minutes").format("YYYY-MM-DD | hh:mm:ss Z");
+  const endEpoch = moment().utc().add(endSlotMinutes, "minutes")
+    .format("YYYY-MM-DD | hh:mm:ss A");
   const days = Math.floor(endSlotMinutes / 60 / 24);
   const hours = Math.floor(((endSlotMinutes / 60 / 24) - days) * 24);
   const minutes = Math.floor(((((endSlotMinutes / 60 / 24) - days) * 24) - hours) * 60);
@@ -26,7 +28,7 @@ export const EpochTiming: React.FC<Props> = ({ epoch, slot }) => {
           <div className="flex-col flex md:flex-row items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="semibold text-lg md:text-xl leading-8">
-                Voting Timing
+                Voting Period
               </span>
 
               <IconTooltip css="h-[1.1rem] w-[1.1rem] md:mt-0.5">

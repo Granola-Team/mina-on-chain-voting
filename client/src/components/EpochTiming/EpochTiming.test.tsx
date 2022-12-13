@@ -21,7 +21,7 @@ describe("EpochTiming Tests", () => {
 
   test("title renders", () => {
     const view = render(<EpochTiming {...props} />);
-    expect(view.getByText("Voting Timing")).toBeInTheDocument();
+    expect(view.getByText("Voting Period")).toBeInTheDocument();
   });
 
   test("bar meter percentage", () => {

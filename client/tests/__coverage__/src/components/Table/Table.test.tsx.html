@@ -485,18 +485,18 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {expect, vi} from "vitest";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { expect, vi } from "vitest";
 import "@testing-library/jest-dom";
 import React from "react";
 &nbsp;
-import {TableHeader} from "./TableHeader";
-import {Layout} from "../Layout/Layout";
-import {BrowserRouter as Router} from "react-router-dom";
-import {TableBody} from "./TableBody";
-import type {BlockStatus, SignalStatus, DelegationEntity} from "@/types";
-import {TableRow} from "./TableRow";
-import {Table} from "./Table";
-import {cleanup, fireEvent, render} from "@testing-library/react";
+import { TableHeader } from "./TableHeader";
+import { Layout } from "../Layout/Layout";
+import { BrowserRouter as Router } from "react-router-dom";
+import { TableBody } from "./TableBody";
+import type { BlockStatus, SignalStatus, DelegationEntity } from "@/types";
+import { TableRow } from "./TableRow";
+import { Table } from "./Table";
+import { cleanup, fireEvent, render } from "@testing-library/react";
 &nbsp;
 afterEach(cleanup);
 &nbsp;
@@ -562,36 +562,36 @@ describe("Table Tests", () =&gt; {
         expect(elementFive).toBeInTheDocument();
     });
 &nbsp;
-//    test("TableBubble colors working", () =&gt; {
-//        const view = render(&lt;TableBody {...props} /&gt;);
-//        expect(view.getByText("Pending").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
-//        );
-//        expect(view.getByText("Canonical").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7",
-//        );
-//        expect(view.getByText("Orphaned").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7",
-//        );
-//    });
+    //    test("TableBubble colors working", () =&gt; {
+    //        const view = render(&lt;TableBody {...props} /&gt;);
+    //        expect(view.getByText("Pending").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
+    //        );
+    //        expect(view.getByText("Canonical").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-greenA-4 border-greenA-7",
+    //        );
+    //        expect(view.getByText("Orphaned").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-redA-4 border-redA-7",
+    //        );
+    //    });
 &nbsp;
-//    test("Table file", () =&gt; {
-//        const rendered = render(
-//            &lt;Router&gt;
-//                &lt;Table {...props}&gt;
-//                    &lt;TableNavigation/&gt;
-//                    &lt;TableBody {...props} /&gt;
-//                &lt;/Table&gt;
-//            &lt;/Router&gt;,
-//        );
-//        expect(rendered.getByText("Pending").closest("div")).toHaveAttribute(
-//            "class",
-//            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
-//        );
-//    });
+    //    test("Table file", () =&gt; {
+    //        const rendered = render(
+    //            &lt;Router&gt;
+    //                &lt;Table {...props}&gt;
+    //                    &lt;TableNavigation/&gt;
+    //                    &lt;TableBody {...props} /&gt;
+    //                &lt;/Table&gt;
+    //            &lt;/Router&gt;,
+    //        );
+    //        expect(rendered.getByText("Pending").closest("div")).toHaveAttribute(
+    //            "class",
+    //            "flex items-center justify-center border py-0.5 rounded-3xl w-[4.5rem] lg:w-24 bg-yellowA-4 border-yellowA-7",
+    //        );
+    //    });
 });
 &nbsp;
 const createPercent = (v: number, t: number): string =&gt; {
@@ -641,7 +641,7 @@ describe("StatsWeighted Tests", () =&gt; {
         const rendered = render(
             &lt;Router&gt;
                 &lt;Layout&gt;
-                    &lt;TableHeader/&gt;
+                    &lt;TableHeader /&gt;
                 &lt;/Layout&gt;
             &lt;/Router&gt;,
         );
@@ -703,7 +703,7 @@ describe("Testing isLoading", () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-12T19:41:05.552Z
+                at 2022-12-12T20:36:52.354Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

@@ -8,7 +8,6 @@ use axum::{
 };
 
 use axum_extra::routing::SpaRouter;
-use serde::{Deserialize, Serialize};
 use tower_http::services::ServeFile;
 pub trait Build {
     fn build_v1(cfg: &Config) -> Router;
@@ -16,7 +15,8 @@ pub trait Build {
 
 impl Build for Router {
     fn build_v1(cfg: &Config) -> Router {
-        let spa = SpaRouter::new("/assets", format!("{}/assets", &cfg.client_path)).index_file("index.html");
+        let spa = SpaRouter::new("/assets", format!("{}/assets", &cfg.client_path))
+            .index_file("index.html");
         let react_router_fallback =
             get_service(ServeFile::new(format!("{}/index.html", &cfg.client_path))).handle_error(
                 |error: std::io::Error| async move {
@@ -32,10 +32,4 @@ impl Build for Router {
             .route("/api/v1/:keyword", get(api::keyword::handler))
             .fallback(react_router_fallback)
     }
-}
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-pub enum QueryRequestFilter {
-    Mainnet,
-    Devnet,
 }

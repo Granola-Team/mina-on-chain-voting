@@ -1,40 +1,39 @@
 use std::error::Error;
 
 use crate::{
+    constants::THREE_MONTHS_MILLIS,
     models::{BlockStatus, DBResponse},
-    router::QueryRequestFilter,
-    ApiContext,
+    types::Network,
 };
 use axum::Extension;
 use sqlx::{Pool, Postgres};
 
 pub async fn get_latest_blockheight(
-    ctx: &Extension<ApiContext>,
-    network: &QueryRequestFilter,
+    ctx: &Extension<crate::APIContext>,
+    network: &Network,
 ) -> Result<i64, sqlx::Error> {
     let row: (i64,) = sqlx::query_as("SELECT MAX(height) FROM blocks;")
         .fetch_one(match network {
-            QueryRequestFilter::Mainnet => &ctx.mainnet_db,
-            _ => &ctx.devnet_db,
+            Network::Mainnet => &ctx.mainnet_db,
+            _ => panic!("Unsupported network."),
         })
         .await?;
     Ok(row.0)
 }
 
-/// By default we get all signals every query.
-/// This is wildly inefficient & we should work towards an alternative.
-/// Since we're essentially only interested in memo's - maybe a way to decode base58 on the DB side?
 pub async fn get_signals(
     db: &Pool<Postgres>,
     timestamp: Option<i64>,
 ) -> Result<Vec<DBResponse>, Box<dyn Error>> {
-    use crate::constants::THREE_MONTHS_MILLIS;
     let voting_frontier_timestamp = match timestamp {
         Some(timestamp) => timestamp,
-        None =>  std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .expect("SystemTime::now() should not be before the UNIX EPOCH")
-            .as_millis() as i64 - THREE_MONTHS_MILLIS, // maybe worry about integer overflow?
+        None => {
+            std::time::SystemTime::now()
+                .duration_since(std::time::UNIX_EPOCH)
+                .expect("SystemTime::now() should not be before the UNIX EPOCH")
+                .as_millis() as i64
+                - THREE_MONTHS_MILLIS
+        }
     };
     Ok(sqlx::query_as!(
     DBResponse,

@@ -48,6 +48,19 @@ export const Instructions: React.FC = () => {
               ) for more information, including how to send yourself a transaction
               </span>
             </p>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+              If you find an issue, a bug or simply have a question, please feel free to write us some&nbsp;
+                <a
+                  href="/"
+                  className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
+                >
+                <u>feedback</u>
+                </a>
+                . We would love to hear your thoughts!
+              </span>
+            </p>
           </div>
         </div>
       </div>

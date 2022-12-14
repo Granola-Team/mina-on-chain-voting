@@ -87,6 +87,24 @@ exports[`Snapshot test passes 1`] = `
                   ) for more information, including how to send yourself a transaction
                 </span>
               </p>
+              <p
+                class="font-semibold"
+              >
+                <span
+                  class="text-[0.875rem] font-normal"
+                >
+                  If you find an issue, a bug or simply have a question, please feel free to write us some 
+                  <a
+                    class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
+                    href="/"
+                  >
+                    <u>
+                      feedback
+                    </u>
+                  </a>
+                  . We would love to hear your thoughts!
+                </span>
+              </p>
             </div>
           </div>
         </div>
@@ -174,6 +192,24 @@ exports[`Snapshot test passes 1`] = `
                   </u>
                 </a>
                 ) for more information, including how to send yourself a transaction
+              </span>
+            </p>
+            <p
+              class="font-semibold"
+            >
+              <span
+                class="text-[0.875rem] font-normal"
+              >
+                If you find an issue, a bug or simply have a question, please feel free to write us some 
+                <a
+                  class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
+                  href="/"
+                >
+                  <u>
+                    feedback
+                  </u>
+                </a>
+                . We would love to hear your thoughts!
               </span>
             </p>
           </div>

@@ -3,7 +3,7 @@ import moment from "moment";
 import makeBlockie from "ethereum-blockies-base64";
 import { useMediaQuery } from "@react-hook/media-query";
 
-import type { TableRowProps } from "@/types";
+import type { BlockStatus, SignalStatus, TableRowProps } from "@/types";
 
 import { TableBubble } from "./TableBubble";
 
@@ -31,6 +31,13 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
       }
     }
     return "---";
+  };
+
+  const signalStatus = (status: BlockStatus) => {
+    switch (status) {
+      case "Canonical": { return "Ok"; }
+      default: { return status; }
+    }
   };
 
   if (isMobile) {
@@ -65,12 +72,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
             <div className="flex items-center gap-2">
               <TableBubble status={signal.status}>
                 <span className="grid-table-content-mobile medium">
-                  {signal.status}
-                </span>
-              </TableBubble>
-              <TableBubble status={signal.signal_status}>
-                <span className="grid-table-content-mobile medium">
-                  {signal.signal_status}
+                  { signalStatus(signal.status) }
                 </span>
               </TableBubble>
             </div>
@@ -100,35 +102,11 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
         </span>
       </div>
       <div className="place-self-center">
-        <span className="grid-table-content">
-          {signal.delegations
-            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(4)}`
-            : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
-        <span className="grid-table-content">
-          {signal.delegations ? `${percent()}` : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
-        <span className="grid-table-content medium">
-          {signal.delegations ? signal.delegations.total_delegators : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
         <span className="grid-table-content medium">{signal.memo}</span>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.status}>
-          <span className="grid-table-content medium">{signal.status}</span>
-        </TableBubble>
-      </div>
-      <div className="place-self-center">
-        <TableBubble status={signal.signal_status}>
-          <span className="grid-table-content medium">
-            {signal.signal_status}
-          </span>
+          { signalStatus(signal.status) }
         </TableBubble>
       </div>
     </div>

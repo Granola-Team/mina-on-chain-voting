@@ -53,8 +53,7 @@ export const Keyword = () => {
    * @param {string} demo - Param to toggle demonstration mode.
    * @param {string} network - Param to control network. (e.g. Mainnet)
    */
-  const [searchParams] = useFilterParams();
-  const filter = searchParams.get("filter");
+  const [searchParams] = useFilterParams(); // can we remove this?
 
   /**
    * Executing our query using React Query.
@@ -92,43 +91,16 @@ export const Keyword = () => {
   useEffect(() => {
     if (isSuccess && key) {
       setKey(key);
-      switch (filter) {
-        case "All":
-          setSignals(
-            queryData.settled.concat(queryData.unsettled, queryData.invalid),
-          );
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        case "Settled":
-          setSignals(queryData.settled);
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        case "Unsettled":
-          setSignals(queryData.unsettled);
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        case "Invalid":
-          setSignals(queryData.invalid);
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        default:
-          setSignals(
-            queryData.settled.concat(queryData.unsettled, queryData.invalid),
-          );
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-      }
-    }
+      setSignals(
+        queryData.settled.concat(queryData.unsettled, queryData.invalid),
+      );
+      setStats(queryData.stats);
+      setTiming({ epoch: queryData.epoch, slot: queryData.slot });
+}
   }, [
     queryData,
     isSuccess,
     setSignals,
-    filter,
     setStats,
     setTiming,
     setKey,

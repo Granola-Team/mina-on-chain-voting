@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.38% </span>
+                <span class="strong">42.34% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>40/107</span>
+                <span class='fraction'>47/111</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.66% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>2/3</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">37.38% </span>
+                <span class="strong">42.34% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>40/107</span>
+                <span class='fraction'>47/111</span>
             </div>
         
             
@@ -170,7 +170,11 @@
 <a name='L105'></a><a href='#L105'>105</a>
 <a name='L106'></a><a href='#L106'>106</a>
 <a name='L107'></a><a href='#L107'>107</a>
-<a name='L108'></a><a href='#L108'>108</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L108'></a><a href='#L108'>108</a>
+<a name='L109'></a><a href='#L109'>109</a>
+<a name='L110'></a><a href='#L110'>110</a>
+<a name='L111'></a><a href='#L111'>111</a>
+<a name='L112'></a><a href='#L112'>112</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -250,9 +254,13 @@
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-yes">7x</span>
@@ -282,7 +290,7 @@ import moment from "moment";
 import makeBlockie from "ethereum-blockies-base64";
 import { useMediaQuery } from "@react-hook/media-query";
 &nbsp;
-import type { TableRowProps } from "@/types";
+import type { SignalStatus, TableRowProps } from "@/types";
 &nbsp;
 import { TableBubble } from "./TableBubble";
 &nbsp;
@@ -344,12 +352,9 @@ export const TableRow: React.FC&lt;TableRowProps&gt; = ({ signal, stats }) =&gt;
 <span class="cstat-no" title="statement not covered" >            &lt;div className="flex items-center gap-2"&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;TableBubble status={signal.status}&gt;</span>
 <span class="cstat-no" title="statement not covered" >                &lt;span className="grid-table-content-mobile medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  {signal.status}</span>
-<span class="cstat-no" title="statement not covered" >                &lt;/span&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;/TableBubble&gt;</span>
-<span class="cstat-no" title="statement not covered" >              &lt;TableBubble status={signal.signal_status}&gt;</span>
-<span class="cstat-no" title="statement not covered" >                &lt;span className="grid-table-content-mobile medium"&gt;</span>
-<span class="cstat-no" title="statement not covered" >                  {signal.signal_status}</span>
+<span class="cstat-no" title="statement not covered" >                  {signal.status === "Canonical" &amp;&amp; "Ok"}</span>
+<span class="cstat-no" title="statement not covered" >                  {signal.status === "Pending" &amp;&amp; "Pending"}</span>
+<span class="cstat-no" title="statement not covered" >                  {signal.status === "Orphaned" &amp;&amp; "Orphaned"}</span>
 <span class="cstat-no" title="statement not covered" >                &lt;/span&gt;</span>
 <span class="cstat-no" title="statement not covered" >              &lt;/TableBubble&gt;</span>
 <span class="cstat-no" title="statement not covered" >            &lt;/div&gt;</span>
@@ -381,6 +386,13 @@ export const TableRow: React.FC&lt;TableRowProps&gt; = ({ signal, stats }) =&gt;
       &lt;div className="place-self-center"&gt;
         &lt;span className="grid-table-content medium"&gt;{signal.memo}&lt;/span&gt;
       &lt;/div&gt;
+      &lt;div className="place-self-center"&gt;
+        &lt;TableBubble status={signal.status}&gt;
+          {signal.status === "Canonical" &amp;&amp; "Ok"}
+          {signal.status === "Pending" &amp;&amp; "Pending"}
+          {signal.status === "Orphaned" &amp;&amp; "Orphaned"}
+        &lt;/TableBubble&gt;
+      &lt;/div&gt;
     &lt;/div&gt;
   );
 };
@@ -391,7 +403,7 @@ export const TableRow: React.FC&lt;TableRowProps&gt; = ({ signal, stats }) =&gt;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-12-12T19:41:05.552Z
+                at 2022-12-12T20:36:52.354Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

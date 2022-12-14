@@ -1,20 +1,18 @@
 use sqlx::PgPool;
 use std::sync::Arc;
 
-pub mod constants;
 pub mod ledger;
-pub mod models;
-pub mod processor;
 pub mod queries;
 pub mod router;
+pub mod signal;
 pub mod types;
-
-#[macro_use]
-extern crate postgres_derive;
+pub mod utils;
 
 #[derive(Clone)]
 pub struct APIContext {
     pub config: Arc<Config>,
+    pub signal_cache: Arc<crate::signal::SignalCache>,
+    pub ledger_cache: Arc<crate::ledger::LedgerCache>,
     pub mainnet_db: PgPool,
 }
 
@@ -28,12 +26,4 @@ pub struct Config {
     /// The path to the current frontend build.
     #[clap(long, env)]
     pub client_path: String,
-    #[clap(subcommand)]
-    pub subcmd: SubCommand,
-}
-
-#[derive(clap::Parser, Debug)]
-pub enum SubCommand {
-    /// Starts the server
-    Start,
 }

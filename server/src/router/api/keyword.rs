@@ -7,10 +7,10 @@ use axum::{
 use base58check::FromBase58Check;
 use serde::{Deserialize, Serialize};
 
-use crate::{ledger::get_staking_data, types::Network};
+use crate::{ledger::get_stake_weight, types::Network};
 use crate::{
     ledger::LedgerAccount,
-    signal::{Signal, SignalExt, SignalWithStake},
+    signal::{Signal, SignalExt, SignalWithWeight},
 };
 
 fn decode_memo(key: &str, encoded: &str) -> Option<String> {
@@ -52,7 +52,7 @@ impl SortByTimestamp for Vec<Signal> {
     }
 }
 
-impl SortByTimestamp for Vec<SignalWithStake> {
+impl SortByTimestamp for Vec<SignalWithWeight> {
     fn sort_by_timestamp(self) -> Self {
         let mut a = self;
         a.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
@@ -87,17 +87,17 @@ fn process_signals_results(
     key: impl Into<String>,
     signals: Vec<Signal>,
     ledger: Vec<LedgerAccount>,
-) -> anyhow::Result<Vec<SignalWithStake>> {
+) -> anyhow::Result<Vec<SignalWithWeight>> {
     let key = key.into();
     let values = process_signals(key, signals);
 
     Ok(values
         .into_iter()
         .filter_map(|signal| {
-            let stake = get_staking_data(&ledger, &signal.account).ok()?;
-            Some(SignalWithStake::new(signal, stake))
+            let stake_weight = get_stake_weight(&ledger, &signal.account).ok()?;
+            Some(SignalWithWeight::new(signal, stake_weight))
         })
-        .collect::<Vec<SignalWithStake>>())
+        .collect::<Vec<SignalWithWeight>>())
 }
 
 #[derive(Debug, Serialize, Deserialize)]

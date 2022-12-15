@@ -36,10 +36,10 @@ pub async fn get_ledger(
     }
 }
 
-pub fn get_staking_data(
+pub fn get_stake_weight(
     ledger: &Vec<LedgerAccount>,
     public_key: impl Into<String>,
-) -> anyhow::Result<crate::signal::Stake> {
+) -> anyhow::Result<f64> {
     let public_key = public_key.into();
 
     let _account = ledger.iter().find(|d| d.pk == public_key);
@@ -48,30 +48,22 @@ pub fn get_staking_data(
         None => anyhow::bail!("Error: Account not found in ledger."),
     };
 
-    let delegators_for_pk = ledger
+    let delegators = ledger
         .iter()
         .filter(|d| d.delegate == public_key)
         .collect::<Vec<&LedgerAccount>>();
 
-    let value = crate::signal::Stake {
-        delegated_balance: delegators_for_pk
-            .iter()
-            .fold(0.00, |acc, x| x.balance.parse::<f64>().unwrap() + acc),
-        total_delegators: delegators_for_pk.len() as i32,
-    };
+    // PK is delegated to someone else.
+    if account.delegate != public_key {
+        return Ok(0.00);
+    }
 
-    Ok(value)
+    // PK is delegated to itself.
+    let stake_weight = delegators
+        .iter()
+        .fold(account.balance.parse::<f64>().unwrap_or(0.00), |acc, x| {
+            x.balance.parse::<f64>().unwrap() + acc
+        });
+
+    Ok(stake_weight)
 }
-
-// let ledger = ledger::get_ledger(
-//     "jxYFH645cwMMMDmDe7KnvTuKJ5Ev8zZbWtA73fDFn7Jyh8p6SwH",
-//     &ctx.cache,
-// )
-// .await
-// .unwrap();
-
-// let delegations = ledger::get_staking_data(
-//     &ledger,
-//     "B62qmjZSQHakvWz7ZMkaaVW7ye1BpxdYABAMoiGk3u9bBaLmK5DJPkR",
-// )
-// .unwrap();

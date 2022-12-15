@@ -15,20 +15,14 @@ pub struct Signal {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SignalWithStake {
+pub struct SignalWithWeight {
     pub account: String,
     pub memo: String,
     pub height: i64,
     pub status: BlockStatus,
     pub timestamp: i64,
     pub nonce: i64,
-    pub stake: Stake,
-}
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct Stake {
-    pub total_delegators: i32,
-    pub delegated_balance: f64,
+    pub stake_weight: f64,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]
@@ -39,8 +33,8 @@ pub enum BlockStatus {
     Orphaned,
 }
 
-impl SignalWithStake {
-    pub fn new(signal: Signal, stake: Stake) -> Self {
+impl SignalWithWeight {
+    pub fn new(signal: Signal, stake_weight: f64) -> Self {
         Self {
             account: signal.account,
             memo: signal.memo,
@@ -48,7 +42,7 @@ impl SignalWithStake {
             status: signal.status,
             timestamp: signal.timestamp,
             nonce: signal.nonce,
-            stake,
+            stake_weight,
         }
     }
 }
@@ -63,7 +57,7 @@ impl SignalExt for Signal {
     }
 }
 
-impl SignalExt for SignalWithStake {
+impl SignalExt for SignalWithWeight {
     fn update_memo(&mut self, memo: String) {
         self.memo = memo;
     }

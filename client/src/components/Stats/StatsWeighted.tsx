@@ -55,7 +55,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
                   Yes
                 </span>
                 <span className="text-sm md:text-lg semibold text-green-11">
-                  {yesPercent}%
+                  {yesPercent}% | { stats.yes } MINA
                 </span>
               </div>
               <div className="flex flex-col items-end">
@@ -63,7 +63,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
                   No
                 </span>
                 <span className="text-sm md:text-lg semibold text-red-11">
-                  {noPercent}%
+                  {noPercent}% | {stats.no } MINA
                 </span>
               </div>
             </div>

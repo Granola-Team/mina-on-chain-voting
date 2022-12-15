@@ -4,10 +4,10 @@ import React from "react";
 import type { TableProps } from "@/types";
 
 import { Spinner } from "../Spinner";
-import { TableBodyWrapper } from "./TableBodyWrapper";
-import { TableRow } from "./TableRow";
+import { ResultsTableBodyWrapper } from "./ResultsTableBodyWrapper";
+import { ResultsTableRow } from "./ResultsTableRow";
 
-export const TableBody: React.FC<TableProps> = ({
+export const ResultsTableBody: React.FC<TableProps> = ({
   data,
   query,
   isLoading,
@@ -15,25 +15,25 @@ export const TableBody: React.FC<TableProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <TableBodyWrapper>
+      <ResultsTableBodyWrapper>
         <div className="py-6 mt-1">
           <Spinner />
         </div>
-      </TableBodyWrapper>
+      </ResultsTableBodyWrapper>
     );
   }
 
   return (
-    <TableBodyWrapper>
+    <ResultsTableBodyWrapper>
       {data.length > 0 ? (
         data.filter((entity) => entity.signal_status !== "Invalid").map((signal, index) => (
-          <TableRow key={data.length + index} stats={stats} signal={signal} />
+          <ResultsTableRow key={data.length + index} stats={stats} signal={signal} />
         ))
       ) : (
         <span className="text-md py-12 medium">
           No results found for keyword &apos;{query ? query : "_"}&apos;
         </span>
       )}
-    </TableBodyWrapper>
+    </ResultsTableBodyWrapper>
   );
 };

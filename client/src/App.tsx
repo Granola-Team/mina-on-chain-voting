@@ -22,7 +22,8 @@ const App = () => {
     <QueryClientProvider client={ReactQueryClient}>
       <Router>
         <Routes>
-          <Route path="/:network/:key" element={<Keyword />} />
+          <Route path="/:network/:key/results" element={<Keyword showResults />} />
+          <Route path="/:network/:key" element={<Keyword showResults={false} />} />
           <Route path="/" element={<Home />} />
         </Routes>
       </Router>

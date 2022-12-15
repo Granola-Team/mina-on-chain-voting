@@ -13,8 +13,9 @@ import { StatsWeighted } from "@/components/Stats";
 import { Spinner } from "@/components/Spinner";
 import { Layout } from "@/components/Layout";
 import { Table } from "@/components/Table";
+import { ResultsTable } from "@/components/ResultsTable";
 
-export const Keyword = () => {
+export const Keyword = ({ showResults }) => {
   const {
     setKey,
     signals,
@@ -125,7 +126,7 @@ export const Keyword = () => {
     );
   }
 
-  if (signals && key && timing.epoch && timing.slot) {
+  if (!showResults && signals && key && timing.epoch && timing.slot) {
     return (
       <Layout>
         <React.Fragment>
@@ -133,10 +134,25 @@ export const Keyword = () => {
           {network === "mainnet" ? (
             <EpochTiming epoch={timing.epoch} slot={timing.slot} />
           ) : null}
+          <Table
+            data={signals}
+            stats={stats}
+            query={key}
+            isLoading={isLoading}
+          />
+        </React.Fragment>
+      </Layout>
+    );
+  }
+
+  if (showResults && signals && key && timing.epoch && timing.slot) {
+    return (
+      <Layout>
+        <React.Fragment>
           {stats ? (
             <StatsWeighted stats={stats} network={network ? network : ""} />
           ) : null}
-          <Table
+          <ResultsTable
             data={signals}
             stats={stats}
             query={key}

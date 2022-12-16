@@ -15,37 +15,42 @@ export const Instructions: React.FC = () => {
                 Instructions
               </span>
             </div>
-            <p className="font-semibold">
+            <div className="font-semibold">
               {" "}
               <span className="text-[0.875rem] font-normal">
-              Send yourself a transaction with the keyword(s) in the memo field
-              <ul className="list-disc list-inside">
-                <li>To vote in favor of the proposal, enter in the memo field {" "}
-                <span className="font-semibold">&apos;{key}&apos;</span>
-                </li>
-                <li>To vote against the proposal enter in the memo field {" "}
-                <span className="font-semibold"> &apos;no {key}&apos;</span>
-                </li>
-              </ul>
+                Send yourself a transaction with the keyword(s) in the memo
+                field
+                <ul className="list-disc list-inside">
+                  <li>
+                    To vote in favor of the proposal, enter in the memo field{" "}
+                    <span className="font-semibold">&apos;{key}&apos;</span>
+                  </li>
+                  <li>
+                    To vote against the proposal enter in the memo field{" "}
+                    <span className="font-semibold"> &apos;no {key}&apos;</span>
+                  </li>
+                </ul>
+              </span>
+            </div>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+                Refresh the dashboard - your vote should appear in the dashboard
+                within 10-15 minutes
               </span>
             </p>
 
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
-                Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
-              </span>
-            </p>
-
-            <p className="font-semibold">
-              <span className="text-[0.875rem] font-normal">
-              See Frequently Asked Questions (
+                See Frequently Asked Questions (
                 <a
                   href="https://faucet.minaprotocol.com/"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
-                <u>FAQs</u>
+                  <u>FAQs</u>
                 </a>
-              ) for more information, including how to send yourself a transaction
+                ) for more information, including how to send yourself a
+                transaction
               </span>
             </p>
           </div>

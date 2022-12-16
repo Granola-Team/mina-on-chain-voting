@@ -1,21 +1,21 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import shallow from "zustand/shallow";
+import type { Network } from "@/types";
 import { useKeywordStore } from "./Keyword.store";
-import { useFilterParams } from "@/hooks/useFilterParams";
 import { fetchEpochData, fetchKeywordData } from "./Keyword.queries";
 
+import { ResultsTable } from "@/components/ResultsTable";
 import { Instructions } from "@/components/Instructions";
-import { EpochTiming } from "@/components/EpochTiming";
+import { VotingPeriod } from "@/components/VotingPeriod";
 import { StatsWeighted } from "@/components/Stats";
 import { Spinner } from "@/components/Spinner";
 import { Layout } from "@/components/Layout";
 import { Table } from "@/components/Table";
-import { ResultsTable } from "@/components/ResultsTable";
 
-export const Keyword = ({ showResults }) => {
+export const Keyword = ({ showResults }: { showResults: boolean }) => {
   const {
     setKey,
     signals,
@@ -47,14 +47,10 @@ export const Keyword = ({ showResults }) => {
    * @param {string} key - Route to control current keyword. (e.g. "/magenta")
    */
   const { key, network } = useParams();
-
-  /**
-   * Gets current search parameters.
-   * @param {string} filter - Param to control filters. (e.g. 'Settled' only)
-   * @param {string} demo - Param to toggle demonstration mode.
-   * @param {string} network - Param to control network. (e.g. Mainnet)
-   */
-  const [searchParams] = useFilterParams(); // can we remove this?
+  const [searchParams] = useSearchParams();
+  const start = searchParams.get("start");
+  const end = searchParams.get("end");
+  const hash = searchParams.get("hash");
 
   /**
    * Executing our query using React Query.
@@ -72,9 +68,12 @@ export const Keyword = ({ showResults }) => {
       const epochData = await fetchEpochData();
       const keywordData = await fetchKeywordData(
         key,
-        network ? network : "mainnet",
+        network ? (network as Network) : "mainnet",
+        start ? start : "1665707162000",
+        end ? end : "1670985755000",
+        hash,
       );
-      return { ...epochData, ...keywordData };
+      return { votes: keywordData, ...epochData };
     },
     {
       enabled: !!key,
@@ -92,21 +91,32 @@ export const Keyword = ({ showResults }) => {
   useEffect(() => {
     if (isSuccess && key) {
       setKey(key);
-      setSignals(
-        queryData.settled.concat(queryData.unsettled, queryData.invalid),
-      );
-      setStats(queryData.stats);
+      setSignals(queryData.votes);
+
+      const yes = queryData.votes.reduce((acc, curr) => {
+        if (
+          curr.memo.toLowerCase() === key.toLowerCase() &&
+          curr.stake_weight
+        ) {
+          return acc + curr.stake_weight;
+        }
+        return acc;
+      }, 0);
+
+      const no = queryData.votes.reduce((acc, curr) => {
+        if (
+          curr.memo.toLowerCase() === `no ${key.toLowerCase()}` &&
+          curr.stake_weight
+        ) {
+          return acc + curr.stake_weight;
+        }
+        return acc;
+      }, 0);
+
+      setStats({ yes, no });
       setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-}
-  }, [
-    queryData,
-    isSuccess,
-    setSignals,
-    setStats,
-    setTiming,
-    setKey,
-    key,
-  ]);
+    }
+  }, [queryData, isSuccess, setSignals, setStats, setTiming, setKey, key]);
 
   if (isError) {
     return (
@@ -126,42 +136,28 @@ export const Keyword = ({ showResults }) => {
     );
   }
 
-  if (!showResults && signals && key && timing.epoch && timing.slot) {
+  if (!showResults && start && end && signals && key) {
     return (
       <Layout>
         <React.Fragment>
           <Instructions key={key} />
-          {network === "mainnet" ? (
-            <EpochTiming epoch={timing.epoch} slot={timing.slot} />
+          {network === "mainnet" && timing.epoch && timing.slot ? (
+            <VotingPeriod start={start} end={end} />
           ) : null}
-          <Table
-            data={signals}
-            stats={stats}
-            query={key}
-            isLoading={isLoading}
-          />
+          <Table data={signals} query={key} isLoading={isLoading} />
         </React.Fragment>
       </Layout>
     );
   }
 
-  if (showResults && signals && key && timing.epoch && timing.slot) {
+  if (showResults && start && end && hash && signals && key) {
     return (
       <Layout>
         <React.Fragment>
-          {stats ? (
-            <StatsWeighted stats={stats} network={network ? network : ""} />
-          ) : null}
-          <ResultsTable
-            data={signals}
-            stats={stats}
-            query={key}
-            isLoading={isLoading}
-          />
+          <StatsWeighted network={network ? network : ""} />
+          <ResultsTable data={signals} query={key} isLoading={isLoading} />
         </React.Fragment>
       </Layout>
     );
   }
-
-  return null;
 };

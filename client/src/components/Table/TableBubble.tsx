@@ -1,15 +1,15 @@
 import React from "react";
 
-import type { BlockStatus, SignalStatus, TableBubbleProps } from "@/types";
+import type { BlockStatus, TableBubbleProps } from "@/types";
 
-const getColor = (status: BlockStatus | SignalStatus) => {
-  if (status === "Canonical" || status === "Settled") {
+const getColor = (status: BlockStatus) => {
+  if (status === "Canonical") {
     return "bg-greenA-4 border-greenA-7";
   }
-  if (status === "Pending" || status === "Unsettled") {
+  if (status === "Pending") {
     return "bg-yellowA-4 border-yellowA-7";
   }
-  if (status === "Orphaned" || status === "Invalid") {
+  if (status === "Orphaned") {
     return "bg-redA-4 border-redA-7";
   }
 

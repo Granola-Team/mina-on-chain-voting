@@ -7,6 +7,7 @@ pub type SignalCache = Cache<String, std::sync::Arc<Vec<Signal>>>;
 #[derive(Debug, PartialEq, Eq, Clone, FromRow, Serialize, Deserialize)]
 pub struct Signal {
     pub account: String,
+    pub hash: String,
     pub memo: String,
     pub height: i64,
     pub status: BlockStatus,
@@ -17,6 +18,7 @@ pub struct Signal {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SignalWithWeight {
     pub account: String,
+    pub hash: String,
     pub memo: String,
     pub height: i64,
     pub status: BlockStatus,
@@ -37,6 +39,7 @@ impl SignalWithWeight {
     pub fn new(signal: Signal, stake_weight: f64) -> Self {
         Self {
             account: signal.account,
+            hash: signal.hash,
             memo: signal.memo,
             height: signal.height,
             status: signal.status,

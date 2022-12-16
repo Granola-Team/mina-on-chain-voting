@@ -3,7 +3,7 @@ import moment from "moment";
 import makeBlockie from "ethereum-blockies-base64";
 import { useMediaQuery } from "@react-hook/media-query";
 
-import type { BlockStatus, SignalStatus, TableRowProps } from "@/types";
+import type { TableRowProps } from "@/types";
 
 import { TableBubble } from "./TableBubble";
 
@@ -15,30 +15,8 @@ export const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
+export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
-  const percent: () => string = (): string => {
-    if (
-      signal.signal_status === "Settled" ||
-      signal.signal_status === "Unsettled"
-    ) {
-      const total = stats.yes + stats.no;
-      if (signal.delegations) {
-        return createPercent(
-          parseFloat(signal.delegations.delegated_balance),
-          total,
-        );
-      }
-    }
-    return "---";
-  };
-
-  const signalStatus = (status: BlockStatus) => {
-    switch (status) {
-      case "Canonical": { return "Ok"; }
-      default: { return status; }
-    }
-  };
 
   if (isMobile) {
     return (
@@ -72,7 +50,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
             <div className="flex items-center gap-2">
               <TableBubble status={signal.status}>
                 <span className="grid-table-content-mobile medium">
-                  { signalStatus(signal.status) }
+                  {signal.status}
                 </span>
               </TableBubble>
             </div>
@@ -92,7 +70,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           {moment(new Date(signal.timestamp)).format("DD/MM/YYYY - hh:mm")}
         </span>
       </div>
-      <div className="flex items-center gap-2 lg:gap-3">
+      <div className="flex items-center gap-2 lg:gap-3 ml-10 place-self-left">
         <img
           className="h-5 w-5 lg:w-6 lg:h-6 rounded-full opacity-70"
           src={makeBlockie(signal.account)}
@@ -101,12 +79,19 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           {signal.account}
         </span>
       </div>
+
+      <div className="place-self-left mt-1 ml-10">
+        <span className="grid-table-content medium select-text">
+          {signal.hash}
+        </span>
+      </div>
+
       <div className="place-self-center">
         <span className="grid-table-content medium">{signal.memo}</span>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.status}>
-          { signalStatus(signal.status) }
+          <span className="grid-table-content medium">{signal.status}</span>
         </TableBubble>
       </div>
     </div>

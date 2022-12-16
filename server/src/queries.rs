@@ -14,7 +14,7 @@ pub async fn get_signals(
         let signals = sqlx::query_as!(
             Signal,
             r#"
-                SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
+                SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
                 FROM user_commands AS uc
                 JOIN blocks_user_commands AS buc
                 ON uc.id = buc.user_command_id

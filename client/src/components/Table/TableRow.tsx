@@ -15,23 +15,8 @@ export const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
+export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
-  const percent: () => string = (): string => {
-    if (
-      signal.signal_status === "Settled" ||
-      signal.signal_status === "Unsettled"
-    ) {
-      const total = stats.yes + stats.no;
-      if (signal.delegations) {
-        return createPercent(
-          parseFloat(signal.delegations.delegated_balance),
-          total,
-        );
-      }
-    }
-    return "---";
-  };
 
   if (isMobile) {
     return (
@@ -68,11 +53,6 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
                   {signal.status}
                 </span>
               </TableBubble>
-              <TableBubble status={signal.signal_status}>
-                <span className="grid-table-content-mobile medium">
-                  {signal.signal_status}
-                </span>
-              </TableBubble>
             </div>
           </div>
         </div>
@@ -90,7 +70,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           {moment(new Date(signal.timestamp)).format("DD/MM/YYYY - hh:mm")}
         </span>
       </div>
-      <div className="flex items-center gap-2 lg:gap-3">
+      <div className="flex items-center gap-2 lg:gap-3 ml-10 place-self-left">
         <img
           className="h-5 w-5 lg:w-6 lg:h-6 rounded-full opacity-70"
           src={makeBlockie(signal.account)}
@@ -99,36 +79,19 @@ export const TableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           {signal.account}
         </span>
       </div>
-      <div className="place-self-center">
-        <span className="grid-table-content">
-          {signal.delegations
-            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(4)}`
-            : "---"}
+
+      <div className="place-self-left mt-1 ml-10">
+        <span className="grid-table-content medium select-text">
+          {signal.hash}
         </span>
       </div>
-      <div className="place-self-center">
-        <span className="grid-table-content">
-          {signal.delegations ? `${percent()}` : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
-        <span className="grid-table-content medium">
-          {signal.delegations ? signal.delegations.total_delegators : "---"}
-        </span>
-      </div>
+
       <div className="place-self-center">
         <span className="grid-table-content medium">{signal.memo}</span>
       </div>
       <div className="place-self-center">
         <TableBubble status={signal.status}>
           <span className="grid-table-content medium">{signal.status}</span>
-        </TableBubble>
-      </div>
-      <div className="place-self-center">
-        <TableBubble status={signal.signal_status}>
-          <span className="grid-table-content medium">
-            {signal.signal_status}
-          </span>
         </TableBubble>
       </div>
     </div>

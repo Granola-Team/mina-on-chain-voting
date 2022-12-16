@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
+import { useParams, useSearchParams } from "react-router-dom";
 
 import shallow from "zustand/shallow";
+import type { Network } from "@/types";
 import { useKeywordStore } from "./Keyword.store";
-import { useFilterParams } from "@/hooks/useFilterParams";
 import { fetchEpochData, fetchKeywordData } from "./Keyword.queries";
 
+import { ResultsTable } from "@/components/ResultsTable";
 import { Instructions } from "@/components/Instructions";
-import { EpochTiming } from "@/components/EpochTiming";
+import { VotingPeriod } from "@/components/VotingPeriod";
 import { StatsWeighted } from "@/components/Stats";
 import { Spinner } from "@/components/Spinner";
 import { Layout } from "@/components/Layout";
 import { Table } from "@/components/Table";
 
-export const Keyword = () => {
+export const Keyword = ({ showResults }: { showResults: boolean }) => {
   const {
     setKey,
     signals,
     setSignals,
-    stats,
     setStats,
     isLoading,
     setIsLoading,
@@ -46,15 +46,10 @@ export const Keyword = () => {
    * @param {string} key - Route to control current keyword. (e.g. "/magenta")
    */
   const { key, network } = useParams();
-
-  /**
-   * Gets current search parameters.
-   * @param {string} filter - Param to control filters. (e.g. 'Settled' only)
-   * @param {string} demo - Param to toggle demonstration mode.
-   * @param {string} network - Param to control network. (e.g. Mainnet)
-   */
-  const [searchParams] = useFilterParams();
-  const filter = searchParams.get("filter");
+  const [searchParams] = useSearchParams();
+  const start = searchParams.get("start");
+  const end = searchParams.get("end");
+  const hash = searchParams.get("hash");
 
   /**
    * Executing our query using React Query.
@@ -72,9 +67,12 @@ export const Keyword = () => {
       const epochData = await fetchEpochData();
       const keywordData = await fetchKeywordData(
         key,
-        network ? network : "mainnet",
+        network ? (network as Network) : "mainnet",
+        start ? start : "1665707162000",
+        end ? end : "1670985755000",
+        hash,
       );
-      return { ...epochData, ...keywordData };
+      return { votes: keywordData, ...epochData };
     },
     {
       enabled: !!key,
@@ -92,48 +90,32 @@ export const Keyword = () => {
   useEffect(() => {
     if (isSuccess && key) {
       setKey(key);
-      switch (filter) {
-        case "All":
-          setSignals(
-            queryData.settled.concat(queryData.unsettled, queryData.invalid),
-          );
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        case "Settled":
-          setSignals(queryData.settled);
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        case "Unsettled":
-          setSignals(queryData.unsettled);
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        case "Invalid":
-          setSignals(queryData.invalid);
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-        default:
-          setSignals(
-            queryData.settled.concat(queryData.unsettled, queryData.invalid),
-          );
-          setStats(queryData.stats);
-          setTiming({ epoch: queryData.epoch, slot: queryData.slot });
-          break;
-      }
+      setSignals(queryData.votes);
+
+      const yes = queryData.votes.reduce((acc, curr) => {
+        if (
+          curr.memo.toLowerCase() === key.toLowerCase() &&
+          curr.stake_weight
+        ) {
+          return acc + curr.stake_weight;
+        }
+        return acc;
+      }, 0);
+
+      const no = queryData.votes.reduce((acc, curr) => {
+        if (
+          curr.memo.toLowerCase() === `no ${key.toLowerCase()}` &&
+          curr.stake_weight
+        ) {
+          return acc + curr.stake_weight;
+        }
+        return acc;
+      }, 0);
+
+      setStats({ yes, no });
+      setTiming({ epoch: queryData.epoch, slot: queryData.slot });
     }
-  }, [
-    queryData,
-    isSuccess,
-    setSignals,
-    filter,
-    setStats,
-    setTiming,
-    setKey,
-    key,
-  ]);
+  }, [queryData, isSuccess, setSignals, setStats, setTiming, setKey, key]);
 
   if (isError) {
     return (
@@ -153,27 +135,29 @@ export const Keyword = () => {
     );
   }
 
-  if (signals && key && timing.epoch && timing.slot) {
+  if (!showResults && start && end && signals && key) {
     return (
       <Layout>
         <React.Fragment>
-          <Instructions key={key} />
-          {network === "mainnet" ? (
-            <EpochTiming epoch={timing.epoch} slot={timing.slot} />
+          <Instructions key={key} totalVotes={signals.length} />
+
+          {network === "mainnet" && timing.epoch && timing.slot ? (
+            <VotingPeriod start={start} end={end} />
           ) : null}
-          {stats ? (
-            <StatsWeighted stats={stats} network={network ? network : ""} />
-          ) : null}
-          <Table
-            data={signals}
-            stats={stats}
-            query={key}
-            isLoading={isLoading}
-          />
+          <Table data={signals} query={key} isLoading={isLoading} />
         </React.Fragment>
       </Layout>
     );
   }
 
-  return null;
+  if (showResults && start && end && hash && signals && key) {
+    return (
+      <Layout>
+        <React.Fragment>
+          <StatsWeighted network={network ? network : ""} />
+          <ResultsTable data={signals} query={key} isLoading={isLoading} />
+        </React.Fragment>
+      </Layout>
+    );
+  }
 };

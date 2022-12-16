@@ -12,76 +12,79 @@ exports[`Snapshot test passes 1`] = `
           class="bg-gray-2 border border-gray-7 rounded-xl w-full"
         >
           <div
-            class="flex flex-col justify-center px-3 md:px-6 py-2 gap-1.5"
+            class="flex flex-row justify-between px-3 md:px-6 py-2 gap-1.5"
           >
-            <div
-              class="flex-col flex md:flex-row items-center justify-between"
-            >
-              <span
-                class="semibold text-lg md:text-xl leading-8"
-              >
-                Instructions
-              </span>
-            </div>
             <div
               class="flex flex-col items-start justify-start md:gap-1"
             >
+              <div
+                class="flex-col flex md:flex-row items-center justify-between"
+              >
+                <span
+                  class="semibold text-lg md:text-xl leading-8"
+                >
+                  Instructions
+                </span>
+              </div>
               <p
                 class="font-semibold"
               >
-                Step 1 -
                  
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  Create your wallet (Auro, Clorio & Staking Power)
+                  Send yourself a transaction with the keyword(s) in the memo field
+                  <ul
+                    class="list-disc list-inside"
+                  >
+                    <li>
+                      To vote in favor of the proposal, enter in the memo field 
+                       
+                      <span
+                        class="font-semibold"
+                      >
+                        '
+                        '
+                      </span>
+                    </li>
+                    <li>
+                      To vote against the proposal enter in the memo field 
+                       
+                      <span
+                        class="font-semibold"
+                      >
+                         'no 
+                        '
+                      </span>
+                    </li>
+                  </ul>
                 </span>
               </p>
               <p
                 class="font-semibold"
               >
-                Step 2 -
-                 
                 <span
                   class="text-[0.875rem] font-normal"
                 >
-                  Get testnet mina from the official
-                   
+                  Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
+                </span>
+              </p>
+              <p
+                class="font-semibold"
+              >
+                <span
+                  class="text-[0.875rem] font-normal"
+                >
+                  See Frequently Asked Questions (
                   <a
-                    class="font-semibold hover:opacity-80 transition-all duration-200"
+                    class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                     href="https://faucet.minaprotocol.com/"
                   >
-                    Faucet
+                    <u>
+                      FAQs
+                    </u>
                   </a>
-                </span>
-              </p>
-              <p
-                class="font-semibold"
-              >
-                Step 3 -
-                 
-                <span
-                  class="text-[0.875rem] font-normal"
-                >
-                  Send yourself a transaction with the memo
-                   
-                  <span
-                    class="font-semibold"
-                  >
-                    '
-                    '
-                  </span>
-                </span>
-              </p>
-              <p
-                class="font-semibold"
-              >
-                Step 4 -
-                 
-                <span
-                  class="text-[0.875rem] font-normal"
-                >
-                  Your signal should appear in 10-15 minutes
+                  ) for more information, including how to send yourself a transaction
                 </span>
               </p>
             </div>
@@ -98,76 +101,79 @@ exports[`Snapshot test passes 1`] = `
         class="bg-gray-2 border border-gray-7 rounded-xl w-full"
       >
         <div
-          class="flex flex-col justify-center px-3 md:px-6 py-2 gap-1.5"
+          class="flex flex-row justify-between px-3 md:px-6 py-2 gap-1.5"
         >
-          <div
-            class="flex-col flex md:flex-row items-center justify-between"
-          >
-            <span
-              class="semibold text-lg md:text-xl leading-8"
-            >
-              Instructions
-            </span>
-          </div>
           <div
             class="flex flex-col items-start justify-start md:gap-1"
           >
+            <div
+              class="flex-col flex md:flex-row items-center justify-between"
+            >
+              <span
+                class="semibold text-lg md:text-xl leading-8"
+              >
+                Instructions
+              </span>
+            </div>
             <p
               class="font-semibold"
             >
-              Step 1 -
                
               <span
                 class="text-[0.875rem] font-normal"
               >
-                Create your wallet (Auro, Clorio & Staking Power)
+                Send yourself a transaction with the keyword(s) in the memo field
+                <ul
+                  class="list-disc list-inside"
+                >
+                  <li>
+                    To vote in favor of the proposal, enter in the memo field 
+                     
+                    <span
+                      class="font-semibold"
+                    >
+                      '
+                      '
+                    </span>
+                  </li>
+                  <li>
+                    To vote against the proposal enter in the memo field 
+                     
+                    <span
+                      class="font-semibold"
+                    >
+                       'no 
+                      '
+                    </span>
+                  </li>
+                </ul>
               </span>
             </p>
             <p
               class="font-semibold"
             >
-              Step 2 -
-               
               <span
                 class="text-[0.875rem] font-normal"
               >
-                Get testnet mina from the official
-                 
+                Refresh the dashboard - your vote should appear in the dashboard within 10-15 minutes
+              </span>
+            </p>
+            <p
+              class="font-semibold"
+            >
+              <span
+                class="text-[0.875rem] font-normal"
+              >
+                See Frequently Asked Questions (
                 <a
-                  class="font-semibold hover:opacity-80 transition-all duration-200"
+                  class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                   href="https://faucet.minaprotocol.com/"
                 >
-                  Faucet
+                  <u>
+                    FAQs
+                  </u>
                 </a>
-              </span>
-            </p>
-            <p
-              class="font-semibold"
-            >
-              Step 3 -
-               
-              <span
-                class="text-[0.875rem] font-normal"
-              >
-                Send yourself a transaction with the memo
-                 
-                <span
-                  class="font-semibold"
-                >
-                  '
-                  '
-                </span>
-              </span>
-            </p>
-            <p
-              class="font-semibold"
-            >
-              Step 4 -
-               
-              <span
-                class="text-[0.875rem] font-normal"
-              >
-                Your signal should appear in 10-15 minutes
+                ) for more information, including how to send yourself a transaction
               </span>
             </p>
           </div>

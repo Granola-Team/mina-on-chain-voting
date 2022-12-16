@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import moment from "moment";
 
 import type { StatsWeightedProps } from "@/types";
 import { IconTooltip } from "@/components/Tooltip";
+import { useKeywordStore } from "@/pages/Keyword/Keyword.store";
 
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -12,23 +13,35 @@ const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const StatsWeighted: React.FC<StatsWeightedProps> = ({
-  stats,
-  network,
-}) => {
+export const StatsWeighted: React.FC<StatsWeightedProps> = ({ network }) => {
   const now = moment(new Date()).format("YYYY-MM-DD | hh:mm:ss Z");
-  const total = stats.yes + stats.no;
-  const yesPercent = createPercent(stats.yes, total);
-  const noPercent = createPercent(stats.no, total);
+  const { stats: _stats } = useKeywordStore((state) => ({
+    stats: state.stats,
+  }));
+
+  const [stats, setStats] = useState({
+    yes: "0",
+    no: "0",
+  });
+
+  useEffect(() => {
+    if (_stats) {
+      const total = _stats.yes + _stats.no;
+      setStats({
+        yes: createPercent(_stats.yes, total),
+        no: createPercent(_stats.no, total),
+      });
+    }
+  }, [_stats]);
 
   return (
-    <div className={`content-full-width px-2 md:px-4 lg:px-8 `}>
+    <div className="content-full-width px-2 md:px-4 lg:px-8 pt-6">
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
         <div className="flex flex-col justify-center px-3 md:px-6 py-2 gap-1">
           <div className="flex-col flex md:flex-row items-center justify-between">
             <div className="flex items-center gap-1.5">
               <span className="semibold text-lg md:text-xl leading-8">
-                Signal Results
+                Voting Results
               </span>
               <IconTooltip css="h-[1.1rem] w-[1.1rem] md:mt-0.5">
                 <div className="flex flex-col items-start justify-center">
@@ -45,7 +58,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
 
             <span className="text-[0.65rem] md:text-xs text-gray-10">
               {network[0].toUpperCase() + network.slice(1).toLowerCase()} at{" "}
-              {now}
+              {now} UTC
             </span>
           </div>
           <div className="flex flex-col gap-1 pb-2">
@@ -55,7 +68,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
                   Yes
                 </span>
                 <span className="text-sm md:text-lg semibold text-green-11">
-                  {yesPercent}%
+                  {stats.yes}%
                 </span>
               </div>
               <div className="flex flex-col items-end">
@@ -63,25 +76,25 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({
                   No
                 </span>
                 <span className="text-sm md:text-lg semibold text-red-11">
-                  {noPercent}%
+                  {stats.no}%
                 </span>
               </div>
             </div>
             <div className="flex items-center w-full self-center h-5">
               <div
                 style={{
-                  width: `${yesPercent === "XXX" ? "50" : yesPercent}%`,
+                  width: `${stats.yes === "XXX" ? "50" : stats.yes}%`,
                 }}
                 className={`bg-green-11 opacity-80 h-full ${
-                  yesPercent === "100.00" ? "rounded-md" : "rounded-l-md"
+                  stats.yes === "100.00" ? "rounded-md" : "rounded-l-md"
                 }`}
               />
               <div
                 style={{
-                  width: `${noPercent === "XXX" ? "50" : noPercent}%`,
+                  width: `${stats.no === "XXX" ? "50" : stats.no}%`,
                 }}
                 className={`bg-red-11 h-full ${
-                  noPercent === "100.00" ? "rounded-md" : "rounded-r-md"
+                  stats.no === "100.00" ? "rounded-md" : "rounded-r-md"
                 }`}
               />
             </div>

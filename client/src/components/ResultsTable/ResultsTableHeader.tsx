@@ -18,17 +18,13 @@ export const ResultsTableHeader = () => {
         Account
       </span>
       <span className="grid-table-heading place-self-center">
-        Delegated Stake
+        Weighted Stake
       </span>
       <span className="grid-table-heading place-self-center">
-        Delegated Stake %
+        Weighted Stake %
       </span>
-      <span className="grid-table-heading place-self-center">Delegators</span>
       <span className="grid-table-heading place-self-center">Memo</span>
-      <span className="grid-table-heading place-self-center">Blockstatus</span>
-      <span className="grid-table-heading place-self-center">
-        Classification
-      </span>
+      <span className="grid-table-heading place-self-center">Status</span>
     </div>
   );
 };

@@ -17,8 +17,14 @@ export const TableHeader = () => {
       <span className="grid-table-heading place-self-center lg:place-self-left">
         Account
       </span>
+
+      <span className="grid-table-heading place-self-center">
+        Transaction Hash
+      </span>
       <span className="grid-table-heading place-self-center">Memo</span>
-      <span className="grid-table-heading place-self-center">Voting Status</span>
+      <span className="grid-table-heading place-self-center">
+        Voting Status
+      </span>
     </div>
   );
 };

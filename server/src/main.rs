@@ -1,12 +1,7 @@
 use anyhow::Context;
 use axum::{http::Method, Extension};
 use clap::Parser;
-use log::info;
-use osc_api::{
-    ledger::{HasConnectionAsync, Ledger},
-    router::Build,
-    ApiContext, Config, SubCommand,
-};
+use osc_api::{router::Build, Config};
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
@@ -20,51 +15,39 @@ async fn main() -> anyhow::Result<()> {
     env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
 
     let config = Config::parse();
+    let ledger_cache = osc_api::ledger::LedgerCache::builder()
+        .time_to_live(std::time::Duration::from_secs(60 * 60 * 12))
+        .build();
 
-    match config.subcmd {
-        SubCommand::Start => {
-            let mainnet_ledger = Ledger::init_async(&config.mainnet_ledger_path)
-                .await
-                .expect("Error: Could not create mainnet ledger.");
+    let signal_cache = osc_api::signal::SignalCache::builder()
+        .time_to_live(std::time::Duration::from_secs(60 * 3))
+        .build();
 
-            let devnet_ledger = Ledger::init_async(&config.devnet_ledger_path)
-                .await
-                .expect("Error: Could not create devnet ledger.");
+    let mainnet_db = PgPoolOptions::new()
+        .max_connections(25)
+        .connect(&config.database_url)
+        .await
+        .context("Error: Could not connect to mainnet database.")?;
 
-            let mainnet_db = PgPoolOptions::new()
-                .max_connections(25)
-                .connect(&config.mainnet_database_url)
-                .await
-                .context("Error: Could not connect to mainnet database.")?;
+    let cors = CorsLayer::new()
+        .allow_methods([Method::GET, Method::POST])
+        .allow_origin(Any);
 
-            let devnet_db = PgPoolOptions::new()
-                .max_connections(25)
-                .connect(&config.devnet_database_url)
-                .await
-                .context("Error: Could not connect to devnet database.")?;
+    let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
+        osc_api::APIContext {
+            config: Arc::new(config),
+            signal_cache: Arc::new(signal_cache),
+            ledger_cache: Arc::new(ledger_cache),
+            mainnet_db,
+        },
+    )));
 
-            let cors = CorsLayer::new()
-                .allow_methods([Method::GET, Method::POST])
-                .allow_origin(Any);
+    log::info!("Axum runtime started.");
 
-            let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
-                ApiContext {
-                    config: Arc::new(config),
-                    mainnet_ledger: Arc::new(mainnet_ledger.db),
-                    devnet_ledger: Arc::new(devnet_ledger.db),
-                    mainnet_db,
-                    devnet_db,
-                },
-            )));
-
-            info!("Axum runtime started.");
-
-            axum::Server::bind(&"0.0.0.0:8080".parse()?)
-                .serve(app.into_make_service())
-                .await
-                .context("Error: Could not start webserver.")
-        }
-    }
+    axum::Server::bind(&"0.0.0.0:8080".parse()?)
+        .serve(app.into_make_service())
+        .await
+        .context("Error: Could not start webserver.")
 }
 
 fn router(cfg: &Config) -> axum::Router {

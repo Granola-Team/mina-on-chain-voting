@@ -1,12 +1,6 @@
 import type { ReactNode } from "react";
 import type { Network } from "./store";
-import type { RouteFilterType } from "./routes";
-import type {
-  BlockStatus,
-  SignalEntity,
-  SignalStatus,
-  StatsEntity,
-} from "./data";
+import type { BlockStatus, SignalEntity } from "./data";
 
 export interface ComponentWithChildren {
   children: ReactNode;
@@ -20,20 +14,17 @@ export interface TableProps {
   data: SignalEntity[];
   query: string | undefined;
   isLoading: boolean;
-  stats: StatsEntity | null;
 }
 export interface TableRowProps {
   signal: SignalEntity;
-  stats: StatsEntity;
 }
 
 export interface TableNavElementProps {
   title: string;
-  filter: RouteFilterType;
 }
 
 export interface TableBubbleProps extends ComponentWithChildren {
-  status: BlockStatus | SignalStatus;
+  status: BlockStatus;
 }
 
 export interface ModalProps extends ComponentWithChildren {
@@ -42,6 +33,5 @@ export interface ModalProps extends ComponentWithChildren {
 }
 
 export interface StatsWeightedProps {
-  stats: StatsEntity;
   network: string;
 }

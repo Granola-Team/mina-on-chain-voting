@@ -11,7 +11,6 @@ export const ResultsTableBody: React.FC<TableProps> = ({
   data,
   query,
   isLoading,
-  stats,
 }) => {
   if (isLoading) {
     return (
@@ -26,8 +25,8 @@ export const ResultsTableBody: React.FC<TableProps> = ({
   return (
     <ResultsTableBodyWrapper>
       {data.length > 0 ? (
-        data.filter((entity) => entity.signal_status !== "Invalid").map((signal, index) => (
-          <ResultsTableRow key={data.length + index} stats={stats} signal={signal} />
+        data.map((signal, index) => (
+          <ResultsTableRow key={data.length + index} signal={signal} />
         ))
       ) : (
         <span className="text-md py-12 medium">

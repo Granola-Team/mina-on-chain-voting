@@ -1,19 +1,30 @@
 import axios from "axios";
 
-import type { DataEntity, EpochEntity, Network } from "@/types";
+import type { EpochEntity, Network, SignalEntity } from "@/types";
 
 import { DEV_API_URL, PROD_API_URL } from "@/constants";
 
 /**
  * Builds API URL for our keyword query.
  * @param {string[]} key
- * @param {string | null} filter
  * @param {Network} network
  */
-const buildAPIUrl = (key: string, network: Network): string => {
-  return `${import.meta.env.DEV ? DEV_API_URL : PROD_API_URL}/${key}?network=${
-    network[0].toUpperCase() + network.slice(1).toLowerCase()
-  }`;
+const buildAPIUrl = (
+  key: string,
+  network: Network,
+  start: string,
+  end: string,
+  hash: string | null,
+): string => {
+  if (hash) {
+    return `${
+      import.meta.env.DEV ? DEV_API_URL : PROD_API_URL
+    }/${key}/results?network=${network}&start=${start}&end=${end}&hash=${hash}`;
+  }
+
+  return `${
+    import.meta.env.DEV ? DEV_API_URL : PROD_API_URL
+  }/${key}?network=${network}&start=${start}&end=${end}`;
 };
 
 /**
@@ -24,14 +35,17 @@ const buildAPIUrl = (key: string, network: Network): string => {
  */
 export const fetchKeywordData = async (
   key: string | undefined,
-  network: string | null,
+  network: Network,
+  start: string,
+  end: string,
+  hash: string | null,
 ) => {
   if (!key) {
     throw new Error("Please provide a valid key.");
   }
 
   const { data } = await axios.get(
-    buildAPIUrl(key, network ? (network as Network) : "Mainnet"),
+    buildAPIUrl(key, network, start, end, hash),
     {
       method: "GET",
       headers: {
@@ -39,7 +53,7 @@ export const fetchKeywordData = async (
       },
     },
   );
-  return data as DataEntity;
+  return data as SignalEntity[];
 };
 
 /**

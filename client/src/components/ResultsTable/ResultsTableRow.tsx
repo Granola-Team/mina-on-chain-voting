@@ -6,6 +6,7 @@ import { useMediaQuery } from "@react-hook/media-query";
 import type { TableRowProps } from "@/types";
 
 import { ResultsTableBubble } from "./ResultsTableBubble";
+import { useKeywordStore } from "@/pages/Keyword/Keyword.store";
 
 export const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
@@ -15,20 +16,12 @@ export const createPercent = (v: number, t: number): string => {
   return val.toFixed(2);
 };
 
-export const ResultsTableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
+export const ResultsTableRow: React.FC<TableRowProps> = ({ signal }) => {
+  const { stats } = useKeywordStore((state) => ({ stats: state.stats }));
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
   const percent: () => string = (): string => {
-    if (
-      signal.signal_status === "Settled" ||
-      signal.signal_status === "Unsettled"
-    ) {
-      const total = stats.yes + stats.no;
-      if (signal.delegations) {
-        return createPercent(
-          parseFloat(signal.delegations.delegated_balance),
-          total,
-        );
-      }
+    if (signal.stake_weight && stats) {
+      return createPercent(signal.stake_weight, stats.yes + stats.no);
     }
     return "---";
   };
@@ -68,11 +61,6 @@ export const ResultsTableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
                   {signal.status}
                 </span>
               </ResultsTableBubble>
-              <ResultsTableBubble status={signal.signal_status}>
-                <span className="grid-table-content-mobile medium">
-                  {signal.signal_status}
-                </span>
-              </ResultsTableBubble>
             </div>
           </div>
         </div>
@@ -90,7 +78,7 @@ export const ResultsTableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
           {moment(new Date(signal.timestamp)).format("DD/MM/YYYY - hh:mm")}
         </span>
       </div>
-      <div className="flex items-center gap-2 lg:gap-3">
+      <div className="flex items-center gap-2 lg:gap-3 ml-10">
         <img
           className="h-5 w-5 lg:w-6 lg:h-6 rounded-full opacity-70"
           src={makeBlockie(signal.account)}
@@ -101,19 +89,12 @@ export const ResultsTableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
       </div>
       <div className="place-self-center">
         <span className="grid-table-content">
-          {signal.delegations
-            ? `${parseFloat(signal.delegations.delegated_balance).toFixed(4)}`
-            : "---"}
+          {signal.stake_weight ? `${signal.stake_weight.toFixed(4)}` : "---"}
         </span>
       </div>
       <div className="place-self-center">
         <span className="grid-table-content">
-          {signal.delegations ? `${percent()}` : "---"}
-        </span>
-      </div>
-      <div className="place-self-center">
-        <span className="grid-table-content medium">
-          {signal.delegations ? signal.delegations.total_delegators : "---"}
+          {signal.stake_weight ? `${percent()}` : "---"}
         </span>
       </div>
       <div className="place-self-center">
@@ -122,13 +103,6 @@ export const ResultsTableRow: React.FC<TableRowProps> = ({ signal, stats }) => {
       <div className="place-self-center">
         <ResultsTableBubble status={signal.status}>
           <span className="grid-table-content medium">{signal.status}</span>
-        </ResultsTableBubble>
-      </div>
-      <div className="place-self-center">
-        <ResultsTableBubble status={signal.signal_status}>
-          <span className="grid-table-content medium">
-            {signal.signal_status}
-          </span>
         </ResultsTableBubble>
       </div>
     </div>

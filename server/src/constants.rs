@@ -1,2 +1,0 @@
-pub const SETTLED_DENOMINATOR: i64 = 20;
-pub const THREE_MONTHS_MILLIS: i64 = 2629800 * 3 * 1000;

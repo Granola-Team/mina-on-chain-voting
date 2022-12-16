@@ -2,7 +2,7 @@ import React from "react";
 
 import type { BlockStatus, SignalStatus, TableBubbleProps } from "@/types";
 
-const getColor = (status: BlockStatus | SignalStatus) => {
+const getColor = (status: BlockStatus | SignalStatus): string => {
   if (status === "Canonical" || status === "Settled") {
     return "bg-greenA-4 border-greenA-7";
   }

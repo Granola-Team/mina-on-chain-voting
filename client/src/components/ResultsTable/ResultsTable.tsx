@@ -8,17 +8,11 @@ export const ResultsTable: React.FC<TableProps> = ({
   data,
   query,
   isLoading,
-  stats,
 }) => {
   return (
     <div className="content-full-width">
       <div className="px-2 md:px-4 lg:px-8 w-full flex flex-col items-center">
-        <ResultsTableBody
-          data={data}
-          stats={stats}
-          query={query}
-          isLoading={isLoading}
-        />
+        <ResultsTableBody data={data} query={query} isLoading={isLoading} />
       </div>
     </div>
   );

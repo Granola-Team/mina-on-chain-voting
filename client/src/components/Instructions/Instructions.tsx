@@ -53,7 +53,7 @@ export const Instructions: React.FC = () => {
               <span className="text-[0.875rem] font-normal">
               If you find an issue, a bug or simply have a question, please feel free to write us some&nbsp;
                 <a
-                  href="/"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSeKoyUIVU3OrJ7hkakwHnOeWz9R8gRe-pUeduXeMyfFsmW6iQ/viewform?usp=sf_link"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                 <u>feedback</u>

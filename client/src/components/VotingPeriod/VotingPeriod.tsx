@@ -10,6 +10,7 @@ interface Props {
 export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
   const _start = Number.parseInt(start, 10);
   const _end = Number.parseInt(end, 10);
+  const _now = moment(new Date()).unix() * 1000;
 
   const now = moment(new Date()).utc();
   const startDate = moment(new Date(_start)).utc();
@@ -17,10 +18,7 @@ export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
   const duration = moment.duration(endDate.diff(now));
   const isDone = now.isAfter(endDate);
 
-  const startDateNumber = Number.parseInt(startDate.format(), 10);
-  const endDateNumber = Number.parseInt(endDate.format(), 10);
-  const nowNumber = Number.parseInt(now.format(), 10);
-  const percentage = (nowNumber - startDateNumber) / (endDateNumber - startDateNumber);
+  const percentage = ((_now - _start) / (_end - _start)) * 100;
   const oppositePercentage = 100 - percentage;
 
   return (

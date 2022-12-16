@@ -20,7 +20,6 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     setKey,
     signals,
     setSignals,
-    stats,
     setStats,
     isLoading,
     setIsLoading,
@@ -140,7 +139,8 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     return (
       <Layout>
         <React.Fragment>
-          <Instructions key={key} />
+          <Instructions key={key} totalVotes={signals.length} />
+
           {network === "mainnet" && timing.epoch && timing.slot ? (
             <VotingPeriod start={start} end={end} />
           ) : null}

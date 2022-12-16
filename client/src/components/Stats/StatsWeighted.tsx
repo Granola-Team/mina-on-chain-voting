@@ -68,7 +68,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ network }) => {
                   Yes
                 </span>
                 <span className="text-sm md:text-lg semibold text-green-11">
-                  {stats.yes}% | {_stats?.yes.toFixed(2)} MINA
+                  {stats.yes}%
                 </span>
               </div>
               <div className="flex flex-col items-end">
@@ -76,7 +76,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ network }) => {
                   No
                 </span>
                 <span className="text-sm md:text-lg semibold text-red-11">
-                  {stats.no}% | {_stats?.no.toFixed(2)} MINA
+                  {stats.no}%
                 </span>
               </div>
             </div>

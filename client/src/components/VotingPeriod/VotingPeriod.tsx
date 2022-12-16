@@ -17,6 +17,12 @@ export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
   const duration = moment.duration(endDate.diff(now));
   const isDone = now.isAfter(endDate);
 
+  const startDateNumber = Number.parseInt(startDate.format(), 10);
+  const endDateNumber = Number.parseInt(endDate.format(), 10);
+  const nowNumber = Number.parseInt(now.format(), 10);
+  const percentage = (nowNumber - startDateNumber) / (endDateNumber - startDateNumber);
+  const oppositePercentage = 100 - percentage;
+
   return (
     <div className="content-full-width px-2 md:px-4 lg:px-8">
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
@@ -55,7 +61,7 @@ export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
             <div className="flex items-center w-full self-center h-5">
               <div
                 style={{
-                  marginRight: `${50}%`,
+                  marginRight: `${oppositePercentage}%`,
                 }}
                 className="w-full bg-gradient-to-r from-blue-400/80 to-violet-600 h-full rounded-lg"
                 data-testid="bar-percentage"

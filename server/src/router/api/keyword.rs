@@ -79,7 +79,6 @@ fn process_signals(key: impl Into<String>, signals: Vec<Signal>) -> Vec<Signal> 
             }
         }
     }
-    println!("{:#?}", map);
     map.values().cloned().collect()
 }
 

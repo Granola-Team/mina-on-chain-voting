@@ -20,7 +20,7 @@ fn decode_memo(key: &str, encoded: &str) -> Option<String> {
         };
         let end_idx = *bytes.get(1)? as usize + 2;
         match std::str::from_utf8(&bytes[2..end_idx]) {
-            Ok(str) => match str.to_lowercase().contains(key) {
+            Ok(str) => match str.to_lowercase().contains(&key.to_lowercase()) {
                 true => Some(str.to_string()),
                 false => None,
             },
@@ -79,7 +79,7 @@ fn process_signals(key: impl Into<String>, signals: Vec<Signal>) -> Vec<Signal> 
             }
         }
     }
-
+    println!("{:#?}", map);
     map.values().cloned().collect()
 }
 

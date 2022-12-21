@@ -1,10 +1,6 @@
-import { useKeywordStore } from "@/pages/Keyword/Keyword.store";
 import React from "react";
-import shallow from "zustand/shallow";
 
-export const ResultsOverview: React.FC<{  }> = ({}) => {
-  const { key } = useKeywordStore((state) => ({ key: state.key }), shallow);
-
+export const ResultsOverview: React.FC = () => {
   return (
     <div className="content-full-width px-2 md:px-4 lg:pl-8 mt-4 md:mt-6">
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
@@ -18,11 +14,12 @@ export const ResultsOverview: React.FC<{  }> = ({}) => {
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
                 Please read the&nbsp;
-                <a href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf"
+                <a
+                  href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                   <u>FAQ</u>
-                </a> 
+                </a>
                 &nbsp;to understand how the results were calculated
               </span>
             </p>
@@ -30,11 +27,12 @@ export const ResultsOverview: React.FC<{  }> = ({}) => {
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
                 The results can be verified on-chain. Please read these&nbsp;
-                <a href="#"
+                <a
+                  href="#"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                   <u>instructions</u>
-                </a> 
+                </a>
                 &nbsp;for doing so.
               </span>
             </p>

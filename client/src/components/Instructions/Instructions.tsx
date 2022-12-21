@@ -1,6 +1,7 @@
 import { useKeywordStore } from "@/pages/Keyword/Keyword.store";
 import React from "react";
 import shallow from "zustand/shallow";
+import { IconTooltip } from "@/components/Tooltip";
 
 export const Instructions: React.FC<{ totalVotes: number }> = ({
   totalVotes,
@@ -46,7 +47,7 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
               <span className="text-[0.875rem] font-normal">
                 See Frequently Asked Questions (
                 <a
-                  href="https://faucet.minaprotocol.com/"
+                  href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                   <u>FAQs</u>
@@ -75,9 +76,20 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
         </div>
       </div>
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-[15%] ml-2 mr-4">
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex flex-col items-center justify-center w-full h-full">
+          <div className="flex flex-row items-center justify-center">
+            <span className="semibold text-xl leading-8">Total Votes</span>
+            <IconTooltip css="h-[1.1rem] w-[1.4rem] md:-mt-2.5">
+              <div className="flex flex-row items-start justify-center">
+                <div className="text-[0.725rem]">
+                  <span className="inline semibold"> Total Votes</span> is the sum of all valid votes per
+                  unique account that were received during the voting period. Duplicate votes are not
+                  included in the total.
+                </div>
+              </div>
+            </IconTooltip>
+          </div>
           <div className="flex flex-col items-center justify-center">
-            <span className="semibold text-xl leading-8">Total Votes:</span>
             <span className="semibold text-2xl">{totalVotes}</span>
           </div>
         </div>

@@ -47,7 +47,7 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
               <span className="text-[0.875rem] font-normal">
                 See Frequently Asked Questions (
                 <a
-                  href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
+                  href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                   <u>FAQs</u>

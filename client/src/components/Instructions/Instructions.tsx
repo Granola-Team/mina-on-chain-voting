@@ -72,6 +72,12 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
                 . We would love to hear your thoughts!
               </span>
             </p>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+                A vote will first appear in a pending state. After ten blocks have been confirmed the voting status will be marked as Canonical if appropriate
+              </span>
+            </p>
           </div>
         </div>
       </div>

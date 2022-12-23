@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@react-hook/media-query";
 
 import { Settings, SettingsControl } from "@/components/Settings";
+import { MinaLink } from "../MinaLink";
 
 export const Header = React.memo(() => {
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
@@ -21,7 +22,7 @@ export const Header = React.memo(() => {
             }}
             href=""
           >
-            <h1 className="text-base">Mina On-Chain Votes</h1>
+            <h1 className="text-base">On Chain Voting for MIP1: Remove supercharge rewards</h1>
           </a>
           <div className="flex items-center gap-1">
             <SettingsControl />
@@ -39,14 +40,13 @@ export const Header = React.memo(() => {
         data-testid="header-container"
       >
         <div className="flex items-center">
-          <a
-            onClick={() => {
-              navigate("/");
-            }}
-            href=""
+          <MinaLink
+            href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
+            underline
+            spaces
           >
-            <h1>Mina On-Chain Votes</h1>
-          </a>
+            <h1>On Chain Voting for MIP1: Remove Supercharge Rewards</h1>
+          </MinaLink>
         </div>
         <SettingsControl />
       </div>

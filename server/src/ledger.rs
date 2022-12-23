@@ -48,22 +48,24 @@ pub fn get_stake_weight(
         None => anyhow::bail!("Error: Account not found in ledger."),
     };
 
-    let delegators = ledger
-        .iter()
-        .filter(|d| d.delegate == public_key)
-        .collect::<Vec<&LedgerAccount>>();
+    let balance = account.balance.parse::<f64>().unwrap_or(0.00);
 
-    // PK is delegated to someone else.
     if account.delegate != public_key {
         return Ok(0.00);
     }
 
-    // PK is delegated to itself.
+    let delegators = ledger
+        .iter()
+        .filter(|d| d.delegate == public_key && d.pk != public_key)
+        .collect::<Vec<&LedgerAccount>>();
+
+    if delegators.len() == 0 {
+        return Ok(balance);
+    }
+
     let stake_weight = delegators
         .iter()
-        .fold(account.balance.parse::<f64>().unwrap_or(0.00), |acc, x| {
-            x.balance.parse::<f64>().unwrap() + acc
-        });
+        .fold(0.00, |acc, x| x.balance.parse::<f64>().unwrap() + acc);
 
-    Ok(stake_weight)
+    Ok(stake_weight + balance)
 }

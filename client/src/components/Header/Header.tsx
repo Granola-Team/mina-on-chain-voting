@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@react-hook/media-query";
 
 import { Settings, SettingsControl } from "@/components/Settings";
-import { MinaLink } from "../MinaLink";
 
 export const Header = React.memo(() => {
   const isMobile = useMediaQuery("only screen and (max-width: 768px)");
@@ -40,13 +39,11 @@ export const Header = React.memo(() => {
         data-testid="header-container"
       >
         <div className="flex items-center">
-          <MinaLink
-            href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
-            underline
-            spaces
+          <a
+              href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
           >
-            <h1>On Chain Voting for MIP1: Remove Supercharge Rewards</h1>
-          </MinaLink>
+            <h1 className="text-base">On Chain Voting for MIP1: Remove supercharge rewards</h1>
+          </a>
         </div>
         <SettingsControl />
       </div>

@@ -40,10 +40,12 @@ export const Header = React.memo(() => {
       >
         <div className="flex items-center">
           <a
-              href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
+            href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
+            className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
           >
-            <h1 className="text-base">On Chain Voting for MIP1: Remove supercharge rewards</h1>
+            <u><h1>On Chain Voting for MIP1: Remove Supercharge Rewards</h1></u>
           </a>
+
         </div>
         <SettingsControl />
       </div>

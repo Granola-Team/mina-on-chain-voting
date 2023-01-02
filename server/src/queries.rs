@@ -9,7 +9,7 @@ pub async fn get_signals(
     network: crate::types::Network,
 ) -> anyhow::Result<Vec<Signal>> {
     if let Some(cached) = cache.get(&format!("{}-{}-{}", start, end, network)) {
-        return Ok(cached.to_vec());
+        Ok(cached.to_vec())
     } else {
         let signals = sqlx::query_as!(
             Signal,

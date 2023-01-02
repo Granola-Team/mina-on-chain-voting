@@ -1,15 +1,13 @@
-name: OSC Server
+name: Server
 
 on:
   push:
-    branches: ["**"]
+    branches: ['**']
   pull_request:
-    branches: ["main"]
+    branches: ['main']
 
 env:
   SQLX_OFFLINE: true
-  MAINNET_LEDGER_PATH: ./mainnet_ledger.json
-  DEVNET_LEDGER_PATH: ./devnet_ledger.json
   CLIENT_PATH: ../client/build
 
 defaults:
@@ -41,15 +39,7 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
         with:
-          key: "v2"
-
-      - name: Build
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          command: build
-          working-directory: server
-          args: --release
+          key: 'v2'
 
       - name: Clippy
         uses: mxnkarou/cargo@master
@@ -58,6 +48,14 @@ jobs:
           command: clippy
           working-directory: server
           args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
+
+      - name: Build
+        uses: mxnkarou/cargo@master
+        if: steps.server-changes.outputs.changed == 'true'
+        with:
+          command: build
+          working-directory: server
+          args: --release
 
   Test:
     runs-on: ubuntu-latest
@@ -83,7 +81,7 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
         with:
-          key: "v2"
+          key: 'v2'
 
       - name: Clippy
         uses: mxnkarou/cargo@master
@@ -100,24 +98,3 @@ jobs:
           command: test
           working-directory: server
           args: --workspace
-
-      - name: Install KCov Dependencies
-        run: |
-          sudo apt-get update && sudo apt dist-upgrade
-          sudo apt-get install cmake g++ pkg-config jq -y
-          sudo apt-get install libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev libiberty-dev kcov -y
-
-      - name: Install KCov
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          command: install
-          working-directory: server
-          args: cargo-kcov
-
-      - name: KCov
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          command: kcov
-          working-directory: server

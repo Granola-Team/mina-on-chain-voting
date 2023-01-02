@@ -1,6 +1,6 @@
 {
   "db": "PostgreSQL",
-  "105405cc7c9228305a972ec3879b18f9cd4fbda906c6481a5b0ca030f89ec18c": {
+  "3fc4de48272d34a98822cffee32e54b04357bcc52ba87c7751da025d2f6c68e8": {
     "describe": {
       "columns": [
         {
@@ -19,13 +19,18 @@
           "type_info": "Int8"
         },
         {
-          "name": "height",
+          "name": "hash",
           "ordinal": 3,
+          "type_info": "Text"
+        },
+        {
+          "name": "height",
+          "ordinal": 4,
           "type_info": "Int8"
         },
         {
           "name": "status: BlockStatus",
-          "ordinal": 4,
+          "ordinal": 5,
           "type_info": {
             "Custom": {
               "kind": {
@@ -41,7 +46,7 @@
         },
         {
           "name": "timestamp",
-          "ordinal": 5,
+          "ordinal": 6,
           "type_info": "Int8"
         }
       ],
@@ -51,14 +56,16 @@
         false,
         false,
         false,
+        false,
         false
       ],
       "parameters": {
         "Left": [
+          "Int8",
           "Int8"
         ]
       }
     },
-    "query": "\n        SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, b.height as height, b.chain_status as \"status: BlockStatus\", b.timestamp as timestamp\n        FROM user_commands AS uc\n        JOIN blocks_user_commands AS buc\n        ON uc.id = buc.user_command_id\n        JOIN blocks AS b\n        ON buc.block_id = b.id\n        JOIN public_keys AS pk\n        ON uc.source_id = pk.id\n        WHERE uc.type = 'payment'\n        AND uc.source_id = uc.receiver_id\n        AND uc.token = 1\n        AND NOT b.chain_status = 'orphaned'\n        AND buc.status = 'applied'\n        AND b.timestamp > $1;\n    "
+    "query": "\n                SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as \"status: BlockStatus\", b.timestamp as timestamp\n                FROM user_commands AS uc\n                JOIN blocks_user_commands AS buc\n                ON uc.id = buc.user_command_id\n                JOIN blocks AS b\n                ON buc.block_id = b.id\n                JOIN public_keys AS pk\n                ON uc.source_id = pk.id\n                WHERE uc.type = 'payment'\n                AND uc.source_id = uc.receiver_id\n                AND uc.token = 1\n                AND NOT b.chain_status = 'orphaned'\n                AND buc.status = 'applied'\n                AND b.timestamp BETWEEN $1 AND $2\n            "
   }
 }

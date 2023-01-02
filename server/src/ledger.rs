@@ -73,9 +73,9 @@ pub fn get_stake_weight(
         return Ok(balance);
     }
 
-    let stake_weight = delegators
-        .iter()
-        .fold(0.00, |acc, x| x.balance.parse::<f64>().unwrap() + acc);
+    let stake_weight = delegators.iter().fold(0.00, |acc, x| {
+        x.balance.parse::<f64>().unwrap_or(0.00) + acc
+    });
 
     Ok(stake_weight + balance)
 }

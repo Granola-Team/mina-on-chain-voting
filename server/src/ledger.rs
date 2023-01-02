@@ -11,6 +11,16 @@ pub struct LedgerAccount {
     pub delegate: String,
 }
 
+impl LedgerAccount {
+    pub fn new(pk: String, balance: String, delegate: String) -> Self {
+        Self {
+            pk,
+            balance,
+            delegate,
+        }
+    }
+}
+
 pub async fn get_ledger(
     hash: impl Into<String>,
     cache: &LedgerCache,
@@ -68,4 +78,42 @@ pub fn get_stake_weight(
         .fold(0.00, |acc, x| x.balance.parse::<f64>().unwrap() + acc);
 
     Ok(stake_weight + balance)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn get_accounts() -> (LedgerAccount, LedgerAccount, LedgerAccount, LedgerAccount) {
+        return (
+            LedgerAccount::new("A".to_string(), "1".to_string(), "A".to_string()),
+            LedgerAccount::new("B".to_string(), "1".to_string(), "B".to_string()),
+            LedgerAccount::new("C".to_string(), "1".to_string(), "A".to_string()),
+            LedgerAccount::new("D".to_string(), "1".to_string(), "A".to_string()),
+        );
+    }
+
+    #[test]
+    fn test_stake_weight() {
+        let (a, b, c, d) = get_accounts();
+
+        // No account found - throw err.
+        let error = get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "E");
+        assert_eq!(error.is_err(), true);
+
+        // Delegated stake away - returns 0.00.
+        let d_weight =
+            get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "D").unwrap();
+        assert_eq!(d_weight, 0.00);
+
+        // No delegators & delegated to self - returns balance.
+        let b_weight =
+            get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
+        assert_eq!(b_weight, 1.00);
+
+        // Delegated to self & has delegators - returns balance + delegators.
+        let a_weight =
+            get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "A").unwrap();
+        assert_eq!(a_weight, 3.00);
+    }
 }

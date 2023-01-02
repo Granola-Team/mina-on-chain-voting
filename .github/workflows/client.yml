@@ -1,4 +1,4 @@
-name: OSC Client
+name: Client
 
 on:
   push:

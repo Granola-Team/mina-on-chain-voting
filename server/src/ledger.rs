@@ -42,12 +42,12 @@ pub async fn get_ledger(
             .insert(hash, std::sync::Arc::new(ledger.clone()))
             .await;
 
-        return Ok(serde_json::from_slice(&ledger)?);
+        Ok(serde_json::from_slice(&ledger)?)
     }
 }
 
 pub fn get_stake_weight(
-    ledger: &Vec<LedgerAccount>,
+    ledger: &[LedgerAccount],
     public_key: impl Into<String>,
 ) -> anyhow::Result<f64> {
     let public_key = public_key.into();
@@ -69,7 +69,7 @@ pub fn get_stake_weight(
         .filter(|d| d.delegate == public_key && d.pk != public_key)
         .collect::<Vec<&LedgerAccount>>();
 
-    if delegators.len() == 0 {
+    if delegators.is_empty() {
         return Ok(balance);
     }
 
@@ -98,22 +98,21 @@ mod tests {
         let (a, b, c, d) = get_accounts();
 
         // No account found - throw err.
-        let error = get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "E");
+        let error = get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "E");
         assert_eq!(error.is_err(), true);
 
         // Delegated stake away - returns 0.00.
         let d_weight =
-            get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "D").unwrap();
+            get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "D").unwrap();
         assert_eq!(d_weight, 0.00);
 
         // No delegators & delegated to self - returns balance.
         let b_weight =
-            get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
+            get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
         assert_eq!(b_weight, 1.00);
 
         // Delegated to self & has delegators - returns balance + delegators.
-        let a_weight =
-            get_stake_weight(&vec![a.clone(), b.clone(), c.clone(), d.clone()], "A").unwrap();
+        let a_weight = get_stake_weight(&[a, b, c, d], "A").unwrap();
         assert_eq!(a_weight, 3.00);
     }
 }

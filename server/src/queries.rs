@@ -38,12 +38,16 @@ pub async fn get_signals(
             "#, start, end
             ).fetch_all(db).await?;
 
-        cache
-            .insert(
-                format!("{}-{}-{}", start, end, network),
-                std::sync::Arc::new(signals.clone()),
-            )
-            .await;
+        // Temp whitelist for MIP01 period
+        if start == 1672848000000 && end == 1673685000000 {
+            cache
+                .insert(
+                    format!("{}-{}-{}", start, end, network),
+                    std::sync::Arc::new(signals.clone()),
+                )
+                .await;
+        }
+
         Ok(signals)
     }
 }

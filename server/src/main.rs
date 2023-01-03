@@ -5,7 +5,7 @@ use osc_api::{router::Build, Config};
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::CorsLayer;
 
 extern crate dotenv;
 
@@ -31,7 +31,10 @@ async fn main() -> anyhow::Result<()> {
 
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
-        .allow_origin(Any);
+        .allow_origin([
+            "http://localhost:3000".parse().unwrap(),
+            "https://mina.vote".parse().unwrap(),
+        ]);
 
     let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
         osc_api::APIContext {

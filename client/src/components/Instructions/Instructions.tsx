@@ -75,7 +75,9 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
 
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
-                A vote will first appear in a pending state. After ten blocks have been confirmed the voting status will be marked as Canonical where appropriate.
+                A vote will first appear in a pending state. After ten blocks
+                have been confirmed the voting status will be marked as
+                Canonical where appropriate.
               </span>
             </p>
           </div>
@@ -85,12 +87,13 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
         <div className="flex flex-col items-center justify-center w-full h-full">
           <div className="flex flex-row items-center justify-center">
             <span className="semibold text-xl leading-8">Total Votes</span>
-            <IconTooltip css="h-[1.1rem] w-[1.4rem] md:-mt-2.5">
+            <IconTooltip css="h-[1.1rem] w-[1.1rem] ml-[2.5px] mt-[1px]">
               <div className="flex flex-row items-start justify-center">
                 <div className="text-[0.725rem]">
-                  <span className="inline semibold"> Total Votes</span> is the sum of all valid votes per
-                  unique account that were received during the voting period. Duplicate votes are not
-                  included in the total.
+                  <span className="inline semibold"> Total Votes</span> is the
+                  sum of all valid votes per unique account that were received
+                  during the voting period. Duplicate votes are not included in
+                  the total.
                 </div>
               </div>
             </IconTooltip>

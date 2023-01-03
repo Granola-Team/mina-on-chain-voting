@@ -35,6 +35,28 @@ pub enum BlockStatus {
     Orphaned,
 }
 
+impl Signal {
+    pub fn new(
+        account: impl Into<String>,
+        hash: impl Into<String>,
+        memo: impl Into<String>,
+        height: i64,
+        status: BlockStatus,
+        timestamp: i64,
+        nonce: i64,
+    ) -> Self {
+        Self {
+            account: account.into(),
+            hash: hash.into(),
+            memo: memo.into(),
+            height,
+            status,
+            timestamp,
+            nonce,
+        }
+    }
+}
+
 impl SignalWithWeight {
     pub fn new(signal: Signal, stake_weight: f64) -> Self {
         Self {
@@ -52,16 +74,25 @@ impl SignalWithWeight {
 
 pub trait SignalExt {
     fn update_memo(&mut self, memo: String);
+    fn mark_canonical(&mut self);
 }
 
 impl SignalExt for Signal {
     fn update_memo(&mut self, memo: String) {
         self.memo = memo;
     }
+
+    fn mark_canonical(&mut self) {
+        self.status = BlockStatus::Canonical;
+    }
 }
 
 impl SignalExt for SignalWithWeight {
     fn update_memo(&mut self, memo: String) {
         self.memo = memo;
+    }
+
+    fn mark_canonical(&mut self) {
+        self.status = BlockStatus::Canonical;
     }
 }

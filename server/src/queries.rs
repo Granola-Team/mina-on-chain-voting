@@ -1,6 +1,13 @@
 use crate::signal::{BlockStatus, Signal, SignalCache};
 use sqlx::{Pool, Postgres};
 
+pub async fn get_latest_blockheight(db: &Pool<Postgres>) -> anyhow::Result<i64> {
+    let height: (i64,) = sqlx::query_as("SELECT MAX(height) FROM blocks;")
+        .fetch_one(db)
+        .await?;
+    Ok(height.0)
+}
+
 pub async fn get_signals(
     db: &Pool<Postgres>,
     cache: &SignalCache,

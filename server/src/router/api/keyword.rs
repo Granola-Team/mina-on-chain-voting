@@ -7,7 +7,7 @@ use axum::{
 use base58check::FromBase58Check;
 use serde::{Deserialize, Serialize};
 
-use crate::{ledger::get_stake_weight, types::Network};
+use crate::{ledger::get_stake_weight, queries::get_latest_blockheight, types::Network};
 use crate::{
     ledger::LedgerAccount,
     signal::{Signal, SignalExt, SignalWithWeight},
@@ -60,7 +60,11 @@ impl SortByTimestamp for Vec<SignalWithWeight> {
     }
 }
 
-fn process_signals(key: impl Into<String>, signals: Vec<Signal>) -> Vec<Signal> {
+fn process_signals(
+    key: impl Into<String>,
+    signals: Vec<Signal>,
+    latest_height: i64,
+) -> Vec<Signal> {
     let mut map = std::collections::HashMap::new();
     let key = key.into();
 
@@ -68,6 +72,10 @@ fn process_signals(key: impl Into<String>, signals: Vec<Signal>) -> Vec<Signal> 
         if let Some(memo) = decode_memo(&key, &signal.memo) {
             if match_memo(&key, &memo) {
                 signal.update_memo(memo);
+
+                if latest_height - signal.height >= 10 {
+                    signal.mark_canonical();
+                }
 
                 if let Some(current_signal) = map.get_mut(&signal.account) {
                     if is_newer(&signal, current_signal) {
@@ -85,10 +93,11 @@ fn process_signals(key: impl Into<String>, signals: Vec<Signal>) -> Vec<Signal> 
 fn process_signals_results(
     key: impl Into<String>,
     signals: Vec<Signal>,
+    latest_height: i64,
     ledger: Vec<LedgerAccount>,
 ) -> anyhow::Result<Vec<SignalWithWeight>> {
     let key = key.into();
-    let values = process_signals(key, signals);
+    let values = process_signals(key, signals, latest_height);
 
     Ok(values
         .into_iter()
@@ -120,7 +129,7 @@ pub async fn keyword_handler(
     ctx: Extension<crate::APIContext>,
 ) -> impl IntoResponse {
     let _raw = match params.network {
-        Network::Mainnet => {
+        Network::Mainnet => (
             crate::queries::get_signals(
                 &ctx.mainnet_db,
                 &ctx.signal_cache,
@@ -128,13 +137,14 @@ pub async fn keyword_handler(
                 params.end,
                 params.network,
             )
-            .await
-        }
+            .await,
+            get_latest_blockheight(&ctx.mainnet_db).await,
+        ),
     };
 
-    let raw = match _raw {
-        Ok(raw) => raw,
-        Err(_) => {
+    let (raw, latest_height) = match _raw {
+        (Ok(raw), Ok(hello)) => (raw, hello),
+        _ => {
             return (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 "Error: Failed to get Signals.",
@@ -143,7 +153,7 @@ pub async fn keyword_handler(
         }
     };
 
-    let signals = process_signals(key, raw);
+    let signals = process_signals(key, raw, latest_height);
     (
         StatusCode::ACCEPTED,
         axum::Json(signals.sort_by_timestamp()),
@@ -157,7 +167,7 @@ pub async fn keyword_results_handler(
     ctx: Extension<crate::APIContext>,
 ) -> impl IntoResponse {
     let _raw = match params.network {
-        Network::Mainnet => {
+        Network::Mainnet => (
             crate::queries::get_signals(
                 &ctx.mainnet_db,
                 &ctx.signal_cache,
@@ -165,13 +175,14 @@ pub async fn keyword_results_handler(
                 params.end,
                 params.network,
             )
-            .await
-        }
+            .await,
+            get_latest_blockheight(&ctx.mainnet_db).await,
+        ),
     };
 
-    let raw = match _raw {
-        Ok(raw) => raw,
-        Err(_) => {
+    let (raw, latest_height) = match _raw {
+        (Ok(raw), Ok(hello)) => (raw, hello),
+        _ => {
             return (
                 StatusCode::INTERNAL_SERVER_ERROR,
                 "Error: Failed to get Signals.",
@@ -179,7 +190,6 @@ pub async fn keyword_results_handler(
                 .into_response()
         }
     };
-
     let _ledger = crate::ledger::get_ledger(params.hash, &ctx.ledger_cache).await;
     let ledger = match _ledger {
         Ok(ledger) => ledger,
@@ -192,7 +202,7 @@ pub async fn keyword_results_handler(
         }
     };
 
-    let signals = process_signals_results(key, raw, ledger);
+    let signals = process_signals_results(key, raw, latest_height, ledger);
 
     match signals {
         Ok(signals) => (
@@ -205,5 +215,91 @@ pub async fn keyword_results_handler(
             "Error: Failed to process Signals.",
         )
             .into_response(),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn get_signals() -> (Signal, Signal, Signal, Signal) {
+        return (
+            Signal::new(
+                "1",
+                "1",
+                "E4YjFkHVUXbEAkQcUrAEcS1fqvbncnn9Tuz2Jtb1Uu79zY9UAJRpd",
+                100,
+                crate::signal::BlockStatus::Pending,
+                100,
+                1,
+            ),
+            Signal::new(
+                "1",
+                "2",
+                "E4YjFkHVUXbEAkQcUrAEcS1fqvbncnn9Tuz2Jtb1Uu79zY9UAJRpd",
+                110,
+                crate::signal::BlockStatus::Pending,
+                110,
+                1,
+            ),
+            Signal::new(
+                "2",
+                "3",
+                "E4YjFkHVUXbEAkQcUrAEcS1fqvbncnn9Tuz2Jtb1Uu79zY9UAJRpd",
+                110,
+                crate::signal::BlockStatus::Pending,
+                110,
+                1,
+            ),
+            Signal::new(
+                "2",
+                "4",
+                "E4YdLeukpqzqyBAxujeELx9SZWoUW9MhcUfnGHF9PhQmxTJcpmj7j",
+                120,
+                crate::signal::BlockStatus::Pending,
+                120,
+                2,
+            ),
+        );
+    }
+
+    #[test]
+    fn test_decode_memo() {
+        let key = "cftest-2";
+        let (s1, s2, s3, s4) = get_signals();
+        let s1_decoded = decode_memo(key, &s1.memo).unwrap();
+        let s2_decoded = decode_memo(key, &s2.memo).unwrap();
+        let s3_decoded = decode_memo(key, &s3.memo).unwrap();
+        let s4_decoded = decode_memo(key, &s4.memo).unwrap();
+
+        assert_eq!(s1_decoded, "no cftest-2");
+        assert_eq!(s2_decoded, "no cftest-2");
+        assert_eq!(s3_decoded, "no cftest-2");
+        assert_eq!(s4_decoded, "cftest-2");
+    }
+
+    #[test]
+    fn test_process_signals() {
+        let (s1, s2, s3, s4) = get_signals();
+        let processed = process_signals("cftest-2", vec![s1, s2, s3, s4], 129);
+
+        assert_eq!(processed.len(), 2);
+
+        let a1 = processed.iter().find(|s| s.account == "1").unwrap();
+        let a2 = processed.iter().find(|s| s.account == "2").unwrap();
+
+        assert_eq!(a1.account, "1");
+        assert_eq!(a1.hash, "2");
+        assert_eq!(a1.memo, "no cftest-2");
+        assert_eq!(a1.height, 110);
+        assert_eq!(a1.status, crate::signal::BlockStatus::Canonical);
+        assert_eq!(a1.nonce, 1);
+
+        assert_eq!(a2.account, "2");
+        assert_eq!(a2.hash, "4");
+        assert_eq!(a2.memo, "cftest-2");
+        assert_eq!(a2.height, 120);
+        assert_eq!(a2.status, crate::signal::BlockStatus::Pending);
+        assert_eq!(a2.nonce, 2);
     }
 }

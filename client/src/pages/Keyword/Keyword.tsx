@@ -14,6 +14,7 @@ import { StatsWeighted } from "@/components/Stats";
 import { Spinner } from "@/components/Spinner";
 import { Layout } from "@/components/Layout";
 import { Table } from "@/components/Table";
+import { ResultsOverview } from "@/components/ResultsOverview";
 
 export const Keyword = ({ showResults }: { showResults: boolean }) => {
   const {
@@ -135,6 +136,8 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     );
   }
 
+  // TODO: Export to new Component
+  /** Display the Tracker Page */
   if (!showResults && start && end && signals && key) {
     return (
       <Layout>
@@ -150,10 +153,17 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     );
   }
 
+
+  // TODO: Export to new Component
+  /** Display the Results Page */
   if (showResults && start && end && hash && signals && key) {
     return (
       <Layout>
         <React.Fragment>
+          <ResultsOverview />
+          { network === "mainnet" && timing.epoch && timing.slot ? (
+            <VotingPeriod start={start} end={end} />
+          ) : null }
           <StatsWeighted network={network ? network : ""} />
           <ResultsTable data={signals} query={key} isLoading={isLoading} />
         </React.Fragment>

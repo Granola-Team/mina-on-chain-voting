@@ -1,6 +1,5 @@
 {
-  "env":
-  {
+  "env": {
     "jest": true
   },
   "extends": [
@@ -31,6 +30,7 @@
         "brace-style": "off",
         "comma-dangle": "off",
         "function-paren-newline": "off",
+        "no-nested-ternary": "off",
         "react/jsx-indent": "off",
         "react/jsx-indent-props": "off",
         "react/no-array-index-key": "off",

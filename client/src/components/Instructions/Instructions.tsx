@@ -1,6 +1,7 @@
 import { useKeywordStore } from "@/pages/Keyword/Keyword.store";
 import React from "react";
 import shallow from "zustand/shallow";
+import { IconTooltip } from "@/components/Tooltip";
 
 export const Instructions: React.FC<{ totalVotes: number }> = ({
   totalVotes,
@@ -17,7 +18,7 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
                 Instructions
               </span>
             </div>
-            <p className="font-semibold">
+            <div className="font-semibold">
               {" "}
               <span className="text-[0.875rem] font-normal">
                 Send yourself a transaction with the keyword(s) in the memo
@@ -25,15 +26,15 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
                 <ul className="list-disc list-inside">
                   <li>
                     To vote in favor of the proposal, enter in the memo field{" "}
-                    <span className="font-semibold">&apos;{key}&apos;</span>
+                    <span className="font-semibold">{key}</span>
                   </li>
                   <li>
                     To vote against the proposal enter in the memo field{" "}
-                    <span className="font-semibold"> &apos;no {key}&apos;</span>
+                    <span className="font-semibold"> no {key}</span>
                   </li>
                 </ul>
               </span>
-            </p>
+            </div>
 
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">
@@ -46,7 +47,7 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
               <span className="text-[0.875rem] font-normal">
                 See Frequently Asked Questions (
                 <a
-                  href="https://faucet.minaprotocol.com/"
+                  href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                   <u>FAQs</u>
@@ -71,13 +72,33 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
                 . We would love to hear your thoughts!
               </span>
             </p>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+                A vote will first appear in a pending state. After ten blocks
+                have been confirmed the voting status will be marked as
+                Canonical where appropriate.
+              </span>
+            </p>
           </div>
         </div>
       </div>
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-[15%] ml-2 mr-4">
-        <div className="flex items-center justify-center w-full h-full">
+        <div className="flex flex-col items-center justify-center w-full h-full">
+          <div className="flex flex-row items-center justify-center">
+            <span className="semibold text-xl leading-8">Total Votes</span>
+            <IconTooltip css="h-[1.1rem] w-[1.1rem] ml-[2.5px] mt-[1px]">
+              <div className="flex flex-row items-start justify-center">
+                <div className="text-[0.725rem]">
+                  <span className="inline semibold"> Total Votes</span> is the
+                  sum of all valid votes per unique account that were received
+                  during the voting period. Duplicate votes are not included in
+                  the total.
+                </div>
+              </div>
+            </IconTooltip>
+          </div>
           <div className="flex flex-col items-center justify-center">
-            <span className="semibold text-xl leading-8">Total Votes:</span>
             <span className="semibold text-2xl">{totalVotes}</span>
           </div>
         </div>

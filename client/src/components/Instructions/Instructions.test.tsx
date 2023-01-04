@@ -8,7 +8,7 @@ test("should navigate to faucet when link is clicked", async () => {
     const link = rendered.getByText("FAQs");
     fireEvent.click(link);
     expect(screen.getByText("FAQs").closest("a"))
-        .toHaveAttribute("href", "https://faucet.minaprotocol.com/");
+        .toHaveAttribute("href", "https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959");
 });
 
 test("Instructions are rendered and visible", async () => {

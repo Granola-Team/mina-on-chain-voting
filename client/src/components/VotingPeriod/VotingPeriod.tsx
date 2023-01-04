@@ -17,6 +17,7 @@ export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
   const endDate = moment(new Date(_end)).utc();
   const duration = moment.duration(endDate.diff(now));
   const isDone = now.isAfter(endDate);
+  const hasNotStarted = now.isBefore(startDate);
 
   const percentage = ((_now - _start) / (_end - _start)) * 100;
   const oppositePercentage = 100 - percentage;
@@ -70,7 +71,9 @@ export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
             <span className="text-xs md:text-sm medium text-gray-11 mb-1">
               {isDone
                 ? "The Voting Period has ended."
-                : `Remaining time: ${duration.months()}M ${duration.days()}D ${duration.hours()}H ${duration.minutes()}m`}
+                : hasNotStarted
+                ? "The Voting Period has not started yet."
+                : `Remaining time: ${duration.days()}D ${duration.hours()}H ${duration.minutes()}m`}
             </span>
           </div>
         </div>

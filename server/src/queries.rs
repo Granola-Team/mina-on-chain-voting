@@ -1,6 +1,13 @@
 use crate::signal::{BlockStatus, Signal, SignalCache};
 use sqlx::{Pool, Postgres};
 
+pub async fn get_latest_blockheight(db: &Pool<Postgres>) -> anyhow::Result<i64> {
+    let height: (i64,) = sqlx::query_as("SELECT MAX(height) FROM blocks;")
+        .fetch_one(db)
+        .await?;
+    Ok(height.0)
+}
+
 pub async fn get_signals(
     db: &Pool<Postgres>,
     cache: &SignalCache,
@@ -9,7 +16,7 @@ pub async fn get_signals(
     network: crate::types::Network,
 ) -> anyhow::Result<Vec<Signal>> {
     if let Some(cached) = cache.get(&format!("{}-{}-{}", start, end, network)) {
-        return Ok(cached.to_vec());
+        Ok(cached.to_vec())
     } else {
         let signals = sqlx::query_as!(
             Signal,
@@ -31,12 +38,16 @@ pub async fn get_signals(
             "#, start, end
             ).fetch_all(db).await?;
 
-        cache
-            .insert(
-                format!("{}-{}-{}", start, end, network),
-                std::sync::Arc::new(signals.clone()),
-            )
-            .await;
+        // Temp whitelist for MIP01 period
+        if start == 1672848000000 && end == 1673685000000 {
+            cache
+                .insert(
+                    format!("{}-{}-{}", start, end, network),
+                    std::sync::Arc::new(signals.clone()),
+                )
+                .await;
+        }
+
         Ok(signals)
     }
 }

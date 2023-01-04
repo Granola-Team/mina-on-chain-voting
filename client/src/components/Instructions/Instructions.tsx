@@ -18,7 +18,7 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
                 Instructions
               </span>
             </div>
-            <p className="font-semibold">
+            <div className="font-semibold">
               {" "}
               <span className="text-[0.875rem] font-normal">
                 Send yourself a transaction with the keyword(s) in the memo
@@ -26,15 +26,15 @@ export const Instructions: React.FC<{ totalVotes: number }> = ({
                 <ul className="list-disc list-inside">
                   <li>
                     To vote in favor of the proposal, enter in the memo field{" "}
-                    <span className="font-semibold">&apos;{key}&apos;</span>
+                    <span className="font-semibold">{key}</span>
                   </li>
                   <li>
                     To vote against the proposal enter in the memo field{" "}
-                    <span className="font-semibold"> &apos;no {key}&apos;</span>
+                    <span className="font-semibold"> no {key}</span>
                   </li>
                 </ul>
               </span>
-            </p>
+            </div>
 
             <p className="font-semibold">
               <span className="text-[0.875rem] font-normal">

@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import type { TableProps } from "@/types";
 
 import { TableBody } from "./TableBody";
-import * as TableFooter from "../TableFooter/TableFooter.jsx";
-import * as useTable from "../../hooks/useTable.js";
+import { TableFooter } from "../TableFooter/TableFooter";
+import { useTable } from "../../hooks/useTable";
 
 export const Table: React.FC<TableProps> = ({ data, query, isLoading }) => {
   const [page, setPage] = useState(1);

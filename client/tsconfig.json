@@ -9,7 +9,6 @@
     "sourceMap": true,
     "types": ["react/next", "react-dom/next", "vitest/globals", "@testing-library/jest-dom"],
     "allowSyntheticDefaultImports": true,
-    "allowJs": true,
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -24,6 +23,6 @@
     "src/**/*.tsx",
     "src/**/*.d.ts",
     "tests/**/*.test.tsx"
-, "src/hooks/useTable.js", "src/components/TableFooter/TableFooter.jsx"  ],
+  ],
   "exclude": ["node_modules"]
 }

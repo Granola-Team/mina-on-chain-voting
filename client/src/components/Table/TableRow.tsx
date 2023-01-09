@@ -82,7 +82,7 @@ export const TableRow: React.FC<TableRowProps> = ({ signal }) => {
 
       <div className="place-self-left mt-1 ml-10">
         <span className="grid-table-content medium select-text">
-          {signal.hash}
+          <a href={`https://minaexplorer.com/transaction/${signal.hash}`} target="_blank" rel="noopener" >{signal.hash}</a>
         </span>
       </div>
 

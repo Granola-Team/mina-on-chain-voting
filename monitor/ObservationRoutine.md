@@ -27,13 +27,15 @@ LEFT JOIN blocks b
 ON h = b.height where b.height is null) as v;
 ```
 
+- This query should return 0.
+
 ```
 Select count(*) from blocks where parent_id is null
 ```
 
 - This query should return 1.
 
-If there are any missing blocks, use the following tools and commands in your archive node instance to check and add blocks:
+##### If there are any missing blocks, use the following tools and commands in your archive node instance to check and add blocks:
 - mina-missing-blocks-auditor -- returns state hashes of missing blocks from the archive database.
 - mina-extract-blocks -- extracts all blocks from said database or a chain if the command is provided with `--start-state-hash` and or `--end-state-hash`.
 - mina-archive-blocks -- writes blocks to the database.

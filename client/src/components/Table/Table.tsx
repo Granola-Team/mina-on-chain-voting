@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import type { TableProps } from "@/types";
 
 import { TableBody } from "./TableBody";
-import { TableFooter} from "./TableFooter";
-import { useTable } from "../../hooks/useTable";
+import TableFooter from "./TableFooter";
+import useTable from "../../hooks/useTable";
 
 // rowsPerPage needs to be a prop of TableProps???
 

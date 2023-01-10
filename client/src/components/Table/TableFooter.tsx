@@ -1,11 +1,6 @@
 import React, { useEffect } from "react";
 
 import styles from "./TableFooter.module.css";
-import { useTable } from "../../hooks/useTable";
-import { useAppStore } from "@/App.store";
-import type { SignalEntity } from "@/types";
-
-// needs type conversions from JS to TS
 
 const TableFooter = ({ range, setPage, page, slice }) => {
   useEffect(() => {
@@ -29,3 +24,5 @@ const TableFooter = ({ range, setPage, page, slice }) => {
     </div>
   );
 };
+
+export default TableFooter;

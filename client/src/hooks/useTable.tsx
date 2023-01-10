@@ -35,3 +35,5 @@ const useTable = (data: SignalEntity[], page: number, rowsPerPage: number) => {
 
   return { slice, range: tableRange };
 };
+
+export default useTable;

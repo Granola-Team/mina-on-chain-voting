@@ -1,11 +1,12 @@
 import React, { useEffect } from "react";
 
-// needs type conversions from JS to TS
-
 import styles from "./TableFooter.module.css";
-import { useTable } from "../hooks/useTable";
+import { useTable } from "../../hooks/useTable";
+import { useAppStore } from "@/App.store";
+import type { SignalEntity } from "@/types";
 
 // needs type conversions from JS to TS
+
 const TableFooter = ({ range, setPage, page, slice }) => {
   useEffect(() => {
     if (slice.length < 1 && page !== 1) {
@@ -14,7 +15,7 @@ const TableFooter = ({ range, setPage, page, slice }) => {
   }, [slice, page, setPage]);
   return (
     <div className={styles.tableFooter}>
-      {range.map((el, index) => (
+      {range.map((el: number, index: number) => (
         <button
           key={index}
           className={`${styles.button} ${

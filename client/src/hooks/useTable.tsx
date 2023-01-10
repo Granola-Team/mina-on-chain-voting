@@ -31,9 +31,7 @@ const useTable = (data: SignalEntity[], page: number, rowsPerPage: number) => {
 
     const sliceOfData = sliceData(data, page, rowsPerPage);
     setSlice([...sliceOfData]);
-  }, [data, setTableRange, page, setSlice, rowsPerPage]); // may need to be without rowsPerPage
+  }, [data, setTableRange, page, setSlice, rowsPerPage]); // may be without rowsPerPage
 
   return { slice, range: tableRange };
 };
-
-export default useTable;

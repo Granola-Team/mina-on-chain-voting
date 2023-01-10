@@ -147,7 +147,7 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
           {network === "mainnet" && timing.epoch && timing.slot ? (
             <VotingPeriod start={start} end={end} />
           ) : null}
-          <Table data={signals} query={key} isLoading={isLoading} />
+          <Table data={signals} query={key} isLoading={isLoading} rowsPerPage={25} />
         </React.Fragment>
       </Layout>
     );
@@ -165,7 +165,7 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
             <VotingPeriod start={start} end={end} />
           ) : null }
           <StatsWeighted network={network ? network : ""} />
-          <ResultsTable data={signals} query={key} isLoading={isLoading} />
+          <ResultsTable data={signals} query={key} isLoading={isLoading} rowsPerPage={25} />
         </React.Fragment>
       </Layout>
     );

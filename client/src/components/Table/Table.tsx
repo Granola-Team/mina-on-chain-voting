@@ -1,22 +1,20 @@
-import React, { useState } from "react";
-
+import React from "react";
 import type { TableProps } from "@/types";
-
 import { TableBody } from "./TableBody";
-import TableFooter from "./TableFooter";
-import useTable from "../../hooks/useTable";
+import { useTable } from "@/hooks/usePagination";
+// import TableFooter from "./TableFooter";
 
-// rowsPerPage needs to be a prop of TableProps???
+export const Table: React.FC<TableProps> = ({ data, query, isLoading }) => {
+  const { slice, range, next } = useTable(data, 25);
 
-export const Table: React.FC<TableProps> = ({ data, query, isLoading, rowsPerPage }) => {
-  const [page, setPage] = useState(1);
-  const { slice, range } = useTable(data, page, rowsPerPage);
   return (
     <div className="content-full-width">
       <div className="px-2 md:px-4 lg:px-8 w-full flex flex-col items-center">
-        <TableBody data={data} query={query} isLoading={isLoading} rowsPerPage={25} />
-        <TableFooter range={range} slice={slice} setPage={setPage} page={page} />
+      <TableBody data={slice} query={query} isLoading={isLoading} />
+        {/* Footer takes in range and next to control pagination */}
       </div>
     </div>
   );
 };
+
+// <TableFooter range={range} slice={slice} setPage={setPage} page={page} />

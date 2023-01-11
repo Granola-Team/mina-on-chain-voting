@@ -14,8 +14,8 @@ export interface TableProps {
   data: SignalEntity[];
   query: string | undefined;
   isLoading: boolean;
-  rowsPerPage: number;
 }
+
 export interface TableRowProps {
   signal: SignalEntity;
 }

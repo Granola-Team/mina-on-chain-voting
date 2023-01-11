@@ -1,28 +1,36 @@
 import React, { useEffect } from "react";
-
 import styles from "./TableFooter.module.css";
+import type { SignalEntity } from "@/types";
 
-const TableFooter = ({ range, setPage, page, slice }) => {
+interface TableFooterProps {
+  range: number[];
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  page: number;
+  slice: SignalEntity[];
+}
+
+const TableFooter = ({ range, setPage, page, slice }: TableFooterProps) => {
   useEffect(() => {
     if (slice.length < 1 && page !== 1) {
       setPage(page - 1);
     }
   }, [slice, page, setPage]);
+
   return (
     <div className={styles.tableFooter}>
       {range.map((el: number, index: number) => (
-        <li
+        <button
+          type="button"
           key={index}
           className={`${styles.button} ${
             page === el ? styles.activeButton : styles.inactiveButton
           }`}
-        >
-        <button
-          onClick={() => setPage(el)}
+          onClick={() => {
+            setPage(el);
+          }}
         >
           {el}
         </button>
-        </li>
       ))}
     </div>
   );

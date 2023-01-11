@@ -1,8 +1,15 @@
-import { useState, useEffect } from "react";
-
-import { useAppStore } from "@/App.store";
+import { useState } from "react";
 import type { SignalEntity } from "@/types";
-import shallow from "zustand/shallow";
+
+interface UseTableReturnArgs {
+    slice: SignalEntity[];
+  range: number[];
+  next: () => void;
+}
+
+// Simplify calculateRange & sliceData
+// Remove all additions AppStore
+// Boundaries: Work inside useTable
 
 const calculateRange = (data: SignalEntity[], rowsPerPage: number) => {
   const range: number[] = [];
@@ -18,22 +25,22 @@ const sliceData = (data: SignalEntity[], page: number, rowsPerPage: number) => {
   return sliceOfData;
 };
 
-const useTable = (data: SignalEntity[], page: number, rowsPerPage: number) => {
-  const [tableRange, setTableRange] = useState([]);
-  const { slice, setSlice } = useAppStore(
-    (state) => ({ slice: state.slice, setSlice: state.setSlice }),
-    shallow,
-  );
+export const useTable = (
+  data: SignalEntity[],
+  rowsPerPage: number,
+  ): UseTableReturnArgs => {
+  const [page, setPage] = useState(1);
+  const [tableRange, setTableRange] = useState<number[]>([]);
+  const [slice, setSlice] = useState<SignalEntity[]>([]);
 
-  useEffect(() => {
+  const next = () => {
     const range = calculateRange(data, rowsPerPage);
     setTableRange([...range]);
-
     const sliceOfData = sliceData(data, page, rowsPerPage);
     setSlice([...sliceOfData]);
-  }, [data, setTableRange, page, setSlice, rowsPerPage]); // may be without rowsPerPage
+  };
 
-  return { slice, range: tableRange };
+  return { slice, range: tableRange, next };
 };
 
 export default useTable;

@@ -8,7 +8,7 @@ import { useKeywordStore } from "@/pages/Keyword/Keyword.store";
 const createPercent = (v: number, t: number): string => {
   const val = (v / t) * 100;
   if (Number.isNaN(val)) {
-    return "N/A";
+    return "XXX";
   }
   return val.toFixed(2);
 };
@@ -83,7 +83,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ network }) => {
             <div className="flex items-center w-full self-center h-5">
               <div
                 style={{
-                  width: `${stats.yes === "N/A" ? "50" : stats.yes}%`,
+                  width: `${stats.yes === "XXX" ? "50" : stats.yes}%`,
                 }}
                 className={`bg-green-11 opacity-80 h-full ${
                   stats.yes === "100.00" ? "rounded-md" : "rounded-l-md"
@@ -91,7 +91,7 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ network }) => {
               />
               <div
                 style={{
-                  width: `${stats.no === "N/A" ? "50" : stats.no}%`,
+                  width: `${stats.no === "XXX" ? "50" : stats.no}%`,
                 }}
                 className={`bg-red-11 h-full ${
                   stats.no === "100.00" ? "rounded-md" : "rounded-r-md"

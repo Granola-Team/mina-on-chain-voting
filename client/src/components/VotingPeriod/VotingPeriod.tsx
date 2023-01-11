@@ -62,7 +62,7 @@ export const VotingPeriod: React.FC<Props> = ({ start, end }) => {
                 style={{
                   marginRight: `${oppositePercentage}%`,
                 }}
-                className="w-full bg-gradient-to-r from-blue-400/80 to-violet-600 h-full rounded-md"
+                className="w-full bg-gradient-to-r from-blue-400/80 to-violet-600 h-full rounded-lg"
                 data-testid="bar-percentage"
               />
             </div>

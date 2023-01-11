@@ -11,15 +11,18 @@ const TableFooter = ({ range, setPage, page, slice }) => {
   return (
     <div className={styles.tableFooter}>
       {range.map((el: number, index: number) => (
-        <button
+        <li
           key={index}
           className={`${styles.button} ${
             page === el ? styles.activeButton : styles.inactiveButton
           }`}
+        >
+        <button
           onClick={() => setPage(el)}
         >
           {el}
         </button>
+        </li>
       ))}
     </div>
   );

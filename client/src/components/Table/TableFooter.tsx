@@ -9,7 +9,7 @@ interface TableFooterProps {
   slice: SignalEntity[];
 }
 
-const TableFooter = ({ range, setPage, page, slice }: TableFooterProps) => {
+export const TableFooter = ({ range, setPage, page, slice }: TableFooterProps) => {
   useEffect(() => {
     if (slice.length < 1 && page !== 1) {
       setPage(page - 1);
@@ -35,5 +35,3 @@ const TableFooter = ({ range, setPage, page, slice }: TableFooterProps) => {
     </div>
   );
 };
-
-export default TableFooter;

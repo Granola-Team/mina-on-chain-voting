@@ -2,14 +2,14 @@ import { useState } from "react";
 import type { SignalEntity } from "@/types";
 
 interface UseTableReturnArgs {
-    slice: SignalEntity[];
+  slice: SignalEntity[];
   range: number[];
   next: () => void;
 }
 
-// Simplify calculateRange & sliceData
-// Remove all additions AppStore
-// Boundaries: Work inside useTable
+// Simplify calculateRange & sliceData = x
+// Remove all additions AppStore = check
+// Boundaries: Work inside useTable = x
 
 const calculateRange = (data: SignalEntity[], rowsPerPage: number) => {
   const range: number[] = [];
@@ -38,6 +38,7 @@ export const useTable = (
     setTableRange([...range]);
     const sliceOfData = sliceData(data, page, rowsPerPage);
     setSlice([...sliceOfData]);
+    const currentPage = setPage(React.Dispatch<React.SetStateAction<1>>);
   };
 
   return { slice, range: tableRange, next };

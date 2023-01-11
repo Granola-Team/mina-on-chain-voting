@@ -35,6 +35,6 @@ impl Build for Router {
                 "/api/v1/:keyword/results",
                 get(api::keyword::keyword_results_handler),
             )
-            .fallback(react_router_fallback)
+            .fallback_service(react_router_fallback)
     }
 }

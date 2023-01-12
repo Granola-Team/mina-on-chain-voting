@@ -26,8 +26,8 @@ export const useTable = (
   rowsPerPage: number,
   ): UseTableReturnArgs => {
   const [page, setPage] = useState(1);
-  const [tableRange, setTableRange] = useState<number[]>([]);
-  const [slice, setSlice] = useState<SignalEntity[]>([]);
+  const [tableRange, setTableRange] = useState<number[]>(); // need default value for initial slice
+  const [slice, setSlice] = useState<SignalEntity[]>(); // need default value for initial slice
 
   const next = () => {
     const range = calculateRange(data, rowsPerPage);

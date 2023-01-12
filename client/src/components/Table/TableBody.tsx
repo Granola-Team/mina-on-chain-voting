@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from "react";
+import React, { useEffect } from "react";
 
 import type { TableProps } from "@/types";
 
@@ -13,10 +13,13 @@ import { useTable } from "@/hooks/usePagination";
 export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
   const { slice, range, next } = useTable(data, 25);
 
+  useEffect(() => {
+    console.log(slice);
+  },[slice])
+
   if (isLoading) {
     return (
       <TableBodyWrapper>
-        <TableFooter range={range} setPage={next} page={1} slice={slice} />
         <div className="py-6 mt-1">
           <Spinner />
         </div>
@@ -27,9 +30,12 @@ export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
   return (
     <TableBodyWrapper>
       {data.length > 0 ? (
-        data.map((signal, index) => (
-          <TableRow key={data.length + index} signal={signal} />
-        ))
+        <>
+          {data.map((signal, index) => (
+            <TableRow key={data.length + index} signal={signal} />
+          ))}
+          <TableFooter range={range} setPage={next} page={1} slice={slice} />
+        </>
       ) : (
         <span className="text-md py-12 medium">
           No results found for keyword &apos;{query ? query : "_"}&apos;

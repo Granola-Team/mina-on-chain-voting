@@ -89,12 +89,12 @@ export const ResultsTableRow: React.FC<TableRowProps> = ({ signal }) => {
       </div>
       <div className="place-self-center">
         <span className="grid-table-content">
-          {signal.stake_weight ? `${signal.stake_weight.toFixed(4)}` : "---"}
+          {signal.stake_weight ? `${signal.stake_weight.toFixed(4)}` : "Delegated Away"}
         </span>
       </div>
       <div className="place-self-center">
         <span className="grid-table-content">
-          {signal.stake_weight ? `${percent()}` : "---"}
+          {signal.stake_weight ? `${percent()}` : "Delegated Away"}
         </span>
       </div>
       <div className="place-self-center">

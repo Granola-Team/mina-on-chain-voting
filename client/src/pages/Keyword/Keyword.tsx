@@ -147,12 +147,11 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
           {network === "mainnet" && timing.epoch && timing.slot ? (
             <VotingPeriod start={start} end={end} />
           ) : null}
-          <Table data={signals} query={key} isLoading={isLoading} rowsPerPage={25} />
+          <Table data={signals} query={key} isLoading={isLoading} />
         </React.Fragment>
       </Layout>
     );
   }
-
 
   // TODO: Export to new Component
   /** Display the Results Page */
@@ -161,11 +160,16 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
       <Layout>
         <React.Fragment>
           <ResultsOverview />
-          { network === "mainnet" && timing.epoch && timing.slot ? (
+          {network === "mainnet" && timing.epoch && timing.slot ? (
             <VotingPeriod start={start} end={end} />
-          ) : null }
+          ) : null}
           <StatsWeighted network={network ? network : ""} />
-          <ResultsTable data={signals} query={key} isLoading={isLoading} rowsPerPage={25} />
+          <ResultsTable
+            data={signals}
+            query={key}
+            isLoading={isLoading}
+            rowsPerPage={25}
+          />
         </React.Fragment>
       </Layout>
     );

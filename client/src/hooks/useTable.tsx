@@ -14,22 +14,17 @@ const sliceData = (data: SignalEntity[], page: number, rowsPerPage: number) => {
   return data.slice((page - 1) * rowsPerPage, page * rowsPerPage);
 };
 
-export const useTable = (
-  data: SignalEntity[],
-  page: number,
-  rowsPerPage: number,
-  ) => {
-  const [tableRange, setTableRange] = useState<number[]>([]);
+export const useTable = (data: SignalEntity[], rowsPerPage: number) => {
   const [slice, setSlice] = useState<SignalEntity[]>([]);
+  const [range, setRange] = useState<number[]>([]);
+  const [page, setPage] = useState<number>(1);
 
   useEffect(() => {
-    const range = calculateRange(data, rowsPerPage);
-    setTableRange([...range]);
-    const slice = sliceData(data, page, rowsPerPage);
-    setSlice([...slice]);
-  }, [data, setTableRange, page, setSlice, rowsPerPage]);
+    setRange(calculateRange(data, rowsPerPage));
+    setSlice(sliceData(data, page, rowsPerPage));
+  }, [data, setRange, page, setSlice, rowsPerPage]);
 
-  return { slice, range: tableRange };
+  return { slice, range, page, setPage };
 };
 
 export default useTable;

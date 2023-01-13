@@ -6,7 +6,7 @@ name: slack-cron
 
 jobs:
   slack-cron:
-    name: "Posting missing one or more missing blocks to the work slack"
+    name: "Posting one or more missing blocks to the work slack"
     runs-on: ubuntu-latest
     steps:
       - name: Check for one or more missing blocks

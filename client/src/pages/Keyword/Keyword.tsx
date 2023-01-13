@@ -153,7 +153,6 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     );
   }
 
-
   // TODO: Export to new Component
   /** Display the Results Page */
   if (showResults && start && end && hash && signals && key) {
@@ -161,11 +160,16 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
       <Layout>
         <React.Fragment>
           <ResultsOverview />
-          { network === "mainnet" && timing.epoch && timing.slot ? (
+          {network === "mainnet" && timing.epoch && timing.slot ? (
             <VotingPeriod start={start} end={end} />
-          ) : null }
+          ) : null}
           <StatsWeighted network={network ? network : ""} />
-          <ResultsTable data={signals} query={key} isLoading={isLoading} />
+          <ResultsTable
+            data={signals}
+            query={key}
+            isLoading={isLoading}
+            rowsPerPage={25}
+          />
         </React.Fragment>
       </Layout>
     );

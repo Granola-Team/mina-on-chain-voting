@@ -15,6 +15,11 @@ export interface TableProps {
   query: string | undefined;
   isLoading: boolean;
 }
+
+export interface SliceTableProps extends TableProps {
+  rowsPerPage: number;
+}
+
 export interface TableRowProps {
   signal: SignalEntity;
 }

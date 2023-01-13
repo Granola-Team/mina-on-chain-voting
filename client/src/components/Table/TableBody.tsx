@@ -1,13 +1,19 @@
-/* eslint-disable no-nested-ternary */
 import React from "react";
-
-import type { TableProps } from "@/types";
-
+import type { SliceTableProps } from "@/types";
 import { Spinner } from "../Spinner";
 import { TableBodyWrapper } from "./TableBodyWrapper";
 import { TableRow } from "./TableRow";
+import { TableFooter } from "./TableFooter";
+import { useTable } from "@/hooks/useTable";
 
-export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
+export const TableBody: React.FC<SliceTableProps> = ({
+  data,
+  query,
+  isLoading,
+  rowsPerPage,
+}) => {
+  const { slice, range, page, setPage } = useTable(data, rowsPerPage);
+
   if (isLoading) {
     return (
       <TableBodyWrapper>
@@ -20,10 +26,18 @@ export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
 
   return (
     <TableBodyWrapper>
-      {data.length > 0 ? (
-        data.map((signal, index) => (
-          <TableRow key={data.length + index} signal={signal} />
-        ))
+      {slice.length > 0 ? (
+        <>
+          {slice.map((signal, index) => (
+            <TableRow key={slice.length + index} signal={signal} />
+          ))}
+          <TableFooter
+            range={range}
+            setPage={setPage}
+            page={page}
+            slice={slice}
+          />
+        </>
       ) : (
         <span className="text-md py-12 medium">
           No results found for keyword &apos;{query ? query : "_"}&apos;

@@ -1,0 +1,15 @@
+on:
+  schedule:
+    - cron: '0 * * * *'
+
+name: slack-cron
+
+jobs:
+  slack-cron:
+    name: "Posting missing one or more missing blocks to the work slack"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check for one or more missing blocks
+        uses: Granola-Team/mina-governance@main
+        with:
+          webhook: ${{ secrets.SLACK_WORK_WEBHOOK }}

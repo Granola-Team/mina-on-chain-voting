@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
 import type { SignalEntity } from "@/types";
 
-/*
-interface UseTableReturnArgs {
-  slice: SignalEntity[];
-  range: number[];
-  rowsPerPage: number;
-}
-*/
-// next: () => void;
-
 const calculateRange = (data: SignalEntity[], rowsPerPage: number) => {
   const range: number[] = [];
   const num = Math.ceil(data.length / rowsPerPage);
@@ -28,14 +19,14 @@ export const useTable = (
   page: number,
   rowsPerPage: number,
   ) => {
-  const [tableRange, setTableRange] = useState<number[]>([]); // need default value for initial slice
-  const [slice, setSlice] = useState<SignalEntity[]>([]); // need default value for initial slice
+  const [tableRange, setTableRange] = useState<number[]>([]);
+  const [slice, setSlice] = useState<SignalEntity[]>([]);
 
   useEffect(() => {
     const range = calculateRange(data, rowsPerPage);
     setTableRange([...range]);
     const slice = sliceData(data, page, rowsPerPage);
-    setSlice([...slice]); // sliceOfData or something else
+    setSlice([...slice]);
   }, [data, setTableRange, page, setSlice, rowsPerPage]);
 
   return { slice, range: tableRange };

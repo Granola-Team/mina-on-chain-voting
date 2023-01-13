@@ -7,16 +7,11 @@ import { Spinner } from "../Spinner";
 import { TableBodyWrapper } from "./TableBodyWrapper";
 import { TableRow } from "./TableRow";
 import { TableFooter } from "./TableFooter";
-// import { useTable } from "@/hooks/usePagination";
-import useTable from "@/hooks/usePagination";
+import { useTable } from "@/hooks/usePagination";
 
 export const TableBody: React.FC<SliceTableProps> = ({ data, query, isLoading, rowsPerPage }) => {
   const [page, setPage] = useState<number>(1);
   const { slice, range } = useTable(data, page, rowsPerPage);
-
-  useEffect(() => {
-    console.log(slice);
-  }, [slice]);
 
   if (isLoading) {
     return (
@@ -30,10 +25,10 @@ export const TableBody: React.FC<SliceTableProps> = ({ data, query, isLoading, r
 
   return (
     <TableBodyWrapper>
-      {data.length > 0 ? (
+      {slice.length > 0 ? (
         <>
-          {data.map((signal, index) => (
-            <TableRow key={data.length + index} signal={signal} />
+          {slice.map((signal, index) => (
+            <TableRow key={slice.length + index} signal={signal} />
           ))}
           <TableFooter range={range} setPage={setPage} page={page} slice={slice} />
         </>

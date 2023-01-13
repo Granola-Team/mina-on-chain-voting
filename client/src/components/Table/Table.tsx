@@ -1,5 +1,5 @@
 import React from "react";
-import type { TableProps, SliceTableProps } from "@/types";
+import type { SliceTableProps } from "@/types";
 import { TableBody } from "./TableBody";
 
 export const Table: React.FC<SliceTableProps> = ({ data, query, isLoading, rowsPerPage }) => {

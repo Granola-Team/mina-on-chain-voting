@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import styles from "./TableFooter.module.css";
 import type { SignalEntity } from "@/types";
 
 interface TableFooterProps {
@@ -17,13 +16,14 @@ export const TableFooter = ({ range, setPage, page, slice }: TableFooterProps) =
   }, [slice, page, setPage]);
 
   return (
-    <div className={styles.tableFooter}>
+    <div className="border-solid">
+    <div className="place-self-center space-x-10">
       {range.map((el: number, index: number) => (
         <button
           type="button"
           key={index}
-          className={`${styles.button} ${
-            page === el ? styles.activeButton : styles.inactiveButton
+          className={`cursor-pointer space-x-4 ${
+            page === el ? `text-blue-400` : `grid-table-content-mobile semibold`
           }`}
           onClick={() => {
             setPage(el);
@@ -32,6 +32,7 @@ export const TableFooter = ({ range, setPage, page, slice }: TableFooterProps) =
           {el}
         </button>
       ))}
+    </div>
     </div>
   );
 };

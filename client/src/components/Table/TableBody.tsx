@@ -1,8 +1,6 @@
 /* eslint-disable no-nested-ternary */
-import React, { useState, useEffect } from "react";
-
-import type { SliceTableProps, TableProps } from "@/types";
-
+import React, { useState } from "react";
+import type { SliceTableProps } from "@/types";
 import { Spinner } from "../Spinner";
 import { TableBodyWrapper } from "./TableBodyWrapper";
 import { TableRow } from "./TableRow";

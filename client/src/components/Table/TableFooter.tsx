@@ -22,7 +22,7 @@ export const TableFooter = ({
 
   return (
     <div className="border-solid">
-      <div className="place-self-center space-x-10">
+      <div className="place-self-center space-x-10 mt-2">
         {range.map((el: number, index: number) => (
           <button
             type="button"

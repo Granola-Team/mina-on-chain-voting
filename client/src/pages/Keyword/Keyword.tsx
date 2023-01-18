@@ -157,7 +157,7 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     return (
       <Layout>
         <React.Fragment>
-          <ResultsOverview totalVotes={signals.length} />
+          <ResultsOverview />
           {network === "mainnet" && timing.epoch && timing.slot ? (
             <VotingPeriod start={start} end={end} />
           ) : null}

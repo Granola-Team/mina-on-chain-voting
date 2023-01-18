@@ -1,9 +1,6 @@
 import React from "react";
-import { IconTooltip } from "../Tooltip";
 
-export const ResultsOverview: React.FC<{ totalVotes: number }> = ({
-  totalVotes,
-}) => {
+export const ResultsOverview = () => {
   return (
     <div className="content-full-width px-2 md:px-4 lg:px-8 mt-4 md:mt-6">
       <div className="bg-gray-2 border border-gray-7 rounded-xl w-full">
@@ -24,6 +21,16 @@ export const ResultsOverview: React.FC<{ totalVotes: number }> = ({
                   <u>FAQ</u>
                 </a>
                 &nbsp;to understand how the results were calculated
+              </span>
+            </p>
+
+            <p className="font-semibold">
+              <span className="text-[0.875rem] font-normal">
+                If an account delegates and then also votes (having delegated),
+                then this direct vote has 0 weight since the account has already
+                delegated away its stake. This 0 weighted vote will not be
+                counted in the results. “Stake Delegated” will display in the
+                Weighted Stake and Weighted Stake % columns in this scenario.
               </span>
             </p>
 
@@ -55,26 +62,6 @@ export const ResultsOverview: React.FC<{ totalVotes: number }> = ({
                 . We would love to hear your thoughts!
               </span>
             </p>
-          </div>
-        </div>
-      </div>
-      <div className="bg-gray-2 border border-gray-7 rounded-xl w-[15%] ml-2">
-        <div className="flex flex-col items-center justify-center w-full h-full">
-          <div className="flex flex-row items-center justify-center">
-            <span className="semibold text-xl leading-8">Total Votes</span>
-            <IconTooltip css="h-[1.1rem] w-[1.1rem] ml-[2.5px] mt-[1px]">
-              <div className="flex flex-row items-start justify-center">
-                <div className="text-[0.725rem]">
-                  <span className="inline semibold"> Total Votes</span> is the
-                  sum of all valid votes per unique account that were received
-                  during the voting period. Duplicate votes are not included in
-                  the total.
-                </div>
-              </div>
-            </IconTooltip>
-          </div>
-          <div className="flex flex-col items-center justify-center">
-            <span className="semibold text-2xl">{totalVotes}</span>
           </div>
         </div>
       </div>

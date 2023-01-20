@@ -15,6 +15,8 @@ export const ResultsOverview = () => {
               <span className="text-[0.875rem] font-normal">
                 Please read the&nbsp;
                 <a
+                  target="_blank"
+                  rel="noopener noreferrer"
                   href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
@@ -38,7 +40,9 @@ export const ResultsOverview = () => {
               <span className="text-[0.875rem] font-normal">
                 The results can be verified on-chain. Please read these&nbsp;
                 <a
-                  href="#"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md"
                   className="text-OrangeMINA hover:opacity-80 transition-all duration-200"
                 >
                   <u>instructions</u>

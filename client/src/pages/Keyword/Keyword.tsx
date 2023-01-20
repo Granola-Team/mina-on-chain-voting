@@ -136,7 +136,6 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     );
   }
 
-  // TODO: Export to new Component
   /** Display the Tracker Page */
   if (!showResults && start && end && signals && key) {
     return (
@@ -153,7 +152,6 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
     );
   }
 
-  // TODO: Export to new Component
   /** Display the Results Page */
   if (showResults && start && end && hash && signals && key) {
     return (
@@ -164,12 +162,7 @@ export const Keyword = ({ showResults }: { showResults: boolean }) => {
             <VotingPeriod start={start} end={end} />
           ) : null}
           <StatsWeighted network={network ? network : ""} />
-          <ResultsTable
-            data={signals}
-            query={key}
-            isLoading={isLoading}
-            rowsPerPage={25}
-          />
+          <ResultsTable data={signals} query={key} isLoading={isLoading} />
         </React.Fragment>
       </Layout>
     );

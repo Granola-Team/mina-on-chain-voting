@@ -1,18 +1,13 @@
 import React from "react";
-import type { SliceTableProps } from "@/types";
+import type { TableProps } from "@/types";
 import { Spinner } from "../Spinner";
 import { TableBodyWrapper } from "./TableBodyWrapper";
 import { TableRow } from "./TableRow";
 import { TableFooter } from "./TableFooter";
 import { useTable } from "@/hooks/useTable";
 
-export const TableBody: React.FC<SliceTableProps> = ({
-  data,
-  query,
-  isLoading,
-  rowsPerPage,
-}) => {
-  const { slice, range, page, setPage } = useTable(data, rowsPerPage);
+export const TableBody: React.FC<TableProps> = ({ data, query, isLoading }) => {
+  const { slice, range, page, setPage } = useTable(data, 20);
 
   if (isLoading) {
     return (

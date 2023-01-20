@@ -47,10 +47,17 @@ export const StatsWeighted: React.FC<StatsWeightedProps> = ({ network }) => {
                 <div className="flex flex-col items-start justify-center">
                   <span className="medium text-sm">Information:</span>
                   <div className="text-[0.725rem]">
-                    We&apos;re counting all
-                    <span className="inline semibold"> Settled</span> and
-                    <span className="inline semibold"> Unsettled</span> signals
-                    that adhere to our signalling convention.
+                    <div>
+                      - Results include valid votes calculated based on their
+                      account&apos;s weighted stake.
+                    </div>
+                    <div>
+                      - Accounts that have delegated their stake then voted will
+                      not count in the results.
+                    </div>
+                    <div className="semibold">
+                      Refer to the FAQ for more detail
+                    </div>
                   </div>
                 </div>
               </IconTooltip>

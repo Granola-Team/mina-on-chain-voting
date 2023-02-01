@@ -1,11 +1,11 @@
 use anyhow::Context;
-use axum::{http::Method, Extension};
+use axum::{http::{Method, HeaderValue}, Extension};
 use clap::Parser;
 use osc_api::{router::Build, Config};
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
-use tower_http::cors::{Any, CorsLayer};
+use tower_http::cors::{CorsLayer};
 
 extern crate dotenv;
 
@@ -31,7 +31,7 @@ async fn main() -> anyhow::Result<()> {
 
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
-        .allow_origin(Any);
+        .allow_origin("https://mina.vote/".parse::<HeaderValue>().unwrap());
 
     let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
         osc_api::APIContext {

@@ -1,6 +1,3 @@
-extern crate dotenv;
-// extern crate rocket;
-
 use anyhow::Context;
 use axum::{http::{Method, HeaderValue}, Extension};
 use clap::Parser;
@@ -9,7 +6,8 @@ use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
 use tower_http::cors::{CorsLayer, Any};
-// use rocket_cors::{Cors, AllowedOrigins, AllowedHeaders, AllowedMethods};
+
+extern crate dotenv;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {

@@ -1,3 +1,6 @@
+extern crate dotenv;
+// extern crate rocket;
+
 use anyhow::Context;
 use axum::{http::{Method, HeaderValue}, Extension};
 use clap::Parser;
@@ -6,8 +9,7 @@ use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
 use tower_http::cors::{CorsLayer};
-
-extern crate dotenv;
+// use rocket_cors::{Cors, AllowedOrigins, AllowedHeaders, AllowedMethods};
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -29,9 +31,14 @@ async fn main() -> anyhow::Result<()> {
         .await
         .context("Error: Could not connect to mainnet database.")?;
 
+    let origins = [
+        "https://mina.vote/".parse::<HeaderValue>().unwrap(),
+        "http://99.79.130.169:8080/".parse::<HeaderValue>().unwrap(),
+    ];
+
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST])
-        .allow_origin("https://mina.vote/".parse::<HeaderValue>().unwrap());
+        .allow_origin(origins);
 
     let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
         osc_api::APIContext {

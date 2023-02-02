@@ -37,7 +37,7 @@ async fn main() -> anyhow::Result<()> {
     ];
 
     let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
+        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
         .allow_origin(origins);
 
     let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(

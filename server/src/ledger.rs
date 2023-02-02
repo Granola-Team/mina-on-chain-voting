@@ -1,4 +1,5 @@
 use moka::future::Cache;
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
 pub type LedgerCache = Cache<String, std::sync::Arc<bytes::Bytes>>;
@@ -49,7 +50,7 @@ pub async fn get_ledger(
 pub fn get_stake_weight(
     ledger: &[LedgerAccount],
     public_key: impl Into<String>,
-) -> anyhow::Result<f64> {
+) -> anyhow::Result<Decimal> {
     let public_key = public_key.into();
 
     let _account = ledger.iter().find(|d| d.pk == public_key);
@@ -58,10 +59,10 @@ pub fn get_stake_weight(
         None => anyhow::bail!("Error: Account not found in ledger."),
     };
 
-    let balance = account.balance.parse::<f64>().unwrap_or(0.00);
+    let balance = account.balance.parse::<Decimal>().unwrap_or(Decimal::new(0, 2));
 
     if account.delegate != public_key {
-        return Ok(0.00);
+        return Ok(Decimal::new(0, 2));
     }
 
     let delegators = ledger
@@ -73,8 +74,8 @@ pub fn get_stake_weight(
         return Ok(balance);
     }
 
-    let stake_weight = delegators.iter().fold(0.00, |acc, x| {
-        x.balance.parse::<f64>().unwrap_or(0.00) + acc
+    let stake_weight = delegators.iter().fold(Decimal::new(0, 2), |acc, x| {
+        x.balance.parse::<Decimal>().unwrap_or(Decimal::new(0, 2)) + acc
     });
 
     Ok(stake_weight + balance)
@@ -104,15 +105,15 @@ mod tests {
         // Delegated stake away - returns 0.00.
         let d_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "D").unwrap();
-        assert_eq!(d_weight, 0.00);
+        assert_eq!(d_weight, Decimal::new(0, 2));
 
         // No delegators & delegated to self - returns balance.
         let b_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
-        assert_eq!(b_weight, 1.00);
+        assert_eq!(b_weight, Decimal::new(1, 2));
 
         // Delegated to self & has delegators - returns balance + delegators.
         let a_weight = get_stake_weight(&[a, b, c, d], "A").unwrap();
-        assert_eq!(a_weight, 3.00);
+        assert_eq!(a_weight, Decimal::new(3, 2));
     }
 }

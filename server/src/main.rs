@@ -8,7 +8,7 @@ use osc_api::{router::Build, Config};
 use sqlx::postgres::PgPoolOptions;
 use std::sync::Arc;
 use tower::ServiceBuilder;
-use tower_http::cors::{CorsLayer};
+use tower_http::cors::{CorsLayer, Any};
 // use rocket_cors::{Cors, AllowedOrigins, AllowedHeaders, AllowedMethods};
 
 #[tokio::main]
@@ -38,7 +38,9 @@ async fn main() -> anyhow::Result<()> {
 
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-        .allow_origin(origins);
+        .allow_origin(origins)
+        .allow_headers(Any)
+        .allow_credentials(true);
 
     let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
         osc_api::APIContext {

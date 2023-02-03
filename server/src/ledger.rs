@@ -59,10 +59,10 @@ pub fn get_stake_weight(
         None => anyhow::bail!("Error: Account not found in ledger."),
     };
 
-    let balance = account.balance.parse::<Decimal>().unwrap_or(Decimal::new(0, 2));
+    let balance = account.balance.parse::<Decimal>().unwrap_or(Decimal::new(0, 9));
 
     if account.delegate != public_key {
-        return Ok(Decimal::new(0, 2));
+        return Ok(Decimal::new(0, 9));
     }
 
     let delegators = ledger
@@ -74,8 +74,8 @@ pub fn get_stake_weight(
         return Ok(balance);
     }
 
-    let stake_weight = delegators.iter().fold(Decimal::new(0, 2), |acc, x| {
-        x.balance.parse::<Decimal>().unwrap_or(Decimal::new(0, 2)) + acc
+    let stake_weight = delegators.iter().fold(Decimal::new(0, 9), |acc, x| {
+        x.balance.parse::<Decimal>().unwrap_or(Decimal::new(0, 9)) + acc
     });
 
     Ok(stake_weight + balance)
@@ -102,18 +102,18 @@ mod tests {
         let error = get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "E");
         assert_eq!(error.is_err(), true);
 
-        // Delegated stake away - returns 0.00.
+        // Delegated stake away - returns 0.000000000.
         let d_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "D").unwrap();
-        assert_eq!(d_weight, Decimal::new(0, 2));
+        assert_eq!(d_weight, Decimal::new(0, 9));
 
         // No delegators & delegated to self - returns balance.
         let b_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
-        assert_eq!(b_weight, Decimal::new(1, 2));
+        assert_eq!(b_weight, Decimal::new(1, 9));
 
         // Delegated to self & has delegators - returns balance + delegators.
         let a_weight = get_stake_weight(&[a, b, c, d], "A").unwrap();
-        assert_eq!(a_weight, Decimal::new(3, 2));
+        assert_eq!(a_weight, Decimal::new(3, 9));
     }
 }

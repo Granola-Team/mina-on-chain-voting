@@ -15,7 +15,7 @@ pub async fn get_signals(
     end: i64,
     network: crate::types::Network,
 ) -> anyhow::Result<Vec<Signal>> {
-    if let Some(cached) = cache.get(&format!("{}-{}-{}", start, end, network)) {
+    if let Some(cached) = cache.get(&format!("{start}-{end}-{network}")) {
         Ok(cached.to_vec())
     } else {
         let signals = sqlx::query_as!(
@@ -42,7 +42,7 @@ pub async fn get_signals(
         if start == 1672848000000 && end == 1673685000000 {
             cache
                 .insert(
-                    format!("{}-{}-{}", start, end, network),
+                    format!("{start}-{end}-{network}"),
                     std::sync::Arc::new(signals.clone()),
                 )
                 .await;

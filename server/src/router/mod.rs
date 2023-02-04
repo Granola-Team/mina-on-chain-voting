@@ -23,7 +23,7 @@ impl Build for Router {
                 |error: std::io::Error| async move {
                     (
                         StatusCode::INTERNAL_SERVER_ERROR,
-                        format!("Internal Server Error: {}", error),
+                        format!("Internal Server Error: {error}"),
                     )
                 },
             );

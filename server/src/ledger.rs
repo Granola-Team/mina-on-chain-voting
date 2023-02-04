@@ -32,8 +32,7 @@ pub async fn get_ledger(
         Ok(serde_json::from_slice::<Vec<LedgerAccount>>(&cached)?)
     } else {
         let ledger: bytes::Bytes = reqwest::get(format!(
-            "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/mainnet/{}.json",
-            hash
+            "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/mainnet/{hash}.json"
         ))
         .await?
         .bytes()

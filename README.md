@@ -1,6 +1,6 @@
-# On-Chain Signalling
+# On-Chain Voting
 
-On-Chain Signalling for Mina Protocol - Monitors blocks and its
+On-Chain Voting for Mina Protocol - Monitors blocks and its
 transactions using memo variables. Folders added represent each
 component needed for this project.
 
@@ -18,7 +18,7 @@ results (votes from the API).
   access to its development tools in the path
 
 Environment Variables for `nix run .`: These are necessary when
-running OnChain-Signalling manually (i.e. during local dev)
+running OnChain-Voting manually (i.e. during local dev)
 
 - `DBNAME` : the name of the mina archive database
   (`archive_balances_migrated`)
@@ -51,7 +51,7 @@ entering the shell.nix
 
 # License (See LICENSE file for full license)
 
-Copyright 2022 Granola Systems Inc.
+Copyright 2022-2023 Granola Systems Inc.
 
 Free use of this software is granted under the terms of the Mozilla
 Public License 2.0.

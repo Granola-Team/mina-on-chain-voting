@@ -1,5 +1,6 @@
 import create from "zustand";
 
+
 interface AppStore {
   darkMode: boolean;
   settingsActive: boolean;

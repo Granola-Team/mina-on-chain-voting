@@ -105,15 +105,52 @@ mod tests {
         // Delegated stake away - returns 0.000000000.
         let d_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "D").unwrap();
+        console.log(print!("{}", d_weight));
         assert_eq!(d_weight, Decimal::new(0, 9));
+
 
         // No delegators & delegated to self - returns balance.
         let b_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
+        print!("{}", b_weight);
         assert_eq!(b_weight, Decimal::new(1, 9));
 
         // Delegated to self & has delegators - returns balance + delegators.
         let a_weight = get_stake_weight(&[a, b, c, d], "A").unwrap();
+        print!("{}", a_weight);
         assert_eq!(a_weight, Decimal::new(3, 9));
     }
+/*
+    use serde_json::{from_str, to_string};
+
+    #[test]
+    fn test_json_serialization() {
+        let my_struct = LedgerAccount {
+            field1: "value1",
+            field2: 123,
+        };
+
+        let serialized = to_string(&my_struct).unwrap();
+        let deserialized: MyStruct = from_str(&serialized).unwrap();
+
+        assert_eq!(my_struct, deserialized);
+    }
+
+    #[test]
+    fn test_json_type() {
+        let my_struct = MyStruct {
+            field1: "value1",
+            field2: 123,
+        };
+
+        let serialized = to_string(&my_struct).unwrap();
+        let deserialized: serde_json::Value = from_str(&serialized).unwrap();
+
+        // Check if field1 is a string
+        assert!(deserialized["field1"].is_string());
+
+        // Check if field2 is a number
+        assert!(deserialized["field2"].is_number());
+    }
+     */
 }

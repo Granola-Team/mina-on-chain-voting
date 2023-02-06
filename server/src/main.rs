@@ -1,5 +1,5 @@
 use anyhow::Context;
-use axum::{http::Method, Extension};
+use axum::{http::{Method, HeaderValue}, Extension};
 use clap::Parser;
 use osc_api::{router::Build, Config};
 use sqlx::postgres::PgPoolOptions;
@@ -29,9 +29,19 @@ async fn main() -> anyhow::Result<()> {
         .await
         .context("Error: Could not connect to mainnet database.")?;
 
+    let allowed_origins = match std::env::var("ALLOWED_ORIGINS") {
+        Ok(val) => {
+            let origin = val.split(",").map(|s| s.trim()).collect::<Vec<&str>>().join(",");
+            HeaderValue::from_str(&origin).unwrap()
+        },
+        Err(_) => HeaderValue::from_static("*"),
+    };
+
     let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST])
-        .allow_origin(Any);
+        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+        .allow_origin(allowed_origins)
+        .allow_headers(Any)
+        .allow_credentials(true);
 
     let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
         osc_api::APIContext {

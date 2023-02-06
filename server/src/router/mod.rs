@@ -10,7 +10,7 @@ use axum::{
 use axum_extra::routing::SpaRouter;
 use tower_http::services::ServeFile;
 
-#[allow(clippy::warning_name)]
+#[allow(clippy::string_add)]
 pub trait Build {
     fn build_v1(cfg: &Config) -> Router;
 }

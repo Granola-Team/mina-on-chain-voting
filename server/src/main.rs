@@ -36,7 +36,6 @@ async fn main() -> anyhow::Result<()> {
         },
         Err(_) => HeaderValue::from_static("*"),
     };
-
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
         .allow_origin(allowed_origins)

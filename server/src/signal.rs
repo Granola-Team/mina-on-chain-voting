@@ -1,10 +1,12 @@
 use moka::future::Cache;
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use sqlx::{FromRow, Type};
 
 pub type SignalCache = Cache<String, std::sync::Arc<Vec<Signal>>>;
 
 #[derive(Debug, PartialEq, Eq, Clone, FromRow, Serialize, Deserialize)]
+
 pub struct Signal {
     pub account: String,
     pub hash: String,
@@ -24,7 +26,7 @@ pub struct SignalWithWeight {
     pub status: BlockStatus,
     pub timestamp: i64,
     pub nonce: i64,
-    pub stake_weight: f64,
+    pub stake_weight: Decimal,
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]
@@ -58,7 +60,7 @@ impl Signal {
 }
 
 impl SignalWithWeight {
-    pub fn new(signal: Signal, stake_weight: f64) -> Self {
+    pub fn new(signal: Signal, stake_weight: Decimal) -> Self {
         Self {
             account: signal.account,
             hash: signal.hash,

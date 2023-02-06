@@ -29,14 +29,17 @@ async fn main() -> anyhow::Result<()> {
         .await
         .context("Error: Could not connect to mainnet database.")?;
 
-    let origins = [
-        "https://mina.vote/".parse::<HeaderValue>().unwrap(),
-        "http://99.79.130.169:8080/".parse::<HeaderValue>().unwrap(),
-    ];
+    let allowed_origins = match std::env::var("ALLOWED_ORIGINS") {
+        Ok(val) => {
+            let origin = val.split(",").map(|s| s.trim()).collect::<Vec<&str>>().join(",");
+            HeaderValue::from_str(&origin).unwrap()
+        },
+        Err(_) => HeaderValue::from_static("*"),
+    };
 
     let cors = CorsLayer::new()
         .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-        .allow_origin(origins)
+        .allow_origin(allowed_origins)
         .allow_headers(Any)
         .allow_credentials(true);
 

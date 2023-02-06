@@ -34,7 +34,7 @@ async fn main() -> anyhow::Result<()> {
             let origin = val.split(",").map(|s| s.trim()).collect::<Vec<&str>>().join(",");
             HeaderValue::from_str(&origin).unwrap()
         },
-        Err(_) => HeaderValue::from_static("*"),
+        Err(_) => return Err("Origin not allowed"),
     };
 
     let cors = CorsLayer::new()

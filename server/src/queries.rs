@@ -8,6 +8,7 @@ pub async fn get_latest_blockheight(db: &Pool<Postgres>) -> anyhow::Result<i64> 
     Ok(height.0)
 }
 
+#[allow(clippy::warning_name)]
 pub async fn get_signals(
     db: &Pool<Postgres>,
     cache: &SignalCache,

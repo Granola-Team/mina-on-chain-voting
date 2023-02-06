@@ -22,6 +22,7 @@ impl LedgerAccount {
     }
 }
 
+#[allow(clippy::warning_name)]
 pub async fn get_ledger(
     hash: impl Into<String>,
     cache: &LedgerCache,

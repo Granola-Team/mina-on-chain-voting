@@ -13,6 +13,7 @@ pub trait Build {
     fn build_v1(cfg: &Config) -> Router;
 }
 
+#[allow(clippy::string_add)]
 impl Build for Router {
     fn build_v1(cfg: &Config) -> Router {
         let spa = SpaRouter::new("/assets", format!("{}/assets", &cfg.client_path))

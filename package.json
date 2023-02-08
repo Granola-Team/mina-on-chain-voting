@@ -1,0 +1,24 @@
+{
+  "name": "mina-governance",
+  "version": "0.0.1",
+  "private": true,
+  "workspaces": [
+    "web/*"
+  ],
+  "engines": {
+    "node": "16.16.0",
+    "pnpm": ">=7.26.0"
+  },
+  "scripts": {
+    "clean": "find . -type d \\( -name node_modules -o -name .next -o -name .swc -o -name .turbo -o -name target \\) -exec rm -rf {} +",
+    "cargo:build": "cargo build --release --bin mina-governance-server",
+    "cargo:run": "cargo run --bin mina-governance-server",
+    "cargo:test": "cargo test --bin mina-governance-server",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "web": "dotenv -- pnpm --filter mina-governance-web $1"
+  },
+  "devDependencies": {
+    "dotenv-cli": "^6.0.0",
+    "prettier": "^2.8.3"
+  }
+}

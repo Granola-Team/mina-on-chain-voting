@@ -1,58 +1,103 @@
-# On-Chain Signalling
+<h1 align="center">Mina Governance</h1>
 
-On-Chain Signalling for Mina Protocol - Monitors blocks and its
-transactions using memo variables. Folders added represent each
-component needed for this project.
+<p align="center">
+  <b>Mina Governance provides users a web outlet to govern the Mina Blockchain.</b>
+</p>
 
-# Server & Client
+## Protocol Specifications (WIP)
 
-An actix_web server that communicates with a MINA archive node to
-provide signalling information, and to host a React application that
-displays said info.  A React SPA that displays and totals signalling
-results (votes from the API).
+The Mina Governance Protocol is designed to provide community members with a transparent and secure method of participating in the decision-making process for the Mina blockchain. The aim for this protocol is to provide stake holders with the ability to vote on MIPs (Mina Improvement Proposals) in a clear & concise way.
 
-- `nix build` Builds the server and client and outputs to `./result`
-- `nix develop .#server` -> Enter a development shell for the server
-- `nix develop .#client` -> Enter a development shell for the client
-- `nix develop` -> Enter a development shell for this monorepo, with
-  access to its development tools in the path
+Individual MIPs can be created on Github. ([https://github.com/MinaProtocol/MIPs](https://github.com/MinaProtocol/MIPs))
 
-Environment Variables for `nix run .`: These are necessary when
-running OnChain-Signalling manually (i.e. during local dev)
+### Voting on a MIP
 
-- `DBNAME` : the name of the mina archive database
-  (`archive_balances_migrated`)
-- `USER` : the user that owns the postgres database (`postgres`)
-- `PASSWD` : the database password (`postgres`)
-- `DBPORT` : the database's bound port (`5432`)
-- `PORT`
-: the port to bind the on-chain-signalling server to (`8080`)
-- `HOST` : host ip for the postgres database (`localhost`)
+To cast a vote on a particular MIP, users must send a transaction to the **themselves** with a specific memo.<br>
+The memo field must adhere to the following convention:<br>
 
-(default environment variables conform to test database expectations)
+**For example:**
 
-# Tools
+```
+To vote in favor of 'MIP1', the memo field would be populated with: 'MIP1'
+Similarly - if your intent is to vote against 'MIP1', the memo field would contain: 'no MIP1'
+```
 
-A set of scripts to automate development environment management and
-deployment. These scripts are automatically added to your PATH when
-entering the shell.nix
+**The transaction amount must be 0, with the user only paying for the transaction fee.**
 
-- `run-temp-database` -- Provisions and runs a temporary postgres
-  database to help with end-to-end testing in a local environment
+### Protocol Flow
 
-- `download-archive-dump` -- Automatically downloads and extracts the
-  latest MINA archive dump from MINA's google cloud storage API
+This flow chart illustrates the process of voting & proxying a vote for a specific MIP on Mina blockchain.<br>
+**Documentation will be updated.**
 
-- `clean-archive-backups` -- Removes old archive dumps from the local
-  environment
+## Development
 
-- `run-end-to-end` -- Builds and starts the actix-web server and links
-  it to the latest build of the frontend in the nix store
+- If not installed, install [`nvm`](https://github.com/nvm-sh/nvm).
 
-# License (See LICENSE file for full license)
+  ```bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 
-Copyright 2022 Granola Systems Inc.
+  # or ...
 
-Free use of this software is granted under the terms of the Mozilla
-Public License 2.0.
+  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+  ```
 
+- If not installed, install & use Node16
+
+  ```bash
+  nvm install 16
+
+  # and ...
+
+  nvm use default v16
+  ```
+
+- If not installed, install [`pnpm`](https://pnpm.io/).
+
+  ```bash
+  brew install pnpm
+
+  # or ...
+
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
+  ```
+
+- If not installed, install [`Rust`](https://www.rust-lang.org/).
+
+  ```bash
+  brew install rust
+
+  # or ...
+
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  ```
+
+- Checkout this repository via `git` or the [Github CLI.](https://cli.github.com/).
+
+  ```bash
+  git clone git@github.com:Granola-Team/mina-governance.git
+
+  # or ...
+
+  gh repo clone Granola-Team/mina-governance
+  ```
+
+- In the new directory, install dependencies.
+
+  ```bash
+  pnpm clean && pnpm install
+  ```
+
+## Directory layout
+
+    .
+    ├── docs                     # Documentation
+    ├── server                   # Mina Governance Server
+    ├── web                      # Mina Governance Web
+    ├── LICENSE
+    └── README.md
+
+## Resources
+
+- [Next.js Documentation](https://nextjs.org/docs/getting-started)
+- [Rust Programming Language](https://doc.rust-lang.org/book/)
+- [Typescript](https://www.typescriptlang.org/docs/)

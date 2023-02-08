@@ -1,0 +1,21 @@
+# artifacts
+build
+coverage
+
+# markdown
+*.md
+
+# docs
+docs/
+
+# rust
+server/
+Cargo.toml
+
+# package manager
+yarn.lock
+package-lock.json
+Cargo.lock
+
+# storybook
+.storybook-dist

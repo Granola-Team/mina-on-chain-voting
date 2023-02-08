@@ -16,8 +16,7 @@ pub async fn get_signals(
     end: i64,
     network: crate::types::Network,
 ) -> anyhow::Result<Vec<Signal>> {
-    let key = format!("{}-{}-{}", start, end, network);
-    if let Some(cached) = cache.get(&key) {
+    if let Some(cached) = cache.get(&format!("{start}-{end}-{network}")) {
         Ok(cached.to_vec())
     } else {
         let signals = sqlx::query_as!(

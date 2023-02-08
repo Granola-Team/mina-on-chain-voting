@@ -1,10 +1,11 @@
 {
   "recommendations": [
-    "Orta.vscode-jest",
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint",
-    "christian-kohler.path-intellisense",
     "aaron-bond.better-comments",
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-playwright.playwright",
+    "Orta.vscode-jest",
     "rust-lang.rust-analyzer"
   ]
 }

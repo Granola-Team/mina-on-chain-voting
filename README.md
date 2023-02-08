@@ -92,6 +92,7 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
     .
     ├── docs                     # Documentation
     ├── server                   # Mina Governance Server
+    ├── tests                    # E2E Tests
     ├── web                      # Mina Governance Web
     ├── LICENSE
     └── README.md

@@ -5,15 +5,16 @@
   },
   "eslint.packageManager": "pnpm",
   "eslint.options": {
-    "extensions": [".js", ".jsx", ".mdx", ".ts", ".tsx"]
+    "extensions": [".js", ".jsx", ".ts", ".tsx"]
   },
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   "javascript.preferences.quoteStyle": "single",
-  "typescript.preferences.importModuleSpecifier": "shortest",
-  "typescript.preferences.quoteStyle": "single",
   "jest.autoRevealOutput": "off",
+  "jest.jestCommandLine": "pnpm test --",
   "jest.nodeEnv": {
     "SKIP_ENV_VALIDATION": 1
   },
-  "jest.rootPath": "web"
+  "jest.rootPath": "web",
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "typescript.preferences.quoteStyle": "single"
 }

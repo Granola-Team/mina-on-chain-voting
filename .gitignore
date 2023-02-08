@@ -43,3 +43,8 @@ package-lock.json
 
 # storybook
 .storybook-dist
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/

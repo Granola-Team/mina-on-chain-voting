@@ -26,12 +26,12 @@ Similarly - if your intent is to vote against 'MIP1', the memo field would conta
 
 ### Protocol Flow
 
-This flow chart illustrates the process of voting & proxying a vote for a specific MIP on Mina blockchain.<br>
+This flow chart illustrates the process of voting for a specific MIP on Mina blockchain.<br>
 **Documentation will be updated.**
 
 ## Development
 
-- If not installed, install [`nvm`](https://github.com/nvm-sh/nvm).
+- If not installed, install [`nvm`](https://github.com/nvm-sh/nvm)
 
   ```bash
   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
@@ -41,7 +41,7 @@ This flow chart illustrates the process of voting & proxying a vote for a specif
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   ```
 
-- If not installed, install & use Node16
+- Install & use Node 16 as default
 
   ```bash
   nvm install 16
@@ -51,7 +51,7 @@ This flow chart illustrates the process of voting & proxying a vote for a specif
   nvm use default v16
   ```
 
-- If not installed, install [`pnpm`](https://pnpm.io/).
+- If not installed, install [`pnpm`](https://pnpm.io/)
 
   ```bash
   brew install pnpm
@@ -61,7 +61,7 @@ This flow chart illustrates the process of voting & proxying a vote for a specif
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
-- If not installed, install [`Rust`](https://www.rust-lang.org/).
+- If not installed, install [`Rust`](https://www.rust-lang.org/)
 
   ```bash
   brew install rust
@@ -71,7 +71,7 @@ This flow chart illustrates the process of voting & proxying a vote for a specif
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
   ```
 
-- Checkout this repository via `git` or the [Github CLI.](https://cli.github.com/).
+- Checkout this repository via `git` or the [Github CLI](https://cli.github.com/)
 
   ```bash
   git clone git@github.com:Granola-Team/mina-governance.git
@@ -81,7 +81,7 @@ This flow chart illustrates the process of voting & proxying a vote for a specif
   gh repo clone Granola-Team/mina-governance
   ```
 
-- In the new directory, install dependencies.
+- In the new directory, install dependencies
 
   ```bash
   pnpm clean && pnpm install

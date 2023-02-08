@@ -1,2 +1,0 @@
-mainnet_ledger.json filter=lfs diff=lfs merge=lfs -text
-devnet_ledger.json filter=lfs diff=lfs merge=lfs -text

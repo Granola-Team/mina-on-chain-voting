@@ -26,3 +26,22 @@ export const getThemeValue = (input: ThemeType): ThemeValue => {
   };
   return input in map ? map[input] : getDefaultTheme();
 };
+
+export const escapeHTML = (str: string) => {
+  return str.replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case '&':
+        return '&amp;';
+      case '<':
+        return '&lt;';
+      case '>':
+        return '&gt;';
+      case '"':
+        return '&quot;';
+      case "'":
+        return '&#039;';
+      default:
+        return char;
+    }
+  });
+};

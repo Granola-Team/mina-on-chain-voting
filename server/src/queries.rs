@@ -43,7 +43,7 @@ pub async fn get_signals(
         if start == 1672848000000 && end == 1673685000000 {
             cache
                 .insert(
-                    format!("{}-{}-{}", start, end, network),
+                    format!("{start}-{end}-{network}"),
                     std::sync::Arc::new(signals.clone()),
                 )
                 .await;

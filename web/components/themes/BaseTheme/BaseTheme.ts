@@ -1,19 +1,20 @@
 import type { ThemeOptions } from '@mui/material/styles';
 
-import { Inter } from '@next/font/google';
-
-export const Font = Inter({
-  subsets: ['latin'],
-  display: 'swap',
-  fallback: ['Helvetica', 'Arial', 'sans-serif'],
-});
-
 /**
  * The default typography theme.
  */
 const Typography: ThemeOptions = {
   typography: {
-    fontFamily: Font.style.fontFamily,
+    fontFamily: [
+      'Inter var',
+      'ui-sans-serif',
+      'system-ui',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      'Segoe UI',
+      'Helvetica Neue',
+      'sans-serif',
+    ].join(', '),
   },
 };
 

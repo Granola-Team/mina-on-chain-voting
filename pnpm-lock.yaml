@@ -30,10 +30,6 @@ importers:
 
   web:
     specifiers:
-      '@babel/core': ^7.0.0
-      '@babel/preset-env': ^7.20.2
-      '@babel/preset-react': ^7.18.6
-      '@babel/preset-typescript': ^7.18.6
       '@emotion/cache': ^11.10.5
       '@emotion/react': ^11.10.5
       '@emotion/server': ^11.10.0
@@ -41,7 +37,6 @@ importers:
       '@mui/icons-material': ^5.11.0
       '@mui/material': ^5.11.3
       '@mui/utils': ^5.11.2
-      '@next/font': 13.1.1
       '@storybook/addon-actions': ^6.5.16
       '@storybook/addon-essentials': ^6.5.16
       '@storybook/addon-interactions': ^6.5.16
@@ -58,16 +53,14 @@ importers:
       '@types/react-dom': ^18.0.7
       '@typescript-eslint/eslint-plugin': 5.48.0
       '@typescript-eslint/parser': 5.48.0
-      babel-loader: ^8.3.0
       eslint: 8.31.0
       jest: ^29.3.1
       jest-environment-jsdom: ^29.3.1
-      mockdate: ^3.0.5
       next: 13.1.1
       next-router-mock: 0.8.0
+      notistack: ^2.0.8
       react: 18.2.0
       react-dom: 18.2.0
-      storybook-addon-next: ^1.7.1
       ts-jest: ^29.0.3
       ts-node: ^10.9.1
       tsconfig-paths-webpack-plugin: ^4.0.0
@@ -82,16 +75,12 @@ importers:
       '@mui/icons-material': 5.11.0_3psqo62dtzuc5tpd3awdluze4i
       '@mui/material': 5.11.8_rqh7qj4464ntrqrt6banhaqg4q
       '@mui/utils': 5.11.7_react@18.2.0
-      '@next/font': 13.1.1
       next: 13.1.1_pjwopsidmaokadturxaafygjp4
+      notistack: 2.0.8_2jzjqnnmrlgpzfrvelta6rhlzm
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       zod: 3.20.5
     devDependencies:
-      '@babel/core': 7.20.12
-      '@babel/preset-env': 7.20.2_@babel+core@7.20.12
-      '@babel/preset-react': 7.18.6_@babel+core@7.20.12
-      '@babel/preset-typescript': 7.18.6_@babel+core@7.20.12
       '@storybook/addon-actions': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/addon-essentials': 6.5.16_x2moumbw2hfrwfwjef2dscmdmi
       '@storybook/addon-interactions': 6.5.16_v6cyycc4wfzubrcpyxqkei52jq
@@ -108,13 +97,10 @@ importers:
       '@types/react-dom': 18.0.10
       '@typescript-eslint/eslint-plugin': 5.48.0_k73wpmdolxikpyqun3p36akaaq
       '@typescript-eslint/parser': 5.48.0_iukboom6ndih5an6iafl45j2fe
-      babel-loader: 8.3.0_la66t7xldg4uecmyawueag5wkm
       eslint: 8.31.0
       jest: 29.4.2_2263m44mchjafa7bz7l52hbcpa
       jest-environment-jsdom: 29.4.2
-      mockdate: 3.0.5
       next-router-mock: 0.8.0_next@13.1.1+react@18.2.0
-      storybook-addon-next: 1.7.1_pitnnyegzgge3efwhwk3jiq2e4
       ts-jest: 29.0.5_pa4ebk5usulsg7iw3zwjv5figy
       ts-node: 10.9.1_zpb5kzpnyozdjq4cwaojlul57u
       tsconfig-paths-webpack-plugin: 4.0.0
@@ -1609,9 +1595,6 @@ packages:
       '@types/react': '*'
       react: '>= 16.8.6'
       react-dom: '>= 16.8.6'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       '@types/react': 18.0.27
@@ -1626,9 +1609,6 @@ packages:
     resolution: {integrity: sha512-nrAVVj4c4Iv9958oE4HA7Mk6T+4Mn/4xBRlFDeX4Ps6SMzsqO8bKhw/y6+bOfNyb/TYHmC0/pnPS68GDVZcg5Q==}
     peerDependencies:
       react: '>= 16.8.6'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.7.2
       '@devtools-ds/object-parser': 1.2.1
@@ -1651,9 +1631,6 @@ packages:
     resolution: {integrity: sha512-4/KFsHnokGxUq8CSCchINcVBb6fQ74HtEfNtMuitGtGg3VCRV0kaVSOsz6wzShzhLEaVLd5coSRQKaZj7yx72w==}
     peerDependencies:
       react: '>= 16.8.6'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.5.5
       '@design-systems/utils': 2.12.0_5ndqzdd6t4rivxsukjv3i3ak2q
@@ -1668,9 +1645,6 @@ packages:
     resolution: {integrity: sha512-2ZHG28oWJno0gD+20EoSJO0yffm6JS5r7YzYhGMkrnLGvcCRZuwXSxMmIshSPLIR0cjidiAfGCqsrigHIR4ZQA==}
     peerDependencies:
       react: '>= 16.8.6'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.7.2
       '@devtools-ds/themes': 1.2.1_5ndqzdd6t4rivxsukjv3i3ak2q
@@ -1741,8 +1715,6 @@ packages:
         optional: true
       '@types/react':
         optional: true
-      react:
-        optional: true
     dependencies:
       '@babel/core': 7.20.12
       '@babel/runtime': 7.20.13
@@ -1797,8 +1769,6 @@ packages:
         optional: true
       '@types/react':
         optional: true
-      react:
-        optional: true
     dependencies:
       '@babel/core': 7.20.12
       '@babel/runtime': 7.20.13
@@ -1820,9 +1790,6 @@ packages:
     resolution: {integrity: sha512-1eEgUGmkaljiBnRMTdksDV1W4kUnmwgp7X9G8B++9GYwl1lUdqSndSriIrTJ0N7LQaoauY9JJ2yhiOYK5+NI4A==}
     peerDependencies:
       react: '>=16.8.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       react: 18.2.0
     dev: false
@@ -2226,9 +2193,6 @@ packages:
     resolution: {integrity: sha512-TDoPum4SHdfPiGSAaRBw7ECyI8VaHpK8GJugbJIJuqyh6kzw9ZLJZW3HGL3NNrJGxcAixUvqROm+YuQOo5eXtg==}
     peerDependencies:
       react: ^16.13.1 || ^17.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       react: 18.2.0
     dev: true
@@ -2254,8 +2218,6 @@ packages:
       react-dom: ^17.0.0 || ^18.0.0
     peerDependenciesMeta:
       '@types/react':
-        optional: true
-      react:
         optional: true
     dependencies:
       '@babel/runtime': 7.20.13
@@ -2285,8 +2247,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       '@mui/material': 5.11.8_rqh7qj4464ntrqrt6banhaqg4q
@@ -2309,8 +2269,6 @@ packages:
       '@emotion/styled':
         optional: true
       '@types/react':
-        optional: true
-      react:
         optional: true
     dependencies:
       '@babel/runtime': 7.20.13
@@ -2341,8 +2299,6 @@ packages:
     peerDependenciesMeta:
       '@types/react':
         optional: true
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       '@mui/utils': 5.11.7_react@18.2.0
@@ -2362,8 +2318,6 @@ packages:
       '@emotion/react':
         optional: true
       '@emotion/styled':
-        optional: true
-      react:
         optional: true
     dependencies:
       '@babel/runtime': 7.20.13
@@ -2389,8 +2343,6 @@ packages:
       '@emotion/styled':
         optional: true
       '@types/react':
-        optional: true
-      react:
         optional: true
     dependencies:
       '@babel/runtime': 7.20.13
@@ -2423,9 +2375,6 @@ packages:
     engines: {node: '>=12.0.0'}
     peerDependencies:
       react: ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       '@types/prop-types': 15.7.5
@@ -2443,10 +2392,6 @@ packages:
     dependencies:
       glob: 7.1.7
     dev: true
-
-  /@next/font/13.1.1:
-    resolution: {integrity: sha512-amygRorS05hYK1/XQRZo5qBl7l2fpHnezeKU/cNveWU5QJg+sg8gMGkUXHtvesNKpiKIJshBRH1TzvO+2sKpvQ==}
-    dev: false
 
   /@next/swc-android-arm-eabi/13.1.1:
     resolution: {integrity: sha512-qnFCx1kT3JTWhWve4VkeWuZiyjG0b5T6J2iWuin74lORCupdrNukxkq9Pm+Z7PsatxuwVJMhjUoYz7H4cWzx2A==}
@@ -3082,9 +3027,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/api': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/channels': 6.5.16
@@ -3106,9 +3048,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/channels': 6.5.16
       '@storybook/client-logger': 6.5.16
@@ -3138,8 +3077,6 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       typescript: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3209,8 +3146,6 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       typescript: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3301,9 +3236,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/addons': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/channel-postmessage': 6.5.16
@@ -3341,9 +3273,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/client-logger': 6.5.16
       '@storybook/csf': 0.0.2--canary.4566f4d.1
@@ -3365,8 +3294,6 @@ packages:
       typescript: '*'
       webpack: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3404,8 +3331,6 @@ packages:
       typescript: '*'
       webpack: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3442,8 +3367,6 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       typescript: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3527,8 +3450,6 @@ packages:
         optional: true
       '@storybook/manager-webpack5':
         optional: true
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3608,8 +3529,6 @@ packages:
       '@storybook/builder-webpack5':
         optional: true
       '@storybook/manager-webpack5':
-        optional: true
-      react:
         optional: true
       typescript:
         optional: true
@@ -3709,8 +3628,6 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       typescript: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3769,8 +3686,6 @@ packages:
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
       typescript: '*'
     peerDependenciesMeta:
-      react:
-        optional: true
       typescript:
         optional: true
     dependencies:
@@ -3861,9 +3776,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/addons': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/channel-postmessage': 6.5.16
@@ -3928,8 +3840,6 @@ packages:
       '@storybook/manager-webpack4':
         optional: true
       '@storybook/manager-webpack5':
-        optional: true
-      react:
         optional: true
       typescript:
         optional: true
@@ -4003,9 +3913,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/client-logger': 6.5.16
       core-js: 3.27.2
@@ -4030,9 +3937,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/addons': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/client-logger': 6.5.16
@@ -4053,9 +3957,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/addons': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/client-logger': 6.5.16
@@ -4121,9 +4022,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/client-logger': 6.5.16
       core-js: 3.27.2
@@ -4138,9 +4036,6 @@ packages:
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@storybook/addons': 6.5.16_biqbaboplfbrettd7655fr4n2y
       '@storybook/api': 6.5.16_biqbaboplfbrettd7655fr4n2y
@@ -4200,9 +4095,6 @@ packages:
     peerDependencies:
       react: ^18.0.0
       react-dom: ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       '@testing-library/dom': 8.20.0
@@ -5068,14 +4960,6 @@ packages:
   /address/1.2.2:
     resolution: {integrity: sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==}
     engines: {node: '>= 10.0.0'}
-    dev: true
-
-  /adjust-sourcemap-loader/4.0.0:
-    resolution: {integrity: sha512-OXwN5b9pCUXNQHJpwwD2qP40byEmSgzj8B4ydSN0uMNYWiFmJ6x6KwUllMmfk8Rwu/HJDFR7U8ubsWBoN0Xp0A==}
-    engines: {node: '>=8.9'}
-    dependencies:
-      loader-utils: 2.0.4
-      regex-parser: 2.2.11
     dev: true
 
   /agent-base/6.0.2:
@@ -8844,14 +8728,6 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /image-size/1.0.2:
-    resolution: {integrity: sha512-xfOoWjceHntRb3qFCrh5ZFORYH8XCdYpASltMhZ/Q0KZiOwjdE/Yl2QCiWdwD+lygV5bMCvauzgu5PxBX/Yerg==}
-    engines: {node: '>=14.0.0'}
-    hasBin: true
-    dependencies:
-      queue: 6.0.2
-    dev: true
-
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -10167,11 +10043,6 @@ packages:
       json5: 2.2.3
     dev: true
 
-  /loader-utils/3.2.1:
-    resolution: {integrity: sha512-ZvFw1KWS3GVyYBYb7qkmRM/WwL2TQQBxgCK62rlvm4WpVQ23Nb4tYjApUlfjrEGvOs7KHEsmyUn75OHZrJMWPw==}
-    engines: {node: '>= 12.13.0'}
-    dev: true
-
   /locate-path/3.0.0:
     resolution: {integrity: sha512-7AO748wWnIhNqAuaty2ZWHkQHRSNfPVIsPIfwEOWO22AmaoVrWavlOcMR5nzTLNYvp36X220/maaRsrec1G65A==}
     engines: {node: '>=6'}
@@ -10608,10 +10479,6 @@ packages:
     hasBin: true
     dev: true
 
-  /mockdate/3.0.5:
-    resolution: {integrity: sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==}
-    dev: true
-
   /move-concurrently/1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}
     dependencies:
@@ -10700,9 +10567,6 @@ packages:
     peerDependencies:
       next: '>=10.0.0'
       react: '>=17.0.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       next: 13.1.1_pjwopsidmaokadturxaafygjp4
       react: 18.2.0
@@ -10722,8 +10586,6 @@ packages:
       fibers:
         optional: true
       node-sass:
-        optional: true
-      react:
         optional: true
       sass:
         optional: true
@@ -10843,6 +10705,29 @@ packages:
     resolution: {integrity: sha512-bdok/XvKII3nUpklnV6P2hxtMNrCboOjAcyBuQnWEhO665FwrSNRxU+AqpsyvO6LgGYPspN+lu5CLtw4jPRKNA==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /notistack/2.0.8_2jzjqnnmrlgpzfrvelta6rhlzm:
+    resolution: {integrity: sha512-/IY14wkFp5qjPgKNvAdfL5Jp6q90+MjgKTPh4c81r/lW70KeuX6b9pE/4f8L4FG31cNudbN9siiFS5ql1aSLRw==}
+    peerDependencies:
+      '@emotion/react': ^11.4.1
+      '@emotion/styled': ^11.3.0
+      '@mui/material': ^5.0.0
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    peerDependenciesMeta:
+      '@emotion/react':
+        optional: true
+      '@emotion/styled':
+        optional: true
+    dependencies:
+      '@emotion/react': 11.10.5_yxdp3dl3eazy3vwpbmv4fq727a
+      '@emotion/styled': 11.10.5_4erqsq3n444jecyuvaxwc5b3vi
+      '@mui/material': 5.11.8_rqh7qj4464ntrqrt6banhaqg4q
+      clsx: 1.2.1
+      hoist-non-react-statics: 3.3.2
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    dev: false
 
   /npm-run-path/2.0.2:
     resolution: {integrity: sha512-lJxZYlT4DW/bRUtFh1MQIWqmLwQfAxnqWG4HhEdjMlkrJYnJn0Jrr2u3mgxqaWsdiBc76TYkTG/mhrnYTuzfHw==}
@@ -11451,20 +11336,6 @@ packages:
       webpack: 4.46.0
     dev: true
 
-  /postcss-loader/7.0.2_yr6womevqv5t3aet2t3y7pv3ua:
-    resolution: {integrity: sha512-fUJzV/QH7NXUAqV8dWJ9Lg4aTkDCezpTS5HgJ2DvqznexTbSTxgi/dTECvTZ15BwKTtk8G/bqI/QTu2HPd3ZCg==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      postcss: ^7.0.0 || ^8.0.1
-      webpack: ^5.0.0
-    dependencies:
-      cosmiconfig: 7.1.0
-      klona: 2.0.6
-      postcss: 8.4.14
-      semver: 7.3.8
-      webpack: 5.75.0
-    dev: true
-
   /postcss-modules-extract-imports/2.0.0:
     resolution: {integrity: sha512-LaYLDNS4SG8Q5WAWqIJgdHPJrDDr/Lv775rMBFUbgjTz6j34lUznACHcdRWroPvXANP2Vj7yNK57vp9eFqzLWQ==}
     engines: {node: '>= 6'}
@@ -11783,12 +11654,6 @@ packages:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
     dev: true
 
-  /queue/6.0.2:
-    resolution: {integrity: sha512-iHZWu+q3IdFZFX36ro/lKBkSvfkztY5Y7HMiPlOUjhupPcG2JMfst2KKEpu5XndviX/3UhFbRngUPNKtgvtZiA==}
-    dependencies:
-      inherits: 2.0.4
-    dev: true
-
   /ramda/0.28.0:
     resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
     dev: true
@@ -11863,9 +11728,6 @@ packages:
     resolution: {integrity: sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==}
     peerDependencies:
       react: ^18.2.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       loose-envify: 1.4.0
       react: 18.2.0
@@ -11876,9 +11738,6 @@ packages:
     peerDependencies:
       react: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1
       react-dom: ^0.14.8 || ^15.0.1 || ^16.0.0 || ^17.0.1
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@base2/pretty-print-object': 1.0.1
       is-plain-object: 5.0.0
@@ -11891,9 +11750,6 @@ packages:
     resolution: {integrity: sha512-GURDaYzoLbW8pMGXwYPDBIv6nqei4kK7LPRZ9q9HCZF54wqXz/dnylBp/kfE9XmekBhHvLDdcYeyIwSrvtOiWg==}
     peerDependencies:
       react: ^16.8.4 || ^17.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       is-dom: 1.1.0
@@ -11925,9 +11781,6 @@ packages:
     peerDependencies:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
-    peerDependenciesMeta:
-      react:
-        optional: true
     dependencies:
       '@babel/runtime': 7.20.13
       dom-helpers: 5.2.1
@@ -12072,10 +11925,6 @@ packages:
     dependencies:
       extend-shallow: 3.0.2
       safe-regex: 1.1.0
-    dev: true
-
-  /regex-parser/2.2.11:
-    resolution: {integrity: sha512-jbD/FT0+9MBU2XAZluI7w2OBs1RBi6p9M83nkoZayQXXU9e8Robt69FcZc7wU4eJD/YFTjn1JdCk3rbMJajz8Q==}
     dev: true
 
   /regexp.prototype.flags/1.4.3:
@@ -12257,17 +12106,6 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /resolve-url-loader/5.0.0:
-    resolution: {integrity: sha512-uZtduh8/8srhBoMx//5bwqjQ+rfYOUq8zC9NrMUGtjBiGTtFJM42s58/36+hTqeqINcnYe08Nj3LkK9lW4N8Xg==}
-    engines: {node: '>=12'}
-    dependencies:
-      adjust-sourcemap-loader: 4.0.0
-      convert-source-map: 1.9.0
-      loader-utils: 2.0.4
-      postcss: 8.4.14
-      source-map: 0.6.1
-    dev: true
-
   /resolve-url/0.2.1:
     resolution: {integrity: sha512-ZuF55hVUQaaczgOIwqWzkEcEidmlD/xl44x1UZnhOXcYuFN2S6+rcxpG+C1N3So0wvNI3DmJICUFfu2SxhBmvg==}
     deprecated: https://github.com/lydell/resolve-url#deprecated
@@ -12389,30 +12227,6 @@ packages:
       walker: 1.0.8
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /sass-loader/13.2.0_webpack@5.75.0:
-    resolution: {integrity: sha512-JWEp48djQA4nbZxmgC02/Wh0eroSUutulROUusYJO9P9zltRbNN80JCBHqRGzjd4cmZCa/r88xgfkjGD0TXsHg==}
-    engines: {node: '>= 14.15.0'}
-    peerDependencies:
-      fibers: '>= 3.1.0'
-      node-sass: ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
-      sass: ^1.3.0
-      sass-embedded: '*'
-      webpack: ^5.0.0
-    peerDependenciesMeta:
-      fibers:
-        optional: true
-      node-sass:
-        optional: true
-      sass:
-        optional: true
-      sass-embedded:
-        optional: true
-    dependencies:
-      klona: 2.0.6
-      neo-async: 2.6.2
-      webpack: 5.75.0
     dev: true
 
   /saxes/6.0.0:
@@ -12812,40 +12626,6 @@ packages:
     resolution: {integrity: sha512-siT1RiqlfQnGqgT/YzXVUNsom9S0H1OX+dpdGN1xkyYATo4I6sep5NmsRD/40s3IIOvlCq6akxkqG82urIZW1w==}
     dev: true
 
-  /storybook-addon-next/1.7.1_pitnnyegzgge3efwhwk3jiq2e4:
-    resolution: {integrity: sha512-SSbD91CUNSKiTMYfbqBGUkbRuSiC7+q7D4bRqDgHI2kSJn4wi99/ccFVGCegTRJoJqljwtEJ/vEqQ253L64hVQ==}
-    peerDependencies:
-      '@storybook/addon-actions': ^6.0.0
-      '@storybook/addons': ^6.0.0
-      next: ^9.0.0 || ^10.0.0 || ^11.0.0 || ^12.0.0 || ^13.0.0
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      '@storybook/addon-actions': 6.5.16_biqbaboplfbrettd7655fr4n2y
-      '@storybook/addons': 6.5.16_biqbaboplfbrettd7655fr4n2y
-      image-size: 1.0.2
-      loader-utils: 3.2.1
-      next: 13.1.1_pjwopsidmaokadturxaafygjp4
-      postcss-loader: 7.0.2_yr6womevqv5t3aet2t3y7pv3ua
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-      resolve-url-loader: 5.0.0
-      sass-loader: 13.2.0_webpack@5.75.0
-      semver: 7.3.8
-      tsconfig-paths: 4.1.2
-      tsconfig-paths-webpack-plugin: 4.0.0
-    transitivePeerDependencies:
-      - fibers
-      - node-sass
-      - postcss
-      - sass
-      - sass-embedded
-      - webpack
-    dev: true
-
   /stream-browserify/2.0.2:
     resolution: {integrity: sha512-nX6hmklHs/gr2FuxYDltq8fJA1GDlxKQCz8O/IM4atRqBH8OORmBNgfvW5gG10GT/qQ9u0CzIvr2X5Pkt6ntqg==}
     dependencies:
@@ -13049,8 +12829,6 @@ packages:
       '@babel/core':
         optional: true
       babel-plugin-macros:
-        optional: true
-      react:
         optional: true
     dependencies:
       '@babel/core': 7.20.12

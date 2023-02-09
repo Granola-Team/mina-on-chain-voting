@@ -9,7 +9,10 @@ module.exports = {
     storyStoreV7: true,
   },
   core: {
-    builder: 'webpack5',
+    builder: {
+      name: 'webpack5',
+      fsCache: true,
+    },
   },
   typescript: {
     reactDocgen: false,

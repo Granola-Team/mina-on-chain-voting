@@ -10,6 +10,8 @@ import { getThemeType } from 'common/theme';
 import { ThemeProvider } from 'components/provider';
 import { type ThemeType, DefaultThemeType } from 'components/themes';
 
+import { SnackbarProvider } from 'notistack';
+
 /**
  * Client-side cache styles, shared for the whole session of the user in the browser.
  */
@@ -39,8 +41,10 @@ export default function _App({
 
       <CacheProvider value={emotionCache}>
         <ThemeProvider value={renderedTheme}>
-          <CssBaseline />
-          <Component {...pageProps} />
+          <SnackbarProvider>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </SnackbarProvider>
         </ThemeProvider>
       </CacheProvider>
     </>

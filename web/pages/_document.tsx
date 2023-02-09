@@ -5,14 +5,12 @@ import createEmotionServer from '@emotion/server/create-instance';
 
 import { createEmotionCache } from 'common/mui';
 
-import { Font } from 'components/themes/BaseTheme';
-
 export default class _Document extends Document {
   render() {
     return (
-      <Html lang="en" className={Font.className}>
+      <Html lang="en">
         <Head>
-          <link rel="shortcut icon" href="/static/favicon.ico" />
+          <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="emotion-insertion-point" content="" />
           {(this.props as any).emotionStyleTags}
         </Head>

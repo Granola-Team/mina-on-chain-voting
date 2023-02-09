@@ -2,7 +2,7 @@ import { Button, Stack, Typography } from '@mui/material';
 
 import { useTheme } from 'components/provider';
 
-export default function Home() {
+const HomePage = () => {
   const { theme, setTheme } = useTheme();
 
   return (
@@ -18,4 +18,6 @@ export default function Home() {
       </Button>
     </Stack>
   );
-}
+};
+
+export default HomePage;

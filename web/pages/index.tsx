@@ -1,22 +1,17 @@
-import { Button, Stack, Typography } from '@mui/material';
+import { Stack } from '@mui/material';
 
-import { useTheme } from 'components/provider';
+import { Instructions, PageLayout, TotalVotes, VotesTable, VotingPeriod } from 'components/v1';
 
 const HomePage = () => {
-  const { theme, setTheme } = useTheme();
-
   return (
-    <Stack spacing={3} height="100vh" width="100%" display="flex" justifyContent="center" alignItems="center">
-      <Typography variant="h2">Hello from {process.env.NEXT_PUBLIC_RELEASE_STAGE}!</Typography>
-      <Button
-        variant="contained"
-        onClick={() => {
-          setTheme(theme.key === 'dark' ? 'light' : 'dark');
-        }}
-      >
-        Toggle Theme
-      </Button>
-    </Stack>
+    <PageLayout>
+      <Stack direction="row" spacing={1.25}>
+        <Instructions />
+        <TotalVotes />
+      </Stack>
+      <VotingPeriod />
+      <VotesTable />
+    </PageLayout>
   );
 };
 

@@ -20,4 +20,15 @@ const Typography: ThemeOptions = {
 
 export const BaseTheme: ThemeOptions = {
   ...Typography,
+  components: {
+    MuiContainer: {
+      styleOverrides: {
+        maxWidthXl: {
+          '&.MuiContainer-maxWidthXl': {
+            maxWidth: '110rem',
+          },
+        },
+      },
+    },
+  },
 };

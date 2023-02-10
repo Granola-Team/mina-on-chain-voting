@@ -1,0 +1,55 @@
+import { Link, Stack, Typography } from '@mui/material';
+
+export const Instructions = () => {
+  return (
+    <Stack width="100%" spacing={1} px={3} py={1} border={1} borderColor="hsl(0, 0%, 24.3%)" borderRadius={2}>
+      <Typography fontSize={22} fontWeight={600}>
+        Instructions
+      </Typography>
+      <Stack>
+        <Typography variant="subtitle2">Send yourself a transaction with the keyword(s) in the memo field:</Typography>
+        <Typography variant="subtitle2" ml={1}>
+          · To vote in favor of the proposal, enter in the memo field &apos;$KEYWORD&apos;
+        </Typography>
+        <Typography variant="subtitle2" ml={1}>
+          · To vote against of the proposal, enter in the memo field &apos;no $KEYWORD&apos;
+        </Typography>
+      </Stack>
+
+      <Stack>
+        <Typography variant="subtitle2">
+          Refresh the dashboard, your vote should appear in the dashboard within 10-15 minutes
+        </Typography>
+        <Typography variant="subtitle2">
+          A vote will first appear in a pending state. After ten blocks have been confirmed the voting status will be
+          marked as Canonical where appropriate.
+        </Typography>
+      </Stack>
+
+      <Stack>
+        <Typography variant="subtitle2">
+          See Frequently Asked Questions{' '}
+          <Link
+            href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
+            target="_blank"
+            rel="noreferrer"
+          >
+            (FAQs)
+          </Link>{' '}
+          for more information, including how to send yourself a transaction
+        </Typography>
+        <Typography variant="subtitle2">
+          If you find an issue, a bug or simply have a question, please feel free to write us some{' '}
+          <Link
+            href="https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md"
+            target="_blank"
+            rel="noreferrer"
+          >
+            feedback
+          </Link>
+          . We would love to hear your thoughts!
+        </Typography>
+      </Stack>
+    </Stack>
+  );
+};

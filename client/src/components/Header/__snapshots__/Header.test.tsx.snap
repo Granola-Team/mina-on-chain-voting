@@ -16,11 +16,14 @@ exports[`Header renders title 1`] = `
             class="flex items-center"
           >
             <a
-              href=""
+              class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
+              href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
             >
-              <h1>
-                Mina On-Chain Votes
-              </h1>
+              <u>
+                <h1>
+                  On Chain Voting for MIP1: Remove Supercharge Rewards
+                </h1>
+              </u>
             </a>
           </div>
           <button
@@ -61,11 +64,14 @@ exports[`Header renders title 1`] = `
           class="flex items-center"
         >
           <a
-            href=""
+            class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
+            href="https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md"
           >
-            <h1>
-              Mina On-Chain Votes
-            </h1>
+            <u>
+              <h1>
+                On Chain Voting for MIP1: Remove Supercharge Rewards
+              </h1>
+            </u>
           </a>
         </div>
         <button

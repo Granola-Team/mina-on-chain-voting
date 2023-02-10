@@ -38,7 +38,7 @@ test("Header renders title", async () => {
   );
   expect(header).toMatchSnapshot();
   const title = header.getByRole("heading", { level: 1 }).innerHTML;
-  expect(title).toContain("Mina On-Chain Votes");
+  expect(title).toContain("On Chain Voting for MIP1: Remove Supercharge Rewards");
 });
 
 test("Should navigate to home page when link is clicked", async () => {
@@ -47,11 +47,11 @@ test("Should navigate to home page when link is clicked", async () => {
       <Header />
     </Router>,
   );
-  const link = rendered.getByText("Mina On-Chain Votes");
+  const link = rendered.getByText("On Chain Voting for MIP1: Remove Supercharge Rewards");
   fireEvent.click(link);
   expect(
-    rendered.getByText("Mina On-Chain Votes").closest("a"),
-  ).toHaveAttribute("href", "");
+    rendered.getByText("On Chain Voting for MIP1: Remove Supercharge Rewards").closest("a"),
+  ).toHaveAttribute("href", "https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-remove-supercharged-rewards.md");
 });
 
 test("Search is rendered", async () => {

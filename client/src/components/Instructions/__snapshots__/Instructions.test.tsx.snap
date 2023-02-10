@@ -26,7 +26,7 @@ exports[`Snapshot test passes 1`] = `
                   Instructions
                 </span>
               </div>
-              <p
+              <div
                 class="font-semibold"
               >
                  
@@ -42,10 +42,7 @@ exports[`Snapshot test passes 1`] = `
                        
                       <span
                         class="font-semibold"
-                      >
-                        '
-                        '
-                      </span>
+                      />
                     </li>
                     <li>
                       To vote against the proposal enter in the memo field
@@ -53,13 +50,12 @@ exports[`Snapshot test passes 1`] = `
                       <span
                         class="font-semibold"
                       >
-                         'no 
-                        '
+                         no 
                       </span>
                     </li>
                   </ul>
                 </span>
-              </p>
+              </div>
               <p
                 class="font-semibold"
               >
@@ -78,7 +74,7 @@ exports[`Snapshot test passes 1`] = `
                   See Frequently Asked Questions (
                   <a
                     class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
-                    href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
+                    href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
                   >
                     <u>
                       FAQs
@@ -107,6 +103,15 @@ exports[`Snapshot test passes 1`] = `
                   . We would love to hear your thoughts!
                 </span>
               </p>
+              <p
+                class="font-semibold"
+              >
+                <span
+                  class="text-[0.875rem] font-normal"
+                >
+                  A vote will first appear in a pending state. After ten blocks have been confirmed the voting status will be marked as Canonical where appropriate.
+                </span>
+              </p>
             </div>
           </div>
         </div>
@@ -125,7 +130,7 @@ exports[`Snapshot test passes 1`] = `
                 Total Votes
               </span>
               <svg
-                class="h-[1.1rem] w-[1.4rem] md:-mt-2.5"
+                class="h-[1.1rem] w-[1.1rem] ml-[2.5px] mt-[1px]"
                 data-state="closed"
                 fill="none"
                 height="15"
@@ -175,7 +180,7 @@ exports[`Snapshot test passes 1`] = `
                 Instructions
               </span>
             </div>
-            <p
+            <div
               class="font-semibold"
             >
                
@@ -191,10 +196,7 @@ exports[`Snapshot test passes 1`] = `
                      
                     <span
                       class="font-semibold"
-                    >
-                      '
-                      '
-                    </span>
+                    />
                   </li>
                   <li>
                     To vote against the proposal enter in the memo field
@@ -202,13 +204,12 @@ exports[`Snapshot test passes 1`] = `
                     <span
                       class="font-semibold"
                     >
-                       'no 
-                      '
+                       no 
                     </span>
                   </li>
                 </ul>
               </span>
-            </p>
+            </div>
             <p
               class="font-semibold"
             >
@@ -227,7 +228,7 @@ exports[`Snapshot test passes 1`] = `
                 See Frequently Asked Questions (
                 <a
                   class="text-OrangeMINA hover:opacity-80 transition-all duration-200"
-                  href="https://docs.google.com/document/d/1cMq2QoE_n61QGycsxRhCPirIAWNDXeWf/edit"
+                  href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
                 >
                   <u>
                     FAQs
@@ -256,6 +257,15 @@ exports[`Snapshot test passes 1`] = `
                 . We would love to hear your thoughts!
               </span>
             </p>
+            <p
+              class="font-semibold"
+            >
+              <span
+                class="text-[0.875rem] font-normal"
+              >
+                A vote will first appear in a pending state. After ten blocks have been confirmed the voting status will be marked as Canonical where appropriate.
+              </span>
+            </p>
           </div>
         </div>
       </div>
@@ -274,7 +284,7 @@ exports[`Snapshot test passes 1`] = `
               Total Votes
             </span>
             <svg
-              class="h-[1.1rem] w-[1.4rem] md:-mt-2.5"
+              class="h-[1.1rem] w-[1.1rem] ml-[2.5px] mt-[1px]"
               data-state="closed"
               fill="none"
               height="15"

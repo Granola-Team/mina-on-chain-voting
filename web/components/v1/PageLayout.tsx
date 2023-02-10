@@ -32,7 +32,15 @@ export const PageLayout = (props: PropsLayoutProps) => {
       </Stack>
 
       {/* Body */}
-      <Container maxWidth="xl" sx={{ mb: 'auto' }}>
+      <Container
+        maxWidth="xl"
+        sx={{
+          mb: 'auto',
+          '&.MuiContainer-maxWidthXl': {
+            maxWidth: '110rem',
+          },
+        }}
+      >
         <Stack spacing={1.25}>{props.children}</Stack>
       </Container>
 

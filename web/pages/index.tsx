@@ -37,7 +37,7 @@ const HomePage = () => {
     <PageLayout>
       <Stack direction="row" spacing={1.25}>
         <Instructions keyword="cftest-2" />
-        <TotalVotes totalVotes={3} />
+        <TotalVotes totalVotes={dummy.length} />
       </Stack>
       <VotingPeriod
         startDate={new Date(2022, 0, 15, 8, 30, 0)}

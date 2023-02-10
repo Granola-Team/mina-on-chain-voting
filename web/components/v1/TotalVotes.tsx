@@ -1,6 +1,10 @@
 import { Stack, Typography } from '@mui/material';
 
-export const TotalVotes = () => {
+export type TotalVotesProps = {
+  totalVotes: number;
+};
+
+export const TotalVotes = ({ totalVotes }: TotalVotesProps) => {
   return (
     <Stack
       minWidth="220px"
@@ -14,7 +18,7 @@ export const TotalVotes = () => {
         Total Votes
       </Typography>
       <Typography variant="h6" fontWeight={600}>
-        0
+        {totalVotes}
       </Typography>
     </Stack>
   );

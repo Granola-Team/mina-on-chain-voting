@@ -1,6 +1,10 @@
 import { Link, Stack, Typography } from '@mui/material';
 
-export const Instructions = () => {
+export type InstructionsProps = {
+  keyword: string;
+};
+
+export const Instructions = ({ keyword }: InstructionsProps) => {
   return (
     <Stack width="100%" spacing={1} px={3} py={1} border={1} borderColor="hsl(0, 0%, 24.3%)" borderRadius={2}>
       <Typography fontSize={22} fontWeight={600}>
@@ -9,10 +13,10 @@ export const Instructions = () => {
       <Stack>
         <Typography variant="subtitle2">Send yourself a transaction with the keyword(s) in the memo field:</Typography>
         <Typography variant="subtitle2" ml={1}>
-          · To vote in favor of the proposal, enter in the memo field &apos;$KEYWORD&apos;
+          · To vote in favor of the proposal, enter in the memo field &apos;{keyword}&apos;
         </Typography>
         <Typography variant="subtitle2" ml={1}>
-          · To vote against of the proposal, enter in the memo field &apos;no $KEYWORD&apos;
+          · To vote against of the proposal, enter in the memo field &apos;no {keyword}&apos;
         </Typography>
       </Stack>
 

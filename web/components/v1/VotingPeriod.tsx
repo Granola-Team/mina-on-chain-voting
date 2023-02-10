@@ -2,9 +2,16 @@ import { LinearProgress, Stack, Typography } from '@mui/material';
 
 import { format } from 'date-fns';
 
-export const VotingPeriod = () => {
-  const date = new Date(2023, 0, 15, 8, 30, 0);
-  const formattedDate = format(date, 'yyyy-MM-dd | hh:mm:ss aa');
+export type VotingPeriodProps = {
+  startDate: Date;
+  endDate: Date;
+  queryDate: Date;
+};
+
+export const VotingPeriod = ({ startDate, endDate, queryDate }: VotingPeriodProps) => {
+  const formattedQueryDate = format(queryDate, 'yyyy-MM-dd | hh:mm:ss aa');
+  const formattedStartDate = format(startDate, 'yyyy-MM-dd | hh:mm:ss aa');
+  const formattedEndDate = format(endDate, 'yyyy-MM-dd | hh:mm:ss aa');
 
   return (
     <Stack width="100%" spacing={1} px={3} py={1} border={1} borderColor="hsl(0, 0%, 24.3%)" borderRadius={2}>
@@ -13,7 +20,7 @@ export const VotingPeriod = () => {
           Voting Period
         </Typography>
         <Typography variant="body2" fontSize={13} color="hsl(0, 0.8%, 47.1%)">
-          Updated at {formattedDate}
+          Updated at {formattedQueryDate}
         </Typography>
       </Stack>
 
@@ -23,7 +30,7 @@ export const VotingPeriod = () => {
             Start Date
           </Typography>
           <Typography variant="body2" fontWeight={600}>
-            {formattedDate}
+            {formattedStartDate}
           </Typography>
         </Stack>
         <Stack>
@@ -31,7 +38,7 @@ export const VotingPeriod = () => {
             End Date
           </Typography>
           <Typography variant="body2" fontWeight={600}>
-            {formattedDate}
+            {formattedEndDate}
           </Typography>
         </Stack>
       </Stack>

@@ -1,12 +1,14 @@
 import { Link, Stack, Typography } from '@mui/material';
 
+import { SectionLayout } from './SectionLayout';
+
 export type InstructionsProps = {
   keyword: string;
 };
 
 export const Instructions = ({ keyword }: InstructionsProps) => {
   return (
-    <Stack width="100%" spacing={1} px={3} py={1} border={1} borderColor="hsl(0, 0%, 24.3%)" borderRadius={2}>
+    <SectionLayout>
       <Typography fontSize={22} fontWeight={600}>
         Instructions
       </Typography>
@@ -54,6 +56,6 @@ export const Instructions = ({ keyword }: InstructionsProps) => {
           . We would love to hear your thoughts!
         </Typography>
       </Stack>
-    </Stack>
+    </SectionLayout>
   );
 };

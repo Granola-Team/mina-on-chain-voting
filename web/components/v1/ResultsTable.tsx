@@ -1,26 +1,21 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
+import { Chip, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 import { useTheme } from 'components/provider';
 
 import { format, setMinutes, setSeconds } from 'date-fns';
 
-export type BlockStatus = 'Canonical' | 'Orphaned' | 'Pending';
+import type { Vote } from './VotesTable';
 
-export type Vote = {
-  id: number;
-  account: string;
-  hash: string;
-  memo: string;
-  height: number;
-  timestamp: number;
-  status: BlockStatus;
+export type VoteResult = Vote & {
+  stake_weight: number;
 };
 
-export type VotesTableProps = {
-  votes: Vote[];
+export type ResultsTableProps = {
+  votes: VoteResult[];
+  createPercent: (value: number) => void;
 };
 
-export const VotesTable = ({ votes }: VotesTableProps) => {
+export const ResultsTable = ({ votes, createPercent }: ResultsTableProps) => {
   const { theme } = useTheme();
 
   return (
@@ -52,7 +47,12 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
             </TableCell>
             <TableCell align="center" sx={{ py: 1.3 }}>
               <Typography variant="body2" fontWeight={600}>
-                Transaction Hash
+                Weighted Stake
+              </Typography>
+            </TableCell>
+            <TableCell align="center" sx={{ py: 1.3 }}>
+              <Typography variant="body2" fontWeight={600}>
+                Weighted Stake %
               </Typography>
             </TableCell>
             <TableCell align="center" sx={{ py: 1.3 }}>
@@ -87,7 +87,12 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
               </TableCell>
               <TableCell align="center" sx={{ py: 1.25 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {row.hash}
+                  {row.stake_weight > 0 ? row.stake_weight.toFixed(4) : 'Stake Delegated'}
+                </Typography>
+              </TableCell>
+              <TableCell align="center" sx={{ py: 1.25 }}>
+                <Typography fontSize={13} fontWeight={500}>
+                  {row.stake_weight ? `${createPercent(row.stake_weight)}` : 'Stake Delegated'}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.25 }}>
@@ -96,9 +101,9 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.25 }}>
-                <Typography fontSize={13} fontWeight={500}>
-                  {row.status}
-                </Typography>
+                {row.status === 'Canonical' && <Chip color="success" size="small" label="Canonical" />}
+                {row.status === 'Pending' && <Chip color="warning" size="small" label="Pending" />}
+                {row.status === 'Orphaned' && <Chip color="error" size="small" label="Orphaned" />}
               </TableCell>
             </TableRow>
           ))}

@@ -1,25 +1,70 @@
-use anyhow::Context;
-use axum::{http::{Method, HeaderValue}, Extension};
+use axum::{http::Method, Extension};
 use clap::Parser;
-use osc_api::{router::Build, Config};
-use sqlx::postgres::PgPoolOptions;
+use router::Build;
+use sqlx::{postgres::PgPoolOptions, PgPool};
+use std::net::SocketAddr;
 use std::sync::Arc;
+use tokio::signal;
 use tower::ServiceBuilder;
-use tower_http::cors::{CorsLayer, Any};
+use tower_http::{
+    cors::{Any, CorsLayer},
+    trace::TraceLayer,
+};
+use tracing_subscriber::EnvFilter;
+
+use crate::prelude::*;
+
+pub mod error;
+pub mod ledger;
+pub mod prelude;
+pub mod queries;
+pub mod router;
+pub mod types;
 
 extern crate dotenv;
+extern crate tracing;
+
+pub const TARGET: &str = "mina_governance_server";
+
+#[derive(Clone)]
+pub struct APIContext {
+    pub config: Arc<Config>,
+    pub votes_cache: Arc<types::VotesCache>,
+    pub ledger_cache: Arc<types::LedgerCache>,
+    pub mainnet_db: PgPool,
+}
+
+#[derive(clap::Parser, Clone)]
+pub struct Config {
+    /// The connection URL for the application database.
+    #[clap(long, env)]
+    pub database_url: String,
+    /// The connection URL for the archive database.
+    #[clap(long, env)]
+    pub archive_database_url: String,
+    /// API Port
+    #[clap(long, env, default_value_t = 8080)]
+    pub port: u16,
+}
 
 #[tokio::main]
-async fn main() -> anyhow::Result<()> {
+async fn main() -> Result<()> {
     dotenv::dotenv().ok();
-    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+
+    tracing_subscriber::fmt::Subscriber::builder()
+        .with_env_filter(EnvFilter::new(
+            "mina_governance_server=debug,tower_http=debug",
+        ))
+        .with_writer(std::io::stderr)
+        .compact()
+        .init();
 
     let config = Config::parse();
-    let ledger_cache = osc_api::ledger::LedgerCache::builder()
+    let ledger_cache = types::LedgerCache::builder()
         .time_to_live(std::time::Duration::from_secs(60 * 60 * 12))
         .build();
 
-    let signal_cache = osc_api::signal::SignalCache::builder()
+    let votes_cache = types::VotesCache::builder()
         .time_to_live(std::time::Duration::from_secs(60 * 3))
         .build();
 
@@ -27,39 +72,62 @@ async fn main() -> anyhow::Result<()> {
         .max_connections(25)
         .connect(&config.database_url)
         .await
-        .context("Error: Could not connect to mainnet database.")?;
+        .unwrap();
 
-    let allowed_origins = match std::env::var("ALLOWED_ORIGINS") {
-        Ok(val) => {
-            let origin = val.split(",").map(|s| s.trim()).collect::<Vec<&str>>().join(",");
-            HeaderValue::from_str(&origin).unwrap()
-        },
-        Err(_) => return Err("Origin not allowed"),
-    };
+    let router = axum::Router::build(&config).layer(
+        ServiceBuilder::new()
+            .layer(TraceLayer::new_for_http())
+            .layer(
+                CorsLayer::new()
+                    .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+                    .allow_origin(Any)
+                    .allow_headers(Any)
+                    .allow_credentials(true),
+            )
+            .layer(Extension(APIContext {
+                config: Arc::new(config.clone()),
+                votes_cache: Arc::new(votes_cache),
+                ledger_cache: Arc::new(ledger_cache),
+                mainnet_db,
+            })),
+    );
 
-    let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-        .allow_origin(allowed_origins)
-        .allow_headers(Any)
-        .allow_credentials(true);
-
-    let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
-        osc_api::APIContext {
-            config: Arc::new(config),
-            signal_cache: Arc::new(signal_cache),
-            ledger_cache: Arc::new(ledger_cache),
-            mainnet_db,
-        },
-    )));
-
-    log::info!("Axum runtime started.");
-
-    axum::Server::bind(&"0.0.0.0:8080".parse()?)
-        .serve(app.into_make_service())
-        .await
-        .context("Error: Could not start webserver.")
+    tracing::debug!("Axum runtime starting...");
+    serve(router, config.port).await;
+    Ok(())
 }
 
-fn router(cfg: &Config) -> axum::Router {
-    axum::Router::build_v1(cfg)
+async fn serve(router: axum::Router, port: u16) {
+    let addr = SocketAddr::from(([127, 0, 0, 1], port));
+    axum::Server::bind(&addr)
+        .serve(router.into_make_service())
+        .with_graceful_shutdown(shutdown_signal())
+        .await
+        .unwrap();
+}
+
+async fn shutdown_signal() {
+    let windows = async {
+        signal::ctrl_c()
+            .await
+            .expect("Error: Failed to install shutdown handler");
+    };
+
+    #[cfg(unix)]
+    let unix = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("Error: Failed to install shutdown handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+
+    tokio::select! {
+        _ = windows => {},
+        _ = unix => {},
+    }
+
+    println!("Signal received - starting graceful shutdown...");
 }

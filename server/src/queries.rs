@@ -1,7 +1,10 @@
-use crate::signal::{BlockStatus, Signal, SignalCache};
+use crate::types::BlockStatus;
+use crate::types::{Vote, VotesCache};
 use sqlx::{Pool, Postgres};
 
-pub async fn get_latest_blockheight(db: &Pool<Postgres>) -> anyhow::Result<i64> {
+use crate::prelude::*;
+
+pub async fn get_latest_blockheight(db: &Pool<Postgres>) -> Result<i64> {
     let height: (i64,) = sqlx::query_as("SELECT MAX(height) FROM blocks;")
         .fetch_one(db)
         .await?;
@@ -10,16 +13,16 @@ pub async fn get_latest_blockheight(db: &Pool<Postgres>) -> anyhow::Result<i64> 
 
 pub async fn get_signals(
     db: &Pool<Postgres>,
-    cache: &SignalCache,
+    cache: &VotesCache,
     start: i64,
     end: i64,
     network: crate::types::Network,
-) -> anyhow::Result<Vec<Signal>> {
-    if let Some(cached) = cache.get(&format!("{}-{}-{}", start, end, network)) {
+) -> Result<Vec<Vote>> {
+    if let Some(cached) = cache.get(&f!("{start}-{end}-{network}")) {
         Ok(cached.to_vec())
     } else {
-        let signals = sqlx::query_as!(
-            Signal,
+        let votes = sqlx::query_as!(
+            Vote,
             r#"
                 SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp
                 FROM user_commands AS uc
@@ -38,16 +41,6 @@ pub async fn get_signals(
             "#, start, end
             ).fetch_all(db).await?;
 
-        // Temp whitelist for MIP01 period
-        if start == 1672848000000 && end == 1673685000000 {
-            cache
-                .insert(
-                    format!("{}-{}-{}", start, end, network),
-                    std::sync::Arc::new(signals.clone()),
-                )
-                .await;
-        }
-
-        Ok(signals)
+        Ok(votes)
     }
 }

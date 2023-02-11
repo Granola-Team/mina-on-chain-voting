@@ -7,10 +7,11 @@ use axum::{
 use base58check::FromBase58Check;
 use serde::{Deserialize, Serialize};
 
+use crate::prelude::*;
 use crate::{ledger::get_stake_weight, queries::get_latest_blockheight, types::Network};
 use crate::{
     ledger::LedgerAccount,
-    signal::{Signal, SignalExt, SignalWithWeight},
+    types::{Vote, VoteExt, VoteWithWeight},
 };
 
 fn decode_memo(key: &str, encoded: &str) -> Option<String> {
@@ -36,7 +37,7 @@ fn match_memo(key: &str, memo: &str) -> bool {
         || memo.to_lowercase() == format!("no {}", key.to_lowercase())
 }
 
-fn is_newer(a: &Signal, b: &Signal) -> bool {
+fn is_newer(a: &Vote, b: &Vote) -> bool {
     a.height > b.height || (a.height == b.height && a.nonce > b.nonce)
 }
 
@@ -44,7 +45,7 @@ trait SortByTimestamp {
     fn sort_by_timestamp(self) -> Self;
 }
 
-impl SortByTimestamp for Vec<Signal> {
+impl SortByTimestamp for Vec<Vote> {
     fn sort_by_timestamp(self) -> Self {
         let mut a = self;
         a.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
@@ -52,7 +53,7 @@ impl SortByTimestamp for Vec<Signal> {
     }
 }
 
-impl SortByTimestamp for Vec<SignalWithWeight> {
+impl SortByTimestamp for Vec<VoteWithWeight> {
     fn sort_by_timestamp(self) -> Self {
         let mut a = self;
         a.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
@@ -60,11 +61,7 @@ impl SortByTimestamp for Vec<SignalWithWeight> {
     }
 }
 
-fn process_signals(
-    key: impl Into<String>,
-    signals: Vec<Signal>,
-    latest_height: i64,
-) -> Vec<Signal> {
+fn process_signals(key: impl Into<String>, signals: Vec<Vote>, latest_height: i64) -> Vec<Vote> {
     let mut map = std::collections::HashMap::new();
     let key = key.into();
 
@@ -92,10 +89,10 @@ fn process_signals(
 
 fn process_signals_results(
     key: impl Into<String>,
-    signals: Vec<Signal>,
+    signals: Vec<Vote>,
     latest_height: i64,
     ledger: Vec<LedgerAccount>,
-) -> anyhow::Result<Vec<SignalWithWeight>> {
+) -> Result<Vec<VoteWithWeight>> {
     let key = key.into();
     let values = process_signals(key, signals, latest_height);
 
@@ -103,9 +100,9 @@ fn process_signals_results(
         .into_iter()
         .filter_map(|signal| {
             let stake_weight = get_stake_weight(&ledger, &signal.account).ok()?;
-            Some(SignalWithWeight::new(signal, stake_weight))
+            Some(VoteWithWeight::new(signal, stake_weight))
         })
-        .collect::<Vec<SignalWithWeight>>())
+        .collect::<Vec<VoteWithWeight>>())
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -132,7 +129,7 @@ pub async fn keyword_handler(
         Network::Mainnet => (
             crate::queries::get_signals(
                 &ctx.mainnet_db,
-                &ctx.signal_cache,
+                &ctx.votes_cache,
                 params.start,
                 params.end,
                 params.network,
@@ -170,7 +167,7 @@ pub async fn keyword_results_handler(
         Network::Mainnet => (
             crate::queries::get_signals(
                 &ctx.mainnet_db,
-                &ctx.signal_cache,
+                &ctx.votes_cache,
                 params.start,
                 params.end,
                 params.network,
@@ -221,42 +218,43 @@ pub async fn keyword_results_handler(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::types::{BlockStatus, Vote};
 
-    fn get_signals() -> (Signal, Signal, Signal, Signal) {
+    fn get_signals() -> (Vote, Vote, Vote, Vote) {
         return (
-            Signal::new(
+            Vote::new(
                 "1",
                 "1",
                 "E4YjFkHVUXbEAkQcUrAEcS1fqvbncnn9Tuz2Jtb1Uu79zY9UAJRpd",
                 100,
-                crate::signal::BlockStatus::Pending,
+                BlockStatus::Pending,
                 100,
                 1,
             ),
-            Signal::new(
+            Vote::new(
                 "1",
                 "2",
                 "E4YjFkHVUXbEAkQcUrAEcS1fqvbncnn9Tuz2Jtb1Uu79zY9UAJRpd",
                 110,
-                crate::signal::BlockStatus::Pending,
+                BlockStatus::Pending,
                 110,
                 1,
             ),
-            Signal::new(
+            Vote::new(
                 "2",
                 "3",
                 "E4YjFkHVUXbEAkQcUrAEcS1fqvbncnn9Tuz2Jtb1Uu79zY9UAJRpd",
                 110,
-                crate::signal::BlockStatus::Pending,
+                BlockStatus::Pending,
                 110,
                 1,
             ),
-            Signal::new(
+            Vote::new(
                 "2",
                 "4",
                 "E4YdLeukpqzqyBAxujeELx9SZWoUW9MhcUfnGHF9PhQmxTJcpmj7j",
                 120,
-                crate::signal::BlockStatus::Pending,
+                BlockStatus::Pending,
                 120,
                 2,
             ),
@@ -292,14 +290,14 @@ mod tests {
         assert_eq!(a1.hash, "2");
         assert_eq!(a1.memo, "no cftest-2");
         assert_eq!(a1.height, 110);
-        assert_eq!(a1.status, crate::signal::BlockStatus::Canonical);
+        assert_eq!(a1.status, BlockStatus::Canonical);
         assert_eq!(a1.nonce, 1);
 
         assert_eq!(a2.account, "2");
         assert_eq!(a2.hash, "4");
         assert_eq!(a2.memo, "cftest-2");
         assert_eq!(a2.height, 120);
-        assert_eq!(a2.status, crate::signal::BlockStatus::Pending);
+        assert_eq!(a2.status, BlockStatus::Canonical);
         assert_eq!(a2.nonce, 2);
     }
 }

@@ -3,37 +3,28 @@ name = "mina-governance-server"
 version = "0.1.0"
 edition = "2021"
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-# Core dependencies: runtime, HTTP framework and database client.
-futures = "0.3"
-tokio = { version = "1.24.1", features = ["macros", "rt-multi-thread"] }
-axum = { version = "0.5.15", features = ["tower-log"] }
-axum-extra = { version = "0.3.7", features = ["spa"] }
+# Core dependencies
+axum = { version = "0.6.4", features = ["tower-log"] }
+clap = { version = "4.1.4", features = ["derive", "env"] }
+moka = { version = "0.10.0", features = ["future"] }
+reqwest = { version = "0.11.14", features = ["json", "blocking"] }
+serde = { version = "1.0.152", features = ["derive"] }
+serde_json = "1.0.93"
 sqlx = { version = "0.6.2", features = ["runtime-tokio-native-tls", "postgres", "uuid", "time", "offline", "macros"] }
-
-tower = "0.4.11"
+thiserror = "1.0.38"
+tokio = { version = "1.25.0", features = ["full"] }
+tower = "0.4.13"
 tower-http = { version = "0.3.5", features = ["trace", "cors"] }
-reqwest = { version = "0.11.3", features = ["json", "blocking"] }
-moka = { version = "0.9", features = ["future"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
-# The `clap` beta gives us a much nicer way to define configuration parameters for our application.
-clap = { version = "4.0.29", features = ["derive", "env"] }
-
-serde = { version = "1.0.139", features = ["derive"] }
-serde_json = "1.0.80"
-
-# Utility Crates
-anyhow = "1.0.48"
-async-trait = "0.1.57"
-dotenv = "0.15.0"
-env_logger = "0.10.0"
-itertools = "0.10.1"
-log = "0.4.14"
-cfg = "0.5.0"
+# Utility dependencies
 base58check = "0.1.0"
+bytes = "1.4.0"
+dotenv = "0.15.0"
+futures = "0.3"
 futures-util = "0.3"
-bytes = "1"
+itertools = "0.10.5"
 rust_decimal = "1.28.0"
 

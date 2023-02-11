@@ -1,40 +1,35 @@
-pub mod api;
+pub mod keyword;
+
+use crate::prelude::*;
 
 use super::Config;
-use axum::{
-    http::StatusCode,
-    routing::{get, get_service},
-    Router,
-};
+use axum::{routing::get, Router};
 
-use axum_extra::routing::SpaRouter;
-use tower_http::services::ServeFile;
+pub enum Version {
+    V1,
+}
+
+pub fn prefix(path: impl Into<String>, version: Version) -> String {
+    let path = path.into();
+    match version {
+        Version::V1 => f!("/api/v1/{path}"),
+    }
+}
+
 pub trait Build {
-    fn build_v1(cfg: &Config) -> Router;
+    fn build(cfg: &Config) -> Router;
 }
 
 impl Build for Router {
-    fn build_v1(cfg: &Config) -> Router {
-        let spa = SpaRouter::new("/assets", format!("{}/assets", &cfg.client_path))
-            .index_file("index.html");
-
-        let react_router_fallback =
-            get_service(ServeFile::new(format!("{}/index.html", &cfg.client_path))).handle_error(
-                |error: std::io::Error| async move {
-                    (
-                        StatusCode::INTERNAL_SERVER_ERROR,
-                        format!("Internal Server Error: {}", error),
-                    )
-                },
-            );
-
+    fn build(cfg: &Config) -> Router {
         Router::new()
-            .merge(spa)
-            .route("/api/v1/:keyword", get(api::keyword::keyword_handler))
             .route(
-                "/api/v1/:keyword/results",
-                get(api::keyword::keyword_results_handler),
+                &prefix(":keyword", Version::V1),
+                get(keyword::keyword_handler),
             )
-            .fallback(react_router_fallback)
+            .route(
+                &prefix(":keyword/results", Version::V1),
+                get(keyword::keyword_results_handler),
+            )
     }
 }

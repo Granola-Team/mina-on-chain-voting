@@ -21,10 +21,9 @@ pub mod queries;
 pub mod router;
 pub mod types;
 
-extern crate dotenv;
 extern crate tracing;
 
-pub const TARGET: &str = "mina_governance_server";
+pub const MINA_GOVERNANCE_SERVER: &str = "mina_governance_server";
 
 #[derive(Clone)]
 pub struct APIContext {
@@ -49,7 +48,7 @@ pub struct Config {
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    dotenv::dotenv().ok();
+    dotenvy::dotenv().expect("Error: .env file not found.");
 
     tracing_subscriber::fmt::Subscriber::builder()
         .with_env_filter(EnvFilter::new(
@@ -92,7 +91,7 @@ async fn main() -> Result<()> {
             })),
     );
 
-    tracing::debug!("Axum runtime starting...");
+    tracing::debug!(target: MINA_GOVERNANCE_SERVER, "Axum runtime starting...");
     serve(router, config.port).await;
     Ok(())
 }

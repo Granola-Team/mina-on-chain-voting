@@ -41,8 +41,6 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
   ```
 
-- Install & use Node 16 as default
-
   ```bash
   nvm install 16
 
@@ -61,14 +59,13 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
-- If not installed, install [`Rust`](https://www.rust-lang.org/)
+- If not installed, install [Rust](https://www.rust-lang.org/), [Typeshare-CLI](https://github.com/1Password/typeshare) and [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
 
   ```bash
-  brew install rust
-
-  # or ...
-
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # install rust
+  cargo install diesel_cli --no-default-features --features postgres # install diesel-cli
+  cargo install typeshare-cli # install typeshare-cli
+  
   ```
 
 - Checkout this repository via `git` or the [Github CLI](https://cli.github.com/)

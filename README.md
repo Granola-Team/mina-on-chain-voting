@@ -84,16 +84,6 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   pnpm clean && pnpm install
   ```
 
-## Directory layout
-
-    .
-    ├── docs                     # Documentation
-    ├── server                   # Mina Governance Server
-    ├── tests                    # E2E Tests
-    ├── web                      # Mina Governance Web
-    ├── LICENSE
-    └── README.md
-
 ## Resources
 
 - [Next.js Documentation](https://nextjs.org/docs/getting-started)

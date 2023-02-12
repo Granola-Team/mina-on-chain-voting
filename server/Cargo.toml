@@ -3,9 +3,6 @@ name = "mina-governance-server"
 version = "0.1.0"
 edition = "2021"
 
-# cargo install diesel_cli 
-# cargo install typeshare-cli 
-
 [dependencies]
 # Core dependencies
 axum = { version = "0.6.4", features = ["tower-log"] }

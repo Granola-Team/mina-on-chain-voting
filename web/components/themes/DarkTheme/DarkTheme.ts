@@ -9,6 +9,9 @@ import { BaseTheme } from '../BaseTheme';
 const _DarkTheme: ThemeOptions = {
   palette: {
     mode: 'dark',
+    background: {
+      default: '#232323',
+    },
   },
 };
 

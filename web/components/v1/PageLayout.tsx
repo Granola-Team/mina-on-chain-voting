@@ -41,7 +41,7 @@ export const PageLayout = (props: PropsLayoutProps) => {
           },
         }}
       >
-        <Stack spacing={1.25}>{props.children}</Stack>
+        <Stack spacing={1}>{props.children}</Stack>
       </Container>
 
       {/* Footer */}

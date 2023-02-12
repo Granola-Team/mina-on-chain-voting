@@ -39,6 +39,7 @@ export const Instructions = ({ keyword }: InstructionsProps) => {
             href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
             target="_blank"
             rel="noreferrer"
+            color="#FF6739"
           >
             (FAQs)
           </Link>{' '}
@@ -50,6 +51,7 @@ export const Instructions = ({ keyword }: InstructionsProps) => {
             href="https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md"
             target="_blank"
             rel="noreferrer"
+            color="#FF6739"
           >
             feedback
           </Link>

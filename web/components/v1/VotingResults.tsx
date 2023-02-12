@@ -9,7 +9,7 @@ export type VotingResultsProps = {
 
 export const VotingResults = ({ positivePercentage, negativePercentage }: VotingResultsProps) => {
   return (
-    <SectionLayout>
+    <SectionLayout spacing={0.85}>
       <Typography fontSize={22} fontWeight={600} mb="-6px">
         Voting Results
       </Typography>
@@ -19,7 +19,7 @@ export const VotingResults = ({ positivePercentage, negativePercentage }: Voting
           <Typography variant="body2" fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="left">
             Yes
           </Typography>
-          <Typography variant="body1" fontSize={17} fontWeight={600}>
+          <Typography variant="body2" fontSize={18} fontWeight={600} color="#3AE694">
             {positivePercentage}%
           </Typography>
         </Stack>
@@ -27,7 +27,7 @@ export const VotingResults = ({ positivePercentage, negativePercentage }: Voting
           <Typography variant="body2" fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="right">
             No
           </Typography>
-          <Typography variant="body1" fontSize={17} fontWeight={600}>
+          <Typography variant="body2" fontSize={18} fontWeight={600} color="#FF6E73">
             {negativePercentage}%
           </Typography>
         </Stack>
@@ -39,10 +39,10 @@ export const VotingResults = ({ positivePercentage, negativePercentage }: Voting
           height: 20,
           borderRadius: 1.5,
           '& .MuiLinearProgress-bar1Determinate': {
-            backgroundColor: '#66bb6a',
+            backgroundColor: '#42A174',
           },
           '&.MuiLinearProgress-colorPrimary': {
-            backgroundColor: '#ff0000a6',
+            backgroundColor: '#FF6369',
           },
         }}
         value={Number.parseFloat(positivePercentage ?? '0.00')}

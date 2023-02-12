@@ -13,7 +13,7 @@ export const TotalVotes = ({ totalVotes }: TotalVotesProps) => {
         <Typography variant="h6" fontWeight={600}>
           Total Votes
         </Typography>
-        <Typography variant="h6" fontWeight={600}>
+        <Typography variant="h5" fontWeight={600}>
           {totalVotes}
         </Typography>
       </Stack>

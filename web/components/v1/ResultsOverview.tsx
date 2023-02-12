@@ -15,13 +15,14 @@ export const ResultsOverview = () => {
             href="https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959"
             target="_blank"
             rel="noreferrer"
+            color="#FF6739"
           >
             FAQ
           </Link>{' '}
           to understand how the results were calculated.
         </Typography>
         <Typography variant="subtitle2">
-          If an account delegates and then also votes (having delegated), thehn this direct vote has 0 weight since the
+          If an account delegates and then also votes (having delegated), then this direct vote has 0 weight since the
           account has already delegated its stake.
         </Typography>
         <Typography variant="subtitle2">
@@ -37,6 +38,7 @@ export const ResultsOverview = () => {
             href="https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md"
             target="_blank"
             rel="noreferrer"
+            color="#FF6739"
           >
             instructions
           </Link>{' '}
@@ -48,6 +50,7 @@ export const ResultsOverview = () => {
             href="https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md"
             target="_blank"
             rel="noreferrer"
+            color="#FF6739"
           >
             feedback
           </Link>

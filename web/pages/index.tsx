@@ -10,7 +10,7 @@ const data = [
     hash: 'CkpZxqP7pM5nRTy9dcJaCsLGxg1iFYLstr1zGaScwjfV1iBbgW8FY',
     memo: 'no cftest-2',
     height: 212888,
-    status: 'Canonical',
+    status: 'Pending',
     timestamp: 1675989172,
   },
   {
@@ -36,7 +36,7 @@ const data = [
 const HomePage = () => {
   return (
     <PageLayout>
-      <Stack direction="row" spacing={1.25}>
+      <Stack direction="row" spacing={1}>
         <Instructions keyword="cftest-2" />
         <TotalVotes totalVotes={data.length} />
       </Stack>

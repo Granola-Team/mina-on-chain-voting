@@ -55,6 +55,7 @@ importers:
       '@typescript-eslint/parser': 5.48.0
       date-fns: 2.29.3
       eslint: 8.31.0
+      ethereum-blockies-base64: ^1.0.2
       jest: ^29.3.1
       jest-environment-jsdom: ^29.3.1
       next: 13.1.1
@@ -77,6 +78,7 @@ importers:
       '@mui/material': 5.11.8_rqh7qj4464ntrqrt6banhaqg4q
       '@mui/utils': 5.11.7_react@18.2.0
       date-fns: 2.29.3
+      ethereum-blockies-base64: 1.0.2
       next: 13.1.1_pjwopsidmaokadturxaafygjp4
       notistack: 2.0.8_2jzjqnnmrlgpzfrvelta6rhlzm
       react: 18.2.0
@@ -7536,6 +7538,12 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
+  /ethereum-blockies-base64/1.0.2:
+    resolution: {integrity: sha512-Vg2HTm7slcWNKaRhCUl/L3b4KrB8ohQXdd5Pu3OI897EcR6tVRvUqdTwAyx+dnmoDzj8e2bwBLDQ50ByFmcz6w==}
+    dependencies:
+      pnglib: 0.0.1
+    dev: false
+
   /events/3.3.0:
     resolution: {integrity: sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==}
     engines: {node: '>=0.8.x'}
@@ -11299,6 +11307,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
     dev: true
+
+  /pnglib/0.0.1:
+    resolution: {integrity: sha512-95ChzOoYLOPIyVmL+Y6X+abKGXUJlvOVLkB1QQkyXl7Uczc6FElUy/x01NS7r2GX6GRezloO/ecCX9h4U9KadA==}
+    dev: false
 
   /pnp-webpack-plugin/1.6.4_typescript@4.9.4:
     resolution: {integrity: sha512-7Wjy+9E3WwLOEL30D+m8TSTF7qJJUJLONBnwQp0518siuMxUQUbgZwssaFX+QKlZkjHZcw/IpZCt/H0srrntSg==}

@@ -9,8 +9,8 @@ use base58check::FromBase58Check;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
-use crate::chain::ledger::*;
 use crate::db::queries::*;
+use crate::mina::ledger::*;
 use crate::prelude::*;
 use crate::types::{SortByTimestamp, Vote, VoteExt, VoteWithWeight};
 

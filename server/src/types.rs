@@ -1,28 +1,52 @@
-use moka::future::Cache;
+use std::io::Write;
+
+use diesel::{
+    deserialize::FromSql,
+    pg::Pg,
+    serialize::{IsNull, ToSql},
+    AsExpression, FromSqlRow, SqlType,
+};
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use sqlx::{FromRow, Type};
-use std::fmt::Display;
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum Network {
-    Mainnet,
+#[derive(SqlType)]
+#[diesel(postgres_type(name = "chain_status_type"))]
+pub struct ChainStatusType;
+
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, FromSqlRow, AsExpression)]
+#[diesel(sql_type = ChainStatusType)]
+pub enum BlockStatus {
+    Pending,
+    Canonical,
+    Orphaned,
 }
 
-impl Display for Network {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Network::Mainnet => write!(f, "mainnet"),
+impl ToSql<ChainStatusType, Pg> for BlockStatus {
+    fn to_sql<'b>(
+        &'b self,
+        out: &mut diesel::serialize::Output<'b, '_, Pg>,
+    ) -> diesel::serialize::Result {
+        match *self {
+            BlockStatus::Canonical => out.write_all(b"canonical")?,
+            BlockStatus::Pending => out.write_all(b"pending")?,
+            BlockStatus::Orphaned => out.write_all(b"orphaned")?,
+        }
+        Ok(IsNull::No)
+    }
+}
+
+impl FromSql<ChainStatusType, Pg> for BlockStatus {
+    fn from_sql(bytes: diesel::backend::RawValue<'_, Pg>) -> diesel::deserialize::Result<Self> {
+        match bytes.as_bytes() {
+            b"canonical" => Ok(BlockStatus::Canonical),
+            b"pending" => Ok(BlockStatus::Pending),
+            b"orphaned" => Ok(BlockStatus::Orphaned),
+            _ => Err("unrecognized enum variant".into()),
         }
     }
 }
 
-pub type VotesCache = Cache<String, std::sync::Arc<Vec<Vote>>>;
-pub type LedgerCache = Cache<String, std::sync::Arc<bytes::Bytes>>;
-
-#[derive(Debug, PartialEq, Eq, Clone, FromRow, Serialize, Deserialize)]
-
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub struct Vote {
     pub account: String,
     pub hash: String,
@@ -45,14 +69,6 @@ pub struct VoteWithWeight {
     pub stake_weight: Decimal,
 }
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy, Type, Serialize, Deserialize)]
-#[sqlx(rename_all = "lowercase")]
-pub enum BlockStatus {
-    Pending,
-    Canonical,
-    Orphaned,
-}
-
 impl Vote {
     pub fn new(
         account: impl Into<String>,
@@ -62,8 +78,8 @@ impl Vote {
         status: BlockStatus,
         timestamp: i64,
         nonce: i64,
-    ) -> Self {
-        Self {
+    ) -> Vote {
+        Vote {
             account: account.into(),
             hash: hash.into(),
             memo: memo.into(),
@@ -76,8 +92,8 @@ impl Vote {
 }
 
 impl VoteWithWeight {
-    pub fn new(vote: Vote, stake_weight: Decimal) -> Self {
-        Self {
+    pub fn new(vote: Vote, stake_weight: Decimal) -> VoteWithWeight {
+        VoteWithWeight {
             account: vote.account,
             hash: vote.hash,
             memo: vote.memo,
@@ -112,5 +128,25 @@ impl VoteExt for VoteWithWeight {
 
     fn mark_canonical(&mut self) {
         self.status = BlockStatus::Canonical;
+    }
+}
+
+pub trait SortByTimestamp {
+    fn sort_by_timestamp(self) -> Self;
+}
+
+impl SortByTimestamp for Vec<Vote> {
+    fn sort_by_timestamp(self) -> Vec<Vote> {
+        let mut a = self;
+        a.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+        a
+    }
+}
+
+impl SortByTimestamp for Vec<VoteWithWeight> {
+    fn sort_by_timestamp(self) -> Vec<VoteWithWeight> {
+        let mut a = self;
+        a.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+        a
     }
 }

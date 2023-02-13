@@ -1,8 +1,8 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use std::sync::Arc;
 
-use crate::types::LedgerCache;
-
+use crate::db::cache::CacheManager;
 use crate::prelude::*;
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
@@ -15,24 +15,17 @@ pub struct LedgerAccount {
     pub delegate: String,
 }
 
-impl LedgerAccount {
-    pub fn new(pk: String, balance: String, delegate: String) -> Self {
-        Self {
-            pk,
-            balance,
-            delegate,
-        }
-    }
-}
-
-pub async fn get_ledger(
+pub(crate) async fn get_ledger(
     hash: impl Into<String>,
-    cache: &LedgerCache,
+    cache: &CacheManager,
 ) -> Result<Vec<LedgerAccount>> {
     let hash = hash.into();
 
-    if let Some(cached) = cache.get(&hash) {
-        Ok(serde_json::from_slice::<Vec<LedgerAccount>>(&cached)?)
+    if let Some(cached) = cache.ledger.get(&hash) {
+        match serde_json::from_slice::<Vec<LedgerAccount>>(&cached) {
+            Ok(values) => Ok(values),
+            Err(_) => Err(Error::Ledger(f!("parsing ledger '{hash}' failed."))),
+        }
     } else {
         let ledger = reqwest::get(f!(
             "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/mainnet/{hash}.json"
@@ -41,9 +34,7 @@ pub async fn get_ledger(
         .bytes()
         .await?;
 
-        cache
-            .insert(hash, std::sync::Arc::new(ledger.clone()))
-            .await;
+        cache.ledger.insert(hash, Arc::new(ledger.clone())).await;
 
         Ok(serde_json::from_slice(&ledger)?)
     }
@@ -58,7 +49,7 @@ pub fn get_stake_weight(
     let account = ledger
         .iter()
         .find(|d| d.pk == public_key)
-        .ok_or_else(|| Error::Ledger(f!("Error: Account not found in ledger.")))?;
+        .ok_or_else(|| Error::Ledger(f!("account '{public_key}' not found in ledger.")))?;
 
     let balance = account
         .balance
@@ -94,6 +85,16 @@ pub fn get_stake_weight(
 mod tests {
     use super::*;
 
+    impl LedgerAccount {
+        pub fn new(pk: String, balance: String, delegate: String) -> LedgerAccount {
+            LedgerAccount {
+                pk,
+                balance,
+                delegate,
+            }
+        }
+    }
+
     fn get_accounts() -> (LedgerAccount, LedgerAccount, LedgerAccount, LedgerAccount) {
         return (
             LedgerAccount::new("A".to_string(), "1".to_string(), "A".to_string()),
@@ -119,10 +120,10 @@ mod tests {
         // No delegators & delegated to self - returns balance.
         let b_weight =
             get_stake_weight(&[a.clone(), b.clone(), c.clone(), d.clone()], "B").unwrap();
-        assert_eq!(b_weight, Decimal::new(1, LEDGER_BALANCE_SCALE));
+        assert_eq!(b_weight, Decimal::new(1000000000, LEDGER_BALANCE_SCALE));
 
         // Delegated to self & has delegators - returns balance + delegators.
         let a_weight = get_stake_weight(&[a, b, c, d], "A").unwrap();
-        assert_eq!(a_weight, Decimal::new(3, LEDGER_BALANCE_SCALE));
+        assert_eq!(a_weight, Decimal::new(3000000000, LEDGER_BALANCE_SCALE));
     }
 }

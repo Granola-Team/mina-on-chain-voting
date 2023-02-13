@@ -7,5 +7,6 @@
 ### Prerequisites
 
 - [`Rust`](https://www.rust-lang.org/) >=1.60
+- [`Cargo-Make`](https://github.com/sagiegurari/cargo-make)
 - [`Typeshare-CLI`](https://github.com/1Password/typeshare)
 - [`Diesel-CLI`](https://crates.io/crates/diesel_cli/2.0.1)

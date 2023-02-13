@@ -1,0 +1,9 @@
+.swc/
+.next/
+.github/
+.vscode/
+node_modules/
+
+.eslintrc.js
+next.config.js
+env.js

@@ -9,6 +9,9 @@ import { BaseTheme } from '../BaseTheme';
 const _LightTheme: ThemeOptions = {
   palette: {
     mode: 'light',
+    background: {
+      default: '#f8f8f8',
+    },
   },
 };
 

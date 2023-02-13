@@ -4,8 +4,8 @@ use std::sync::Arc;
 
 use crate::db::cache::CacheManager;
 use crate::db::conn::DBConnectionManager;
+use crate::mina::vote::*;
 use crate::prelude::*;
-use crate::types::{BlockStatus, ChainStatusType, Vote};
 
 #[derive(QueryableByName)]
 struct FetchChainTipResult {
@@ -33,7 +33,7 @@ struct FetchVotesResult {
     #[diesel(sql_type = BigInt)]
     height: i64,
     #[diesel(sql_type = ChainStatusType)]
-    status: BlockStatus,
+    status: MinaBlockStatus,
     #[diesel(sql_type = BigInt)]
     timestamp: i64,
     #[diesel(sql_type = BigInt)]
@@ -45,7 +45,7 @@ pub(crate) async fn fetch_votes(
     cache: &CacheManager,
     start: i64,
     end: i64,
-) -> Result<Vec<Vote>> {
+) -> Result<Vec<MinaVote>> {
     if let Some(cached) = cache.votes.get(&f!("{start}-{end}")) {
         Ok(cached.to_vec())
     } else {
@@ -69,7 +69,7 @@ pub(crate) async fn fetch_votes(
             )
         ).get_results::<FetchVotesResult>(connection) {
             Ok(result) => {
-                let votes: Vec<Vote> = result.into_iter().map(|res| Vote::new(res.account, res.hash,res.memo,res.height,res.status,res.timestamp,res.nonce)).collect();
+                let votes: Vec<MinaVote> = result.into_iter().map(|res| MinaVote::new(res.account, res.hash,res.memo,res.height,res.status,res.timestamp,res.nonce)).collect();
                 cache.votes.insert(f!("{start}-{end}"), Arc::new(votes.clone())).await;
                 Ok(votes)
             },

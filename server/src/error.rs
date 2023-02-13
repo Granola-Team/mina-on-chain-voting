@@ -1,5 +1,7 @@
+use bs58::decode::Error as BS58Error;
 use reqwest::Error as ReqwestError;
 use serde_json::Error as JsonError;
+use std::string::FromUtf8Error;
 
 // TODO: Create proper error structure/messages
 #[derive(thiserror::Error, Debug)]
@@ -15,4 +17,10 @@ pub enum Error {
 
     #[error("Reqwest error: {0}")]
     Reqwest(#[from] ReqwestError),
+
+    #[error("UTF8 error: {0}")]
+    UTF8(#[from] FromUtf8Error),
+
+    #[error("BS58 error: {0}")]
+    Base58(#[from] BS58Error),
 }

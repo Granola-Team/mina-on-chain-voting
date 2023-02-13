@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "aaron-bond.better-comments",
+    "christian-kohler.path-intellisense",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-playwright.playwright",
+    "Orta.vscode-jest",
+    "rust-lang.rust-analyzer"
+  ]
+}

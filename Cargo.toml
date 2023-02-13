@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "./server"
+]
+
+[workspace.package]
+version = "0.0.0"
+authors = ["Max Karou <max@granola.team>"]

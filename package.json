@@ -1,0 +1,33 @@
+{
+  "name": "mina-governance",
+  "private": true,
+  "workspaces": [
+    "web/*"
+  ],
+  "engines": {
+    "node": "16.16.0",
+    "pnpm": ">=7.26.0"
+  },
+  "scripts": {
+    "clean": "find . -type d \\( -name node_modules -o -name .next -o -name .swc -o -name .storybook-dist -o -name target \\) -exec rm -rf {} +",
+    "cargo:build": "cargo build --release --bin mina-governance-server",
+    "cargo:run": "cargo run --bin mina-governance-server",
+    "cargo:test": "cargo test --bin mina-governance-server",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "playwright": "pnpx playwright test",
+    "web": "dotenv -- pnpm --filter mina-governance-web $1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.30.0",
+    "dotenv-cli": "^6.0.0",
+    "eslint": "8.31.0",
+    "eslint-config-next": "13.1.1",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-playwright": "^0.12.0",
+    "eslint-plugin-react": "7.31.11",
+    "eslint-plugin-simple-import-sort": "8.0.0",
+    "eslint-plugin-storybook": "0.6.8",
+    "eslint-plugin-unused-imports": "2.0.0",
+    "prettier": "^2.8.3"
+  }
+}

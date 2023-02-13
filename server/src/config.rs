@@ -1,9 +1,8 @@
 use std::sync::Arc;
 use tracing_subscriber::EnvFilter;
 
-use crate::db::cache::*;
-use crate::db::conn::DBConnectionManager;
-use crate::prelude::*;
+use crate::db::cache::CacheManager;
+use crate::db::DBConnectionManager;
 
 #[derive(Clone)]
 pub(crate) struct Context {
@@ -24,7 +23,7 @@ pub(crate) struct Config {
     pub(crate) port: u16,
 }
 
-pub(crate) fn init_tracing() -> Result<()> {
+pub(crate) fn init_tracing() {
     tracing_subscriber::fmt::Subscriber::builder()
         .with_env_filter(EnvFilter::new(
             "mina_governance_server=debug,tower_http=debug",
@@ -32,6 +31,4 @@ pub(crate) fn init_tracing() -> Result<()> {
         .with_writer(std::io::stderr)
         .compact()
         .init();
-
-    Ok(())
 }

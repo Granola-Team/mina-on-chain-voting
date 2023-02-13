@@ -87,7 +87,7 @@ impl MinaVote {
     }
 
     pub(crate) fn update_stake(&mut self, stake_weight: Decimal) {
-        self.stake_weight = Some(stake_weight)
+        self.stake_weight = Some(stake_weight);
     }
 
     pub(crate) fn update_memo(&mut self, memo: impl Into<String>) {
@@ -157,14 +157,19 @@ impl W<Vec<MinaVote>> {
         W(map.values().cloned().collect())
     }
 
-    pub(crate) fn process_weighted(self, key: impl Into<String>, ledger: Ledger, tip: i64) -> Self {
+    pub(crate) fn process_weighted(
+        self,
+        key: impl Into<String>,
+        ledger: &Ledger,
+        tip: i64,
+    ) -> Self {
         let key = key.into();
         let votes = self.process(key, tip).0;
 
         let votes_with_stake: Vec<MinaVote> = votes
             .into_iter()
             .filter_map(|mut vote| {
-                let stake_weight = get_stake_weight(&ledger, &vote.account).ok()?;
+                let stake_weight = get_stake_weight(ledger, &vote.account).ok()?;
                 vote.update_stake(stake_weight);
                 Some(vote)
             })

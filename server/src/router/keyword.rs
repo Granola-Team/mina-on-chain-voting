@@ -7,8 +7,8 @@ use axum::{
 };
 use serde::{Deserialize, Serialize};
 
-use crate::db::queries::*;
-use crate::mina::ledger::*;
+use crate::db::queries::{fetch_chain_tip, fetch_votes};
+use crate::mina::ledger::get_ledger;
 use crate::prelude::*;
 
 pub(crate) fn router() -> Router {
@@ -29,7 +29,7 @@ async fn keyword_handler(
     ctx: Extension<crate::Context>,
 ) -> impl IntoResponse {
     let votes = fetch_votes(&ctx.conn_manager, &ctx.cache, params.start, params.end).await;
-    let chain_tip = fetch_chain_tip(&ctx.conn_manager).await;
+    let chain_tip = fetch_chain_tip(&ctx.conn_manager);
 
     if let (Ok(votes), Ok(chain_tip)) = (votes, chain_tip) {
         let votes = W(votes).process(key, chain_tip);
@@ -38,7 +38,7 @@ async fn keyword_handler(
         return (StatusCode::OK, axum::Json(sorted_votes)).into_response();
     }
 
-    return (StatusCode::INTERNAL_SERVER_ERROR).into_response();
+    (StatusCode::INTERNAL_SERVER_ERROR).into_response()
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -54,14 +54,14 @@ async fn keyword_results_handler(
     ctx: Extension<crate::Context>,
 ) -> impl IntoResponse {
     let votes = fetch_votes(&ctx.conn_manager, &ctx.cache, params.start, params.end).await;
-    let chain_tip = fetch_chain_tip(&ctx.conn_manager).await;
+    let chain_tip = fetch_chain_tip(&ctx.conn_manager);
 
     if let (Ok(votes), Ok(chain_tip)) = (votes, chain_tip) {
         let ledger = get_ledger(params.hash, &ctx.cache).await;
 
         if let Ok(ledger) = ledger {
             let votes = W(votes);
-            let votes_weighted = votes.process_weighted(key, ledger, chain_tip);
+            let votes_weighted = votes.process_weighted(key, &ledger, chain_tip);
 
             return (
                 StatusCode::OK,
@@ -71,5 +71,5 @@ async fn keyword_results_handler(
         }
     }
 
-    return (StatusCode::INTERNAL_SERVER_ERROR).into_response();
+    (StatusCode::INTERNAL_SERVER_ERROR).into_response()
 }

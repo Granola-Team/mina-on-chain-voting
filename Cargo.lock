@@ -1077,6 +1077,7 @@ dependencies = [
  "futures-util",
  "itertools",
  "moka",
+ "r2d2",
  "reqwest",
  "rust_decimal",
  "serde",

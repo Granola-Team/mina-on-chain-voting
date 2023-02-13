@@ -6,7 +6,7 @@ edition = "2021"
 [dependencies]
 # Core dependencies
 axum = { version = "0.6.4", features = ["tower-log"] }
-diesel = { version = "2.0.3", features = ["postgres"] }
+diesel = { version = "2.0.3", features = ["postgres", "r2d2"] }
 clap = { version = "4.1.4", features = ["derive", "env"] }
 moka = { version = "0.10.0", features = ["future"] }
 reqwest = { version = "0.11.14", features = ["json", "blocking"] }
@@ -21,6 +21,7 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 typeshare = "1.0.0"
 
 # Utility dependencies
+async-trait = "0.1.64"
 base58check = "0.1.0"
 bytes = "1.4.0"
 dotenvy = "0.15.6"

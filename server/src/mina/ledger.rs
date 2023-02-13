@@ -7,22 +7,21 @@ use crate::prelude::*;
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
 
+pub(crate) type Ledger = Vec<LedgerAccount>;
+
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
-pub struct LedgerAccount {
+pub(crate) struct LedgerAccount {
     pub pk: String,
     pub balance: String,
     pub delegate: String,
 }
 
-pub(crate) async fn get_ledger(
-    hash: impl Into<String>,
-    cache: &CacheManager,
-) -> Result<Vec<LedgerAccount>> {
+pub(crate) async fn get_ledger(hash: impl Into<String>, cache: &CacheManager) -> Result<Ledger> {
     let hash = hash.into();
 
     if let Some(cached) = cache.ledger.get(&hash) {
-        match serde_json::from_slice::<Vec<LedgerAccount>>(&cached) {
+        match serde_json::from_slice::<Ledger>(&cached) {
             Ok(values) => Ok(values),
             Err(_) => Err(Error::Ledger(f!("parsing ledger '{hash}' failed."))),
         }
@@ -40,7 +39,7 @@ pub(crate) async fn get_ledger(
     }
 }
 
-pub fn get_stake_weight(
+pub(crate) fn get_stake_weight(
     ledger: &[LedgerAccount],
     public_key: impl Into<String>,
 ) -> Result<Decimal> {

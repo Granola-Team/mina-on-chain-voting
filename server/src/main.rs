@@ -9,9 +9,9 @@ use tower_http::{
     trace::TraceLayer,
 };
 
-use crate::config::*;
-use crate::db::cache::*;
-use crate::db::conn::*;
+use crate::config::{Config, Context};
+use crate::db::cache::CacheManager;
+use crate::db::DBConnectionManager;
 use crate::prelude::*;
 use crate::router::Build;
 
@@ -29,7 +29,7 @@ pub(crate) const MINA_GOVERNANCE_SERVER: &str = "mina_governance_server";
 #[tokio::main]
 async fn main() -> Result<()> {
     dotenvy::dotenv().unwrap_or_else(|_| panic!("Error: .env file not found"));
-    config::init_tracing().unwrap_or_else(|_| panic!("Error: failed to initialize tracing"));
+    config::init_tracing();
 
     let config = Config::parse();
     let cache = CacheManager::build();

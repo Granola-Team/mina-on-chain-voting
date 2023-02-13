@@ -53,7 +53,7 @@ pub(crate) fn get_stake_weight(
     let balance = account
         .balance
         .parse::<Decimal>()
-        .unwrap_or(Decimal::new(0, LEDGER_BALANCE_SCALE));
+        .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE));
 
     if account.delegate != public_key {
         return Ok(Decimal::new(0, LEDGER_BALANCE_SCALE));
@@ -73,7 +73,7 @@ pub(crate) fn get_stake_weight(
         .fold(Decimal::new(0, LEDGER_BALANCE_SCALE), |acc, x| {
             x.balance
                 .parse::<Decimal>()
-                .unwrap_or(Decimal::new(0, LEDGER_BALANCE_SCALE))
+                .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE))
                 + acc
         });
 

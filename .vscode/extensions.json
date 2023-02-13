@@ -6,6 +6,7 @@
     "esbenp.prettier-vscode",
     "ms-playwright.playwright",
     "Orta.vscode-jest",
-    "rust-lang.rust-analyzer"
+    "rust-lang.rust-analyzer",
+    "vadimcn.vscode-lldb"
   ]
 }

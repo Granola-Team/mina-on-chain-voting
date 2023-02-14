@@ -1,15 +1,8 @@
-use diesel::{
-    deserialize::FromSql,
-    pg::Pg,
-    serialize::{IsNull, ToSql},
-    AsExpression, FromSqlRow, SqlType,
-};
+use diesel::SqlType;
+use diesel_derive_enum::DbEnum;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use std::{
-    collections::{hash_map::Entry, HashMap},
-    io::Write,
-};
+use std::collections::{hash_map::Entry, HashMap};
 
 use crate::mina::ledger::get_stake_weight;
 use crate::mina::ledger::Ledger;
@@ -19,37 +12,12 @@ use crate::prelude::*;
 #[diesel(postgres_type(name = "chain_status_type"))]
 pub(crate) struct ChainStatusType;
 
-#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, FromSqlRow, AsExpression)]
-#[diesel(sql_type = ChainStatusType)]
+#[derive(Debug, PartialEq, Eq, Clone, Copy, Serialize, Deserialize, DbEnum)]
+#[ExistingTypePath = "ChainStatusType"]
 pub(crate) enum MinaBlockStatus {
     Pending,
     Canonical,
     Orphaned,
-}
-
-impl ToSql<ChainStatusType, Pg> for MinaBlockStatus {
-    fn to_sql<'b>(
-        &'b self,
-        out: &mut diesel::serialize::Output<'b, '_, Pg>,
-    ) -> diesel::serialize::Result {
-        match *self {
-            MinaBlockStatus::Canonical => out.write_all(b"canonical")?,
-            MinaBlockStatus::Pending => out.write_all(b"pending")?,
-            MinaBlockStatus::Orphaned => out.write_all(b"orphaned")?,
-        }
-        Ok(IsNull::No)
-    }
-}
-
-impl FromSql<ChainStatusType, Pg> for MinaBlockStatus {
-    fn from_sql(bytes: diesel::backend::RawValue<'_, Pg>) -> diesel::deserialize::Result<Self> {
-        match bytes.as_bytes() {
-            b"canonical" => Ok(MinaBlockStatus::Canonical),
-            b"pending" => Ok(MinaBlockStatus::Pending),
-            b"orphaned" => Ok(MinaBlockStatus::Orphaned),
-            _ => Err("unrecognized enum variant".into()),
-        }
-    }
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]

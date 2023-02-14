@@ -13,6 +13,8 @@
     "cargo:make": "cargo make --cwd ./server release",
     "cargo:run": "cargo run --bin mina-governance-server",
     "cargo:test": "cargo test --bin mina-governance-server",
+    "docker:db": "docker-compose up --build db",
+    "docker:server": "docker-compose up --build server",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "playwright": "pnpx playwright test",
     "web": "dotenv -- pnpm --filter mina-governance-web $1"

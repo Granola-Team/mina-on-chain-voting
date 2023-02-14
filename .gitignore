@@ -36,6 +36,7 @@ target/
 debug
 release
 .rustc_info.json
+recipe.json
 
 # package manager
 yarn.lock

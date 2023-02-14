@@ -1,0 +1,10 @@
+# git
+.git
+.gitignore
+
+# docker
+Dockerfile
+.dockerignore
+
+# rust
+target

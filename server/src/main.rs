@@ -28,11 +28,13 @@ pub(crate) const MINA_GOVERNANCE_SERVER: &str = "mina_governance_server";
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    dotenvy::dotenv().unwrap_or_else(|_| panic!("Error: .env file not found"));
+    dotenvy::dotenv().ok();
     config::init_tracing();
 
     let config = Config::parse();
     let cache = CacheManager::build();
+
+    tracing::info!(target: MINA_GOVERNANCE_SERVER, "Connecting to database...");
     let conn_manager = DBConnectionManager::get_connections(&config);
 
     let router = axum::Router::build().layer(

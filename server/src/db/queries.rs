@@ -45,10 +45,11 @@ pub(crate) async fn fetch_votes(
     end: i64,
 ) -> Result<Vec<MinaVote>> {
     if let Some(cached) = cache.votes.get(&f!("{start}-{end}")) {
-        Ok(cached.to_vec())
-    } else {
-        let connection = &mut conn_manager.main.get()?;
-        let results = sql_query(
+        return Ok(cached.to_vec());
+    }
+
+    let connection = &mut conn_manager.main.get()?;
+    let results = sql_query(
             f!(
             "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
             FROM user_commands AS uc
@@ -67,26 +68,25 @@ pub(crate) async fn fetch_votes(
             )
         ).get_results::<FetchVotesResult>(connection)?;
 
-        let votes: Vec<MinaVote> = results
-            .into_iter()
-            .map(|res| {
-                MinaVote::new(
-                    res.account,
-                    res.hash,
-                    res.memo,
-                    res.height,
-                    res.status,
-                    res.timestamp,
-                    res.nonce,
-                )
-            })
-            .collect();
+    let votes: Vec<MinaVote> = results
+        .into_iter()
+        .map(|res| {
+            MinaVote::new(
+                res.account,
+                res.hash,
+                res.memo,
+                res.height,
+                res.status,
+                res.timestamp,
+                res.nonce,
+            )
+        })
+        .collect();
 
-        cache
-            .votes
-            .insert(f!("{start}-{end}"), Arc::new(votes.clone()))
-            .await;
+    cache
+        .votes
+        .insert(f!("{start}-{end}"), Arc::new(votes.clone()))
+        .await;
 
-        Ok(votes)
-    }
+    Ok(votes)
 }

@@ -34,7 +34,11 @@ async fn main() -> Result<()> {
     let config = Config::parse();
     let cache = CacheManager::build();
 
-    tracing::info!(target: MINA_GOVERNANCE_SERVER, "Connecting to database...");
+    tracing::info!(
+        target: MINA_GOVERNANCE_SERVER,
+        "Initializing database connection pools..."
+    );
+
     let conn_manager = DBConnectionManager::get_connections(&config);
 
     let router = axum::Router::build().layer(
@@ -52,13 +56,18 @@ async fn main() -> Result<()> {
             })),
     );
 
-    tracing::info!(target: MINA_GOVERNANCE_SERVER, "Axum runtime starting...");
     serve(router, config.port).await;
     Ok(())
 }
 
 async fn serve(router: axum::Router, port: u16) {
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
+
+    tracing::info!(
+        target: MINA_GOVERNANCE_SERVER,
+        "Started server on {addr} - http://{addr}."
+    );
+
     axum::Server::bind(&addr)
         .serve(router.into_make_service())
         .with_graceful_shutdown(shutdown())

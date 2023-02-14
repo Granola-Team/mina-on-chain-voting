@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  server:
+    container_name: mina-governance-server
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+    ports:
+      - 8080:8080
+    env_file: .env
+    depends_on:
+      - db
+  db:
+    container_name: postgres
+    image: postgres:10.4
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: db

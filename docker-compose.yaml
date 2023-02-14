@@ -5,14 +5,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.server
+    env_file: .env
+    environment:
+      - DATABASE_URL=postgres://user:pass@db:5432/db
     ports:
       - 8080:8080
-    env_file: .env
     depends_on:
       - db
   db:
     container_name: postgres
-    image: postgres:10.4
+    image: postgres:15.2
     ports:
       - '5432:5432'
     environment:

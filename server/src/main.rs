@@ -56,7 +56,7 @@ async fn main() -> Result<()> {
 }
 
 async fn serve(router: axum::Router, port: u16) {
-    let addr = SocketAddr::from(([127, 0, 0, 1], port));
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
     axum::Server::bind(&addr)
         .serve(router.into_make_service())
         .with_graceful_shutdown(shutdown())

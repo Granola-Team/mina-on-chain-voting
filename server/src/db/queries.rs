@@ -48,7 +48,7 @@ pub(crate) async fn fetch_votes(
         return Ok(cached.to_vec());
     }
 
-    let connection = &mut conn_manager.main.get()?;
+    let connection = &mut conn_manager.archive.get()?;
     let results = sql_query(
             f!(
             "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp

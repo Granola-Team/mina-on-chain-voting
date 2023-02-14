@@ -28,8 +28,8 @@ pub async fn get_signals(
         Ok(cached.to_vec())
     } else {
         let signals = vec![];
-        for origin in allowed_origins {
-            let signal = sqlx::query_as!(
+        for _origin in allowed_origins {
+            let _signal = sqlx::query_as!(
             Signal,
             r#"
                 SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as "status: BlockStatus", b.timestamp as timestamp

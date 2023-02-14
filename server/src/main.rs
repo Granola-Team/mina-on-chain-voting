@@ -21,6 +21,7 @@ mod error;
 mod mina;
 mod prelude;
 mod router;
+mod schema;
 
 extern crate tracing;
 

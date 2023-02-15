@@ -2,9 +2,11 @@ name: Server
 
 on:
   push:
-    branches: ['**']
+    branches:
+      - main
   pull_request:
-    branches: ['main']
+    paths:
+      - 'server/**'
 
 env:
   SQLX_OFFLINE: true

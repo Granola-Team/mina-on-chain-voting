@@ -16,5 +16,9 @@
   },
   "jest.rootPath": "web",
   "typescript.preferences.importModuleSpecifier": "shortest",
-  "typescript.preferences.quoteStyle": "single"
+  "typescript.preferences.quoteStyle": "single",
+  "lldb.displayFormat": "auto",
+  "lldb.showDisassembly": "auto",
+  "lldb.dereferencePointers": true,
+  "lldb.consoleMode": "evaluate"
 }

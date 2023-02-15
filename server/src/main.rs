@@ -1,65 +1,97 @@
-use anyhow::Context;
-use axum::{http::{Method, HeaderValue}, Extension};
+use axum::Extension;
 use clap::Parser;
-use osc_api::{router::Build, Config};
-use sqlx::postgres::PgPoolOptions;
+use std::net::SocketAddr;
 use std::sync::Arc;
+use tokio::signal;
 use tower::ServiceBuilder;
-use tower_http::cors::{CorsLayer, Any};
+use tower_http::trace::TraceLayer;
 
-extern crate dotenv;
+use crate::config::Config;
+use crate::config::Context;
+use crate::db::cache::CacheManager;
+use crate::db::DBConnectionManager;
+use crate::prelude::*;
+use crate::router::Build;
+
+mod config;
+mod db;
+mod error;
+mod mina;
+mod prelude;
+mod router;
+mod schema;
+
+extern crate tracing;
+
+pub(crate) const MINA_GOVERNANCE_SERVER: &str = "mina_governance_server";
 
 #[tokio::main]
-async fn main() -> anyhow::Result<()> {
-    dotenv::dotenv().ok();
-    env_logger::init_from_env(env_logger::Env::new().default_filter_or("info"));
+async fn main() -> Result<()> {
+    dotenvy::dotenv().ok();
+    config::init_tracing();
 
     let config = Config::parse();
-    let ledger_cache = osc_api::ledger::LedgerCache::builder()
-        .time_to_live(std::time::Duration::from_secs(60 * 60 * 12))
-        .build();
+    let cache = CacheManager::build();
+    let cors = config::init_cors(&config);
 
-    let signal_cache = osc_api::signal::SignalCache::builder()
-        .time_to_live(std::time::Duration::from_secs(60 * 3))
-        .build();
+    tracing::info!(
+        target: MINA_GOVERNANCE_SERVER,
+        "Initializing database connection pools..."
+    );
 
-    let mainnet_db = PgPoolOptions::new()
-        .max_connections(25)
-        .connect(&config.database_url)
-        .await
-        .context("Error: Could not connect to mainnet database.")?;
+    let conn_manager = DBConnectionManager::get_connections(&config);
 
-    let allowed_origins = match std::env::var("ALLOWED_ORIGINS") {
-        Ok(val) => {
-            let origin = val.split(",").map(|s| s.trim()).collect::<Vec<&str>>().join(",");
-            HeaderValue::from_str(&origin).unwrap()
-        },
-        Err(_) => return Err("Origin not allowed"),
-    };
+    let router = axum::Router::build().layer(
+        ServiceBuilder::new()
+            .layer(TraceLayer::new_for_http())
+            .layer(cors)
+            .layer(Extension(Context {
+                cache: Arc::new(cache),
+                conn_manager: Arc::new(conn_manager),
+            })),
+    );
 
-    let cors = CorsLayer::new()
-        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-        .allow_origin(allowed_origins)
-        .allow_headers(Any)
-        .allow_credentials(true);
-
-    let app = router(&config).layer(ServiceBuilder::new().layer(cors).layer(Extension(
-        osc_api::APIContext {
-            config: Arc::new(config),
-            signal_cache: Arc::new(signal_cache),
-            ledger_cache: Arc::new(ledger_cache),
-            mainnet_db,
-        },
-    )));
-
-    log::info!("Axum runtime started.");
-
-    axum::Server::bind(&"0.0.0.0:8080".parse()?)
-        .serve(app.into_make_service())
-        .await
-        .context("Error: Could not start webserver.")
+    serve(router, config.port).await;
+    Ok(())
 }
 
-fn router(cfg: &Config) -> axum::Router {
-    axum::Router::build_v1(cfg)
+async fn serve(router: axum::Router, port: u16) {
+    let addr = SocketAddr::from(([0, 0, 0, 0], port));
+
+    tracing::info!(
+        target: MINA_GOVERNANCE_SERVER,
+        "Started server on {addr} - http://{addr}."
+    );
+
+    axum::Server::bind(&addr)
+        .serve(router.into_make_service())
+        .with_graceful_shutdown(shutdown())
+        .await
+        .expect("Error: failed to start axum runtime");
+}
+
+async fn shutdown() {
+    let windows = async {
+        signal::ctrl_c()
+            .await
+            .unwrap_or_else(|_| panic!("Error: failed to install windows shutdown handler"));
+    };
+
+    #[cfg(unix)]
+    let unix = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .unwrap_or_else(|_| panic!("Error: failed to install unix shutdown handler"))
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(unix))]
+    let terminate = std::future::pending::<()>();
+
+    tokio::select! {
+        _ = windows => {},
+        _ = unix => {},
+    }
+
+    println!("Signal received - starting graceful shutdown...");
 }

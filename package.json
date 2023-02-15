@@ -5,14 +5,21 @@
     "web/*"
   ],
   "engines": {
-    "node": "16.16.0",
+    "node": ">=16.0.0",
     "pnpm": ">=7.26.0"
   },
   "scripts": {
     "clean": "find . -type d \\( -name node_modules -o -name .next -o -name .swc -o -name .storybook-dist -o -name target \\) -exec rm -rf {} +",
-    "cargo:build": "cargo build --release --bin mina-governance-server",
+    "cargo:clippy": "cargo make --cwd ./server clippy",
+    "cargo:make": "cargo make --cwd ./server release",
     "cargo:run": "cargo run --bin mina-governance-server",
-    "cargo:test": "cargo test --bin mina-governance-server",
+    "cargo:test": "cargo make --cwd ./server test",
+    "docker": "docker-compose --profile all up",
+    "docker:build": "docker-compose build",
+    "docker:db": "docker-compose up --build db",
+    "docker:server": "docker-compose up --build server",
+    "docker:server-only": "docker-compose --profile server-only up",
+    "docker:web": "docker-compose up --build web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "playwright": "pnpx playwright test",
     "web": "dotenv -- pnpm --filter mina-governance-web $1"

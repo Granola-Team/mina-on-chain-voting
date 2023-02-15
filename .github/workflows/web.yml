@@ -1,11 +1,12 @@
-name: Client
+name: Web
 
 on:
   push:
-    branches: ['**']
+    branches:
+      - main
   pull_request:
-    branches: ['main']
-
+    paths:
+      - 'web/**'
 jobs:
   Build:
     runs-on: ubuntu-latest

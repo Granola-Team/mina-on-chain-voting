@@ -1,5 +1,6 @@
 use axum::http::HeaderValue;
 use axum::http::Method;
+use std::collections::HashSet;
 use std::sync::Arc;
 use tower_http::cors::Any;
 use tower_http::cors::CorsLayer;
@@ -7,6 +8,7 @@ use tracing_subscriber::EnvFilter;
 
 use crate::db::cache::CacheManager;
 use crate::db::DBConnectionManager;
+use crate::prelude::*;
 
 #[derive(Clone)]
 pub(crate) struct Context {
@@ -26,8 +28,25 @@ pub(crate) struct Config {
     #[clap(long, env, default_value_t = 8080)]
     pub(crate) port: u16,
     /// Origins allowed to make cross-site requests.
-    #[clap(long, env = "SERVER_ALLOWED_ORIGINS", use_value_delimiter = true)]
-    pub(crate) allowed_origins: Vec<String>,
+    #[clap(long, env = "SERVER_ALLOWED_ORIGINS", value_parser = parse_allowed_origins )]
+    pub(crate) allowed_origins: HashSet<String>,
+}
+
+fn parse_allowed_origins(arg: &str) -> Result<HashSet<String>> {
+    let allowed_origins = HashSet::from_iter(
+        arg.split_whitespace()
+            .map(std::borrow::ToOwned::to_owned)
+            .into_iter()
+            .collect::<HashSet<_>>(),
+    );
+
+    if allowed_origins.is_empty() {
+        return Err(Error::Config(f!(
+            "failed to parse allowed_origins: {allowed_origins:?}"
+        )));
+    }
+
+    Ok(allowed_origins)
 }
 
 pub(crate) fn init_cors(cfg: &Config) -> CorsLayer {
@@ -42,15 +61,10 @@ pub(crate) fn init_cors(cfg: &Config) -> CorsLayer {
         })
         .collect::<Vec<HeaderValue>>();
 
-    assert!(!origins.is_empty(), "Error: no allowed-origins configured");
-
-    let layer = match cfg
-        .allowed_origins
-        .iter()
-        .find(|value| value.as_bytes() == b"*")
-    {
-        Some(_) => CorsLayer::new().allow_origin(Any),
-        None => CorsLayer::new().allow_origin(origins),
+    let layer = if cfg.allowed_origins.contains("*") {
+        CorsLayer::new().allow_origin(Any)
+    } else {
+        CorsLayer::new().allow_origin(origins)
     };
 
     layer

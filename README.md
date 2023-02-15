@@ -126,7 +126,7 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 The development database is mounted in Docker and managed via the
 [Diesel CLI](https://diesel.rs/guides/getting-started)
 
-- `diesel database reset` — reset the database (⚠️ **all data will be wiped out!**)
+- `diesel database reset` — reset the database (**all data will be wiped out!**)
 
 - `diesel database setup` — create the database if it doesn't exist and run all migrations.
 

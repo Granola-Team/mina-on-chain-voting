@@ -4,10 +4,7 @@ use std::net::SocketAddr;
 use std::sync::Arc;
 use tokio::signal;
 use tower::ServiceBuilder;
-use tower_http::{
-    cors::{Any, CorsLayer},
-    trace::TraceLayer,
-};
+use tower_http::{cors::Any, trace::TraceLayer};
 
 use crate::config::{Config, Context};
 use crate::db::cache::CacheManager;
@@ -46,9 +43,9 @@ async fn main() -> Result<()> {
         ServiceBuilder::new()
             .layer(TraceLayer::new_for_http())
             .layer(
-                CorsLayer::new()
+                config
+                    .cors
                     .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-                    .allow_origin(Any)
                     .allow_headers(Any),
             )
             .layer(Extension(Context {

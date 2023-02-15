@@ -8,7 +8,6 @@ services:
       dockerfile: Dockerfile.web
     env_file: .env
     environment:
-      - DATABASE_URL=postgres://user:pass@db:5432/db
       - API_BASE_URL=http://server:8080
       - RELEASE_STAGE=production
     ports:

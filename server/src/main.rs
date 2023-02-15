@@ -1,12 +1,13 @@
-use axum::{http::Method, Extension};
+use axum::Extension;
 use clap::Parser;
 use std::net::SocketAddr;
 use std::sync::Arc;
 use tokio::signal;
 use tower::ServiceBuilder;
-use tower_http::{cors::Any, trace::TraceLayer};
+use tower_http::trace::TraceLayer;
 
-use crate::config::{Config, Context};
+use crate::config::Config;
+use crate::config::Context;
 use crate::db::cache::CacheManager;
 use crate::db::DBConnectionManager;
 use crate::prelude::*;
@@ -31,6 +32,7 @@ async fn main() -> Result<()> {
 
     let config = Config::parse();
     let cache = CacheManager::build();
+    let cors = config::init_cors(&config);
 
     tracing::info!(
         target: MINA_GOVERNANCE_SERVER,
@@ -42,12 +44,7 @@ async fn main() -> Result<()> {
     let router = axum::Router::build().layer(
         ServiceBuilder::new()
             .layer(TraceLayer::new_for_http())
-            .layer(
-                config
-                    .cors
-                    .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
-                    .allow_headers(Any),
-            )
+            .layer(cors)
             .layer(Extension(Context {
                 cache: Arc::new(cache),
                 conn_manager: Arc::new(conn_manager),

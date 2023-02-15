@@ -1,12 +1,12 @@
 use axum::http::HeaderValue;
+use axum::http::Method;
 use std::sync::Arc;
+use tower_http::cors::Any;
+use tower_http::cors::CorsLayer;
 use tracing_subscriber::EnvFilter;
-
-use tower_http::cors::{Any, CorsLayer};
 
 use crate::db::cache::CacheManager;
 use crate::db::DBConnectionManager;
-use crate::prelude::*;
 
 #[derive(Clone)]
 pub(crate) struct Context {
@@ -26,27 +26,36 @@ pub(crate) struct Config {
     #[clap(long, env, default_value_t = 8080)]
     pub(crate) port: u16,
     /// Origins allowed to make cross-site requests.
-    #[clap(long, env = "RUST_SERVER_CORS", value_parser = parse_cors)]
-    pub(crate) cors: CorsLayer,
+    #[clap(long, env = "SERVER_ALLOWED_ORIGINS", use_value_delimiter = true)]
+    pub(crate) allowed_origins: Vec<String>,
 }
 
-fn parse_cors(arg: &str) -> Result<CorsLayer> {
-    match arg {
-        "*" => Ok(CorsLayer::new().allow_origin(Any)),
-        _ => {
-            let origins: Vec<HeaderValue> = arg
-                .split_whitespace()
-                .into_iter()
-                .map(|origin| {
-                    origin
-                        .parse()
-                        .unwrap_or_else(|_| panic!("Error: failed parsing allowed-origin {origin}"))
-                })
-                .collect();
+pub(crate) fn init_cors(cfg: &Config) -> CorsLayer {
+    let origins = cfg
+        .allowed_origins
+        .clone()
+        .into_iter()
+        .map(|origin| {
+            origin
+                .parse()
+                .unwrap_or_else(|_| panic!("Error: failed parsing allowed-origin {origin}"))
+        })
+        .collect::<Vec<HeaderValue>>();
 
-            Ok(CorsLayer::new().allow_origin(origins))
-        }
-    }
+    assert!(!origins.is_empty(), "Error: no allowed-origins configured");
+
+    let layer = match cfg
+        .allowed_origins
+        .iter()
+        .find(|value| value.as_bytes() == b"*")
+    {
+        Some(_) => CorsLayer::new().allow_origin(Any),
+        None => CorsLayer::new().allow_origin(origins),
+    };
+
+    layer
+        .allow_methods([Method::GET, Method::POST, Method::OPTIONS])
+        .allow_headers(Any)
 }
 
 pub(crate) fn init_tracing() {

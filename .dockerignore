@@ -5,6 +5,23 @@
 # docker
 Dockerfile
 .dockerignore
+.docker
 
 # rust
 target
+
+# package manager
+node_modules/
+
+# misc
+*.DS_Store
+
+# repo
+README.md
+LICENSE
+
+# next
+.next
+.storybook-dist
+.swc
+coverage

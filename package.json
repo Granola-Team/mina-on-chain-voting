@@ -5,7 +5,7 @@
     "web/*"
   ],
   "engines": {
-    "node": "16.16.0",
+    "node": ">=16.0.0",
     "pnpm": ">=7.26.0"
   },
   "scripts": {
@@ -16,7 +16,9 @@
     "docker": "docker-compose up",
     "docker:build": "docker-compose build",
     "docker:db": "docker-compose up --build db",
+    "docker:local": "docker-compose --profile local up",
     "docker:server": "docker-compose up --build server",
+    "docker:web": "docker-compose up --build web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "playwright": "pnpx playwright test",
     "web": "dotenv -- pnpm --filter mina-governance-web $1"

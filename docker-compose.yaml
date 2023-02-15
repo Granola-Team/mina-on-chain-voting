@@ -1,7 +1,17 @@
 version: '3.8'
 services:
+  web:
+    container_name: web
+    profiles: ['web']
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    env_file: .env
+    ports:
+      - 3000:3000
   server:
     container_name: server
+    profiles: ['local']
     build:
       context: .
       dockerfile: Dockerfile.server
@@ -14,6 +24,7 @@ services:
       - db
   db:
     container_name: postgres
+    profiles: ['local']
     image: postgres:15.2
     ports:
       - '5432:5432'

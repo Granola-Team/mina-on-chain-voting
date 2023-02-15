@@ -90,7 +90,7 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 Run `docker-compose up` or `pnpm docker` to mount the cluster, and then run all pending migrations.
 
 > **IMPORTANT:**
-When running locally, the database URL in `.env` has to point to `db` (the internal Docker host).
+When running locally, modify the respective `.env` variables to point to `db` and `server` (the internal Docker host).
 
 ### Running in the console
 
@@ -102,11 +102,11 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 - Mount the database and server in Docker.
 
   ```sh
-  pnpm docker:local
+  pnpm docker:server-only
   
   # or ...
   
-  docker-compose --profile local up
+  docker-compose --profile server-only up
   ```
 
 - Run migrations.

@@ -20,9 +20,9 @@ COPY ./web .
 
 RUN rm -rf node_modules
 
-COPY --from=deps /app/node_modules ./node_modules
-COPY --from=deps /app/package.json ./package.json
-COPY --from=deps /app/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=cacher /app/node_modules ./node_modules
+COPY --from=cacher /app/package.json ./package.json
+COPY --from=cacher /app/pnpm-lock.yaml ./pnpm-lock.yaml
 
 RUN yarn global add pnpm && pnpm i
 

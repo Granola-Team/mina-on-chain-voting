@@ -8,6 +8,9 @@ use std::string::FromUtf8Error;
 // TODO: Create proper error structure/messages for all modules.
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
+    #[error("Config error: {0}")]
+    Config(String),
+
     #[error("Ledger error: {0}")]
     Ledger(String),
 

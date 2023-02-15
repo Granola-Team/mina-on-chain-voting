@@ -25,7 +25,11 @@ export const PageLayout = (props: PropsLayoutProps) => {
           Mina Governance
         </Typography>
         <Box>
-          <IconButton onClick={() => setTheme(theme.key === 'dark' ? 'light' : 'dark')} color="inherit">
+          <IconButton
+            onClick={() => setTheme(theme.key === 'dark' ? 'light' : 'dark')}
+            color="inherit"
+            aria-label="theme-toggle"
+          >
             {theme.key === 'dark' ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
         </Box>

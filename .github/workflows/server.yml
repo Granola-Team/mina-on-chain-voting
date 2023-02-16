@@ -16,11 +16,12 @@ defaults:
 jobs:
   ci:
     runs-on: ubuntu-latest
+    # runs-on: ${{ matrix.os }}
     # strategy:
-    # fail-fast: false
-    # matrix:
-    #   rust: [stable, beta, nightly]
-    #   os: [ubuntu-latest, windows-latest, macos-latest]
+    #   fail-fast: false
+    #   matrix:
+    #     rust: [stable, beta, nightly]
+    #     os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -48,6 +49,10 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
-      - name: Run tests
+      - name: Run clippy
         working-directory: ./server
-        run: cargo make test
+        run: cargo make clippy
+
+      - name: Run CI
+        working-directory: ./server
+        run: cargo make --profile ci-flow

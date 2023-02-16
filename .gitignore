@@ -49,3 +49,6 @@ package-lock.json
 /test-results/
 /playwright-report/
 /playwright/.cache/
+
+# tsc
+tsconfig.tsbuildinfo

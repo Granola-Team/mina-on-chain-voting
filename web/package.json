@@ -2,15 +2,16 @@
   "name": "mina-governance-web",
   "version": "1.0.0",
   "scripts": {
-    "build": "pnpm lint && next build",
+    "build": "next build",
+    "build-storybook": "build-storybook -o ./.storybook-dist",
     "dev": "next dev",
     "generate-component": "sh ./scripts/generate-component.sh",
     "lint:fix": "next lint --no-cache --fix",
     "lint": "next lint --no-cache",
-    "test": "jest --coverage",
     "start": "next start",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o ./.storybook-dist"
+    "test": "jest --coverage",
+    "ts-lint": "tsc --noEmit --incremental"
   },
   "dependencies": {
     "@emotion/cache": "^11.10.5",

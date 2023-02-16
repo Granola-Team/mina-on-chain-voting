@@ -2,40 +2,64 @@ name: Web
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
     paths:
       - 'web/**'
+
+  workflow_dispatch:
+
+env:
+  SKIP_ENV_VALIDATION: 1
+
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [14.x, 16.x]
-
-    defaults:
-      run:
-        working-directory: client
+        node-version: [16.x]
 
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 100
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Setup Node ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install client dependencies
-        run: yarn install
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        id: pnpm-install
+        with:
+          version: 7
+          run_install: false
 
-      - name: Lint client
-        run: yarn lint:prod
+      - name: Get pnpm store directory
+        id: pnpm-cache
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_OUTPUT
 
-      - name: Test client
-        run: yarn test
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
 
-      - name: Build client
-        run: yarn build
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run TSC
+        run: pnpm web ts-lint
+
+      - name: Run lint
+        run: pnpm web lint
+
+      - name: Run tests (Jest)
+        run: pnpm web test
+
+      - name: Run build
+        run: pnpm web build

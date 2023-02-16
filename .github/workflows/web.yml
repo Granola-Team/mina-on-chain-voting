@@ -1,8 +1,8 @@
-name: Web
+name: web
 
 on:
   push:
-    branches: [main]
+    branches: ['main']
   pull_request:
     paths:
       - 'web/**'
@@ -13,7 +13,7 @@ env:
   SKIP_ENV_VALIDATION: 1
 
 jobs:
-  build:
+  cdsai:
     runs-on: ubuntu-latest
     strategy:
       matrix:

@@ -1,102 +1,52 @@
-name: Server
+name: server
 
 on:
   push:
-    branches:
-      - main
+    branches: ['main']
   pull_request:
     paths:
       - 'server/**'
 
-env:
-  SQLX_OFFLINE: true
-  CLIENT_PATH: ../client/build
+  workflow_dispatch:
 
 defaults:
   run:
     working-directory: server
 
 jobs:
-  Build:
+  ci:
     runs-on: ubuntu-latest
-
+    # strategy:
+    # fail-fast: false
+    # matrix:
+    #   rust: [stable, beta, nightly]
+    #   os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 100
+      - name: Checkout
+        uses: actions/checkout@v3
 
-      - uses: marceloprado/has-changed-path@v1
-        id: server-changes
-        with:
-          paths: server
-
-      - name: Setup Rust toolchain
+      - name: Install rust
         uses: actions-rs/toolchain@v1
-        if: steps.server-changes.outputs.changed == 'true'
         with:
+          toolchain: ${{ matrix.rust }}
           profile: minimal
-          toolchain: stable
           override: true
           components: rustfmt, clippy
 
-      - uses: Swatinem/rust-cache@v2
-        with:
-          key: 'v2'
+      - uses: davidB/rust-cargo-make@v1
 
-      - name: Clippy
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
+      - name: Set up cargo cache
+        uses: actions/cache@v3
+        continue-on-error: false
         with:
-          command: clippy
-          working-directory: server
-          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
 
-      - name: Build
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          command: build
-          working-directory: server
-          args: --release
-
-  Test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 100
-
-      - uses: marceloprado/has-changed-path@v1
-        id: server-changes
-        with:
-          paths: server
-
-      - name: Setup Rust toolchain
-        uses: actions-rs/toolchain@v1
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-          components: rustfmt, clippy
-
-      - uses: Swatinem/rust-cache@v2
-        with:
-          key: 'v2'
-
-      - name: Clippy
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          command: clippy
-          working-directory: server
-          args: --workspace -- -D warnings -D clippy::unwrap_used -A clippy::needless_collect
-
-      - name: Tests
-        uses: mxnkarou/cargo@master
-        if: steps.server-changes.outputs.changed == 'true'
-        with:
-          command: test
-          working-directory: server
-          args: --workspace
+      - name: Run tests
+        run: cargo make --cwd ./server test

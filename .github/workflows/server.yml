@@ -49,4 +49,5 @@ jobs:
           restore-keys: ${{ runner.os }}-cargo-
 
       - name: Run tests
-        run: cargo make --cwd ./server test
+        working-directory: ./server
+        run: cargo make test

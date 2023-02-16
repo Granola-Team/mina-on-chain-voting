@@ -90,7 +90,7 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 This project relies on [Typeshare-CLI](https://github.com/1Password/typeshare) to generate `web/models/generated.ts` containing .ts types.</br>
 These files are **required** for running, testing, and deploying the application.</br>
 
-Typeshare needs to be run manually run via `pnpm cargo:generate`, which generates types in `web/models/generated.ts`</br>
+Typeshare needs to be run manually run via `pnpm cargo:generate`.</br>
 If you're encountering errors with missing references, re-run the generator.
 
 ### Running in Docker

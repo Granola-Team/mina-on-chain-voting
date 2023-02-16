@@ -60,7 +60,7 @@ async fn serve(router: axum::Router, port: u16) {
 
     tracing::info!(
         target: MINA_GOVERNANCE_SERVER,
-        "Started server on {addr} - http://{addr}."
+        "Started server on {addr} - http://{addr}"
     );
 
     axum::Server::bind(&addr)

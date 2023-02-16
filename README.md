@@ -87,10 +87,10 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ### Generated files and types
 
-This project relies on [Typeshare-CLI](https://github.com/1Password/typeshare) to generate files containing .ts types.
-These files are **required** for running, testing, and deploying the application.
+This project relies on [Typeshare-CLI](https://github.com/1Password/typeshare) to generate files containing .ts types.</br>
+These files are **required** for running, testing, and deploying the application.</br>
 
-The generator runs automatically on `pnpm install` but can be manually run via `pnpm cargo:generate`.
+The generator runs automatically on `pnpm install` but can be manually run via `pnpm cargo:generate`.</br>
 If you're encountering errors with missing references, your .ts bindings might be out-of-sync.
 
 ### Running in Docker

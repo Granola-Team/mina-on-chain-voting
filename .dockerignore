@@ -25,3 +25,6 @@ LICENSE
 .storybook-dist
 .swc
 coverage
+
+# tsc
+tsconfig.tsbuildinfo

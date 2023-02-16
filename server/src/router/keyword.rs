@@ -1,9 +1,9 @@
 use axum::{
-    extract::{Path, Query as AxumQuery},
+    extract::{Path, Query},
     http::StatusCode,
     response::IntoResponse,
     routing::get,
-    Extension, Router,
+    Extension, Json, Router,
 };
 use serde::{Deserialize, Serialize};
 
@@ -18,14 +18,14 @@ pub(crate) fn router() -> Router {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct KeywordParams {
+struct GetKeywordParams {
     start: i64,
     end: i64,
 }
 
 async fn keyword_handler(
     Path(key): Path<String>,
-    AxumQuery(params): AxumQuery<KeywordParams>,
+    Query(params): Query<GetKeywordParams>,
     ctx: Extension<crate::Context>,
 ) -> impl IntoResponse {
     let votes = fetch_votes(&ctx.conn_manager, &ctx.cache, params.start, params.end).await;
@@ -35,14 +35,14 @@ async fn keyword_handler(
         let votes = W(votes).process(key, chain_tip);
         let sorted_votes = votes.sort_by_timestamp().0;
 
-        return (StatusCode::OK, axum::Json(sorted_votes)).into_response();
+        return (StatusCode::OK, Json(sorted_votes)).into_response();
     }
 
     (StatusCode::INTERNAL_SERVER_ERROR).into_response()
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct KeywordResultsParams {
+struct GetKeywordResultsParams {
     start: i64,
     end: i64,
     hash: String,
@@ -50,7 +50,7 @@ struct KeywordResultsParams {
 
 async fn keyword_results_handler(
     Path(key): Path<String>,
-    AxumQuery(params): AxumQuery<KeywordResultsParams>,
+    Query(params): Query<GetKeywordResultsParams>,
     ctx: Extension<crate::Context>,
 ) -> impl IntoResponse {
     let votes = fetch_votes(&ctx.conn_manager, &ctx.cache, params.start, params.end).await;
@@ -63,11 +63,7 @@ async fn keyword_results_handler(
             let votes = W(votes);
             let votes_weighted = votes.process_weighted(key, &ledger, chain_tip);
 
-            return (
-                StatusCode::OK,
-                axum::Json(votes_weighted.sort_by_timestamp().0),
-            )
-                .into_response();
+            return (StatusCode::OK, Json(votes_weighted.sort_by_timestamp().0)).into_response();
         }
     }
 

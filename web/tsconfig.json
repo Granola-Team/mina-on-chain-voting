@@ -40,6 +40,14 @@
       "static": ["./static"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.mjs", ".next/types/**/*.ts", ".storybook/**/*.ts"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mjs",
+    ".next/types/**/*.ts",
+    ".storybook/**/*.ts",
+    "models/.generated.ts"
+  ],
   "exclude": ["node_modules"]
 }

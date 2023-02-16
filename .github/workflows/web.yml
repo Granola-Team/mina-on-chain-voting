@@ -13,7 +13,7 @@ env:
   SKIP_ENV_VALIDATION: 1
 
 jobs:
-  cdsai:
+  ci:
     runs-on: ubuntu-latest
     strategy:
       matrix:

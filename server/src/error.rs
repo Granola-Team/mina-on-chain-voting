@@ -5,7 +5,7 @@ use reqwest::Error as ReqwestError;
 use serde_json::Error as JsonError;
 use std::string::FromUtf8Error;
 
-// TODO: Create proper error structure/messages for all modules.
+// TODO: create error structure/messages for all modules
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("Config error: {0}")]

@@ -7,6 +7,8 @@ export type InstructionsProps = {
 };
 
 export const Instructions = ({ keyword }: InstructionsProps) => {
+  console.log('Hello');
+
   return (
     <SectionLayout>
       <Typography fontSize={22} fontWeight={600}>

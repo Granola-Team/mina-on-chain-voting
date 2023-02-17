@@ -1,12 +1,12 @@
-<h1 align="center">Mina Governance</h1>
+<h1 align="center">Mina On-Chain Voting</h1>
 
 <p align="center">
-  <b>Mina Governance provides users a web outlet to govern the Mina Blockchain.</b>
+  <b>On-Chain Voting is a protocol developed to govern the Mina Blockchain.</b>
 </p>
 
 ## Protocol Specifications (WIP)
 
-The Mina Governance Protocol is designed to provide community members with a transparent and secure method of participating in the decision-making process for the Mina blockchain. The aim for this protocol is to provide stake holders with the ability to vote on MIPs (Mina Improvement Proposals) in a clear & concise way.
+The On-Chain Voting Protocol is designed to provide community members with a transparent and secure method of participating in the decision-making process for the Mina blockchain. The aim for this protocol is to provide stake holders with the ability to vote on MIPs (Mina Improvement Proposals) in a clear & concise way.
 
 Individual MIPs can be created on Github. ([https://github.com/MinaProtocol/MIPs](https://github.com/MinaProtocol/MIPs))
 

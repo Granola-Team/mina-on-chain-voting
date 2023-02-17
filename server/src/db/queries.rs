@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use crate::db::cache::CacheManager;
 use crate::db::DBConnectionManager;
-use crate::mina::vote::{ChainStatusType, MinaBlockStatus, MinaVote};
+use crate::mina::types::{ChainStatusType, MinaBlockStatus, MinaVote};
 use crate::prelude::*;
 
 #[derive(QueryableByName)]

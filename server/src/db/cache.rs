@@ -1,7 +1,7 @@
 use moka::future::Cache as MokaCache;
 use std::sync::Arc;
 
-use crate::mina::vote::MinaVote;
+use crate::mina::types::MinaVote;
 
 type ArcVotes = Arc<Vec<MinaVote>>;
 type ArcBytes = Arc<bytes::Bytes>;

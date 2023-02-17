@@ -22,7 +22,7 @@ export const PageLayout = (props: PropsLayoutProps) => {
         borderColor="hsl(0, 0%, 24.3%)"
       >
         <Typography variant="h5" fontWeight={500}>
-          Mina Governance
+          On-Chain Voting
         </Typography>
         <Box>
           <IconButton

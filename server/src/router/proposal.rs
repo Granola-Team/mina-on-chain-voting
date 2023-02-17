@@ -5,6 +5,7 @@ use axum::{
     routing::get,
     Extension, Json, Router,
 };
+use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 
 use crate::db::queries::{fetch_chain_tip, fetch_votes};
@@ -13,29 +14,32 @@ use crate::prelude::*;
 
 pub(crate) fn router() -> Router {
     Router::new()
-        .route("/api/:keyword", get(keyword_handler))
-        .route("/api/:keyword/results", get(keyword_results_handler))
+        .route("/api/proposal/:key", get(get_mina_proposal))
+        .route("/api/proposal/:key/results", get(keyword_results_handler))
 }
 
-#[derive(Debug, Serialize, Deserialize)]
-struct GetKeywordParams {
-    start: i64,
-    end: i64,
-}
-
-async fn keyword_handler(
-    Path(key): Path<String>,
-    Query(params): Query<GetKeywordParams>,
+async fn get_mina_proposal(
     ctx: Extension<crate::Context>,
+    Path(key): Path<String>,
 ) -> impl IntoResponse {
-    let votes = fetch_votes(&ctx.conn_manager, &ctx.cache, params.start, params.end).await;
-    let chain_tip = fetch_chain_tip(&ctx.conn_manager);
+    use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
 
-    if let (Ok(votes), Ok(chain_tip)) = (votes, chain_tip) {
-        let votes = W(votes).process(key, chain_tip);
-        let sorted_votes = votes.sort_by_timestamp().0;
+    let votes = fetch_votes(&ctx.conn_manager, &ctx.cache, 1, 1).await;
 
-        return (StatusCode::OK, Json(sorted_votes)).into_response();
+    let conn = &mut ctx.conn_manager.main.get().unwrap();
+
+    let _proposal = mina_proposal_dsl::mina_proposals
+        .select(mina_proposal_dsl::key)
+        .filter(mina_proposal_dsl::key.eq(&key))
+        .load::<String>(conn);
+
+    if let Ok(votes) = votes {
+        if let Ok(chain_tip) = fetch_chain_tip(&ctx.conn_manager) {
+            let votes = W(votes).process(key, chain_tip);
+            let sorted_votes = votes.sort_by_timestamp().0;
+
+            return (StatusCode::OK, Json(sorted_votes)).into_response();
+        }
     }
 
     (StatusCode::INTERNAL_SERVER_ERROR).into_response()

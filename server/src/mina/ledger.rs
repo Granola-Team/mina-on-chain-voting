@@ -7,8 +7,10 @@ use crate::prelude::*;
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
 
+#[typeshare]
 pub(crate) type Ledger = Vec<LedgerAccount>;
 
+#[typeshare]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct LedgerAccount {

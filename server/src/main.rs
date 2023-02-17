@@ -34,9 +34,6 @@ async fn main() -> Result<()> {
     let cache = CacheManager::build();
     let cors = config::init_cors(&config);
 
-    println!("Hello");
-    println!("Hello12312312");
-
     tracing::info!(
         target: MINA_GOVERNANCE_SERVER,
         "Initializing database connection pools..."

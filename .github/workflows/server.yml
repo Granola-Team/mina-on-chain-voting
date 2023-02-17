@@ -9,6 +9,10 @@ on:
 
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 defaults:
   run:
     working-directory: server
@@ -22,10 +26,6 @@ jobs:
     #   matrix:
     #     rust: [stable, beta, nightly]
     #     os: [ubuntu-latest, windows-latest, macos-latest]
-
-    concurrency:
-      group: ${{ github.ref }}-${{ github.workflow }}
-      cancel-in-progress: true
 
     steps:
       - name: Checkout

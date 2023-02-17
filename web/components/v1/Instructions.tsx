@@ -10,6 +10,7 @@ export const Instructions = ({ keyword }: InstructionsProps) => {
   console.log('Htesx');
   console.log('Htes');
   console.log('H123123s');
+  console.log('H123121312323s');
   return (
     <SectionLayout>
       <Typography fontSize={22} fontWeight={600}>

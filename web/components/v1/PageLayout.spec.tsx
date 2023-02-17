@@ -6,7 +6,7 @@ describe('V1', () => {
   describe(PageLayout, () => {
     it('renders default state', () => {
       render(<PageLayout />);
-      expect(screen.getByText('Mina Governance')).toBeInTheDocument();
+      expect(screen.getByText('On-Chain Voting')).toBeInTheDocument();
       expect(screen.getByText('Github')).toBeInTheDocument();
       expect(screen.getByText('Made with ❤️ by Granola')).toBeInTheDocument();
     });

@@ -2,7 +2,6 @@
 name = "mina-governance-server"
 version = "0.1.0"
 edition = "2021"
-rust-version = "1.65"
 
 [dependencies]
 # Core dependencies
@@ -31,4 +30,3 @@ futures-util = "0.3"
 itertools = "0.10.5"
 rust_decimal = "1.28.0"
 r2d2 = "0.8.10"
-

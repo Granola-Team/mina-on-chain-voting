@@ -1,3 +1,5 @@
+import { Fragment, PropsWithChildren } from 'react';
+
 import App, { type AppContext, type AppProps } from 'next/app';
 import Head from 'next/head';
 
@@ -10,7 +12,14 @@ import { getThemeType } from 'common/theme';
 import { ThemeProvider } from 'components/provider';
 import { type ThemeType, DefaultThemeType } from 'components/themes';
 
+import { Provider as JotaiProvider } from 'jotai';
+import { useHydrateAtoms } from 'jotai/react/utils';
+import { queryClientAtom } from 'jotai-tanstack-query';
 import { SnackbarProvider } from 'notistack';
+
+import { QueryClient } from '@tanstack/query-core';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 /**
  * Client-side cache styles, shared for the whole session of the user in the browser.
@@ -21,6 +30,22 @@ interface NextAppProps extends AppProps {
   renderedTheme: ThemeType;
   emotionCache?: typeof clientSideEmotionCache;
 }
+
+/**
+ * Initializing single query client to be shared between each queries.
+ */
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    },
+  },
+});
+
+const HydrateAtoms = ({ children }: PropsWithChildren) => {
+  useHydrateAtoms([[queryClientAtom, queryClient]]);
+  return <Fragment>{children}</Fragment>;
+};
 
 export default function _App({
   Component,
@@ -41,10 +66,17 @@ export default function _App({
 
       <CacheProvider value={emotionCache}>
         <ThemeProvider value={renderedTheme}>
-          <SnackbarProvider>
-            <CssBaseline />
-            <Component {...pageProps} />
-          </SnackbarProvider>
+          <QueryClientProvider client={queryClient}>
+            <JotaiProvider>
+              <HydrateAtoms>
+                <SnackbarProvider>
+                  <CssBaseline />
+                  <Component {...pageProps} />
+                </SnackbarProvider>
+              </HydrateAtoms>
+            </JotaiProvider>
+            <ReactQueryDevtools />
+          </QueryClientProvider>
         </ThemeProvider>
       </CacheProvider>
     </>

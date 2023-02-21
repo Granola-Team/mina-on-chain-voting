@@ -36,7 +36,7 @@ pub(crate) struct FetchTransactionResult {
     pub(crate) nonce: i64,
 }
 
-pub(crate) async fn fetch_transactions(
+pub(crate) fn fetch_transactions(
     conn_manager: &DBConnectionManager,
     global_start_slot: i32,
     global_end_slot: i32,

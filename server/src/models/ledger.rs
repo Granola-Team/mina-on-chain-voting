@@ -1,16 +1,13 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
-use typeshare::typeshare;
 
 use crate::prelude::*;
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
 
-#[typeshare]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 pub(crate) struct Ledger(pub(crate) Vec<LedgerAccount>);
 
-#[typeshare]
 #[derive(Serialize, Deserialize, Debug, Clone, PartialEq, Eq, Hash)]
 #[serde(rename_all = "camelCase")]
 pub(crate) struct LedgerAccount {

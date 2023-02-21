@@ -33,14 +33,8 @@ pub enum Error {
     Base58(#[from] BS58Error),
 }
 
-impl Error {
-    fn status_code(&self) -> StatusCode {
-        StatusCode::INTERNAL_SERVER_ERROR
-    }
-}
-
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
-        (self.status_code(), "Internal Server Error").into_response()
+        (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response()
     }
 }

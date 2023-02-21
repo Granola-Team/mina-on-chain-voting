@@ -46,8 +46,7 @@ async fn get_mina_proposal(
         &ctx.conn_manager,
         proposal.global_start_slot,
         proposal.global_end_slot,
-    )
-    .await?;
+    )?;
 
     let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
@@ -85,30 +84,32 @@ async fn get_mina_proposal_result(
     let conn = &mut ctx.conn_manager.main.get()?;
     let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
 
-    let hash = "";
+    let hash = proposal
+        .ledger_hash
+        .clone()
+        .ok_or(Error::Ledger(f!("Ledger for proposal {id} not found")))?;
 
-    let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(hash) {
+    let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
         Ledger(cached_ledger.to_vec())
     } else {
-        let ledger = Ledger::fetch(hash).await?;
+        let ledger = Ledger::fetch(&hash).await?;
 
         ctx.cache
             .ledger
-            .insert(hash.to_owned(), Arc::new(ledger.0.clone()))
+            .insert(hash, Arc::new(ledger.0.clone()))
             .await;
 
         ledger
     };
 
-    let votes = if let Some(cached_votes) = ctx.cache.votes.get(&proposal.key) {
+    let votes = if let Some(cached_votes) = ctx.cache.votes.get(&f!("r-{}", proposal.key)) {
         cached_votes.to_vec()
     } else {
         let transactions = fetch_transactions(
             &ctx.conn_manager,
             proposal.global_start_slot,
             proposal.global_end_slot,
-        )
-        .await?;
+        )?;
 
         let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
@@ -120,10 +121,10 @@ async fn get_mina_proposal_result(
         .sort_by_timestamp()
         .inner();
 
-        // ctx.cache
-        //     .votes
-        //     .insert(proposal.key.clone(), Arc::new(votes.clone()))
-        //     .await;
+        ctx.cache
+            .votes
+            .insert(f!("r-{}", proposal.key), Arc::new(votes.clone()))
+            .await;
 
         votes
     };

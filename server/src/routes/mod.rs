@@ -1,6 +1,6 @@
 use axum::Router;
 
-mod keyword;
+mod proposal;
 
 pub(crate) trait Build {
     fn build() -> Router;
@@ -8,6 +8,6 @@ pub(crate) trait Build {
 
 impl Build for Router {
     fn build() -> Router {
-        keyword::router()
+        proposal::router()
     }
 }

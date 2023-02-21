@@ -110,11 +110,11 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 - Mount the database and server in Docker.
 
   ```sh
-  pnpm docker:server-only
+  pnpm docker:server-db
   
   # or ...
   
-  docker-compose --profile server-only up
+  docker-compose --profile server-db up
   ```
 
 - Run migrations.

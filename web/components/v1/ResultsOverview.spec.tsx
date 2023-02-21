@@ -27,7 +27,7 @@ describe('V1', () => {
     it('navigates to new instructions page on link click', async () => {
         const { user } = render(<ResultsOverview />);
 
-        expect(screen.getByText('FAQ')).toBeInTheDocument();
+        expect(screen.getByText('instructions')).toBeInTheDocument();
 
         const clickButton = screen.getByText('instructions');
         expect(clickButton).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe('V1', () => {
     it('navigates to instructions page on click for feedback link', async () => {
         const { user } = render(<ResultsOverview />);
 
-        expect(screen.getByText('FAQ')).toBeInTheDocument();
+        expect(screen.getByText('feedback')).toBeInTheDocument();
 
         const clickButton = screen.getByText('feedback');
         expect(clickButton).toBeInTheDocument();

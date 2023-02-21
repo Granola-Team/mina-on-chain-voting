@@ -4,7 +4,6 @@ use std::sync::Arc;
 use crate::models::ledger::LedgerAccount;
 use crate::models::vote::MinaVote;
 
-// TODO: change cache key to be for mips instead keyword
 type ArcVotes = Arc<Vec<MinaVote>>;
 type ArcLedger = Arc<Vec<LedgerAccount>>;
 

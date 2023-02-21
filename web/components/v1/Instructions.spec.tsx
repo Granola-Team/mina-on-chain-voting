@@ -5,13 +5,13 @@ import { Instructions } from './Instructions';
 describe('V1', () => {
   describe(Instructions, () => {
     it('renders default state', () => {
-      render(<Instructions keyword={''} />);
+      render(<Instructions keyword='' />);
       expect(screen.getByText('How to participate in On-Chain Voting')).toBeInTheDocument();
       expect(screen.getByText('(FAQs)')).toBeInTheDocument();
     });
 
     it('navigates to new FAQ page on link click', async () => {
-        const { user } = render(<Instructions keyword={''} />);
+        const { user } = render(<Instructions keyword='' />);
 
         expect(screen.getByText('(FAQs)')).toBeInTheDocument();
 
@@ -25,7 +25,7 @@ describe('V1', () => {
     });
 
     it('navigates to new instructions page on link click', async () => {
-        const { user } = render(<Instructions keyword={''} />);
+        const { user } = render(<Instructions keyword='' />);
 
         expect(screen.getByText('feedback')).toBeInTheDocument();
 

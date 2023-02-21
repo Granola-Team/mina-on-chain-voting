@@ -19,7 +19,7 @@
     "docker:build": "docker-compose build",
     "docker:db": "docker-compose up --build db",
     "docker:server": "docker-compose up --build server",
-    "docker:server-only": "docker-compose --profile server-only up",
+    "docker:server-db": "docker-compose --profile server-db up",
     "docker:web": "docker-compose up --build web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "playwright": "pnpx playwright test",

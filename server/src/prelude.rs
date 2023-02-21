@@ -5,4 +5,8 @@ pub(crate) use std::format as f;
 
 pub(crate) struct W<T>(pub T);
 
-pub(crate) use typeshare::typeshare;
+impl<T> W<T> {
+    pub(crate) fn inner(self) -> T {
+        self.0
+    }
+}

@@ -1,3 +1,6 @@
+use axum::http::StatusCode;
+use axum::response::{IntoResponse, Response};
+
 use bs58::decode::Error as BS58Error;
 use diesel::result::Error as DieselError;
 use r2d2::Error as R2D2Error;
@@ -5,12 +8,8 @@ use reqwest::Error as ReqwestError;
 use serde_json::Error as JsonError;
 use std::string::FromUtf8Error;
 
-// TODO: create error structure/messages for all modules
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
-    #[error("Config error: {0}")]
-    Config(String),
-
     #[error("Ledger error: {0}")]
     Ledger(String),
 
@@ -31,4 +30,10 @@ pub enum Error {
 
     #[error(transparent)]
     Base58(#[from] BS58Error),
+}
+
+impl IntoResponse for Error {
+    fn into_response(self) -> Response {
+        (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response()
+    }
 }

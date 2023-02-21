@@ -6,8 +6,8 @@ use tower_http::cors::Any;
 use tower_http::cors::CorsLayer;
 use tracing_subscriber::EnvFilter;
 
-use crate::db::cache::CacheManager;
-use crate::db::DBConnectionManager;
+use crate::database::cache::CacheManager;
+use crate::database::DBConnectionManager;
 use crate::prelude::*;
 
 #[derive(Clone)]
@@ -32,6 +32,7 @@ pub(crate) struct Config {
     pub(crate) allowed_origins: HashSet<String>,
 }
 
+#[allow(clippy::unnecessary_wraps)]
 fn parse_allowed_origins(arg: &str) -> Result<HashSet<String>> {
     let allowed_origins = HashSet::from_iter(
         arg.split_whitespace()
@@ -40,11 +41,10 @@ fn parse_allowed_origins(arg: &str) -> Result<HashSet<String>> {
             .collect::<HashSet<_>>(),
     );
 
-    if allowed_origins.is_empty() {
-        return Err(Error::Config(f!(
-            "failed to parse allowed_origins: {allowed_origins:?}"
-        )));
-    }
+    assert!(
+        !allowed_origins.is_empty(),
+        "failed to parse allowed_origins: {allowed_origins:?}"
+    );
 
     Ok(allowed_origins)
 }

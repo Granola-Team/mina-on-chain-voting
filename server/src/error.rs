@@ -8,7 +8,6 @@ use reqwest::Error as ReqwestError;
 use serde_json::Error as JsonError;
 use std::string::FromUtf8Error;
 
-// TODO: rework error handling
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
     #[error("Ledger error: {0}")]

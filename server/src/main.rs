@@ -8,17 +8,17 @@ use tower_http::trace::TraceLayer;
 
 use crate::config::Config;
 use crate::config::Context;
-use crate::db::cache::CacheManager;
-use crate::db::DBConnectionManager;
+use crate::database::cache::CacheManager;
+use crate::database::DBConnectionManager;
 use crate::prelude::*;
-use crate::router::Build;
+use crate::routes::Build;
 
 mod config;
-mod db;
+mod database;
 mod error;
-mod mina;
+mod models;
 mod prelude;
-mod router;
+mod routes;
 mod schema;
 
 extern crate tracing;
@@ -51,7 +51,7 @@ async fn main() -> Result<()> {
             })),
     );
 
-    serve(router, config.port).await;
+    serve(router.clone(), config.port).await;
     Ok(())
 }
 

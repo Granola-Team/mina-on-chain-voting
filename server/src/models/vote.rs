@@ -4,8 +4,8 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{hash_map::Entry, HashMap};
 
-use crate::mina::ledger::get_stake_weight;
-use crate::mina::ledger::Ledger;
+use crate::database::archive::FetchTransactionResult;
+use crate::models::ledger::Ledger;
 use crate::prelude::*;
 
 #[derive(SqlType)]
@@ -22,14 +22,14 @@ pub(crate) enum MinaBlockStatus {
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub(crate) struct MinaVote {
-    pub account: String,
-    pub hash: String,
-    pub memo: String,
-    pub height: i64,
-    pub status: MinaBlockStatus,
-    pub timestamp: i64,
-    pub nonce: i64,
-    pub stake_weight: Option<Decimal>,
+    pub(crate) account: String,
+    pub(crate) hash: String,
+    pub(crate) memo: String,
+    pub(crate) height: i64,
+    pub(crate) status: MinaBlockStatus,
+    pub(crate) timestamp: i64,
+    pub(crate) nonce: i64,
+    pub(crate) weight: Option<Decimal>,
 }
 
 impl MinaVote {
@@ -50,12 +50,12 @@ impl MinaVote {
             status,
             timestamp,
             nonce,
-            stake_weight: None,
+            weight: None,
         }
     }
 
-    pub(crate) fn update_stake(&mut self, stake_weight: Decimal) {
-        self.stake_weight = Some(stake_weight);
+    pub(crate) fn update_weight(&mut self, weight: Decimal) {
+        self.weight = Some(weight);
     }
 
     pub(crate) fn update_memo(&mut self, memo: impl Into<String>) {
@@ -95,12 +95,26 @@ impl MinaVote {
     }
 }
 
+impl From<FetchTransactionResult> for MinaVote {
+    fn from(res: FetchTransactionResult) -> Self {
+        MinaVote::new(
+            res.account,
+            res.hash,
+            res.memo,
+            res.height,
+            res.status,
+            res.timestamp,
+            res.nonce,
+        )
+    }
+}
+
 impl W<Vec<MinaVote>> {
     pub(crate) fn process(self, key: impl Into<String>, tip: i64) -> Self {
         let mut map = HashMap::new();
         let key = key.into();
 
-        for mut vote in self.0 {
+        for mut vote in self.inner() {
             if let Some(memo) = vote.match_decoded_memo(&key) {
                 vote.update_memo(memo);
 
@@ -132,13 +146,12 @@ impl W<Vec<MinaVote>> {
         tip: i64,
     ) -> Self {
         let key = key.into();
-        let votes = self.process(key, tip).0;
+        let votes = self.process(key, tip).inner();
 
         let votes_with_stake: Vec<MinaVote> = votes
             .into_iter()
             .filter_map(|mut vote| {
-                let stake_weight = get_stake_weight(ledger, &vote.account).ok()?;
-                vote.update_stake(stake_weight);
+                vote.update_weight(ledger.get_stake_weight(&vote.account).ok()?);
                 Some(vote)
             })
             .collect();
@@ -233,7 +246,7 @@ mod tests {
     #[test]
     fn test_process_votes() {
         let votes = get_test_votes();
-        let processed = W(votes).process("cftest-2", 129).0;
+        let processed = W(votes).process("cftest-2", 129).inner();
 
         assert_eq!(processed.len(), 2);
 

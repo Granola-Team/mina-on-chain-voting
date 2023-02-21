@@ -1,16 +1,14 @@
 use diesel::sql_types::{BigInt, Text};
 use diesel::{sql_query, QueryableByName, RunQueryDsl};
-use std::sync::Arc;
 
-use crate::db::cache::CacheManager;
-use crate::db::DBConnectionManager;
-use crate::mina::types::{ChainStatusType, MinaBlockStatus, MinaVote};
+use crate::database::DBConnectionManager;
+use crate::models::vote::{ChainStatusType, MinaBlockStatus};
 use crate::prelude::*;
 
 #[derive(QueryableByName)]
-struct FetchChainTipResult {
+pub(crate) struct FetchChainTipResult {
     #[diesel(sql_type = BigInt)]
-    max: i64,
+    pub(crate) max: i64,
 }
 
 pub(crate) fn fetch_chain_tip(conn_manager: &DBConnectionManager) -> Result<i64> {
@@ -21,33 +19,28 @@ pub(crate) fn fetch_chain_tip(conn_manager: &DBConnectionManager) -> Result<i64>
 }
 
 #[derive(QueryableByName)]
-struct FetchVotesResult {
+pub(crate) struct FetchTransactionResult {
     #[diesel(sql_type = Text)]
-    account: String,
+    pub(crate) account: String,
     #[diesel(sql_type = Text)]
-    hash: String,
+    pub(crate) hash: String,
     #[diesel(sql_type = Text)]
-    memo: String,
+    pub(crate) memo: String,
     #[diesel(sql_type = BigInt)]
-    height: i64,
+    pub(crate) height: i64,
     #[diesel(sql_type = ChainStatusType)]
-    status: MinaBlockStatus,
+    pub(crate) status: MinaBlockStatus,
     #[diesel(sql_type = BigInt)]
-    timestamp: i64,
+    pub(crate) timestamp: i64,
     #[diesel(sql_type = BigInt)]
-    nonce: i64,
+    pub(crate) nonce: i64,
 }
 
-pub(crate) async fn fetch_votes(
+pub(crate) async fn fetch_transactions(
     conn_manager: &DBConnectionManager,
-    cache: &CacheManager,
-    start: i64,
-    end: i64,
-) -> Result<Vec<MinaVote>> {
-    if let Some(cached) = cache.votes.get(&f!("{start}-{end}")) {
-        return Ok(cached.to_vec());
-    }
-
+    global_start_slot: i32,
+    global_end_slot: i32,
+) -> Result<Vec<FetchTransactionResult>> {
     let connection = &mut conn_manager.archive.get()?;
     let results = sql_query(
             f!(
@@ -64,29 +57,9 @@ pub(crate) async fn fetch_votes(
             AND uc.token = 1
             AND NOT b.chain_status = 'orphaned'
             AND buc.status = 'applied'
-            AND b.timestamp BETWEEN {start} AND {end}"
+            AND b.global_slot BETWEEN {global_start_slot} AND {global_end_slot}"
             )
-        ).get_results::<FetchVotesResult>(connection)?;
+        ).get_results(connection)?;
 
-    let votes: Vec<MinaVote> = results
-        .into_iter()
-        .map(|res| {
-            MinaVote::new(
-                res.account,
-                res.hash,
-                res.memo,
-                res.height,
-                res.status,
-                res.timestamp,
-                res.nonce,
-            )
-        })
-        .collect();
-
-    cache
-        .votes
-        .insert(f!("{start}-{end}"), Arc::new(votes.clone()))
-        .await;
-
-    Ok(votes)
+    Ok(results)
 }

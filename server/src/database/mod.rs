@@ -4,8 +4,8 @@ use diesel::r2d2::Pool;
 
 use crate::config::Config;
 
+pub(crate) mod archive;
 pub(crate) mod cache;
-pub(crate) mod queries;
 
 pub(crate) type PgConnectionPool = Pool<ConnectionManager<PgConnection>>;
 

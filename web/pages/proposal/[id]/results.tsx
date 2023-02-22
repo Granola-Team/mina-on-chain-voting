@@ -1,55 +1,50 @@
+import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+
+import { useProposalStats } from 'common/hooks';
+import { proposalIdAtom, useCoreApiInfo, useProposalResults } from 'common/store';
+
 import { PageLayout, ResultsOverview, ResultsTable, VotingPeriod, VotingResults } from 'components/v1';
 
-//! Dummy Data
-const startDate = new Date(2023, 0, 15, 8, 30, 0);
-const endDate = new Date(2023, 4, 15, 8, 30, 0);
-const queryDate = new Date(2023, 1, 10, 8, 30, 0);
+import { useHydrateAtoms } from 'jotai/react/utils';
 
-const useStakeStatistics = (votes: any) => {
-  const stakeWeight = () => {
-    let positiveStakeWeight = 0;
-    let negativeStakeWeight = 0;
-
-    votes.forEach((vote: any) => {
-      if (vote.stake_weight > 0) {
-        if (vote.memo.startsWith('no ')) {
-          negativeStakeWeight += vote.stake_weight;
-        } else {
-          positiveStakeWeight += vote.stake_weight;
-        }
-      }
-    });
-
-    const totalStakeWeight = positiveStakeWeight + negativeStakeWeight;
-
-    return { positiveStakeWeight, negativeStakeWeight, totalStakeWeight };
-  };
-
-  const createPercent = (value: number) => {
-    const _value = (value / stakeWeight().totalStakeWeight) * 100;
-
-    if (Number.isNaN(_value)) {
-      return undefined;
-    }
-
-    return _value.toFixed(2);
-  };
-
-  const positivePercentage = createPercent(stakeWeight().positiveStakeWeight);
-  const negativePercentage = createPercent(stakeWeight().negativeStakeWeight);
-
-  return { stakeWeight, positivePercentage, negativePercentage, createPercent };
+type ProposalResultsPageProps = {
+  id: string;
 };
 
-const ProposalResultsPage = () => {
-  const { positivePercentage, negativePercentage, createPercent } = useStakeStatistics(data);
+export const getServerSideProps = async (context: GetServerSidePropsContext<ProposalResultsPageProps>) => {
+  const proposalIdParam = context.params?.id;
+  const proposalId = Number(proposalIdParam);
+
+  if (!proposalIdParam || isNaN(proposalId)) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      proposalId,
+    },
+  };
+};
+
+const ProposalResultsPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  useHydrateAtoms([[proposalIdAtom, props.proposalId]]);
+  const [proposal] = useProposalResults();
+  const [info] = useCoreApiInfo();
+
+  const { positivePercentage, negativePercentage, createPercent } = useProposalStats(proposal.votes);
 
   return (
     <PageLayout>
       <ResultsOverview />
-      <VotingPeriod {...{ startDate, endDate, queryDate }} />
+      <VotingPeriod
+        startSlot={proposal.global_start_slot}
+        endSlot={proposal.global_end_slot}
+        currentSlot={info.current_slot}
+      />
       <VotingResults {...{ positivePercentage, negativePercentage }} />
-      <ResultsTable {...{ votes: data, createPercent }} />
+      <ResultsTable {...{ votes: proposal.votes, createPercent }} />
     </PageLayout>
   );
 };

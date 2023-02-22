@@ -1,32 +1,46 @@
 import { atom, useAtom } from 'jotai';
 import { atomsWithQuery } from 'jotai-tanstack-query';
-import { MinaProposalParser } from 'models';
+import { CoreApiInfoParser, ProposalParser, ProposalResultsParser } from 'models';
 
 import { safeFetch } from './fetch';
 
 export enum QueryKeys {
-  MINA_PROPOSAL = 'mina-proposal',
-  MINA_PROPOSAL_RESULT = 'mina-proposal-result',
+  INFO = 'info',
+  PROPOSAL = 'proposal',
+  PROPOSAL_RESULT = 'proposal-result',
 }
 
-export const minaProposalIdAtom = atom(0);
-const [minaProposalAtom] = atomsWithQuery((get) => ({
-  queryKey: [QueryKeys.MINA_PROPOSAL, get(minaProposalIdAtom)],
+const [coreApiInfoAtom] = atomsWithQuery(() => ({
+  queryKey: [QueryKeys.INFO],
+  staleTime: 60 * 60 * 5,
+  queryFn: async () => {
+    const res = await safeFetch('/api/info');
+    const data = CoreApiInfoParser.parse(QueryKeys.INFO, res);
+    return data;
+  },
+}));
+
+export const proposalIdAtom = atom(0);
+
+const [proposalAtom] = atomsWithQuery((get) => ({
+  queryKey: [QueryKeys.PROPOSAL, get(proposalIdAtom)],
   queryFn: async ({ queryKey: [, id] }) => {
     const res = await safeFetch(`/api/proposal/${id}`);
-    const data = MinaProposalParser.parse(QueryKeys.MINA_PROPOSAL, res);
+    const data = ProposalParser.parse(QueryKeys.PROPOSAL, res);
     return data;
   },
 }));
 
-const [minaProposalResultsAtom] = atomsWithQuery((get) => ({
-  queryKey: [QueryKeys.MINA_PROPOSAL_RESULT, get(minaProposalIdAtom)],
+const [proposalResultsAtom] = atomsWithQuery((get) => ({
+  queryKey: [QueryKeys.PROPOSAL_RESULT, get(proposalIdAtom)],
   queryFn: async ({ queryKey: [, id] }) => {
     const res = await safeFetch(`/api/proposal/${id}/results`);
-    const data = MinaProposalParser.parse(QueryKeys.MINA_PROPOSAL_RESULT, res);
+    const data = ProposalResultsParser.parse(QueryKeys.PROPOSAL_RESULT, res);
     return data;
   },
 }));
 
-export const useMinaProposal = () => useAtom(minaProposalAtom);
-export const useMinaProposalResults = () => useAtom(minaProposalResultsAtom);
+export const useCoreApiInfo = () => useAtom(coreApiInfoAtom);
+
+export const useProposal = () => useAtom(proposalAtom);
+export const useProposalResults = () => useAtom(proposalResultsAtom);

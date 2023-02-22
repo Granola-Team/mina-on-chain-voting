@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
   const res = NextResponse.next();
 
   if (!req.cookies.has('theme')) {
-    res.cookies.set({ name: 'theme', value: 'dark', sameSite: 'strict' });
+    res.cookies.set({ name: 'theme', value: 'dark', sameSite: 'strict', path: '/' });
   }
 
   return res;

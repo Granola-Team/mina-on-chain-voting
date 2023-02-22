@@ -1,19 +1,22 @@
 import { z } from 'zod';
 
-export const minaBlockStatusSchema = z.union([z.literal('Pending'), z.literal('Canonical'), z.literal('Orphaned')]);
-
-export const minaVoteSchema = z.object({
+export const VoteSchema = z.object({
   account: z.string(),
   hash: z.string(),
   memo: z.string(),
   height: z.number(),
-  status: minaBlockStatusSchema,
+  status: z.union([z.literal('Pending'), z.literal('Canonical'), z.literal('Orphaned')]),
   timestamp: z.number(),
   nonce: z.number(),
-  weight: z.string().nullable(),
 });
 
-export const minaProposalSchema = z.object({
+export const VoteWithWeightSchema = VoteSchema.and(
+  z.object({
+    weight: z.string(),
+  })
+);
+
+export const ProposalSchema = z.object({
   id: z.number(),
   key: z.string(),
   global_start_slot: z.number(),
@@ -21,8 +24,19 @@ export const minaProposalSchema = z.object({
   ledger_hash: z.string().nullable(),
 });
 
-export const getMinaProposalResponseSchema = minaProposalSchema.and(
+export const getProposalSchema = ProposalSchema.and(
   z.object({
-    votes: z.array(minaVoteSchema),
+    votes: z.array(VoteSchema),
   })
 );
+
+export const getProposalResultsSchema = ProposalSchema.and(
+  z.object({
+    votes: z.array(VoteWithWeightSchema),
+  })
+);
+
+export const getCoreApiInfoResponseSchema = z.object({
+  chain_tip: z.number(),
+  current_slot: z.number(),
+});

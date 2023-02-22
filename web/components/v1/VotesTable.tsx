@@ -3,13 +3,13 @@ import { Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 import { useTheme } from 'components/provider';
 
 import { format, setMinutes, setSeconds } from 'date-fns';
-import type { MinaProposalParserResponse } from 'models';
+import type { ProposalParserOutcome } from 'models';
 
 import { StatusBubble } from './StatusBubble';
 import { TableAvatar } from './TableAvatar';
 
 export type VotesTableProps = {
-  votes: MinaProposalParserResponse['votes'];
+  votes: ProposalParserOutcome['votes'];
 };
 
 export const VotesTable = ({ votes }: VotesTableProps) => {
@@ -24,7 +24,11 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
         backgroundColor: theme.key === 'dark' ? '#1C1C1C' : 'hsl(0, 0%, 100%)',
       }}
     >
-      <Table sx={{ minWidth: 650 }}>
+      <Table
+        sx={{
+          minWidth: 650,
+        }}
+      >
         <TableHead>
           <TableRow>
             <TableCell align="center" sx={{ py: 1.1 }}>
@@ -69,7 +73,7 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {format(setMinutes(setSeconds(new Date(vote.timestamp * 1000), 0), 3), 'MM/dd/yyyy - HH:mm')}
+                  {format(setMinutes(setSeconds(new Date(vote.timestamp), 0), 3), 'MM/dd/yyyy - HH:mm')}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>

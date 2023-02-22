@@ -1,19 +1,21 @@
 import { LinearProgress, Stack, Typography } from '@mui/material';
 
-import { format } from 'date-fns';
-
 import { SectionLayout } from './SectionLayout';
 
 export type VotingPeriodProps = {
-  startDate: Date;
-  endDate: Date;
-  queryDate: Date;
+  startSlot: number;
+  endSlot: number;
+  currentSlot: number;
 };
 
-export const VotingPeriod = ({ startDate, endDate, queryDate }: VotingPeriodProps) => {
-  const formattedQueryDate = format(queryDate, 'yyyy-MM-dd | hh:mm:ss aa');
-  const formattedStartDate = format(startDate, 'yyyy-MM-dd | hh:mm:ss aa');
-  const formattedEndDate = format(endDate, 'yyyy-MM-dd | hh:mm:ss aa');
+export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodProps) => {
+  const current = Math.min(currentSlot, endSlot);
+
+  const distanceFromStart = current - startSlot;
+  const totalDistance = endSlot - startSlot;
+  const percentage = (distanceFromStart / totalDistance) * 100;
+
+  const hasEnded = currentSlot > endSlot;
 
   return (
     <SectionLayout>
@@ -22,25 +24,25 @@ export const VotingPeriod = ({ startDate, endDate, queryDate }: VotingPeriodProp
           Voting Period
         </Typography>
         <Typography variant="body2" fontSize={13} color="hsl(0, 0.8%, 47.1%)">
-          Updated at {formattedQueryDate}
+          Updated at Slot {currentSlot}
         </Typography>
       </Stack>
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack>
           <Typography variant="body2" fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="left">
-            Start Date
+            Start Slot
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {formattedStartDate}
+            {startSlot}
           </Typography>
         </Stack>
         <Stack>
           <Typography variant="body2" fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="right">
-            End Date
+            End Slot
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {formattedEndDate}
+            {endSlot}
           </Typography>
         </Stack>
       </Stack>
@@ -56,10 +58,10 @@ export const VotingPeriod = ({ startDate, endDate, queryDate }: VotingPeriodProp
             backgroundColor: '#570ddb8f',
           },
         }}
-        value={80}
+        value={percentage}
       />
       <Typography variant="subtitle2" fontSize={14} fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="left">
-        The Voting Period has ended.
+        {hasEnded ? 'The Voting Period has ended.' : `${endSlot - currentSlot} Slots left.`}
       </Typography>
     </SectionLayout>
   );

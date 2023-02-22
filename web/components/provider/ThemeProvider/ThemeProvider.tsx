@@ -30,7 +30,7 @@ export const ThemeProvider: FC<ThemeContextProviderProps> = (props) => {
 
   const setTheme = (key: ThemeType) => {
     _setTheme(key === 'dark' ? { key: 'dark', value: DarkTheme } : { key: 'light', value: LightTheme });
-    document.cookie = `theme=${escapeHTML(key)}; SameSite=strict`;
+    document.cookie = `theme=${escapeHTML(key)}; SameSite=strict; path=/`;
   };
 
   const value = { theme, setTheme };

@@ -1,4 +1,4 @@
-import { LocalStorageMock } from 'common/test/local-storage';
+import { LocalStorageMock } from 'common/test/localStorage';
 
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';

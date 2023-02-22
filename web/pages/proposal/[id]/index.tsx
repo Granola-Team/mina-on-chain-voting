@@ -2,7 +2,7 @@ import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'nex
 
 import { Stack } from '@mui/material';
 
-import { minaProposalIdAtom, useMinaProposal } from 'common/store';
+import { proposalIdAtom, useCoreApiInfo, useProposal } from 'common/store';
 
 import { Instructions, PageLayout, TotalVotes, VotesTable, VotingPeriod } from 'components/v1';
 
@@ -30,8 +30,9 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<Prop
 };
 
 const ProposalPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  useHydrateAtoms([[minaProposalIdAtom, props.proposalId]]);
-  const [proposal] = useMinaProposal();
+  useHydrateAtoms([[proposalIdAtom, props.proposalId]]);
+  const [proposal] = useProposal();
+  const [info] = useCoreApiInfo();
 
   return (
     <PageLayout>
@@ -40,9 +41,9 @@ const ProposalPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
         <TotalVotes totalVotes={proposal.votes.length} />
       </Stack>
       <VotingPeriod
-        startDate={new Date(2022, 0, 15, 8, 30, 0)}
-        endDate={new Date(2023, 0, 15, 8, 30, 0)}
-        queryDate={new Date(2023, 0, 15, 8, 30, 0)}
+        startSlot={proposal.global_start_slot}
+        endSlot={proposal.global_end_slot}
+        currentSlot={info.current_slot}
       />
       <VotesTable votes={proposal.votes} />
     </PageLayout>

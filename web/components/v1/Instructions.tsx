@@ -13,7 +13,9 @@ export const Instructions = ({ keyword }: InstructionsProps) => {
         How to participate in On-Chain Voting
       </Typography>
       <Stack>
-        <Typography variant="subtitle2">To participate in on-chain voting, send yourself a transaction with the keyword(s) in the memo field:</Typography>
+        <Typography variant="subtitle2">
+          To participate in on-chain voting, send yourself a transaction with the keyword(s) in the memo field:
+        </Typography>
         <Typography variant="subtitle2" ml={1}>
           · To vote in favor of the proposal, enter in the memo field &apos;{keyword}&apos;.
         </Typography>

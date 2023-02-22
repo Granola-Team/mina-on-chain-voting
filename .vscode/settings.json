@@ -5,9 +5,19 @@
   },
   "eslint.packageManager": "pnpm",
   "eslint.options": {
-    "extensions": [".js", ".jsx", ".ts", ".tsx"]
+    "extensions": [
+      ".js",
+      ".jsx",
+      ".ts",
+      ".tsx"
+    ]
   },
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "javascript.preferences.quoteStyle": "single",
   "jest.autoRevealOutput": "off",
   "jest.jestCommandLine": "pnpm test --",

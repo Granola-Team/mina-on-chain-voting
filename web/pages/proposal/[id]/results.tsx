@@ -1,49 +1,16 @@
-import { PageLayout, ResultsOverview, ResultsTable, VoteResult, VotingPeriod, VotingResults } from 'components/v1';
+import { PageLayout, ResultsOverview, ResultsTable, VotingPeriod, VotingResults } from 'components/v1';
 
 //! Dummy Data
 const startDate = new Date(2023, 0, 15, 8, 30, 0);
 const endDate = new Date(2023, 4, 15, 8, 30, 0);
 const queryDate = new Date(2023, 1, 10, 8, 30, 0);
 
-const data = [
-  {
-    id: 1,
-    account: 'B62qj4sYygXUKhKKitLtbmrxN1PWx7Xd7C5R2tyqWtSGA5bctZAuVDw',
-    hash: 'CkpZxqP7pM5nRTy9dcJaCsLGxg1iFYLstr1zGaScwjfV1iBbgW8FY',
-    memo: 'cftest-2',
-    height: 212888,
-    status: 'Pending',
-    timestamp: 1675989172,
-    stake_weight: 1356.237,
-  },
-  {
-    id: 2,
-    account: 'B62qj4sYygXUKhKKitLtbmrxN1PWx7Xd7C5R2tyqWtSGA5bctZAuVDw',
-    hash: 'CkpZxqP7pM5nRTy9dcJaCsLGxg1iFYLstr1zGaScwjfV1iBbgW8FY',
-    memo: 'no cftest-2',
-    height: 212888,
-    status: 'Canonical',
-    timestamp: 1675989172,
-    stake_weight: 1256,
-  },
-  {
-    id: 3,
-    account: 'B62qj4sYygXUKhKKitLtbmrxN1PWx7Xd7C5R2tyqWtSGA5bctZAuVDw',
-    hash: 'CkpZxqP7pM5nRTy9dcJaCsLGxg1iFYLstr1zGaScwjfV1iBbgW8FY',
-    memo: 'no cftest-2',
-    height: 212888,
-    status: 'Canonical',
-    timestamp: 1675989172,
-    stake_weight: 1222,
-  },
-] satisfies VoteResult[];
-
-const useStakeStatistics = (votes: VoteResult[]) => {
+const useStakeStatistics = (votes: any) => {
   const stakeWeight = () => {
     let positiveStakeWeight = 0;
     let negativeStakeWeight = 0;
 
-    votes.forEach((vote) => {
+    votes.forEach((vote: any) => {
       if (vote.stake_weight > 0) {
         if (vote.memo.startsWith('no ')) {
           negativeStakeWeight += vote.stake_weight;
@@ -74,7 +41,7 @@ const useStakeStatistics = (votes: VoteResult[]) => {
   return { stakeWeight, positivePercentage, negativePercentage, createPercent };
 };
 
-const ResultsPage = () => {
+const ProposalResultsPage = () => {
   const { positivePercentage, negativePercentage, createPercent } = useStakeStatistics(data);
 
   return (
@@ -87,4 +54,4 @@ const ResultsPage = () => {
   );
 };
 
-export default ResultsPage;
+export default ProposalResultsPage;

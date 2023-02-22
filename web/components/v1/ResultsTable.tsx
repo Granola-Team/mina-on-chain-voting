@@ -1,29 +1,14 @@
-import {
-  Avatar,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 import { useTheme } from 'components/provider';
 
 import { format, setMinutes, setSeconds } from 'date-fns';
-import makeBlockie from 'ethereum-blockies-base64';
+import type { MinaProposalParserResponse } from 'models';
 
 import { StatusBubble } from './StatusBubble';
-import type { Vote } from './VotesTable';
-
-export type VoteResult = Vote & {
-  stake_weight: number;
-};
 
 export type ResultsTableProps = {
-  votes: VoteResult[];
+  votes: MinaProposalParserResponse['votes'];
   createPercent: (value: number) => void;
 };
 
@@ -94,7 +79,7 @@ export const ResultsTable = ({ votes, createPercent }: ResultsTableProps) => {
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Stack spacing={1} direction="row" justifyContent="center" alignItems="center">
-                  <Avatar alt="identicon" src={makeBlockie(row.account)} sx={{ width: 24, height: 24 }} />
+                  {/* <Avatar alt="identicon" src={makeBlockie(row.account)} sx={{ width: 24, height: 24 }} /> */}
                   <Typography fontSize={13} fontWeight={500}>
                     {row.account}
                   </Typography>

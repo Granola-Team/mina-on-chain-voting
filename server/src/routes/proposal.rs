@@ -67,13 +67,6 @@ async fn get_mina_proposal(
     Ok((StatusCode::OK, Json(response)).into_response())
 }
 
-#[derive(Serialize, Deserialize)]
-struct GetMinaProposalResultsResponse {
-    #[serde(flatten)]
-    proposal: MinaProposal,
-    votes: Vec<MinaVote>,
-}
-
 async fn get_mina_proposal_result(
     ctx: Extension<crate::Context>,
     Path(id): Path<i32>,

@@ -19,6 +19,19 @@ pub(crate) fn fetch_chain_tip(conn_manager: &DBConnectionManager) -> Result<i64>
 }
 
 #[derive(QueryableByName)]
+pub(crate) struct FetchLatestSlotResult {
+    #[diesel(sql_type = BigInt)]
+    pub(crate) max: i64,
+}
+
+pub(crate) fn fetch_latest_slot(conn_manager: &DBConnectionManager) -> Result<i64> {
+    let connection = &mut conn_manager.archive.get()?;
+    let result = sql_query("SELECT MAX(global_slot) FROM blocks")
+        .get_result::<FetchLatestSlotResult>(connection)?;
+    Ok(result.max)
+}
+
+#[derive(QueryableByName)]
 pub(crate) struct FetchTransactionResult {
     #[diesel(sql_type = Text)]
     pub(crate) account: String,

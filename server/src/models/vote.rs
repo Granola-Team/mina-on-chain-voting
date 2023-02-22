@@ -21,6 +21,18 @@ pub(crate) enum MinaBlockStatus {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+pub(crate) struct MinaVoteWithWeight {
+    pub(crate) account: String,
+    pub(crate) hash: String,
+    pub(crate) memo: String,
+    pub(crate) height: i64,
+    pub(crate) status: MinaBlockStatus,
+    pub(crate) timestamp: i64,
+    pub(crate) nonce: i64,
+    pub(crate) weight: Decimal,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub(crate) struct MinaVote {
     pub(crate) account: String,
     pub(crate) hash: String,
@@ -29,7 +41,6 @@ pub(crate) struct MinaVote {
     pub(crate) status: MinaBlockStatus,
     pub(crate) timestamp: i64,
     pub(crate) nonce: i64,
-    pub(crate) weight: Option<Decimal>,
 }
 
 impl MinaVote {
@@ -50,12 +61,20 @@ impl MinaVote {
             status,
             timestamp,
             nonce,
-            weight: None,
         }
     }
 
-    pub(crate) fn update_weight(&mut self, weight: Decimal) {
-        self.weight = Some(weight);
+    pub(crate) fn to_weighted(self, weight: Decimal) -> MinaVoteWithWeight {
+        MinaVoteWithWeight {
+            account: self.account,
+            hash: self.hash,
+            memo: self.memo,
+            height: self.height,
+            status: self.status,
+            timestamp: self.timestamp,
+            nonce: self.nonce,
+            weight,
+        }
     }
 
     pub(crate) fn update_memo(&mut self, memo: impl Into<String>) {
@@ -139,26 +158,33 @@ impl W<Vec<MinaVote>> {
         W(map.values().cloned().collect())
     }
 
-    pub(crate) fn process_weighted(
+    pub(crate) fn to_weighted(
         self,
         key: impl Into<String>,
         ledger: &Ledger,
         tip: i64,
-    ) -> Self {
+    ) -> W<Vec<MinaVoteWithWeight>> {
         let key = key.into();
         let votes = self.process(key, tip).inner();
 
-        let votes_with_stake: Vec<MinaVote> = votes
+        let votes_with_stake: Vec<MinaVoteWithWeight> = votes
             .into_iter()
-            .filter_map(|mut vote| {
-                vote.update_weight(ledger.get_stake_weight(&vote.account).ok()?);
-                Some(vote)
+            .filter_map(|vote| {
+                let stake = ledger.get_stake_weight(&vote.account).ok()?;
+                Some(vote.to_weighted(stake))
             })
             .collect();
 
         W(votes_with_stake)
     }
 
+    pub(crate) fn sort_by_timestamp(mut self) -> Self {
+        self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+        self
+    }
+}
+
+impl W<Vec<MinaVoteWithWeight>> {
     pub(crate) fn sort_by_timestamp(mut self) -> Self {
         self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
         self

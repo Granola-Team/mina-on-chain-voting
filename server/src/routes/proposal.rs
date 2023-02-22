@@ -1,14 +1,17 @@
-use crate::database::archive::{fetch_chain_tip, fetch_transactions};
-use crate::models::diesel::MinaProposal;
-use crate::models::ledger::Ledger;
-use crate::models::vote::MinaVote;
-use crate::prelude::*;
 use axum::{
     extract::Path, http::StatusCode, response::IntoResponse, routing::get, Extension, Json, Router,
 };
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+
+use crate::database::archive::fetch_chain_tip;
+use crate::database::archive::fetch_transactions;
+use crate::models::diesel::MinaProposal;
+use crate::models::ledger::Ledger;
+use crate::models::vote::MinaVote;
+use crate::models::vote::MinaVoteWithWeight;
+use crate::prelude::*;
 
 pub(crate) fn router() -> Router {
     Router::new()
@@ -67,6 +70,13 @@ async fn get_mina_proposal(
     Ok((StatusCode::OK, Json(response)).into_response())
 }
 
+#[derive(Serialize, Deserialize)]
+struct GetMinaProposalResultResponse {
+    #[serde(flatten)]
+    proposal: MinaProposal,
+    votes: Vec<MinaVoteWithWeight>,
+}
+
 async fn get_mina_proposal_result(
     ctx: Extension<crate::Context>,
     Path(id): Path<i32>,
@@ -94,7 +104,7 @@ async fn get_mina_proposal_result(
         ledger
     };
 
-    let votes = if let Some(cached_votes) = ctx.cache.votes.get(&f!("r-{}", proposal.key)) {
+    let votes = if let Some(cached_votes) = ctx.cache.votes_weighted.get(&proposal.key) {
         cached_votes.to_vec()
     } else {
         let transactions = fetch_transactions(
@@ -109,19 +119,19 @@ async fn get_mina_proposal_result(
             .into_iter()
             .map(std::convert::Into::into)
             .collect())
-        .process_weighted(&proposal.key, &ledger, chain_tip)
+        .to_weighted(&proposal.key, &ledger, chain_tip)
         .sort_by_timestamp()
         .inner();
 
         ctx.cache
-            .votes
-            .insert(f!("r-{}", proposal.key), Arc::new(votes.clone()))
+            .votes_weighted
+            .insert(proposal.key.clone(), Arc::new(votes.clone()))
             .await;
 
         votes
     };
 
-    let response = GetMinaProposalResponse { proposal, votes };
+    let response = GetMinaProposalResultResponse { proposal, votes };
 
     Ok((StatusCode::OK, Json(response)).into_response())
 }

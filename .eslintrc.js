@@ -20,7 +20,6 @@ module.exports = {
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:storybook/recommended',
-    'plugin:playwright/playwright-test',
   ],
   rules: {
     '@typescript-eslint/no-unused-vars': 'off',

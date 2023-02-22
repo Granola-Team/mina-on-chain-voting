@@ -1,5 +1,3 @@
-// TODO: remove eslint-disable
-/* eslint-disable playwright/missing-playwright-await */
 import { render, screen } from 'common/test';
 
 import { Instructions } from './Instructions';

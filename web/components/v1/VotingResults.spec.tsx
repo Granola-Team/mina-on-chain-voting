@@ -4,7 +4,7 @@ import { VotingResults } from './VotingResults';
 
 describe('V1', () => {
   describe(VotingResults, () => {
-    it('renders VotingResults default state', () => {
+    it('renders default state', () => {
       const positivePercentage = '75';
       const negativePercentage = '25';
       render(<VotingResults positivePercentage={positivePercentage} negativePercentage={negativePercentage} />);

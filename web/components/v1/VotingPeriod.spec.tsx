@@ -4,7 +4,7 @@ import { VotingPeriod } from './VotingPeriod';
 
 describe('V1', () => {
   describe(VotingPeriod, () => {
-    it('renders VotingPeriod default state', () => {
+    it('renders default state', () => {
       const startDate = new Date('2023-02-10T10:00:00Z');
       const endDate = new Date('2023-02-17T10:00:00Z');
       const queryDate = new Date('2023-02-13T10:00:00Z');

@@ -4,7 +4,7 @@ import { ResultsTable } from './ResultsTable';
 
 describe('V1', () => {
   describe(ResultsTable, () => {
-    it('renders ResultsTable default state', () => {
+    it('renders default state', () => {
       const createPercentMock = jest.fn();
       render(<ResultsTable votes={[]} createPercent={createPercentMock} />);
       expect(screen.getByText('Blockheight')).toBeInTheDocument();

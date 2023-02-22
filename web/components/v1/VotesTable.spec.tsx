@@ -4,7 +4,7 @@ import { VotesTable } from './VotesTable';
 
 describe('V1', () => {
   describe(VotesTable, () => {
-    it('renders VotesTable default state', () => {
+    it('renders default state', () => {
       render(<VotesTable votes={[]} />);
       expect(screen.getByText('Blockheight')).toBeInTheDocument();
       expect(screen.getByText('Transaction Hash')).toBeInTheDocument();

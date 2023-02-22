@@ -5,8 +5,7 @@
 export type Ledger = LedgerAccount[];
 
 export interface LedgerAccount {
-	pk: string;
-	balance: string;
-	delegate: string;
+  pk: string;
+  balance: string;
+  delegate: string;
 }
-

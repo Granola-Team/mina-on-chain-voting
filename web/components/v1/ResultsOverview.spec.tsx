@@ -18,7 +18,10 @@ describe('V1', () => {
       fireEvent.click(clickButton);
 
       const link = await waitFor(() => getByText('FAQ').closest('a'));
-      await expect(link).toHaveAttribute('href', 'https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959');
+      await expect(link).toHaveAttribute(
+        'href',
+        'https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959'
+      );
     });
     it('an <a> tag with corresponding href exists', async () => {
       const { getByText } = render(<ResultsOverview />);
@@ -29,7 +32,10 @@ describe('V1', () => {
       fireEvent.click(clickButton);
 
       const link = await waitFor(() => getByText('instructions').closest('a'));
-      await expect(link).toHaveAttribute('href', 'https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md');
+      await expect(link).toHaveAttribute(
+        'href',
+        'https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md'
+      );
     });
     it('an <a> tag with corresponding href exists', async () => {
       const { getByText } = render(<ResultsOverview />);
@@ -40,7 +46,10 @@ describe('V1', () => {
       fireEvent.click(clickButton);
 
       const link = await waitFor(() => getByText('feedback').closest('a'));
-      await expect(link).toHaveAttribute('href', 'https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md');
+      await expect(link).toHaveAttribute(
+        'href',
+        'https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md'
+      );
     });
   });
 });

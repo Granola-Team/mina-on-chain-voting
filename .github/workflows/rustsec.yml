@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-rust@v2
         with:
           profile: minimal
-      - name: Install RustSec
-        run: cargo install rustsec
-      - name: Run RustSec Audit Check
-        run: rustsec audit-check
+      - name: Install Cargo Audit
+        run: cargo install cargo-audit
+      - name: Run Cargo Audit Check
+        run: cargo audit

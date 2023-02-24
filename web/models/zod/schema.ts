@@ -12,7 +12,7 @@ export const VoteSchema = z.object({
 
 export const VoteWithWeightSchema = VoteSchema.and(
   z.object({
-    weight: z.string(),
+    weight: z.coerce.number(),
   })
 );
 
@@ -32,6 +32,9 @@ export const getProposalSchema = ProposalSchema.and(
 
 export const getProposalResultsSchema = ProposalSchema.and(
   z.object({
+    total_stake_weight: z.coerce.number(),
+    positive_stake_weight: z.coerce.number(),
+    negative_stake_weight: z.coerce.number(),
     votes: z.array(VoteWithWeightSchema),
   })
 );

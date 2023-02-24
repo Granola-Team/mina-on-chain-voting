@@ -1,6 +1,5 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
 
-import { useProposalStats } from 'common/hooks';
 import { proposalIdAtom, useCoreApiInfo, useProposalResults } from 'common/store';
 
 import { PageLayout, ResultsOverview, ResultsTable, VotingPeriod, VotingResults } from 'components/v1';
@@ -33,8 +32,6 @@ const ProposalResultsPage = (props: InferGetServerSidePropsType<typeof getServer
   const [proposal] = useProposalResults();
   const [info] = useCoreApiInfo();
 
-  const { positivePercentage, negativePercentage, createPercent } = useProposalStats(proposal.votes);
-
   return (
     <PageLayout>
       <ResultsOverview />
@@ -43,8 +40,12 @@ const ProposalResultsPage = (props: InferGetServerSidePropsType<typeof getServer
         endSlot={proposal.global_end_slot}
         currentSlot={info.current_slot}
       />
-      <VotingResults {...{ positivePercentage, negativePercentage }} />
-      <ResultsTable {...{ votes: proposal.votes, createPercent }} />
+      <VotingResults
+        total={proposal.total_stake_weight}
+        positive={proposal.positive_stake_weight}
+        negative={proposal.negative_stake_weight}
+      />
+      <ResultsTable {...{ votes: proposal.votes, totalStakeWeight: proposal.total_stake_weight }} />
     </PageLayout>
   );
 };

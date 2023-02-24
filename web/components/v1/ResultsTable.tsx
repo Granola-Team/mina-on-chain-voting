@@ -10,10 +10,10 @@ import { TableAvatar } from './TableAvatar';
 
 export type ResultsTableProps = {
   votes: ProposalResultsParserOutcome['votes'];
-  createPercent: (value: number) => void;
+  totalStakeWeight: ProposalResultsParserOutcome['total_stake_weight'];
 };
 
-export const ResultsTable = ({ votes, createPercent }: ResultsTableProps) => {
+export const ResultsTable = ({ votes, totalStakeWeight }: ResultsTableProps) => {
   const { theme } = useTheme();
 
   return (
@@ -88,12 +88,12 @@ export const ResultsTable = ({ votes, createPercent }: ResultsTableProps) => {
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {vote.weight === '0.000000000' ? 'Stake Delegated' : vote.weight}
+                  {vote.weight === 0 ? 'Stake Delegated' : vote.weight}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {vote.weight ? `${createPercent(Number.parseFloat(vote.weight))}` : 'Stake Delegated'}
+                  {vote.weight ? `${((vote.weight / totalStakeWeight) * 100).toFixed(4)}` : 'Stake Delegated'}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>

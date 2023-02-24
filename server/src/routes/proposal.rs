@@ -2,6 +2,7 @@ use axum::{
     extract::Path, http::StatusCode, response::IntoResponse, routing::get, Extension, Json, Router,
 };
 use diesel::prelude::*;
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
@@ -74,6 +75,9 @@ async fn get_mina_proposal(
 struct GetMinaProposalResultResponse {
     #[serde(flatten)]
     proposal: MinaProposal,
+    total_stake_weight: Decimal,
+    positive_stake_weight: Decimal,
+    negative_stake_weight: Decimal,
     votes: Vec<MinaVoteWithWeight>,
 }
 
@@ -119,7 +123,7 @@ async fn get_mina_proposal_result(
             .into_iter()
             .map(std::convert::Into::into)
             .collect())
-        .to_weighted(&proposal.key, &ledger, chain_tip)
+        .into_weighted(&proposal.key, &ledger, chain_tip)
         .sort_by_timestamp()
         .inner();
 
@@ -131,7 +135,24 @@ async fn get_mina_proposal_result(
         votes
     };
 
-    let response = GetMinaProposalResultResponse { proposal, votes };
+    let mut positive_stake_weight = Decimal::from(0);
+    let mut negative_stake_weight = Decimal::from(0);
+
+    for vote in &votes {
+        if vote.memo.split_whitespace().next().eq(&Some("no")) {
+            negative_stake_weight += vote.weight;
+        } else {
+            positive_stake_weight += vote.weight;
+        }
+    }
+
+    let response = GetMinaProposalResultResponse {
+        proposal,
+        total_stake_weight: positive_stake_weight + negative_stake_weight,
+        positive_stake_weight,
+        negative_stake_weight,
+        votes,
+    };
 
     Ok((StatusCode::OK, Json(response)).into_response())
 }

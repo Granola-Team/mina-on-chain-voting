@@ -15,6 +15,7 @@ struct GetCoreApiInfoResponse {
     current_slot: i64,
 }
 
+#[allow(clippy::unused_async)]
 async fn get_core_api_info(ctx: Extension<crate::Context>) -> Result<impl IntoResponse> {
     let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
     let current_slot = fetch_latest_slot(&ctx.conn_manager)?;

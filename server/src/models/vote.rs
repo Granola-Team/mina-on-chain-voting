@@ -64,11 +64,11 @@ impl MinaVote {
         }
     }
 
-    pub(crate) fn to_weighted(self, weight: Decimal) -> MinaVoteWithWeight {
+    pub(crate) fn to_weighted(&self, weight: Decimal) -> MinaVoteWithWeight {
         MinaVoteWithWeight {
-            account: self.account,
-            hash: self.hash,
-            memo: self.memo,
+            account: self.account.clone(),
+            hash: self.hash.clone(),
+            memo: self.memo.clone(),
             height: self.height,
             status: self.status,
             timestamp: self.timestamp,
@@ -158,16 +158,17 @@ impl W<Vec<MinaVote>> {
         W(map.values().cloned().collect())
     }
 
-    pub(crate) fn to_weighted(
+    pub(crate) fn into_weighted(
         self,
         key: impl Into<String>,
         ledger: &Ledger,
         tip: i64,
     ) -> W<Vec<MinaVoteWithWeight>> {
         let key = key.into();
-        let votes = self.process(key, tip).inner();
+        let votes = self.process(key, tip);
 
         let votes_with_stake: Vec<MinaVoteWithWeight> = votes
+            .0
             .into_iter()
             .filter_map(|vote| {
                 let stake = ledger.get_stake_weight(&vote.account).ok()?;

@@ -1,8 +1,16 @@
 name: RustSec Audit Check
 
 on:
+  push:
+    paths:
+      - '**/Cargo.toml'
+      - '**/Cargo.lock'
   pull_request:
     types: [opened, synchronize, reopened]
+
+defaults:
+  run:
+    working-directory: server
 
 jobs:
   rustsec:

@@ -5,6 +5,8 @@ on:
     paths:
       - '**/Cargo.toml'
       - '**/Cargo.lock'
+  
+  workflow_dispatch:  
 
 defaults:
   run:

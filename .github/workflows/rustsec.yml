@@ -1,0 +1,20 @@
+name: RustSec Audit Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  rustsec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+      - name: Setup Rust
+        uses: actions/setup-rust@v2
+        with:
+          profile: minimal
+      - name: Install RustSec
+        run: cargo install rustsec
+      - name: Run RustSec Audit Check
+        run: rustsec audit-check

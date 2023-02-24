@@ -1,19 +1,21 @@
 import { LinearProgress, Stack, Typography } from '@mui/material';
 
+import type { CoreApiInfoParserOutcome, ProposalParserOutcome } from 'models';
+
 import { SectionLayout } from './SectionLayout';
 
 export type VotingPeriodProps = {
-  startSlot: number;
-  endSlot: number;
-  currentSlot: number;
+  startSlot: ProposalParserOutcome['global_start_slot'];
+  endSlot: ProposalParserOutcome['global_end_slot'];
+  currentSlot: CoreApiInfoParserOutcome['current_slot'];
 };
 
 export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodProps) => {
-  const current = Math.min(currentSlot, endSlot);
+  const current = currentSlot < endSlot ? currentSlot : endSlot;
 
   const distanceFromStart = current - startSlot;
   const totalDistance = endSlot - startSlot;
-  const percentage = (distanceFromStart / totalDistance) * 100;
+  const percentage = (distanceFromStart / totalDistance) * 100n;
 
   const hasEnded = currentSlot > endSlot;
 
@@ -24,7 +26,7 @@ export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodPr
           Voting Period
         </Typography>
         <Typography variant="body2" fontSize={13} color="hsl(0, 0.8%, 47.1%)">
-          Updated at Slot {currentSlot}
+          Updated at Slot {currentSlot.toString()}
         </Typography>
       </Stack>
 
@@ -34,7 +36,7 @@ export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodPr
             Start Slot
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {startSlot}
+            {startSlot.toString()}
           </Typography>
         </Stack>
         <Stack>
@@ -42,7 +44,7 @@ export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodPr
             End Slot
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {endSlot}
+            {endSlot.toString()}
           </Typography>
         </Stack>
       </Stack>
@@ -58,7 +60,7 @@ export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodPr
             backgroundColor: '#570ddb8f',
           },
         }}
-        value={percentage}
+        value={Number(percentage)}
       />
       <Typography variant="subtitle2" fontSize={14} fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="left">
         {hasEnded ? 'The Voting Period has ended.' : `${endSlot - currentSlot} Slots left.`}

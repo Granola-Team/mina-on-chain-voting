@@ -1,28 +1,37 @@
-name: RustSec Audit Check
+name: rustsec
 
 on:
-  push:
+  pull_request:
     paths:
       - '**/Cargo.toml'
       - '**/Cargo.lock'
-  
-  workflow_dispatch:  
+
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 defaults:
   run:
     working-directory: server
 
 jobs:
-  rustsec:
+  audit:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-      - name: Setup Rust
-        uses: actions/setup-rust@v2
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install rust
+        uses: actions-rs/toolchain@v1
         with:
+          toolchain: stable
           profile: minimal
+          override: true
+
       - name: Install Cargo Audit
         run: cargo install cargo-audit
+
       - name: Run Cargo Audit Check
         run: cargo audit

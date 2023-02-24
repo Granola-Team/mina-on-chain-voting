@@ -3,8 +3,8 @@
 CREATE TABLE mina_proposals (
   id SERIAL PRIMARY KEY,
   key TEXT NOT NULL UNIQUE,
-  global_start_slot INTEGER NOT NULL,
-  global_end_slot INTEGER NOT NULL,
+  global_start_slot BIGINT NOT NULL,
+  global_end_slot BIGINT NOT NULL,
   ledger_hash TEXT
 );
 

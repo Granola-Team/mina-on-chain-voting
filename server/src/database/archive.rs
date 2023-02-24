@@ -51,8 +51,8 @@ pub(crate) struct FetchTransactionResult {
 
 pub(crate) fn fetch_transactions(
     conn_manager: &DBConnectionManager,
-    global_start_slot: i32,
-    global_end_slot: i32,
+    global_start_slot: i64,
+    global_end_slot: i64,
 ) -> Result<Vec<FetchTransactionResult>> {
     let connection = &mut conn_manager.archive.get()?;
     let results = sql_query(

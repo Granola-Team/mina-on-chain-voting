@@ -19,7 +19,7 @@ pub(crate) struct LedgerAccount {
 impl Ledger {
     pub(crate) async fn fetch(hash: impl Into<String>) -> Result<Ledger> {
         let hash = hash.into();
-        let network = "".to_string();
+        let network = String::new();
 
         let ledger = reqwest::get(f!(
             "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"

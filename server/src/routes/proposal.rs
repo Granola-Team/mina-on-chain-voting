@@ -53,10 +53,12 @@ async fn get_mina_proposal(
 
     let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
-    let votes = W(transactions
-        .into_iter()
-        .map(std::convert::Into::into)
-        .collect())
+    let votes = Wrapper(
+        transactions
+            .into_iter()
+            .map(std::convert::Into::into)
+            .collect(),
+    )
     .process(&proposal.key, chain_tip)
     .sort_by_timestamp()
     .inner();
@@ -119,10 +121,12 @@ async fn get_mina_proposal_result(
 
         let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
-        let votes = W(transactions
-            .into_iter()
-            .map(std::convert::Into::into)
-            .collect())
+        let votes = Wrapper(
+            transactions
+                .into_iter()
+                .map(std::convert::Into::into)
+                .collect(),
+        )
         .into_weighted(&proposal.key, &ledger, chain_tip)
         .sort_by_timestamp()
         .inner();

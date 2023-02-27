@@ -128,7 +128,7 @@ impl From<FetchTransactionResult> for MinaVote {
     }
 }
 
-impl W<Vec<MinaVote>> {
+impl Wrapper<Vec<MinaVote>> {
     pub(crate) fn process(self, key: impl Into<String>, tip: i64) -> Self {
         let mut map = HashMap::new();
         let key = key.into();
@@ -155,7 +155,7 @@ impl W<Vec<MinaVote>> {
             }
         }
 
-        W(map.values().cloned().collect())
+        Wrapper(map.values().cloned().collect())
     }
 
     pub(crate) fn into_weighted(
@@ -163,12 +163,12 @@ impl W<Vec<MinaVote>> {
         key: impl Into<String>,
         ledger: &Ledger,
         tip: i64,
-    ) -> W<Vec<MinaVoteWithWeight>> {
+    ) -> Wrapper<Vec<MinaVoteWithWeight>> {
         let key = key.into();
         let votes = self.process(key, tip);
 
         let votes_with_stake: Vec<MinaVoteWithWeight> = votes
-            .0
+            .inner()
             .into_iter()
             .filter_map(|vote| {
                 let stake = ledger.get_stake_weight(&vote.account).ok()?;
@@ -176,7 +176,7 @@ impl W<Vec<MinaVote>> {
             })
             .collect();
 
-        W(votes_with_stake)
+        Wrapper(votes_with_stake)
     }
 
     pub(crate) fn sort_by_timestamp(mut self) -> Self {
@@ -185,7 +185,7 @@ impl W<Vec<MinaVote>> {
     }
 }
 
-impl W<Vec<MinaVoteWithWeight>> {
+impl Wrapper<Vec<MinaVoteWithWeight>> {
     pub(crate) fn sort_by_timestamp(mut self) -> Self {
         self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
         self
@@ -273,7 +273,7 @@ mod tests {
     #[test]
     fn test_process_votes() {
         let votes = get_test_votes();
-        let processed = W(votes).process("cftest-2", 129).inner();
+        let processed = Wrapper(votes).process("cftest-2", 129).inner();
 
         assert_eq!(processed.len(), 2);
 

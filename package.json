@@ -13,7 +13,7 @@
     "cargo:clippy": "cargo make --cwd ./server clippy",
     "cargo:generate": "typeshare ./server --lang=typescript --output-file=./web/models/generated.ts",
     "cargo:make": "cargo make --cwd ./server --profile ci-flow",
-    "cargo:run": "cargo run --bin mina-governance-server",
+    "cargo:run": "cargo run --bin mina-governance-server --release",
     "cargo:test": "cargo make --cwd ./server test",
     "docker": "docker-compose --profile all up",
     "docker:build": "docker-compose build",

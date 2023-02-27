@@ -16,6 +16,14 @@ pub(crate) struct Context {
     pub(crate) conn_manager: Arc<DBConnectionManager>,
 }
 
+/*
+#[derive(Clone)]
+pub(crate) enum NetworkConfig {
+    Mainnet,
+    Devnet,
+}
+ */
+
 #[derive(clap::Parser, Clone)]
 pub(crate) struct Config {
     /// The connection URL for the application database.
@@ -30,6 +38,10 @@ pub(crate) struct Config {
     /// Origins allowed to make cross-site requests.
     #[clap(long, env = "SERVER_ALLOWED_ORIGINS", value_parser = parse_allowed_origins )]
     pub(crate) allowed_origins: HashSet<String>,
+    /// Specify the network.
+    #[clap(long, env)]
+    pub(crate) mina_network: String,
+
 }
 
 #[allow(clippy::unnecessary_wraps)]

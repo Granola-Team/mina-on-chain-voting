@@ -15,6 +15,7 @@ use crate::prelude::*;
 pub(crate) struct Context {
     pub(crate) cache: Arc<CacheManager>,
     pub(crate) conn_manager: Arc<DBConnectionManager>,
+    pub(crate) network: NetworkConfig,
 }
 
 #[derive(Clone, Parser, ValueEnum)]

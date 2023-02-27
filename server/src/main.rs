@@ -8,6 +8,7 @@ use tower_http::trace::TraceLayer;
 
 use crate::config::Config;
 use crate::config::Context;
+use crate::config::NetworkConfig;
 use crate::database::cache::CacheManager;
 use crate::database::DBConnectionManager;
 use crate::prelude::*;
@@ -48,6 +49,7 @@ async fn main() -> Result<()> {
             .layer(Extension(Context {
                 cache: Arc::new(cache),
                 conn_manager: Arc::new(conn_manager),
+                network: NetworkConfig::Mainnet,
             })),
     );
 

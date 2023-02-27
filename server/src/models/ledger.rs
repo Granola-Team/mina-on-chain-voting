@@ -1,7 +1,9 @@
+use std::fmt;
+
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
-use crate::prelude::*;
+use crate::{prelude::*, config::NetworkConfig};
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
 
@@ -16,10 +18,20 @@ pub(crate) struct LedgerAccount {
     pub(crate) delegate: String,
 }
 
+impl fmt::Display for NetworkConfig {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            NetworkConfig::Mainnet => write!(f, "Mainnet"),
+            NetworkConfig::Devnet => write!(f, "Devnet"),
+            NetworkConfig::Berkeley => write!(f, "Berkeley"),
+        }
+    }
+}
+
 impl Ledger {
-    pub(crate) async fn fetch(hash: impl Into<String>) -> Result<Ledger> {
+    pub(crate) async fn fetch(hash: impl Into<String>, network: NetworkConfig) -> Result<Ledger> {
         let hash = hash.into();
-        let network = String::new();
+        let network: NetworkConfig = NetworkConfig::Mainnet;
 
         let ledger = reqwest::get(f!(
             "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"

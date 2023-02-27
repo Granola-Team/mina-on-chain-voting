@@ -21,7 +21,7 @@ pub(crate) struct Context {
 pub(crate) enum NetworkConfig {
     Mainnet,
     Devnet,
-    Testnet,
+    Berkeley,
 }
 
 #[derive(Clone, Parser)]

@@ -1,5 +1,6 @@
 use axum::http::HeaderValue;
 use axum::http::Method;
+use clap::{ValueEnum, Parser};
 use std::collections::HashSet;
 use std::sync::Arc;
 use tower_http::cors::Any;
@@ -16,16 +17,18 @@ pub(crate) struct Context {
     pub(crate) conn_manager: Arc<DBConnectionManager>,
 }
 
-/*
-#[derive(Clone)]
+#[derive(Clone, Parser, ValueEnum)]
 pub(crate) enum NetworkConfig {
     Mainnet,
     Devnet,
+    Testnet,
 }
- */
 
-#[derive(clap::Parser, Clone)]
+#[derive(Clone, Parser)]
 pub(crate) struct Config {
+    /// Specify the network.
+    #[clap(long, env)]
+    pub(crate) mina_network: NetworkConfig,
     /// The connection URL for the application database.
     #[clap(long, env)]
     pub(crate) database_url: String,
@@ -38,10 +41,6 @@ pub(crate) struct Config {
     /// Origins allowed to make cross-site requests.
     #[clap(long, env = "SERVER_ALLOWED_ORIGINS", value_parser = parse_allowed_origins )]
     pub(crate) allowed_origins: HashSet<String>,
-    /// Specify the network.
-    #[clap(long, env)]
-    pub(crate) mina_network: String,
-
 }
 
 #[allow(clippy::unnecessary_wraps)]

@@ -228,6 +228,15 @@ mod tests {
                 120,
                 2,
             ),
+            MinaVote::new(
+                "2",
+                "4",
+                "E4YiC7vB4DC9JoQvaj83nBWwHC3gJh4G9EBef7xh4ti4idBAgZai7",
+                120,
+                MinaBlockStatus::Pending,
+                120,
+                2,
+            ),
         ]
     }
 
@@ -257,11 +266,13 @@ mod tests {
         let v2_decoded = votes[1].match_decoded_memo(key).unwrap();
         let v3_decoded = votes[2].match_decoded_memo(key).unwrap();
         let v4_decoded = votes[3].match_decoded_memo(key).unwrap();
+        let v5_decoded = votes[4].match_decoded_memo(key);
 
         assert_eq!(v1_decoded, "no cftest-2");
         assert_eq!(v2_decoded, "no cftest-2");
         assert_eq!(v3_decoded, "no cftest-2");
         assert_eq!(v4_decoded, "cftest-2");
+        assert_eq!(v5_decoded, None);
     }
 
     #[test]

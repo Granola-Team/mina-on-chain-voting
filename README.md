@@ -66,7 +66,7 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   cargo install --force cargo-make # install cargo-make
   cargo install diesel_cli --no-default-features --features postgres # install diesel-cli
   cargo install typeshare-cli # install typeshare-cli
-  
+
   ```
 
 - Checkout this repository via `git` or the [Github CLI](https://cli.github.com/)
@@ -111,9 +111,9 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 
   ```sh
   pnpm docker:server-db
-  
+
   # or ...
-  
+
   docker-compose --profile server-db up
   ```
 
@@ -147,3 +147,7 @@ For more commands and options, see [the official docs.](https://crates.io/crates
 - [Next.js Documentation](https://nextjs.org/docs/getting-started)
 - [Rust Programming Language](https://doc.rust-lang.org/book/)
 - [Typescript](https://www.typescriptlang.org/docs/)
+
+## License
+
+This project is licensed under the Mozilla Public License 2.0. See the [LICENSE](LICENSE) file for the full license text.

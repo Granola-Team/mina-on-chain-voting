@@ -33,16 +33,10 @@ async fn main() -> Result<()> {
     let config = Config::parse();
     let cache = CacheManager::build();
     let cors = config::init_cors(&config);
-    let network = config::mina_network(&config);
 
     tracing::info!(
         target: MINA_GOVERNANCE_SERVER,
         "Initializing database connection pools..."
-    );
-
-    tracing::info!(
-        target: MINA_GOVERNANCE_SERVER,
-        "Starting on-chain voting app on the {network} network..."
     );
 
     let conn_manager = DBConnectionManager::get_connections(&config);
@@ -54,7 +48,7 @@ async fn main() -> Result<()> {
             .layer(Extension(Context {
                 cache: Arc::new(cache),
                 conn_manager: Arc::new(conn_manager),
-                network,
+                network: config.mina_network,
             })),
     );
 

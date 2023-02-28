@@ -1,7 +1,7 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
-use crate::{prelude::*, config::NetworkConfig};
+use crate::{config::NetworkConfig, prelude::*};
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
 

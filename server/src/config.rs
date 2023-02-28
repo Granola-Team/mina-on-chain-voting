@@ -1,6 +1,6 @@
 use axum::http::HeaderValue;
 use axum::http::Method;
-use clap::{ValueEnum, Parser};
+use clap::{Parser, ValueEnum};
 use std::collections::HashSet;
 use std::fmt;
 use std::sync::Arc;
@@ -19,7 +19,7 @@ pub(crate) struct Context {
     pub(crate) network: NetworkConfig,
 }
 
-#[derive(Clone, Copy, Parser, ValueEnum)]
+#[derive(Clone, Copy, Parser, ValueEnum, Debug)]
 pub(crate) enum NetworkConfig {
     Mainnet,
     Devnet,
@@ -36,13 +36,9 @@ impl fmt::Display for NetworkConfig {
     }
 }
 
-pub(crate) fn mina_network(cfg: &Config) -> NetworkConfig {
-    cfg.mina_network
-}
-
 #[derive(Clone, Parser)]
 pub(crate) struct Config {
-    /// Specify the network.
+    /// The mina network to connect to.
     #[clap(long, env)]
     pub(crate) mina_network: NetworkConfig,
     /// The connection URL for the application database.

@@ -2,6 +2,7 @@ use axum::http::HeaderValue;
 use axum::http::Method;
 use clap::{ValueEnum, Parser};
 use std::collections::HashSet;
+use std::fmt;
 use std::sync::Arc;
 use tower_http::cors::Any;
 use tower_http::cors::CorsLayer;
@@ -18,11 +19,25 @@ pub(crate) struct Context {
     pub(crate) network: NetworkConfig,
 }
 
-#[derive(Clone, Parser, ValueEnum)]
+#[derive(Clone, Copy, Parser, ValueEnum)]
 pub(crate) enum NetworkConfig {
     Mainnet,
     Devnet,
     Berkeley,
+}
+
+impl fmt::Display for NetworkConfig {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            NetworkConfig::Mainnet => write!(f, "mainnet"),
+            NetworkConfig::Devnet => write!(f, "devnet"),
+            NetworkConfig::Berkeley => write!(f, "berkeley"),
+        }
+    }
+}
+
+pub(crate) fn mina_network(cfg: &Config) -> NetworkConfig {
+    cfg.mina_network
 }
 
 #[derive(Clone, Parser)]

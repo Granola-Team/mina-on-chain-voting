@@ -1,15 +1,14 @@
+use crate::database::archive::{fetch_chain_tip, fetch_transactions};
+use crate::models::diesel::MinaProposal;
+use crate::models::ledger::Ledger;
+use crate::models::vote::MinaVote;
+use crate::prelude::*;
 use axum::{
     extract::Path, http::StatusCode, response::IntoResponse, routing::get, Extension, Json, Router,
 };
 use diesel::prelude::*;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
-
-use crate::database::archive::{fetch_chain_tip, fetch_transactions};
-use crate::models::diesel::MinaProposal;
-use crate::models::ledger::Ledger;
-use crate::models::vote::MinaVote;
-use crate::prelude::*;
 
 pub(crate) fn router() -> Router {
     Router::new()
@@ -92,7 +91,7 @@ async fn get_mina_proposal_result(
     let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
         Ledger(cached_ledger.to_vec())
     } else {
-        let ledger = Ledger::fetch(&hash).await?;
+        let ledger = Ledger::fetch(&hash, ctx.network).await?;
 
         ctx.cache
             .ledger

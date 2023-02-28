@@ -1,6 +1,8 @@
 use axum::http::HeaderValue;
 use axum::http::Method;
+use clap::{Parser, ValueEnum};
 use std::collections::HashSet;
+use std::fmt;
 use std::sync::Arc;
 use tower_http::cors::Any;
 use tower_http::cors::CorsLayer;
@@ -14,10 +16,31 @@ use crate::prelude::*;
 pub(crate) struct Context {
     pub(crate) cache: Arc<CacheManager>,
     pub(crate) conn_manager: Arc<DBConnectionManager>,
+    pub(crate) network: NetworkConfig,
 }
 
-#[derive(clap::Parser, Clone)]
+#[derive(Clone, Copy, Parser, ValueEnum, Debug)]
+pub(crate) enum NetworkConfig {
+    Mainnet,
+    Devnet,
+    Berkeley,
+}
+
+impl fmt::Display for NetworkConfig {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            NetworkConfig::Mainnet => write!(f, "mainnet"),
+            NetworkConfig::Devnet => write!(f, "devnet"),
+            NetworkConfig::Berkeley => write!(f, "berkeley"),
+        }
+    }
+}
+
+#[derive(Clone, Parser)]
 pub(crate) struct Config {
+    /// The mina network to connect to.
+    #[clap(long, env)]
+    pub(crate) mina_network: NetworkConfig,
     /// The connection URL for the application database.
     #[clap(long, env)]
     pub(crate) database_url: String,

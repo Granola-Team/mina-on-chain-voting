@@ -1,7 +1,7 @@
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
-use crate::prelude::*;
+use crate::{config::NetworkConfig, prelude::*};
 
 const LEDGER_BALANCE_SCALE: u32 = 9;
 
@@ -17,11 +17,11 @@ pub(crate) struct LedgerAccount {
 }
 
 impl Ledger {
-    pub(crate) async fn fetch(hash: impl Into<String>) -> Result<Ledger> {
+    pub(crate) async fn fetch(hash: impl Into<String>, network: NetworkConfig) -> Result<Ledger> {
         let hash = hash.into();
 
         let ledger = reqwest::get(f!(
-            "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/mainnet/{hash}.json"
+            "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"
         ))
         .await?
         .bytes()

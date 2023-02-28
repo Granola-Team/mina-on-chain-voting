@@ -8,7 +8,6 @@ use tower_http::trace::TraceLayer;
 
 use crate::config::Config;
 use crate::config::Context;
-use crate::config::NetworkConfig;
 use crate::database::cache::CacheManager;
 use crate::database::DBConnectionManager;
 use crate::prelude::*;

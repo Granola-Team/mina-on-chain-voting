@@ -1,13 +1,19 @@
 import { LinearProgress, Stack, Typography } from '@mui/material';
 
+import type { ProposalResultsParserOutcome } from 'models';
+
 import { SectionLayout } from './SectionLayout';
 
 export type VotingResultsProps = {
-  positivePercentage: string | undefined;
-  negativePercentage: string | undefined;
+  total: ProposalResultsParserOutcome['total_stake_weight'];
+  positive: ProposalResultsParserOutcome['positive_stake_weight'];
+  negative: ProposalResultsParserOutcome['negative_stake_weight'];
 };
 
-export const VotingResults = ({ positivePercentage, negativePercentage }: VotingResultsProps) => {
+export const VotingResults = ({ total, positive, negative }: VotingResultsProps) => {
+  const positivePercentage = ((positive / total) * 100).toFixed(2);
+  const negativePercentage = ((negative / total) * 100).toFixed(2);
+
   return (
     <SectionLayout spacing={0.85}>
       <Typography fontSize={22} fontWeight={600} mb="-6px">

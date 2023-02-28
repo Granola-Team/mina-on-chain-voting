@@ -7,8 +7,8 @@ import { z } from 'zod';
  * In order to expose a variable to the browser - prefix the variable with NEXT_PUBLIC.
  */
 export const schema = z.object({
-  API_BASE_URL: z.string().url(),
   NODE_ENV: z.enum(['development', 'test', 'production']),
+  NEXT_PUBLIC_API_BASE_URL: z.string().url(),
   NEXT_PUBLIC_RELEASE_STAGE: z.enum(['development', 'staging', 'production']),
 });
 
@@ -17,8 +17,8 @@ export const schema = z.object({
  * @type {{ [k in keyof z.infer<typeof schema>]: z.infer<typeof schema>[k] | undefined }}
  */
 export const env = {
-  API_BASE_URL: process.env.API_BASE_URL,
   NODE_ENV: process.env.NODE_ENV,
+  NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL,
   NEXT_PUBLIC_RELEASE_STAGE: process.env.NEXT_PUBLIC_RELEASE_STAGE,
 };
 

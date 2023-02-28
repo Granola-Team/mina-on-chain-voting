@@ -21,6 +21,18 @@ pub(crate) enum MinaBlockStatus {
 }
 
 #[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
+pub(crate) struct MinaVoteWithWeight {
+    pub(crate) account: String,
+    pub(crate) hash: String,
+    pub(crate) memo: String,
+    pub(crate) height: i64,
+    pub(crate) status: MinaBlockStatus,
+    pub(crate) timestamp: i64,
+    pub(crate) nonce: i64,
+    pub(crate) weight: Decimal,
+}
+
+#[derive(Debug, PartialEq, Eq, Clone, Serialize, Deserialize)]
 pub(crate) struct MinaVote {
     pub(crate) account: String,
     pub(crate) hash: String,
@@ -29,7 +41,6 @@ pub(crate) struct MinaVote {
     pub(crate) status: MinaBlockStatus,
     pub(crate) timestamp: i64,
     pub(crate) nonce: i64,
-    pub(crate) weight: Option<Decimal>,
 }
 
 impl MinaVote {
@@ -50,12 +61,20 @@ impl MinaVote {
             status,
             timestamp,
             nonce,
-            weight: None,
         }
     }
 
-    pub(crate) fn update_weight(&mut self, weight: Decimal) {
-        self.weight = Some(weight);
+    pub(crate) fn to_weighted(&self, weight: Decimal) -> MinaVoteWithWeight {
+        MinaVoteWithWeight {
+            account: self.account.clone(),
+            hash: self.hash.clone(),
+            memo: self.memo.clone(),
+            height: self.height,
+            status: self.status,
+            timestamp: self.timestamp,
+            nonce: self.nonce,
+            weight,
+        }
     }
 
     pub(crate) fn update_memo(&mut self, memo: impl Into<String>) {
@@ -73,19 +92,13 @@ impl MinaVote {
 
     pub(crate) fn match_decoded_memo(&mut self, key: &str) -> Option<String> {
         if let Ok(decoded) = self.decode_memo() {
-            if decoded.to_lowercase().contains(&key.to_lowercase()) {
-                self.update_memo(&decoded);
-                if self.match_memo(&decoded) {
-                    return Some(decoded.to_string());
-                }
+            if decoded.to_lowercase() == key.to_lowercase()
+                || decoded.to_lowercase() == f!("no {}", key.to_lowercase())
+            {
+                return Some(decoded);
             }
         }
         None
-    }
-
-    fn match_memo(&self, other: &str) -> bool {
-        self.memo.to_lowercase() == other.to_lowercase()
-            || self.memo.to_lowercase() == f!("no {}", self.memo.to_lowercase())
     }
 
     fn decode_memo(&self) -> Result<String> {
@@ -109,7 +122,7 @@ impl From<FetchTransactionResult> for MinaVote {
     }
 }
 
-impl W<Vec<MinaVote>> {
+impl Wrapper<Vec<MinaVote>> {
     pub(crate) fn process(self, key: impl Into<String>, tip: i64) -> Self {
         let mut map = HashMap::new();
         let key = key.into();
@@ -136,29 +149,37 @@ impl W<Vec<MinaVote>> {
             }
         }
 
-        W(map.values().cloned().collect())
+        Wrapper(map.values().cloned().collect())
     }
 
-    pub(crate) fn process_weighted(
+    pub(crate) fn into_weighted(
         self,
         key: impl Into<String>,
         ledger: &Ledger,
         tip: i64,
-    ) -> Self {
+    ) -> Wrapper<Vec<MinaVoteWithWeight>> {
         let key = key.into();
-        let votes = self.process(key, tip).inner();
+        let votes = self.process(key, tip);
 
-        let votes_with_stake: Vec<MinaVote> = votes
+        let votes_with_stake: Vec<MinaVoteWithWeight> = votes
+            .inner()
             .into_iter()
-            .filter_map(|mut vote| {
-                vote.update_weight(ledger.get_stake_weight(&vote.account).ok()?);
-                Some(vote)
+            .filter_map(|vote| {
+                let stake = ledger.get_stake_weight(&vote.account).ok()?;
+                Some(vote.to_weighted(stake))
             })
             .collect();
 
-        W(votes_with_stake)
+        Wrapper(votes_with_stake)
     }
 
+    pub(crate) fn sort_by_timestamp(mut self) -> Self {
+        self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+        self
+    }
+}
+
+impl Wrapper<Vec<MinaVoteWithWeight>> {
     pub(crate) fn sort_by_timestamp(mut self) -> Self {
         self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
         self
@@ -207,6 +228,15 @@ mod tests {
                 120,
                 2,
             ),
+            MinaVote::new(
+                "2",
+                "4",
+                "E4YiC7vB4DC9JoQvaj83nBWwHC3gJh4G9EBef7xh4ti4idBAgZai7",
+                120,
+                MinaBlockStatus::Pending,
+                120,
+                2,
+            ),
         ]
     }
 
@@ -236,17 +266,19 @@ mod tests {
         let v2_decoded = votes[1].match_decoded_memo(key).unwrap();
         let v3_decoded = votes[2].match_decoded_memo(key).unwrap();
         let v4_decoded = votes[3].match_decoded_memo(key).unwrap();
+        let v5_decoded = votes[4].match_decoded_memo(key);
 
         assert_eq!(v1_decoded, "no cftest-2");
         assert_eq!(v2_decoded, "no cftest-2");
         assert_eq!(v3_decoded, "no cftest-2");
         assert_eq!(v4_decoded, "cftest-2");
+        assert_eq!(v5_decoded, None);
     }
 
     #[test]
     fn test_process_votes() {
         let votes = get_test_votes();
-        let processed = W(votes).process("cftest-2", 129).inner();
+        let processed = Wrapper(votes).process("cftest-2", 129).inner();
 
         assert_eq!(processed.len(), 2);
 

@@ -1,14 +1,18 @@
-use crate::database::archive::{fetch_chain_tip, fetch_transactions};
-use crate::models::diesel::MinaProposal;
-use crate::models::ledger::Ledger;
-use crate::models::vote::MinaVote;
-use crate::prelude::*;
 use axum::{
     extract::Path, http::StatusCode, response::IntoResponse, routing::get, Extension, Json, Router,
 };
 use diesel::prelude::*;
+use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
+
+use crate::database::archive::fetch_chain_tip;
+use crate::database::archive::fetch_transactions;
+use crate::models::diesel::MinaProposal;
+use crate::models::ledger::Ledger;
+use crate::models::vote::MinaVote;
+use crate::models::vote::MinaVoteWithWeight;
+use crate::prelude::*;
 
 pub(crate) fn router() -> Router {
     Router::new()
@@ -49,10 +53,12 @@ async fn get_mina_proposal(
 
     let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
-    let votes = W(transactions
-        .into_iter()
-        .map(std::convert::Into::into)
-        .collect())
+    let votes = Wrapper(
+        transactions
+            .into_iter()
+            .map(std::convert::Into::into)
+            .collect(),
+    )
     .process(&proposal.key, chain_tip)
     .sort_by_timestamp()
     .inner();
@@ -68,10 +74,13 @@ async fn get_mina_proposal(
 }
 
 #[derive(Serialize, Deserialize)]
-struct GetMinaProposalResultsResponse {
+struct GetMinaProposalResultResponse {
     #[serde(flatten)]
     proposal: MinaProposal,
-    votes: Vec<MinaVote>,
+    total_stake_weight: Decimal,
+    positive_stake_weight: Decimal,
+    negative_stake_weight: Decimal,
+    votes: Vec<MinaVoteWithWeight>,
 }
 
 async fn get_mina_proposal_result(
@@ -101,7 +110,7 @@ async fn get_mina_proposal_result(
         ledger
     };
 
-    let votes = if let Some(cached_votes) = ctx.cache.votes.get(&f!("r-{}", proposal.key)) {
+    let votes = if let Some(cached_votes) = ctx.cache.votes_weighted.get(&proposal.key) {
         cached_votes.to_vec()
     } else {
         let transactions = fetch_transactions(
@@ -112,23 +121,42 @@ async fn get_mina_proposal_result(
 
         let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
-        let votes = W(transactions
-            .into_iter()
-            .map(std::convert::Into::into)
-            .collect())
-        .process_weighted(&proposal.key, &ledger, chain_tip)
+        let votes = Wrapper(
+            transactions
+                .into_iter()
+                .map(std::convert::Into::into)
+                .collect(),
+        )
+        .into_weighted(&proposal.key, &ledger, chain_tip)
         .sort_by_timestamp()
         .inner();
 
         ctx.cache
-            .votes
-            .insert(f!("r-{}", proposal.key), Arc::new(votes.clone()))
+            .votes_weighted
+            .insert(proposal.key.clone(), Arc::new(votes.clone()))
             .await;
 
         votes
     };
 
-    let response = GetMinaProposalResponse { proposal, votes };
+    let mut positive_stake_weight = Decimal::from(0);
+    let mut negative_stake_weight = Decimal::from(0);
+
+    for vote in &votes {
+        if vote.memo.split_whitespace().next().eq(&Some("no")) {
+            negative_stake_weight += vote.weight;
+        } else {
+            positive_stake_weight += vote.weight;
+        }
+    }
+
+    let response = GetMinaProposalResultResponse {
+        proposal,
+        total_stake_weight: positive_stake_weight + negative_stake_weight,
+        positive_stake_weight,
+        negative_stake_weight,
+        votes,
+    };
 
     Ok((StatusCode::OK, Json(response)).into_response())
 }

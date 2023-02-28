@@ -1,33 +1,19 @@
-import {
-  Avatar,
-  Stack,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from '@mui/material';
+import { Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from '@mui/material';
 
 import { useTheme } from 'components/provider';
 
 import { format, setMinutes, setSeconds } from 'date-fns';
-import makeBlockie from 'ethereum-blockies-base64';
+import type { ProposalResultsParserOutcome } from 'models';
 
 import { StatusBubble } from './StatusBubble';
-import type { Vote } from './VotesTable';
-
-export type VoteResult = Vote & {
-  stake_weight: number;
-};
+import { TableAvatar } from './TableAvatar';
 
 export type ResultsTableProps = {
-  votes: VoteResult[];
-  createPercent: (value: number) => void;
+  votes: ProposalResultsParserOutcome['votes'];
+  totalStakeWeight: ProposalResultsParserOutcome['total_stake_weight'];
 };
 
-export const ResultsTable = ({ votes, createPercent }: ResultsTableProps) => {
+export const ResultsTable = ({ votes, totalStakeWeight }: ResultsTableProps) => {
   const { theme } = useTheme();
 
   return (
@@ -80,44 +66,44 @@ export const ResultsTable = ({ votes, createPercent }: ResultsTableProps) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {votes.map((row) => (
-            <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+          {votes.map((vote) => (
+            <TableRow key={vote.account} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {row.height}
+                  {vote.height}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {format(setMinutes(setSeconds(new Date(row.timestamp * 1000), 0), 3), 'MM/dd/yyyy - HH:mm')}
+                  {format(setMinutes(setSeconds(new Date(vote.timestamp), 0), 3), 'MM/dd/yyyy - HH:mm')}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Stack spacing={1} direction="row" justifyContent="center" alignItems="center">
-                  <Avatar alt="identicon" src={makeBlockie(row.account)} sx={{ width: 24, height: 24 }} />
+                  <TableAvatar seed={vote.account} />
                   <Typography fontSize={13} fontWeight={500}>
-                    {row.account}
+                    {vote.account}
                   </Typography>
                 </Stack>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {row.stake_weight > 0 ? row.stake_weight.toFixed(4) : 'Stake Delegated'}
+                  {vote.weight === 0 ? 'Stake Delegated' : vote.weight}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {row.stake_weight ? `${createPercent(row.stake_weight)}` : 'Stake Delegated'}
+                  {vote.weight ? `${((vote.weight / totalStakeWeight) * 100).toFixed(4)}` : 'Stake Delegated'}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
                 <Typography fontSize={13} fontWeight={500}>
-                  {row.memo}
+                  {vote.memo}
                 </Typography>
               </TableCell>
               <TableCell align="center" sx={{ py: 1.2 }}>
-                {row.status === 'Canonical' && <StatusBubble type="Canonical" />}
-                {row.status === 'Pending' && <StatusBubble type="Pending" />}
+                {vote.status === 'Canonical' && <StatusBubble type="Canonical" />}
+                {vote.status === 'Pending' && <StatusBubble type="Pending" />}
               </TableCell>
             </TableRow>
           ))}

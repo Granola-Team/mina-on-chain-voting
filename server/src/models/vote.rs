@@ -92,12 +92,10 @@ impl MinaVote {
 
     pub(crate) fn match_decoded_memo(&mut self, key: &str) -> Option<String> {
         if let Ok(decoded) = self.decode_memo() {
-            if decoded.to_lowercase().contains(&key.to_lowercase()) {
-                if decoded.to_lowercase() == key.to_lowercase()
-                    || decoded.to_lowercase() == f!("no {}", key.to_lowercase())
-                {
-                    return Some(decoded.to_string());
-                }
+            if decoded.to_lowercase() == key.to_lowercase()
+                || decoded.to_lowercase() == f!("no {}", key.to_lowercase())
+            {
+                return Some(decoded);
             }
         }
         None

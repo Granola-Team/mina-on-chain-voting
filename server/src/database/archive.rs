@@ -56,23 +56,24 @@ pub(crate) fn fetch_transactions(
 ) -> Result<Vec<FetchTransactionResult>> {
     let connection = &mut conn_manager.archive.get()?;
     let results = sql_query(
-            f!(
-            "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
-            FROM user_commands AS uc
-            JOIN blocks_user_commands AS buc
-            ON uc.id = buc.user_command_id
-            JOIN blocks AS b
-            ON buc.block_id = b.id
-            JOIN public_keys AS pk
-            ON uc.source_id = pk.id
-            WHERE uc.type = 'payment'
-            AND uc.source_id = uc.receiver_id
-            AND uc.token = 1
-            AND NOT b.chain_status = 'orphaned'
-            AND buc.status = 'applied'
-            AND b.global_slot BETWEEN {global_start_slot} AND {global_end_slot}"
-            )
-        ).get_results(connection)?;
+        "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
+        FROM user_commands AS uc
+        JOIN blocks_user_commands AS buc
+        ON uc.id = buc.user_command_id
+        JOIN blocks AS b
+        ON buc.block_id = b.id
+        JOIN public_keys AS pk
+        ON uc.source_id = pk.id
+        WHERE uc.type = 'payment'
+        AND uc.source_id = uc.receiver_id
+        AND uc.token = 1
+        AND NOT b.chain_status = 'orphaned'
+        AND buc.status = 'applied'
+        AND b.global_slot BETWEEN ? AND ?"
+        )
+        .bind::<BigInt, _>(global_start_slot)
+        .bind::<BigInt, _>(global_end_slot)
+        .get_results(connection)?;
 
     Ok(results)
 }

@@ -70,9 +70,12 @@ pub(crate) fn fetch_transactions(
             AND uc.token = 1
             AND NOT b.chain_status = 'orphaned'
             AND buc.status = 'applied'
-            AND b.global_slot BETWEEN {global_start_slot} AND {global_end_slot}"
+            AND b.global_slot BETWEEN ? AND ?"
             )
-        ).get_results(connection)?;
+        )
+        .bind::<BigInt, _>(global_start_slot)
+        .bind::<BigInt, _>(global_end_slot)
+        .get_results(connection)?;
 
     Ok(results)
 }

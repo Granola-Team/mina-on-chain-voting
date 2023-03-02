@@ -1,5 +1,6 @@
 use diesel::sql_types::{BigInt, Text};
 use diesel::{sql_query, QueryableByName, RunQueryDsl};
+use tracing::log::info;
 
 use crate::database::DBConnectionManager;
 use crate::models::vote::{ChainStatusType, MinaBlockStatus};
@@ -54,9 +55,10 @@ pub(crate) fn fetch_transactions(
     global_start_slot: i64,
     global_end_slot: i64,
 ) -> Result<Vec<FetchTransactionResult>> {
+    info!("Starting fetch_transactions");
     let connection = &mut conn_manager.archive.get()?;
+    info!("Successfully retrieved database connection");
     let results = sql_query(
-            f!(
             "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
             FROM user_commands AS uc
             JOIN blocks_user_commands AS buc
@@ -70,9 +72,15 @@ pub(crate) fn fetch_transactions(
             AND uc.token = 1
             AND NOT b.chain_status = 'orphaned'
             AND buc.status = 'applied'
-            AND b.global_slot BETWEEN {global_start_slot} AND {global_end_slot}"
-            )
-        ).get_results(connection)?;
+            AND b.global_slot BETWEEN $1 AND $2"
+        );
+    info!("Successfully created SQL query");
+    let results = results
+        .bind::<BigInt, _>(global_start_slot)
+        .bind::<BigInt, _>(global_end_slot)
+        .get_results(connection)?;
+
+    info!("Successfully retrieved results from database");
 
     Ok(results)
 }

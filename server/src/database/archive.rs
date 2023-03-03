@@ -69,7 +69,7 @@ pub(crate) fn fetch_transactions(
         AND uc.token = 1
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
-         AND b.global_slot BETWEEN $1 AND $2"
+        AND b.timestamp BETWEEN $1 AND $2"
         );
     let results = results
         .bind::<BigInt, _>(global_start_slot)

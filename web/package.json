@@ -19,6 +19,7 @@
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.0",
+    "@mui/lab": "5.0.0-alpha.121",
     "@mui/material": "^5.11.3",
     "@mui/utils": "^5.11.2",
     "@tanstack/query-core": "^4.24.9",

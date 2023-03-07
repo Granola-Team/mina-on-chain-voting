@@ -31,7 +31,7 @@
 - Removed dummy data and Nix build system
 - Deprecated Haskell tools and scripts related to the archive node
 
-## [Pre MIP1] - 2023-01-04
+## [Pre-MIP1] - 2023-01-04
 
 ### Added
 - Created FAQs and feedback forms

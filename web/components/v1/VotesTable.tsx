@@ -30,7 +30,7 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
   const rowsPerPage = 20;
 
   useEffect(() => {
-    setCurrentPage(Math.ceil(votes.length / rowsPerPage));
+    setCurrentPage(1);
   }, [votes, rowsPerPage]);
 
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {

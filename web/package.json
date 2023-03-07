@@ -28,6 +28,7 @@
     "ethereum-blockies-base64": "^1.0.2",
     "jotai": "^2.0.2",
     "jotai-tanstack-query": "^0.5.0",
+    "moment": "^2.29.4",
     "next": "13.1.1",
     "notistack": "^2.0.8",
     "react": "18.2.0",

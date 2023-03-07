@@ -4,8 +4,8 @@ diesel::table! {
     mina_proposals (id) {
         id -> Int4,
         key -> Text,
-        global_start_slot -> Int8,
-        global_end_slot -> Int8,
+        start_time -> Int8,
+        end_time -> Int8,
         ledger_hash -> Nullable<Text>,
     }
 }

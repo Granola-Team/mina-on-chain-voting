@@ -32,7 +32,6 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<Prop
 const ProposalPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useHydrateAtoms([[proposalIdAtom, props.proposalId]]);
   const [proposal] = useProposal();
-  const [info] = useCoreApiInfo();
 
   return (
     <PageLayout>
@@ -43,7 +42,6 @@ const ProposalPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
       <VotingPeriod
         startSlot={proposal.global_start_slot}
         endSlot={proposal.global_end_slot}
-        currentSlot={info.current_slot}
       />
       <VotesTable votes={proposal.votes} />
     </PageLayout>

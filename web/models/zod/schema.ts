@@ -19,8 +19,8 @@ export const VoteWithWeightSchema = VoteSchema.and(
 export const ProposalSchema = z.object({
   id: z.number(),
   key: z.string(),
-  global_start_slot: z.coerce.bigint(),
-  global_end_slot: z.coerce.bigint(),
+  global_start_slot: z.coerce.number(),
+  global_end_slot: z.coerce.number(),
   ledger_hash: z.string().nullable(),
 });
 
@@ -41,5 +41,5 @@ export const getProposalResultsSchema = ProposalSchema.and(
 
 export const getCoreApiInfoResponseSchema = z.object({
   chain_tip: z.coerce.bigint(),
-  current_slot: z.coerce.bigint(),
+  current_slot: z.coerce.number(),
 });

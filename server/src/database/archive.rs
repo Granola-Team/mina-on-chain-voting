@@ -51,8 +51,8 @@ pub(crate) struct FetchTransactionResult {
 
 pub(crate) fn fetch_transactions(
     conn_manager: &DBConnectionManager,
-    global_start_slot: i64,
-    global_end_slot: i64,
+    start_time: i64,
+    end_time: i64,
 ) -> Result<Vec<FetchTransactionResult>> {
     let connection = &mut conn_manager.archive.get()?;
     let results = sql_query(
@@ -69,11 +69,11 @@ pub(crate) fn fetch_transactions(
         AND uc.token = 1
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
-         AND b.global_slot BETWEEN $1 AND $2"
+        AND b.timestamp BETWEEN $1 AND $2"
         );
     let results = results
-        .bind::<BigInt, _>(global_start_slot)
-        .bind::<BigInt, _>(global_end_slot)
+        .bind::<BigInt, _>(start_time)
+        .bind::<BigInt, _>(end_time)
         .get_results(connection)?;
     Ok(results)
 }

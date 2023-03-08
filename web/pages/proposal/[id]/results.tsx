@@ -1,10 +1,15 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
+import dynamic from 'next/dynamic';
 
-import { proposalIdAtom, useCoreApiInfo, useProposalResults } from 'common/store';
+import { proposalIdAtom, useProposalResults } from 'common/store';
 
-import { PageLayout, ResultsOverview, ResultsTable, VotingPeriod, VotingResults } from 'components/v1';
+import { PageLayout, ResultsOverview, ResultsTable, VotingResults } from 'components/v1';
 
 import { useHydrateAtoms } from 'jotai/react/utils';
+
+const VotingPeriod = dynamic(() => import('components/v1/VotingPeriod').then((mod) => mod.VotingPeriod), {
+  ssr: false,
+});
 
 type ProposalResultsPageProps = {
   id: string;
@@ -30,16 +35,11 @@ export const getServerSideProps = async (context: GetServerSidePropsContext<Prop
 const ProposalResultsPage = (props: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   useHydrateAtoms([[proposalIdAtom, props.proposalId]]);
   const [proposal] = useProposalResults();
-  const [info] = useCoreApiInfo();
 
   return (
     <PageLayout>
       <ResultsOverview />
-      <VotingPeriod
-        startSlot={proposal.global_start_slot}
-        endSlot={proposal.global_end_slot}
-        currentSlot={info.current_slot}
-      />
+      <VotingPeriod startTime={proposal.start_time} endTime={proposal.end_time} />
       <VotingResults
         total={proposal.total_stake_weight}
         positive={proposal.positive_stake_weight}

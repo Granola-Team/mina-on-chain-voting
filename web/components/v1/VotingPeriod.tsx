@@ -1,23 +1,24 @@
 import { LinearProgress, Stack, Typography } from '@mui/material';
 
-import type { CoreApiInfoParserOutcome, ProposalParserOutcome } from 'models';
+import type { ProposalParserOutcome } from 'models';
+import moment from 'moment';
 
 import { SectionLayout } from './SectionLayout';
 
 export type VotingPeriodProps = {
-  startSlot: ProposalParserOutcome['global_start_slot'];
-  endSlot: ProposalParserOutcome['global_end_slot'];
-  currentSlot: CoreApiInfoParserOutcome['current_slot'];
+  startTime: ProposalParserOutcome['start_time'];
+  endTime: ProposalParserOutcome['end_time'];
 };
 
-export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodProps) => {
-  const current = currentSlot < endSlot ? currentSlot : endSlot;
-
-  const distanceFromStart = current - startSlot;
-  const totalDistance = endSlot - startSlot;
-  const percentage = (distanceFromStart / totalDistance) * 100n;
-
-  const hasEnded = currentSlot > endSlot;
+export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
+  const now = moment(new Date()).utc();
+  const startDate = moment(new Date(startTime)).utc();
+  const endDate = moment(new Date(endTime)).utc();
+  const duration = moment.duration(endDate.diff(now));
+  const isDone = now.isAfter(endDate);
+  const hasNotStarted = now.isBefore(startDate);
+  const nowInMillis = moment().valueOf();
+  const percentage = ((nowInMillis - startTime) / (endTime - startTime)) * 100;
 
   return (
     <SectionLayout>
@@ -26,25 +27,25 @@ export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodPr
           Voting Period
         </Typography>
         <Typography variant="body2" fontSize={13} color="hsl(0, 0.8%, 47.1%)">
-          Updated at Slot {currentSlot.toString()}
+          Updated at {now.format('YYYY-MM-DD | hh:mm:ss A')} UTC
         </Typography>
       </Stack>
 
       <Stack direction="row" justifyContent="space-between" alignItems="center">
         <Stack>
           <Typography variant="body2" fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="left">
-            Start Slot
+            Start Date
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {startSlot.toString()}
+            {startDate.format('YYYY-MM-DD | hh:mm:ss A').toString()} UTC
           </Typography>
         </Stack>
         <Stack>
           <Typography variant="body2" fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="right">
-            End Slot
+            End Date
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {endSlot.toString()}
+            {endDate.format('YYYY-MM-DD | hh:mm:ss A').toString()} UTC
           </Typography>
         </Stack>
       </Stack>
@@ -60,10 +61,14 @@ export const VotingPeriod = ({ startSlot, endSlot, currentSlot }: VotingPeriodPr
             backgroundColor: '#570ddb8f',
           },
         }}
-        value={Number(percentage)}
+        value={percentage > 100 ? 100 : percentage}
       />
       <Typography variant="subtitle2" fontSize={14} fontWeight={500} color="hsl(0, 0.8%, 47.1%)" textAlign="left">
-        {hasEnded ? 'The Voting Period has ended.' : `${endSlot - currentSlot} Slots left.`}
+        {isDone
+          ? 'The Voting Period has ended.'
+          : hasNotStarted
+          ? 'The Voting Period has not started yet.'
+          : `Remaining time: ${duration.days()}D ${duration.hours()}H ${duration.minutes()}m`}
       </Typography>
     </SectionLayout>
   );

@@ -61,7 +61,7 @@ export default function _App({
         <meta name="theme-color-dark" content="#F3F6F9" media="(prefers-color-scheme: dark)" />
         <meta name="theme-color-light" content="#F3F6F9" media="(prefers-color-scheme: light)" />
 
-        <title>Mina Governance</title>
+        <title>Mina On-Chain Voting</title>
       </Head>
 
       <CacheProvider value={emotionCache}>

@@ -64,6 +64,7 @@ importers:
       jest-environment-jsdom: ^29.3.1
       jotai: ^2.0.2
       jotai-tanstack-query: ^0.5.0
+      moment: ^2.29.4
       msw: ^1.0.1
       next: 13.1.1
       next-router-mock: 0.8.0
@@ -91,6 +92,7 @@ importers:
       ethereum-blockies-base64: 1.0.2
       jotai: 2.0.3_react@18.2.0
       jotai-tanstack-query: 0.5.0_2gc2f2eoau7d5tg24enjnj6mjy
+      moment: 2.29.4
       next: 13.1.1_6m24vuloj5ihw4zc5lbsktc4fu
       notistack: 2.0.8_bgwnxl5zt7ygprgluq6y2pswwq
       react: 18.2.0
@@ -10780,6 +10782,10 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
     dev: true
+
+  /moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==}
+    dev: false
 
   /move-concurrently/1.0.1:
     resolution: {integrity: sha512-hdrFxZOycD/g6A6SoI2bB5NA/5NEqD0569+S47WZhPvm46sD50ZHdYaFmnua5lndde9rCHGjmfK7Z8BuCt/PcQ==}

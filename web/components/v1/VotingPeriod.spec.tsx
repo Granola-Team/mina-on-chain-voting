@@ -5,10 +5,10 @@ import { VotingPeriod } from './VotingPeriod';
 describe('V1', () => {
   describe(VotingPeriod, () => {
     it('renders default state', () => {
-      render(<VotingPeriod startSlot={1n} endSlot={20n} currentSlot={10n} />);
+      render(<VotingPeriod startTime={1} endTime={20} />);
       expect(screen.getByText('Voting Period')).toBeInTheDocument();
-      expect(screen.getByText('Start Slot')).toBeInTheDocument();
-      expect(screen.getByText('End Slot')).toBeInTheDocument();
+      expect(screen.getByText('Start Date')).toBeInTheDocument();
+      expect(screen.getByText('End Date')).toBeInTheDocument();
     });
   });
 });

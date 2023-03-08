@@ -31,7 +31,7 @@ export const ResultsOverview = () => {
         </Typography>
       </Stack>
 
-      <Stack>
+      <Stack fontWeight={700}>
         <Typography variant="subtitle2">
           The results can be verified on chain. Please read these{' '}
           <Link

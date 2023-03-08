@@ -18,6 +18,8 @@ pub(crate) fn router() -> Router {
     Router::new()
         .route("/api/proposal/:id", get(get_mina_proposal))
         .route("/api/proposal/:id/results", get(get_mina_proposal_result))
+        .route("/mainnet/MIP1/*path", get(get_mina_proposal))
+        .route("/mainnet/MIP1/result/*path", get(get_mina_proposal_result))
 }
 
 #[derive(Serialize, Deserialize)]

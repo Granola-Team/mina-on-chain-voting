@@ -17,7 +17,7 @@ describe('V1', () => {
       expect(screen.getByText('feedback')).toBeInTheDocument();
       expect(screen.getByText('feedback').closest('a')).toHaveAttribute(
         'href',
-        'https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md'
+        'https://docs.google.com/forms/d/e/1FAIpQLSeKoyUIVU3OrJ7hkakwHnOeWz9R8gRe-pUeduXeMyfFsmW6iQ/viewform?pli=1'
       );
     });
   });

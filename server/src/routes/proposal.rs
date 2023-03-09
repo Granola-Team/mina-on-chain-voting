@@ -1,7 +1,9 @@
+use axum::response::Redirect;
 use axum::{
     extract::Path, http::StatusCode, response::IntoResponse, routing::get, Extension, Json, Router,
 };
 use diesel::prelude::*;
+use reqwest::Url;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
@@ -18,8 +20,23 @@ pub(crate) fn router() -> Router {
     Router::new()
         .route("/api/proposal/:id", get(get_mina_proposal))
         .route("/api/proposal/:id/results", get(get_mina_proposal_result))
-        .route("/mainnet/MIP1/*path", get(get_mina_proposal))
-        .route("/mainnet/MIP1/result/*path", get(get_mina_proposal_result))
+        .route("/", get(redirect_to_external_site_home))
+        .route("/mainnet/MIP1", get(redirect_to_external_site_proposal))
+}
+
+fn redirect_to_external_site_home() -> Redirect {
+    let url = Url::parse("https://mina.vote/")
+        .expect("failed to parse URL");
+    Redirect::permanent(&url.as_str().to_owned())
+}
+
+fn redirect_to_external_site_proposal() -> Redirect {
+    let mut url = Url::parse("https://mina.vote/mainnet/MIP1")
+        .expect("failed to parse URL");
+    let query = url.query_pairs_mut();
+    query.append_pair("start", "1672848000000");
+    query.append_pair("end", "1673685000000");
+    Redirect::permanent(&url.as_str().to_owned())
 }
 
 #[derive(Serialize, Deserialize)]

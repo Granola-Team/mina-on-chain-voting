@@ -50,7 +50,7 @@ export const Instructions = ({ keyword }: InstructionsProps) => {
         <Typography variant="subtitle2">
           If you find an issue, a bug or simply have a question, please feel free to write us some{' '}
           <Link
-            href="https://github.com/Granola-Team/blog/blob/main/voting-results-instructions.md"
+            href="https://docs.google.com/forms/d/e/1FAIpQLSeKoyUIVU3OrJ7hkakwHnOeWz9R8gRe-pUeduXeMyfFsmW6iQ/viewform?pli=1"
             target="_blank"
             rel="noreferrer"
             color="#FF6739"

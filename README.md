@@ -72,11 +72,11 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 - Checkout this repository via `git` or the [Github CLI](https://cli.github.com/)
 
   ```bash
-  git clone git@github.com:Granola-Team/mina-governance.git
+  git clone git@github.com:Granola-Team/mina-on-chain-voting.git
 
   # or ...
 
-  gh repo clone Granola-Team/mina-governance
+  gh repo clone Granola-Team/mina-on-chain-voting
   ```
 
 - In the new directory, install dependencies

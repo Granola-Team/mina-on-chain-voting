@@ -7,11 +7,11 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug executable 'mina-governance-server'",
+      "name": "Debug executable 'mina-ocv-server'",
       "cargo": {
-        "args": ["build", "--bin=mina-governance-server", "--package=mina-governance-server"],
+        "args": ["build", "--bin=mina-ocv-server", "--package=mina-ocv-server"],
         "filter": {
-          "name": "mina-governance-server",
+          "name": "mina-ocv-server",
           "kind": "bin"
         }
       },
@@ -21,11 +21,11 @@
     {
       "type": "lldb",
       "request": "launch",
-      "name": "Debug unit tests in executable 'mina-governance-server'",
+      "name": "Debug unit tests in executable 'mina-ocv-server'",
       "cargo": {
-        "args": ["test", "--no-run", "--bin=mina-governance-server", "--package=mina-governance-server"],
+        "args": ["test", "--no-run", "--bin=mina-ocv-server", "--package=mina-ocv-server"],
         "filter": {
-          "name": "mina-governance-server",
+          "name": "mina-ocv-server",
           "kind": "bin"
         }
       },

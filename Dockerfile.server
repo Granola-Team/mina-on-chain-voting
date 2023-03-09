@@ -85,11 +85,11 @@ COPY --from=deb_extractor /dpkg /
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 
-COPY --from=builder /app/target/release/mina-governance-server /app/mina-governance-server
+COPY --from=builder /app/target/release/mina-ocv-server /app/mina-ocv-server
 
 WORKDIR /app
 
 USER mina:mina
 
 # start the server
-CMD ["./mina-governance-server"]
+CMD ["./mina-ocv-server"]

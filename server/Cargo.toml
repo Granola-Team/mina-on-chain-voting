@@ -1,5 +1,5 @@
 [package]
-name = "mina-governance-server"
+name = "mina-ocv-server"
 version = "0.1.0"
 edition = "2021"
 

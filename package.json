@@ -1,5 +1,5 @@
 {
-  "name": "mina-governance",
+  "name": "mina-ocv",
   "private": true,
   "workspaces": [
     "web/*"
@@ -13,7 +13,7 @@
     "cargo:clippy": "cargo make --cwd ./server clippy",
     "cargo:generate": "typeshare ./server --lang=typescript --output-file=./web/models/generated.ts",
     "cargo:make": "cargo make --cwd ./server --profile ci-flow",
-    "cargo:run": "cargo run --bin mina-governance-server --release",
+    "cargo:run": "cargo run --bin mina-ocv-server --release",
     "cargo:test": "cargo make --cwd ./server test",
     "docker": "docker-compose --profile all up",
     "docker:build": "docker-compose build",
@@ -23,7 +23,7 @@
     "docker:web": "docker-compose up --build web",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "playwright": "pnpx playwright test",
-    "web": "dotenv -- pnpm --filter mina-governance-web $1"
+    "web": "dotenv -- pnpm --filter mina-ocv-web $1"
   },
   "devDependencies": {
     "@playwright/test": "^1.30.0",

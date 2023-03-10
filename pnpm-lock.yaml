@@ -127,7 +127,7 @@ importers:
       next-router-mock: 0.8.0_next@13.1.1+react@18.2.0
       ts-jest: 29.0.5_wcrjniphw3whm4635k2u2cclty
       ts-node: 10.9.1_zpb5kzpnyozdjq4cwaojlul57u
-      tsconfig-paths-webpack-plugin: 4.0.0
+      tsconfig-paths-webpack-plugin: 4.0.1
       typescript: 4.9.4
       webpack: 5.76.0
 
@@ -3357,7 +3357,7 @@ packages:
       react-dom: 18.2.0_react@18.2.0
       stable: 0.1.8
       style-loader: 2.0.0_webpack@5.76.0
-      terser-webpack-plugin: 5.3.6_webpack@5.76.0
+      terser-webpack-plugin: 5.3.7_webpack@5.76.0
       ts-dedent: 2.2.0
       typescript: 4.9.4
       util-deprecate: 1.0.2
@@ -3892,7 +3892,7 @@ packages:
       resolve-from: 5.0.0
       style-loader: 2.0.0_webpack@5.76.0
       telejson: 6.0.8
-      terser-webpack-plugin: 5.3.6_webpack@5.76.0
+      terser-webpack-plugin: 5.3.7_webpack@5.76.0
       ts-dedent: 2.2.0
       typescript: 4.9.4
       util-deprecate: 1.0.2
@@ -5568,7 +5568,7 @@ packages:
     hasBin: true
     dependencies:
       browserslist: 4.21.5
-      caniuse-lite: 1.0.30001462
+      caniuse-lite: 1.0.30001464
       normalize-range: 0.1.2
       num2fraction: 1.2.2
       picocolors: 0.2.1
@@ -6009,7 +6009,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001462
+      caniuse-lite: 1.0.30001464
       electron-to-chromium: 1.4.325
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
@@ -6200,8 +6200,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /caniuse-lite/1.0.30001462:
-    resolution: {integrity: sha512-PDd20WuOBPiasZ7KbFnmQRyuLE7cFXW2PVd7dmALzbkUXEP46upAuCDm9eY9vho8fgNMGmbAX92QBZHzcnWIqw==}
+  /caniuse-lite/1.0.30001464:
+    resolution: {integrity: sha512-oww27MtUmusatpRpCGSOneQk2/l5czXANDSFvsc7VuOQ86s3ANhZetpwXNf1zY/zdfP63Xvjz325DAdAoES13g==}
 
   /capture-exit/2.0.0:
     resolution: {integrity: sha512-PiT/hQmTonHhl/HFGN+Lx3JJUznrVYJ3+AQsnthneZbvW7x+f08Tk7yLJTLEOUvBTbduLeeBkxEaYXUOUrRq6g==}
@@ -8942,7 +8942,7 @@ packages:
       he: 1.2.0
       param-case: 3.0.4
       relateurl: 0.2.7
-      terser: 5.16.5
+      terser: 5.16.6
     dev: true
 
   /html-tags/3.2.0:
@@ -11154,7 +11154,7 @@ packages:
     dependencies:
       '@next/env': 13.1.1
       '@swc/helpers': 0.4.14
-      caniuse-lite: 1.0.30001462
+      caniuse-lite: 1.0.30001464
       postcss: 8.4.14
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -13622,15 +13622,15 @@ packages:
       schema-utils: 3.1.1
       serialize-javascript: 5.0.1
       source-map: 0.6.1
-      terser: 5.16.5
+      terser: 5.16.6
       webpack: 4.46.0
       webpack-sources: 1.4.3
     transitivePeerDependencies:
       - bluebird
     dev: true
 
-  /terser-webpack-plugin/5.3.6_webpack@5.76.0:
-    resolution: {integrity: sha512-kfLFk+PoLUQIbLmB1+PZDMRSZS99Mp+/MHqDNmMA6tOItzRt+Npe3E+fsMs5mfcM0wCtrrdU387UnV+vnSffXQ==}
+  /terser-webpack-plugin/5.3.7_webpack@5.76.0:
+    resolution: {integrity: sha512-AfKwIktyP7Cu50xNjXF/6Qb5lBNzYaWpU6YfoX3uZicTx0zTy0stDDCsvjDapKsSDvOeWo5MEq4TmdBy2cNoHw==}
     engines: {node: '>= 10.13.0'}
     peerDependencies:
       '@swc/core': '*'
@@ -13649,7 +13649,7 @@ packages:
       jest-worker: 27.5.1
       schema-utils: 3.1.1
       serialize-javascript: 6.0.1
-      terser: 5.16.5
+      terser: 5.16.6
       webpack: 5.76.0
     dev: true
 
@@ -13664,8 +13664,8 @@ packages:
       source-map-support: 0.5.21
     dev: true
 
-  /terser/5.16.5:
-    resolution: {integrity: sha512-qcwfg4+RZa3YvlFh0qjifnzBHjKGNbtDo9yivMqMFDy9Q6FSaQWSB/j1xKhsoUFJIqDOM3TsN6D5xbrMrFcHbg==}
+  /terser/5.16.6:
+    resolution: {integrity: sha512-IBZ+ZQIA9sMaXmRZCUMDjNH0D5AQQfdn4WUjHL0+1lF4TP1IHRJbrhb6fNaXWikrYQTSkb7SLxkeXAiy1p7mbg==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -13901,8 +13901,8 @@ packages:
       typescript: 4.9.4
     dev: true
 
-  /tsconfig-paths-webpack-plugin/4.0.0:
-    resolution: {integrity: sha512-fw/7265mIWukrSHd0i+wSwx64kYUSAKPfxRDksjKIYTxSAp9W9/xcZVBF4Kl0eqQd5eBpAQ/oQrc5RyM/0c1GQ==}
+  /tsconfig-paths-webpack-plugin/4.0.1:
+    resolution: {integrity: sha512-m5//KzLoKmqu2MVix+dgLKq70MnFi8YL8sdzQZ6DblmCdfuq/y3OqvJd5vMndg2KEVCOeNz8Es4WVZhYInteLw==}
     engines: {node: '>=10.13.0'}
     dependencies:
       chalk: 4.1.2
@@ -14580,7 +14580,7 @@ packages:
       neo-async: 2.6.2
       schema-utils: 3.1.1
       tapable: 2.2.1
-      terser-webpack-plugin: 5.3.6_webpack@5.76.0
+      terser-webpack-plugin: 5.3.7_webpack@5.76.0
       watchpack: 2.4.0
       webpack-sources: 3.2.3
     transitivePeerDependencies:

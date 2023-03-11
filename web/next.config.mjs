@@ -13,6 +13,11 @@ const nextConfig = {
         destination: '/proposal/1',
         permanent: true,
       },
+      {
+        source: '/mainnet/MIP1/results',
+        destination: '/proposal/1/results',
+        permanent: true,
+      },
     ];
   },
   modularizeImports: {

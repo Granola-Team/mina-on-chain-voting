@@ -104,15 +104,15 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
                     {format(setMinutes(setSeconds(new Date(vote.timestamp), 0), 3), 'MM/dd/yyyy - HH:mm')}
                   </Typography>
                 </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  <Stack spacing={1} direction="row" justifyContent="center" alignItems="center">
+                <TableCell align="left" sx={{ py: 1.2 }}>
+                  <Stack spacing={1} direction="row" justifyContent="left" alignItems="left">
                     <TableAvatar seed={vote.account} />
                     <Typography fontSize={13} fontWeight={500}>
                       {vote.account}
                     </Typography>
                   </Stack>
                 </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
+                <TableCell align="left" sx={{ py: 1.2 }}>
                   <Typography fontSize={13} fontWeight={500}>
                     {vote.hash}
                   </Typography>

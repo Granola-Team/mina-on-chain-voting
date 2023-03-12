@@ -1,6 +1,5 @@
+import { HelpOutlineRounded } from '@mui/icons-material';
 import { Stack, Tooltip, Typography } from '@mui/material';
-
-import HelpOutlineIcon from '@material-ui/icons/HelpOutline';
 
 import { SectionLayout } from './SectionLayout';
 
@@ -26,7 +25,7 @@ export const TotalVotes = ({ totalVotes }: TotalVotesProps) => {
               </Typography>
             }
           >
-            <HelpOutlineIcon fontSize="small" />
+            <HelpOutlineRounded fontSize="small" />
           </Tooltip>
         </Stack>
         <Typography variant="h5" fontWeight={600}>

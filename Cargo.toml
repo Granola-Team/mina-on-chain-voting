@@ -4,4 +4,4 @@ members = [
 ]
 
 [workspace.package]
-authors = ["Max Karou <max@granola.team>"]
+authors = ["Max Karou <max@granola.team>", "Jason Hoffman <jason@granola.team>"]

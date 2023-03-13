@@ -60,7 +60,6 @@ fn parse_allowed_origins(arg: &str) -> Result<HashSet<String>> {
     let allowed_origins = HashSet::from_iter(
         arg.split_whitespace()
             .map(std::borrow::ToOwned::to_owned)
-            .into_iter()
             .collect::<HashSet<_>>(),
     );
 

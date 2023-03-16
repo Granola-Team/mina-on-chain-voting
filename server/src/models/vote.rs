@@ -1,3 +1,4 @@
+use anyhow::Context;
 use diesel::SqlType;
 use diesel_derive_enum::DbEnum;
 use rust_decimal::Decimal;
@@ -102,9 +103,14 @@ impl MinaVote {
     }
 
     fn decode_memo(&self) -> Result<String> {
-        let decoded = bs58::decode(&self.memo).into_vec()?;
+        let decoded = bs58::decode(&self.memo)
+            .into_vec()
+            .with_context(|| f!("failed to decode memo {} - bs58", &self.memo))?;
+
         let value = &decoded[3..decoded[2] as usize + 3];
-        Ok(String::from_utf8(value.to_vec())?)
+
+        Ok(String::from_utf8(value.to_vec())
+            .with_context(|| f!("failed to decode memo {} - from_utf8", &self.memo))?)
     }
 }
 

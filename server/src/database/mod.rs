@@ -10,8 +10,6 @@ pub(crate) mod cache;
 pub(crate) type PgConnectionPool = Pool<ConnectionManager<PgConnection>>;
 
 pub(crate) struct DBConnectionManager {
-    // TODO: remove dead_code macro
-    #[allow(dead_code)]
     pub(crate) main: PgConnectionPool,
     pub(crate) archive: PgConnectionPool,
 }

@@ -1,6 +1,10 @@
-use axum::{
-    extract::Path, http::StatusCode, response::IntoResponse, routing::get, Extension, Json, Router,
-};
+use anyhow::anyhow;
+use anyhow::Context;
+use axum::extract::Path;
+use axum::http::StatusCode;
+use axum::response::IntoResponse;
+use axum::routing::get;
+use axum::{Extension, Json, Router};
 use diesel::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
@@ -33,7 +37,12 @@ async fn get_mina_proposal(
 ) -> Result<impl IntoResponse> {
     use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
 
-    let conn = &mut ctx.conn_manager.main.get()?;
+    let conn = &mut ctx
+        .conn_manager
+        .main
+        .get()
+        .context("failed to get primary db connection")?;
+
     let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
 
     if let Some(cached) = ctx.cache.votes.get(&proposal.key) {
@@ -86,13 +95,18 @@ async fn get_mina_proposal_result(
 ) -> Result<impl IntoResponse> {
     use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
 
-    let conn = &mut ctx.conn_manager.main.get()?;
+    let conn = &mut ctx
+        .conn_manager
+        .main
+        .get()
+        .context("failed to get primary db connection")?;
+
     let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
 
     let hash = proposal
         .ledger_hash
         .clone()
-        .ok_or(Error::Ledger(f!("Ledger for proposal {id} not found")))?;
+        .ok_or_else(|| anyhow!("Error: ledger for proposal {id} not found"))?;
 
     let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
         Ledger(cached_ledger.to_vec())

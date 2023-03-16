@@ -1,5 +1,5 @@
 pub(crate) use crate::error::Error;
-pub(crate) type Result<T> = core::result::Result<T, Error>;
+pub(crate) type Result<T, E = Error> = std::result::Result<T, E>;
 
 pub(crate) use std::format as f;
 

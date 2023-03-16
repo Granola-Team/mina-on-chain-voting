@@ -1,3 +1,4 @@
+use anyhow::Context;
 use diesel::sql_types::{BigInt, Text};
 use diesel::{sql_query, QueryableByName, RunQueryDsl};
 
@@ -12,7 +13,11 @@ pub(crate) struct FetchChainTipResult {
 }
 
 pub(crate) fn fetch_chain_tip(conn_manager: &DBConnectionManager) -> Result<i64> {
-    let connection = &mut conn_manager.archive.get()?;
+    let connection = &mut conn_manager
+        .archive
+        .get()
+        .context("failed to get archive db connection")?;
+
     let result = sql_query("SELECT MAX(height) FROM blocks")
         .get_result::<FetchChainTipResult>(connection)?;
     Ok(result.max)
@@ -25,7 +30,11 @@ pub(crate) struct FetchLatestSlotResult {
 }
 
 pub(crate) fn fetch_latest_slot(conn_manager: &DBConnectionManager) -> Result<i64> {
-    let connection = &mut conn_manager.archive.get()?;
+    let connection = &mut conn_manager
+        .archive
+        .get()
+        .context("failed to get archive db connection")?;
+
     let result = sql_query("SELECT MAX(global_slot) FROM blocks")
         .get_result::<FetchLatestSlotResult>(connection)?;
     Ok(result.max)
@@ -54,7 +63,11 @@ pub(crate) fn fetch_transactions(
     start_time: i64,
     end_time: i64,
 ) -> Result<Vec<FetchTransactionResult>> {
-    let connection = &mut conn_manager.archive.get()?;
+    let connection = &mut conn_manager
+        .archive
+        .get()
+        .context("failed to get archive db connection")?;
+
     let results = sql_query(
         "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
         FROM user_commands AS uc

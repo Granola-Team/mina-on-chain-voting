@@ -1,3 +1,5 @@
+use anyhow::anyhow;
+use anyhow::Context;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 
@@ -23,11 +25,15 @@ impl Ledger {
         let ledger = reqwest::get(f!(
             "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"
         ))
-        .await?
+        .await
+        .with_context(|| f!("failed to fetch ledger {hash}"))?
         .bytes()
-        .await?;
+        .await
+        .with_context(|| f!("failed to parse ledger response body {hash}"))?;
 
-        Ok(Ledger(serde_json::from_slice(&ledger)?))
+        Ok(Ledger(serde_json::from_slice(&ledger).with_context(
+            || f!("failed to deserialize ledger {hash}"),
+        )?))
     }
 
     pub(crate) fn get_stake_weight(&self, public_key: impl Into<String>) -> Result<Decimal> {
@@ -37,7 +43,7 @@ impl Ledger {
             .0
             .iter()
             .find(|d| d.pk == public_key)
-            .ok_or_else(|| Error::Ledger(f!("account '{public_key}' not found in ledger.")))?;
+            .ok_or_else(|| anyhow!("account {public_key} not found in ledger"))?;
 
         let balance = account
             .balance

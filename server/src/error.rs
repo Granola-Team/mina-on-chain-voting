@@ -20,9 +20,7 @@ impl Error {
                 _ => StatusCode::INTERNAL_SERVER_ERROR,
             },
 
-            Self::Anyhow(ref error) => match error {
-                _ => StatusCode::INTERNAL_SERVER_ERROR,
-            },
+            Self::Anyhow(_) => StatusCode::INTERNAL_SERVER_ERROR,
         }
     }
 }
@@ -35,7 +33,7 @@ impl IntoResponse for Error {
             }
 
             Self::Anyhow(ref error) => {
-                tracing::error!(target: MINA_GOVERNANCE_SERVER, "Error: {error}")
+                tracing::error!(target: MINA_GOVERNANCE_SERVER, "Error: {error}");
             }
         }
 

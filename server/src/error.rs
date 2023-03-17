@@ -1,39 +1,42 @@
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 
-use bs58::decode::Error as BS58Error;
-use diesel::result::Error as DieselError;
-use r2d2::Error as R2D2Error;
-use reqwest::Error as ReqwestError;
-use serde_json::Error as JsonError;
-use std::string::FromUtf8Error;
+use crate::MINA_GOVERNANCE_SERVER;
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
-    #[error("Ledger error: {0}")]
-    Ledger(String),
+    #[error(transparent)]
+    Diesel(#[from] diesel::result::Error),
 
     #[error(transparent)]
-    Diesel(#[from] DieselError),
+    Anyhow(#[from] anyhow::Error),
+}
 
-    #[error(transparent)]
-    R2D2(#[from] R2D2Error),
+impl Error {
+    fn status_code(&self) -> StatusCode {
+        match self {
+            Self::Diesel(ref error) => match error {
+                diesel::result::Error::NotFound => StatusCode::NOT_FOUND,
+                _ => StatusCode::INTERNAL_SERVER_ERROR,
+            },
 
-    #[error(transparent)]
-    Serde(#[from] JsonError),
-
-    #[error(transparent)]
-    Reqwest(#[from] ReqwestError),
-
-    #[error(transparent)]
-    UTF8(#[from] FromUtf8Error),
-
-    #[error(transparent)]
-    Base58(#[from] BS58Error),
+            Self::Anyhow(_) => StatusCode::INTERNAL_SERVER_ERROR,
+        }
+    }
 }
 
 impl IntoResponse for Error {
     fn into_response(self) -> Response {
-        (StatusCode::INTERNAL_SERVER_ERROR, "Internal Server Error").into_response()
+        match self {
+            Self::Diesel(ref error) => {
+                tracing::error!(target: MINA_GOVERNANCE_SERVER, "Error: {error}");
+            }
+
+            Self::Anyhow(ref error) => {
+                tracing::error!(target: MINA_GOVERNANCE_SERVER, "Error: {error}");
+            }
+        }
+
+        (self.status_code(), self.to_string()).into_response()
     }
 }

@@ -37,10 +37,9 @@ impl Ledger {
                     .read_to_end(&mut bytes)
                     .with_context(|| f!("failed to read ledger {hash}"))?;
 
-                return Ok(Ledger(
-                    serde_json::from_slice(&bytes)
-                        .with_context(|| f!("failed to deserialize ledger {hash}"))?,
-                ));
+                Ok(Ledger(serde_json::from_slice(&bytes).with_context(
+                    || f!("failed to deserialize ledger {hash}"),
+                )?))
             }
             None => {
                 let ledger = reqwest::get(f!(

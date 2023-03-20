@@ -49,6 +49,7 @@ async fn main() -> Result<()> {
                 cache: Arc::new(cache),
                 conn_manager: Arc::new(conn_manager),
                 network: config.mina_network,
+                ledger_storage_path: config.ledger_storage_path,
             })),
     );
 

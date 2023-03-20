@@ -1,3 +1,5 @@
+use std::io::Read;
+
 use anyhow::anyhow;
 use anyhow::Context;
 use rust_decimal::Decimal;
@@ -19,21 +21,42 @@ pub(crate) struct LedgerAccount {
 }
 
 impl Ledger {
-    pub(crate) async fn fetch(hash: impl Into<String>, network: NetworkConfig) -> Result<Ledger> {
+    pub(crate) async fn fetch(
+        hash: impl Into<String>,
+        network: NetworkConfig,
+        ledger_storage_location: &Option<String>,
+    ) -> Result<Ledger> {
         let hash = hash.into();
 
-        let ledger = reqwest::get(f!(
-            "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"
-        ))
-        .await
-        .with_context(|| f!("failed to fetch ledger {hash}"))?
-        .bytes()
-        .await
-        .with_context(|| f!("failed to parse ledger response body {hash}"))?;
+        match ledger_storage_location {
+            Some(ledger_storage_location) => {
+                let mut bytes = Vec::new();
 
-        Ok(Ledger(serde_json::from_slice(&ledger).with_context(
-            || f!("failed to deserialize ledger {hash}"),
-        )?))
+                std::fs::File::open(f!("{ledger_storage_location}/{hash}.json"))
+                    .with_context(|| f!("failed to open ledger {hash}"))?
+                    .read_to_end(&mut bytes)
+                    .with_context(|| f!("failed to read ledger {hash}"))?;
+
+                return Ok(Ledger(
+                    serde_json::from_slice(&bytes)
+                        .with_context(|| f!("failed to deserialize ledger {hash}"))?,
+                ));
+            }
+            None => {
+                let ledger = reqwest::get(f!(
+                    "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"
+                ))
+                .await
+                .with_context(|| f!("failed to fetch ledger {hash}"))?
+                .bytes()
+                .await
+                .with_context(|| f!("failed to parse ledger response body {hash}"))?;
+
+                Ok(Ledger(serde_json::from_slice(&ledger).with_context(
+                    || f!("failed to deserialize ledger {hash}"),
+                )?))
+            }
+        }
     }
 
     pub(crate) fn get_stake_weight(&self, public_key: impl Into<String>) -> Result<Decimal> {

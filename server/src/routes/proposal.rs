@@ -111,7 +111,7 @@ async fn get_mina_proposal_result(
     let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
         Ledger(cached_ledger.to_vec())
     } else {
-        let ledger = Ledger::fetch(&hash, ctx.network).await?;
+        let ledger = Ledger::fetch(&hash, ctx.network, &ctx.ledger_storage_path).await?;
 
         ctx.cache
             .ledger

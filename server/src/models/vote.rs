@@ -129,11 +129,15 @@ impl From<FetchTransactionResult> for MinaVote {
 }
 
 impl Wrapper<Vec<MinaVote>> {
-    pub(crate) fn process(self, key: impl Into<String>, tip: i64) -> Self {
+    pub(crate) fn process(
+        self,
+        key: impl Into<String>,
+        tip: i64,
+    ) -> Wrapper<HashMap<String, MinaVote>> {
         let mut map = HashMap::new();
         let key = key.into();
 
-        for mut vote in self.inner() {
+        for mut vote in self.0 {
             if let Some(memo) = vote.match_decoded_memo(&key) {
                 vote.update_memo(memo);
 
@@ -155,7 +159,7 @@ impl Wrapper<Vec<MinaVote>> {
             }
         }
 
-        Wrapper(map.values().cloned().collect())
+        Wrapper(map)
     }
 
     pub(crate) fn into_weighted(
@@ -168,23 +172,32 @@ impl Wrapper<Vec<MinaVote>> {
         let votes = self.process(key, tip);
 
         let votes_with_stake: Vec<MinaVoteWithWeight> = votes
-            .inner()
-            .into_iter()
-            .filter_map(|vote| {
-                let stake = ledger.get_stake_weight(&vote.account).ok()?;
+            .0
+            .iter()
+            .filter_map(|(account, vote)| {
+                let stake = ledger.get_stake_weight(&votes, account).ok()?;
                 Some(vote.to_weighted(stake))
             })
             .collect();
 
         Wrapper(votes_with_stake)
     }
+}
 
-    pub(crate) fn sort_by_timestamp(mut self) -> Self {
-        self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
-        self
+impl Wrapper<HashMap<String, MinaVote>> {
+    pub(crate) fn to_vec(&self) -> Wrapper<Vec<MinaVote>> {
+        Wrapper(self.0.values().cloned().collect())
     }
 }
 
+impl Wrapper<HashMap<String, MinaVote>> {
+    pub(crate) fn sort_by_timestamp(&mut self) -> &Self {
+        self.to_vec()
+            .0
+            .sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
+        self
+    }
+}
 impl Wrapper<Vec<MinaVoteWithWeight>> {
     pub(crate) fn sort_by_timestamp(mut self) -> Self {
         self.0.sort_by(|a, b| b.timestamp.cmp(&a.timestamp));
@@ -284,7 +297,8 @@ mod tests {
     #[test]
     fn test_process_votes() {
         let votes = get_test_votes();
-        let processed = Wrapper(votes).process("cftest-2", 129).inner();
+        let binding = Wrapper(votes).process("cftest-2", 129);
+        let processed = binding.to_vec().0;
 
         assert_eq!(processed.len(), 2);
 

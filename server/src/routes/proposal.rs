@@ -67,7 +67,8 @@ async fn get_mina_proposal(
     )
     .process(&proposal.key, chain_tip)
     .sort_by_timestamp()
-    .inner();
+    .to_vec()
+    .0;
 
     ctx.cache
         .votes
@@ -137,7 +138,7 @@ async fn get_mina_proposal_result(
         )
         .into_weighted(&proposal.key, &ledger, chain_tip)
         .sort_by_timestamp()
-        .inner();
+        .0;
 
         ctx.cache
             .votes_weighted

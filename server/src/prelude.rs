@@ -23,9 +23,3 @@ pub(crate) use std::format as f;
 /// assert_eq!(value.0, 42);
 /// ```
 pub(crate) struct Wrapper<T>(pub T);
-
-impl<T> Wrapper<T> {
-    pub(crate) fn inner(self) -> T {
-        self.0
-    }
-}

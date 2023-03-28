@@ -176,7 +176,7 @@ impl Wrapper<Vec<MinaVote>> {
                 .0
                 .into_iter()
                 .filter_map(|(account, vote)| {
-                    let stake = ledger.get_stake_weight_old(&account).ok()?;
+                    let stake = ledger.get_stake_weight_old(account).ok()?;
                     Some(vote.to_weighted(stake))
                 })
                 .collect();

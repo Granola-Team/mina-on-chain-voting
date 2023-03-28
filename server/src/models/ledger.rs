@@ -59,6 +59,47 @@ impl Ledger {
         }
     }
 
+    pub(crate) fn get_stake_weight_old(&self, public_key: impl Into<String>) -> Result<Decimal> {
+        let public_key = public_key.into();
+
+        let account = self
+            .0
+            .iter()
+            .find(|d| d.pk == public_key)
+            .ok_or_else(|| anyhow!("account {public_key} not found in ledger"))?;
+
+        let balance = account
+            .balance
+            .parse()
+            .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE));
+
+        if account.delegate != public_key {
+            return Ok(Decimal::new(0, LEDGER_BALANCE_SCALE));
+        }
+
+        let delegators = self
+            .0
+            .iter()
+            .filter(|d| d.delegate == public_key && d.pk != public_key)
+            .collect::<Vec<&LedgerAccount>>();
+
+        if delegators.is_empty() {
+            return Ok(balance);
+        }
+
+        let stake_weight =
+            delegators
+                .iter()
+                .fold(Decimal::new(0, LEDGER_BALANCE_SCALE), |acc, x| {
+                    x.balance
+                        .parse()
+                        .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE))
+                        + acc
+                });
+
+        Ok(stake_weight + balance)
+    }
+
     pub(crate) fn get_stake_weight(
         &self,
         map: &Wrapper<HashMap<String, MinaVote>>,
@@ -196,6 +237,46 @@ mod tests {
         assert_eq!(
             b_weight.unwrap(),
             Decimal::new(2000000000, LEDGER_BALANCE_SCALE)
+        );
+    }
+
+    #[test]
+    fn test_stake_weight_old() {
+        let (a, b, c, d, _) = get_accounts();
+
+        // No account found - throw err.
+        let error = Ledger::get_stake_weight_old(
+            &Ledger(vec![a.clone(), b.clone(), c.clone(), d.clone()]),
+            "E",
+        );
+        assert_eq!(error.is_err(), true);
+
+        // Delegated stake away - returns 0.000000000.
+        let d_weight = Ledger::get_stake_weight_old(
+            &Ledger(vec![a.clone(), b.clone(), c.clone(), d.clone()]),
+            "D",
+        );
+        assert_eq!(d_weight.unwrap(), Decimal::new(0, LEDGER_BALANCE_SCALE));
+
+        // No delegators & delegated to self - returns balance.
+        let b_weight = Ledger::get_stake_weight_old(
+            &Ledger(vec![a.clone(), b.clone(), c.clone(), d.clone()]),
+            "B",
+        );
+
+        assert_eq!(
+            b_weight.unwrap(),
+            Decimal::new(1000000000, LEDGER_BALANCE_SCALE)
+        );
+
+        // Delegated to self & has delegators - returns balance + delegators.
+        let a_weight = Ledger::get_stake_weight_old(
+            &Ledger(vec![a.clone(), b.clone(), c.clone(), d.clone()]),
+            "A",
+        );
+        assert_eq!(
+            a_weight.unwrap(),
+            Decimal::new(3000000000, LEDGER_BALANCE_SCALE)
         );
     }
 }

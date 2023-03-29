@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use std::collections::{hash_map::Entry, HashMap};
 
 use crate::database::archive::FetchTransactionResult;
+use crate::models::diesel::MinaProposal;
 use crate::models::ledger::Ledger;
 use crate::prelude::*;
 
@@ -164,31 +165,32 @@ impl Wrapper<Vec<MinaVote>> {
 
     pub(crate) fn into_weighted(
         self,
-        key: impl Into<String>,
+        proposal: &MinaProposal,
         ledger: &Ledger,
         tip: i64,
     ) -> Wrapper<Vec<MinaVoteWithWeight>> {
-        let key = key.into();
-        let votes = self.process(&key, tip);
+        let votes = self.process(&proposal.key, tip);
 
-        if key == "MIP1" {
-            let votes_with_stake: Vec<MinaVoteWithWeight> = votes
-                .0
-                .into_iter()
-                .filter_map(|(account, vote)| {
-                    let stake = ledger.get_stake_weight_old(account).ok()?;
-                    Some(vote.to_weighted(stake))
-                })
-                .collect();
+        // if key == "MIP1" {
+        //     let votes_with_stake: Vec<MinaVoteWithWeight> = votes
+        //         .0
+        //         .into_iter()
+        //         .filter_map(|(account, vote)| {
+        //             let stake = ledger.get_stake_weight_old(account).ok()?;
+        //             Some(vote.to_weighted(stake))
+        //         })
+        //         .collect();
 
-            return Wrapper(votes_with_stake);
-        }
+        //     return Wrapper(votes_with_stake);
+        // }
 
         let votes_with_stake: Vec<MinaVoteWithWeight> = votes
             .0
             .iter()
             .filter_map(|(account, vote)| {
-                let stake = ledger.get_stake_weight(&votes, account).ok()?;
+                let stake = ledger
+                    .get_stake_weight(&votes, &proposal.version, account)
+                    .ok()?;
                 Some(vote.to_weighted(stake))
             })
             .collect();

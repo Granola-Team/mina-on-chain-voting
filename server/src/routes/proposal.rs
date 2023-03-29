@@ -136,7 +136,7 @@ async fn get_mina_proposal_result(
                 .map(std::convert::Into::into)
                 .collect(),
         )
-        .into_weighted(&proposal.key, &ledger, chain_tip)
+        .into_weighted(&proposal, &ledger, chain_tip)
         .sort_by_timestamp()
         .0;
 

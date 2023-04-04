@@ -4,6 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, DbEnum)]
 #[ExistingTypePath = "crate::schema::sql_types::ProposalVersion"]
+#[DbValueStyle = "SCREAMING_SNAKE_CASE"]
 pub(crate) enum ProposalVersion {
     V1,
     V2,

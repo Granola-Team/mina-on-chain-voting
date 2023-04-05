@@ -25,11 +25,6 @@ pub(crate) fn router() -> Router {
         .route("/api/proposal/:id/results", get(get_mina_proposal_result))
 }
 
-#[derive(Serialize, Deserialize)]
-struct GetMinaProposalsResponse {
-    proposals: Vec<MinaProposal>,
-}
-
 async fn get_mina_proposals(ctx: Extension<crate::Context>) -> Result<impl IntoResponse> {
     use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
 
@@ -43,9 +38,7 @@ async fn get_mina_proposals(ctx: Extension<crate::Context>) -> Result<impl IntoR
         .order(mina_proposal_dsl::id.desc())
         .load(conn)?;
 
-    let response = GetMinaProposalsResponse { proposals };
-
-    Ok((StatusCode::OK, Json(response)).into_response())
+    Ok((StatusCode::OK, Json(proposals)).into_response())
 }
 
 #[derive(Serialize, Deserialize)]

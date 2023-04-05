@@ -44,6 +44,4 @@ export const getCoreApiInfoResponseSchema = z.object({
   current_slot: z.number(),
 });
 
-export const getProposalsSchema = z.object({
-  proposals: z.array(ProposalSchema),
-});
+export const getProposalsSchema = z.array(ProposalSchema);

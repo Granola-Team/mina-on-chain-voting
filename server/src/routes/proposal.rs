@@ -25,6 +25,7 @@ pub(crate) fn router() -> Router {
         .route("/api/proposal/:id/results", get(get_mina_proposal_result))
 }
 
+#[allow(clippy::unused_async)]
 async fn get_mina_proposals(ctx: Extension<crate::Context>) -> Result<impl IntoResponse> {
     use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
 

@@ -1,15 +1,10 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-import dynamic from 'next/dynamic';
 
 import { proposalIdAtom, useProposalResults } from 'common/store';
 
-import { PageLayout, ResultsOverview, ResultsTable, VotingResults } from 'components/v1';
+import { PageLayout, ResultsOverview, ResultsTable, VotingPeriod, VotingResults } from 'components/v1';
 
 import { useHydrateAtoms } from 'jotai/react/utils';
-
-const VotingPeriod = dynamic(() => import('components/v1/VotingPeriod').then((mod) => mod.VotingPeriod), {
-  ssr: false,
-});
 
 type ProposalResultsPageProps = {
   id: string;

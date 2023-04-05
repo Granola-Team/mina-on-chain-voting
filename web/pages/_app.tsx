@@ -2,6 +2,7 @@ import { Fragment, PropsWithChildren } from 'react';
 
 import App, { type AppContext, type AppProps } from 'next/app';
 import Head from 'next/head';
+import NextNProgress from 'nextjs-progressbar';
 
 import { CacheProvider } from '@emotion/react';
 import { CssBaseline } from '@mui/material';
@@ -71,6 +72,7 @@ export default function _App({
               <HydrateAtoms>
                 <SnackbarProvider>
                   <CssBaseline />
+                  <NextNProgress color="#666666" options={{ showSpinner: false }} />
                   <Component {...pageProps} />
                 </SnackbarProvider>
               </HydrateAtoms>

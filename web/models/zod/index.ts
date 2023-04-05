@@ -1,7 +1,12 @@
 import type { z } from 'zod';
 
 import { GenericParsingError } from './error';
-import { getCoreApiInfoResponseSchema, getProposalResultsSchema, getProposalSchema } from './schema';
+import {
+  getCoreApiInfoResponseSchema,
+  getProposalResultsSchema,
+  getProposalSchema,
+  getProposalsSchema,
+} from './schema';
 
 class ZodParser<T, K extends z.ZodSchema<T>> {
   schema: K;
@@ -31,3 +36,6 @@ export type ProposalResultsParserOutcome = ReturnType<typeof ProposalResultsPars
 
 export const CoreApiInfoParser = parserFactory(getCoreApiInfoResponseSchema);
 export type CoreApiInfoParserOutcome = ReturnType<typeof CoreApiInfoParser.parse>;
+
+export const ProposalListParser = parserFactory(getProposalsSchema);
+export type ProposalListParserOutcome = ReturnType<typeof ProposalListParser.parse>;

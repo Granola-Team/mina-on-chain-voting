@@ -43,3 +43,7 @@ export const getCoreApiInfoResponseSchema = z.object({
   chain_tip: z.number(),
   current_slot: z.number(),
 });
+
+export const getProposalsSchema = z.object({
+  proposals: z.array(ProposalSchema),
+});

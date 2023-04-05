@@ -1,12 +1,13 @@
 import { atom, useAtom } from 'jotai';
 import { atomsWithQuery } from 'jotai-tanstack-query';
-import { CoreApiInfoParser, ProposalParser, ProposalResultsParser } from 'models';
+import { CoreApiInfoParser, ProposalListParser, ProposalParser, ProposalResultsParser } from 'models';
 
 import { safeFetch } from './fetch';
 
 export enum QueryKeys {
   INFO = 'info',
   PROPOSAL = 'proposal',
+  PROPOSAL_LIST = 'proposal-list',
   PROPOSAL_RESULT = 'proposal-result',
 }
 
@@ -40,7 +41,17 @@ const [proposalResultsAtom] = atomsWithQuery((get) => ({
   },
 }));
 
+const [proposalListAtom] = atomsWithQuery(() => ({
+  queryKey: [QueryKeys.PROPOSAL],
+  queryFn: async () => {
+    const res = await safeFetch('/api/proposals');
+    const data = ProposalListParser.parse(QueryKeys.PROPOSAL, res);
+    return data;
+  },
+}));
+
 export const useCoreApiInfo = () => useAtom(coreApiInfoAtom);
 
 export const useProposal = () => useAtom(proposalAtom);
 export const useProposalResults = () => useAtom(proposalResultsAtom);
+export const useProposalList = () => useAtom(proposalListAtom);

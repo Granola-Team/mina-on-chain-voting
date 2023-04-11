@@ -35,7 +35,9 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
       }}
     >
       <SectionLayout
+        justifyContent="space-between"
         sx={{
+          minHeight: 130,
           ':hover': {
             backgroundColor: theme.key === 'dark' ? '#1C1C1C' : '#e8e8e8',
             transition: 'ease-in-out background 0.075s',
@@ -43,13 +45,18 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
         }}
       >
         <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography fontSize={20} fontWeight={600}>
-            {proposal.key}
+          <Typography fontSize={15} fontWeight={600}>
+            {proposal.title ? `${proposal.key}: ${proposal.title}` : proposal.key}
           </Typography>
 
           {isDone && <Chip label="Completed" variant="outlined" color="success" size="small" />}
           {hasNotStarted && <Chip label="Not Started" variant="outlined" color="info" size="small" />}
           {inProgress && <Chip label="In Progress" variant="outlined" color="warning" size="small" />}
+        </Stack>
+        <Stack direction="row" justifyContent="space-between" alignItems="center">
+          <Typography fontSize={12} fontWeight={500}>
+            {proposal.description ? proposal.description : 'No description provided.'}
+          </Typography>
         </Stack>
 
         <Stack direction="row" justifyContent="space-between" alignItems="center">

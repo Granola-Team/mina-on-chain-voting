@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import {
+  Alert,
   Pagination,
   Stack,
   Table,
@@ -94,47 +95,58 @@ export const ResultsTable = ({ votes, totalStakeWeight }: ResultsTableProps) => 
             </TableRow>
           </TableHead>
           <TableBody>
-            {pageVotes.map((vote) => (
-              <TableRow key={vote.account} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  <Typography fontSize={13} fontWeight={500}>
-                    {vote.height}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  <Typography fontSize={13} fontWeight={500}>
-                    {format(setMinutes(setSeconds(new Date(vote.timestamp), 0), 3), 'MM/dd/yyyy - HH:mm')}
-                  </Typography>
-                </TableCell>
-                <TableCell align="left" sx={{ py: 1.2 }}>
-                  <Stack spacing={1} direction="row" justifyContent="left" alignItems="left">
-                    <TableAvatar seed={vote.account} />
-                    <Typography fontSize={13} fontWeight={500}>
-                      {vote.account}
-                    </Typography>
+            {pageVotes.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={6}>
+                  <Stack sx={{ width: '100%' }}>
+                    <Alert severity="info">No Transactions found!</Alert>
                   </Stack>
                 </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  <Typography fontSize={13} fontWeight={500}>
-                    {vote.weight === 0 ? 'Stake Delegated' : vote.weight}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  <Typography fontSize={13} fontWeight={500}>
-                    {vote.weight ? `${((vote.weight / totalStakeWeight) * 100).toFixed(4)}` : 'Stake Delegated'}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  <Typography fontSize={13} fontWeight={500}>
-                    {vote.memo}
-                  </Typography>
-                </TableCell>
-                <TableCell align="center" sx={{ py: 1.2 }}>
-                  {vote.status === 'Canonical' && <StatusBubble type="Canonical" />}
-                  {vote.status === 'Pending' && <StatusBubble type="Pending" />}
-                </TableCell>
               </TableRow>
-            ))}
+            )}
+
+            {pageVotes.length > 0 &&
+              pageVotes.map((vote) => (
+                <TableRow key={vote.account} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.height}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {format(setMinutes(setSeconds(new Date(vote.timestamp), 0), 3), 'MM/dd/yyyy - HH:mm')}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left" sx={{ py: 1.2 }}>
+                    <Stack spacing={1} direction="row" justifyContent="left" alignItems="left">
+                      <TableAvatar seed={vote.account} />
+                      <Typography fontSize={13} fontWeight={500}>
+                        {vote.account}
+                      </Typography>
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.weight === 0 ? 'Stake Delegated' : vote.weight}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.weight ? `${((vote.weight / totalStakeWeight) * 100).toFixed(4)}` : 'Stake Delegated'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.memo}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    {vote.status === 'Canonical' && <StatusBubble type="Canonical" />}
+                    {vote.status === 'Pending' && <StatusBubble type="Pending" />}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

@@ -11,7 +11,7 @@ const HomePage = () => {
     <PageLayout>
       <Grid container spacing={1.25}>
         {proposals.map((proposal) => (
-          <Grid key={proposal.id} item xs={12} sm={6} md={3}>
+          <Grid key={proposal.id} item xs={12} sm={6} md={4}>
             <ProposalCard proposal={proposal} />
           </Grid>
         ))}

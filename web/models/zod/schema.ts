@@ -22,6 +22,10 @@ export const ProposalSchema = z.object({
   start_time: z.number(),
   end_time: z.number(),
   ledger_hash: z.string().nullable(),
+  version: z.string(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  url: z.string().nullable(),
 });
 
 export const getProposalSchema = ProposalSchema.and(

@@ -18,4 +18,7 @@ pub(crate) struct MinaProposal {
     pub(crate) end_time: i64,
     pub(crate) ledger_hash: Option<String>,
     pub(crate) version: ProposalVersion,
+    pub(crate) title: Option<String>,
+    pub(crate) description: Option<String>,
+    pub(crate) url: Option<String>,
 }

@@ -27,8 +27,6 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const hasNotStarted = now.isBefore(startDate);
   const inProgress = !isDone && !hasNotStarted;
 
-  const isTBD = proposal.start_time === 2000000000000 && proposal.end_time === 2000000000000;
-
   return (
     <Link
       href={isDone ? `/proposal/${proposal.id}/results` : `/proposal/${proposal.id}`}
@@ -67,7 +65,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               Start Date
             </Typography>
             <Typography variant="body2" fontSize={12} fontWeight={600}>
-              {isTBD ? 'TBD' : `${startDate.format('YYYY-MM-DD - hh:mm').toString()} UTC`}
+              {startDate.format('YYYY-MM-DD - hh:mm').toString()} UTC
             </Typography>
           </Stack>
           <Stack>
@@ -75,7 +73,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               End Date
             </Typography>
             <Typography variant="body2" fontSize={12} fontWeight={600}>
-              {isTBD ? 'TBD' : `${endDate.format('YYYY-MM-DD - hh:mm').toString()} UTC`}
+              {endDate.format('YYYY-MM-DD - hh:mm').toString()} UTC
             </Typography>
           </Stack>
         </Stack>

@@ -2,7 +2,6 @@ import { Brightness4, Brightness7 } from '@mui/icons-material';
 import { Box, Container, IconButton, Stack, Typography } from '@mui/material';
 
 import { useTheme } from 'components/provider';
-import { Link } from 'components/v1';
 
 export type PropsLayoutProps = React.PropsWithChildren & {
   title?: string;
@@ -24,11 +23,9 @@ export const PageLayout = (props: PropsLayoutProps) => {
         borderBottom={0.2}
         borderColor="hsl(0, 0%, 24.3%)"
       >
-        <Link href="/">
-          <Typography variant="h5" fontWeight={500}>
-            {props.title || 'On-Chain Voting'}
-          </Typography>
-        </Link>
+        <Typography variant="h5" fontWeight={500}>
+          {props.title || 'On-Chain Voting'}
+        </Typography>
 
         <Box>
           <IconButton

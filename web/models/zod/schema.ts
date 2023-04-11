@@ -22,6 +22,10 @@ export const ProposalSchema = z.object({
   start_time: z.number(),
   end_time: z.number(),
   ledger_hash: z.string().nullable(),
+  version: z.string(),
+  title: z.string().nullable(),
+  description: z.string().nullable(),
+  url: z.string().nullable(),
 });
 
 export const getProposalSchema = ProposalSchema.and(
@@ -43,3 +47,5 @@ export const getCoreApiInfoResponseSchema = z.object({
   chain_tip: z.number(),
   current_slot: z.number(),
 });
+
+export const getProposalsSchema = z.array(ProposalSchema);

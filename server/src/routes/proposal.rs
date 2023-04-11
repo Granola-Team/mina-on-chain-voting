@@ -20,8 +20,26 @@ use crate::prelude::*;
 
 pub(crate) fn router() -> Router {
     Router::new()
+        .route("/api/proposals", get(get_mina_proposals))
         .route("/api/proposal/:id", get(get_mina_proposal))
         .route("/api/proposal/:id/results", get(get_mina_proposal_result))
+}
+
+#[allow(clippy::unused_async)]
+async fn get_mina_proposals(ctx: Extension<crate::Context>) -> Result<impl IntoResponse> {
+    use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
+
+    let conn = &mut ctx
+        .conn_manager
+        .main
+        .get()
+        .context("failed to get primary db connection")?;
+
+    let proposals: Vec<MinaProposal> = mina_proposal_dsl::mina_proposals
+        .order(mina_proposal_dsl::id.desc())
+        .load(conn)?;
+
+    Ok((StatusCode::OK, Json(proposals)).into_response())
 }
 
 #[derive(Serialize, Deserialize)]

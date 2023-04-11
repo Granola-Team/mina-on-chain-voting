@@ -1,18 +1,12 @@
 import type { GetServerSidePropsContext, InferGetServerSidePropsType } from 'next';
-// Use next dynamic to import VotingPeriod and disable ssr
-import dynamic from 'next/dynamic';
 
 import { Stack } from '@mui/material';
 
 import { proposalIdAtom, useProposal } from 'common/store';
 
-import { Instructions, PageLayout, TotalVotes, VotesTable } from 'components/v1';
+import { Instructions, PageLayout, TotalVotes, VotesTable, VotingPeriod } from 'components/v1';
 
 import { useHydrateAtoms } from 'jotai/react/utils';
-
-const VotingPeriod = dynamic(() => import('components/v1/VotingPeriod').then((mod) => mod.VotingPeriod), {
-  ssr: false,
-});
 
 type ProposalPageProps = {
   id: string;
@@ -40,7 +34,7 @@ const ProposalPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
   const [proposal] = useProposal();
 
   return (
-    <PageLayout>
+    <PageLayout title={proposal.title ? `${proposal.key}: ${proposal.title}` : undefined}>
       <Stack direction="row" spacing={1}>
         <Instructions keyword={proposal.key} />
         <TotalVotes totalVotes={proposal.votes.length} />

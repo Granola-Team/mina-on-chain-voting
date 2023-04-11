@@ -30,6 +30,7 @@
     "jotai-tanstack-query": "^0.5.0",
     "moment": "^2.29.4",
     "next": "13.1.1",
+    "nextjs-progressbar": "^0.0.16",
     "notistack": "^2.0.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",

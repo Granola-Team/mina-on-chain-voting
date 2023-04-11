@@ -17,5 +17,8 @@ diesel::table! {
         end_time -> Int8,
         ledger_hash -> Nullable<Text>,
         version -> ProposalVersion,
+        title -> Nullable<Text>,
+        description -> Nullable<Text>,
+        url -> Nullable<Text>,
     }
 }

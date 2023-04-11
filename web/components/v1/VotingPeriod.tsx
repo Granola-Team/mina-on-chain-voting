@@ -27,7 +27,7 @@ export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
           Voting Period
         </Typography>
         <Typography variant="body2" fontSize={13} color="hsl(0, 0.8%, 47.1%)">
-          Updated at {now.format('YYYY-MM-DD | hh:mm:ss A')} UTC
+          Updated at {now.format('YYYY-MM-DD | hh:mm A')} UTC
         </Typography>
       </Stack>
 
@@ -37,7 +37,7 @@ export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
             Start Date
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {startDate.format('YYYY-MM-DD | hh:mm:ss A').toString()} UTC
+            {startDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC
           </Typography>
         </Stack>
         <Stack>
@@ -45,7 +45,7 @@ export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
             End Date
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {endDate.format('YYYY-MM-DD | hh:mm:ss A').toString()} UTC
+            {endDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC
           </Typography>
         </Stack>
       </Stack>

@@ -4,7 +4,9 @@ import { Box, Container, IconButton, Stack, Typography } from '@mui/material';
 import { useTheme } from 'components/provider';
 import { Link } from 'components/v1';
 
-export type PropsLayoutProps = React.PropsWithChildren;
+export type PropsLayoutProps = React.PropsWithChildren & {
+  title?: string;
+};
 
 export const PageLayout = (props: PropsLayoutProps) => {
   const { theme, setTheme } = useTheme();
@@ -24,7 +26,7 @@ export const PageLayout = (props: PropsLayoutProps) => {
       >
         <Link href="/">
           <Typography variant="h5" fontWeight={500}>
-            On-Chain Voting
+            {props.title || 'On-Chain Voting'}
           </Typography>
         </Link>
 

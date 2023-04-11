@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 
 import {
-  Alert,
   Pagination,
   Stack,
   Table,
@@ -96,8 +95,10 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
             {pageVotes.length === 0 && (
               <TableRow>
                 <TableCell colSpan={6}>
-                  <Stack sx={{ width: '100%' }}>
-                    <Alert severity="info">No Transactions found!</Alert>
+                  <Stack py={2} sx={{ width: '100%' }}>
+                    <Typography fontSize={14} fontWeight={500} align="center">
+                      There is no data yet
+                    </Typography>
                   </Stack>
                 </TableCell>
               </TableRow>

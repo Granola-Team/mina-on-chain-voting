@@ -32,7 +32,7 @@ const ProposalResultsPage = (props: InferGetServerSidePropsType<typeof getServer
   const [proposal] = useProposalResults();
 
   return (
-    <PageLayout>
+    <PageLayout title={proposal.title ? `${proposal.key}: ${proposal.title}` : undefined}>
       <ResultsOverview />
       <VotingPeriod startTime={proposal.start_time} endTime={proposal.end_time} />
       <VotingResults

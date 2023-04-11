@@ -19,6 +19,7 @@ export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
   const hasNotStarted = now.isBefore(startDate);
   const nowInMillis = moment().valueOf();
   const percentage = ((nowInMillis - startTime) / (endTime - startTime)) * 100;
+  const isTBD = startTime === 2000000000000 && endTime === 2000000000000;
 
   return (
     <SectionLayout>
@@ -37,7 +38,7 @@ export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
             Start Date
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {startDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC
+            {isTBD ? 'TBD' : `${startDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC`}
           </Typography>
         </Stack>
         <Stack>
@@ -45,7 +46,7 @@ export const VotingPeriod = ({ startTime, endTime }: VotingPeriodProps) => {
             End Date
           </Typography>
           <Typography variant="body2" fontSize={17} fontWeight={600}>
-            {endDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC
+            {isTBD ? 'TBD' : `${endDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC`}
           </Typography>
         </Stack>
       </Stack>

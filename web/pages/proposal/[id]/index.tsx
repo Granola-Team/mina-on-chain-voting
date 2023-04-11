@@ -34,7 +34,7 @@ const ProposalPage = (props: InferGetServerSidePropsType<typeof getServerSidePro
   const [proposal] = useProposal();
 
   return (
-    <PageLayout>
+    <PageLayout title={proposal.title ? `${proposal.key}: ${proposal.title}` : undefined}>
       <Stack direction="row" spacing={1}>
         <Instructions keyword={proposal.key} />
         <TotalVotes totalVotes={proposal.votes.length} />

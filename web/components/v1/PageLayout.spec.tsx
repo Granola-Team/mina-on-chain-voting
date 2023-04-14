@@ -7,7 +7,7 @@ describe('V1', () => {
     it('renders default state', () => {
       render(<PageLayout />);
       expect(screen.getByText('On-Chain Voting')).toBeInTheDocument();
-      expect(screen.getByText('Github')).toBeInTheDocument();
+      expect(screen.getByText('GitHub')).toBeInTheDocument();
       expect(screen.getByText('Made with ❤️ by Granola')).toBeInTheDocument();
     });
 

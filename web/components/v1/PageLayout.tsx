@@ -1,5 +1,5 @@
 import { Brightness4, Brightness7 } from '@mui/icons-material';
-import { Box, Container, IconButton, Stack, Typography } from '@mui/material';
+import { Box, Container, IconButton, Link, Stack, Typography } from '@mui/material';
 
 import { useTheme } from 'components/provider';
 
@@ -62,8 +62,14 @@ export const PageLayout = (props: PropsLayoutProps) => {
         borderColor="hsl(0, 0%, 24.3%)"
       >
         <Stack justifyContent="center" alignItems="center">
-          <Typography variant="body2">Github</Typography>
-          <Typography variant="caption">Made with ❤️ by Granola</Typography>
+          <Link href="https://github.com/Granola-Team/mina-on-chain-voting"
+                color="#FF6739">
+            <Typography variant="body2">GitHub</Typography>
+          </Link>
+          <Link href="https://granola.team"
+                color="#FF6739">
+            <Typography variant="caption">Made with ❤️ by Granola</Typography>
+          </Link>
         </Stack>
       </Stack>
     </Stack>

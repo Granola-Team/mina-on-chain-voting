@@ -11,8 +11,12 @@ export type VotingResultsProps = {
 };
 
 export const VotingResults = ({ total, positive, negative }: VotingResultsProps) => {
-  const positivePercentage = ((positive / total) * 100).toFixed(2);
-  const negativePercentage = ((negative / total) * 100).toFixed(2);
+  let positivePercentage = "N/A";
+  let negativePercentage = "N/A";
+  if( total > 0) {
+    positivePercentage = ((positive / total) * 100).toFixed(2);
+    negativePercentage = ((negative / total) * 100).toFixed(2);
+  }
 
   return (
     <SectionLayout spacing={0.85}>

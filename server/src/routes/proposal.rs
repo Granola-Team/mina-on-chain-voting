@@ -1,4 +1,3 @@
-use anyhow::anyhow;
 use anyhow::Context;
 use axum::extract::Path;
 use axum::http::StatusCode;
@@ -122,10 +121,17 @@ async fn get_mina_proposal_result(
 
     let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
 
-    let hash = proposal
-        .ledger_hash
-        .clone()
-        .ok_or_else(|| anyhow!("Error: ledger for proposal {id} not found"))?;
+    if proposal.ledger_hash.is_none() {
+        let response = GetMinaProposalResultResponse {
+            proposal,
+            total_stake_weight: Decimal::ZERO,
+            positive_stake_weight: Decimal::ZERO,
+            negative_stake_weight: Decimal::ZERO,
+            votes: Vec::new(),
+        };
+        return Ok((StatusCode::OK, Json(response)).into_response());
+    }
+    let hash = proposal.ledger_hash.clone().unwrap();
 
     let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
         Ledger(cached_ledger.to_vec())

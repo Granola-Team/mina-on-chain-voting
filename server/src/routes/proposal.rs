@@ -131,7 +131,10 @@ async fn get_mina_proposal_result(
         };
         return Ok((StatusCode::OK, Json(response)).into_response());
     }
-    let hash = proposal.ledger_hash.clone().unwrap();
+    let hash = proposal
+        .ledger_hash
+        .clone()
+        .expect("hash should always be present");
 
     let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
         Ledger(cached_ledger.to_vec())

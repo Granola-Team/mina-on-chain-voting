@@ -65,7 +65,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               Start Date
             </Typography>
             <Typography variant="body2" fontSize={12} fontWeight={600}>
-              {startDate.format('YYYY-MM-DD - hh:mm').toString()} UTC
+              {startDate.format('YYYY-MM-DD - hh:mm A z').toString()}
             </Typography>
           </Stack>
           <Stack>
@@ -73,7 +73,7 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
               End Date
             </Typography>
             <Typography variant="body2" fontSize={12} fontWeight={600}>
-              {endDate.format('YYYY-MM-DD - hh:mm').toString()} UTC
+              {endDate.format('YYYY-MM-DD - hh:mm A z').toString()}
             </Typography>
           </Stack>
         </Stack>

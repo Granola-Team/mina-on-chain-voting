@@ -20,7 +20,7 @@ export const IntroOverview = () => {
         <Typography variant="subtitle2">
           Please also see this{' '}
           <Link
-            href="https://www.loom.com/share/70cb54f56d844869ac802c61fef8452d"
+            href="https://youtu.be/sJxUy6cjXqg"
             target="_blank"
             rel="noreferrer"
             color="#FF6739"

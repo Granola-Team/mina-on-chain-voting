@@ -62,12 +62,10 @@ export const PageLayout = (props: PropsLayoutProps) => {
         borderColor="hsl(0, 0%, 24.3%)"
       >
         <Stack justifyContent="center" alignItems="center">
-          <Link href="https://github.com/Granola-Team/mina-on-chain-voting"
-                color="#FF6739">
+          <Link href="https://github.com/Granola-Team/mina-on-chain-voting" color="#FF6739">
             <Typography variant="body2">GitHub</Typography>
           </Link>
-          <Link href="https://granola.team"
-                color="#FF6739">
+          <Link href="https://granola.team" color="#FF6739">
             <Typography variant="caption">Made with ❤️ by Granola</Typography>
           </Link>
         </Stack>

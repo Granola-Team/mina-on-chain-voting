@@ -10,12 +10,12 @@ const HomePage = () => {
 
   return (
     <PageLayout>
-      <Stack direction="row" spacing={1}>
-        <IntroOverview/>
+      <Stack direction="row">
+        <IntroOverview />
       </Stack>
-      <Grid container spacing={0} justifyContent="flex-end">
+      <Grid container>
         {proposals.map((proposal) => (
-          <Grid key={proposal.id} item xs={12} sm={6} md={4}>
+          <Grid key={proposal.id} item xs sm md>
             <ProposalCard proposal={proposal} />
           </Grid>
         ))}

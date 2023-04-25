@@ -15,7 +15,7 @@ export type ProposalCardProps = {
   proposal: ProposalListParserOutcome[0];
 };
 
-const isEmpty = (str: string | null) => (!str?.length);
+const isEmpty = (s: string | null) => s == null || s.trim().length === 0;
 
 export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const { theme } = useTheme();
@@ -25,11 +25,10 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
   const startDate = moment(new Date(proposal.start_time)).utc();
   const endDate = moment(new Date(proposal.end_time)).utc();
 
-
-  const isDone = now.isAfter(endDate) && !isEmpty(proposal.ledger_hash);
-  const hasNotStarted = now.isBefore(startDate);
+  const hasNotStarted = now.isBefore(startDate) && now.isBefore(endDate);
   const inProgress = now.isBetween(startDate, endDate);
-  const inReview = now.isAfter(endDate) && isEmpty(proposal.ledger_hash)
+  const inReview = now.isAfter(endDate) && isEmpty(proposal.ledger_hash);
+  const isDone = now.isAfter(endDate) && !isEmpty(proposal.ledger_hash);
 
   return (
     <Link
@@ -52,10 +51,10 @@ export const ProposalCard = ({ proposal }: ProposalCardProps) => {
           <Typography fontSize={15} fontWeight={600}>
             {proposal.title ? `${proposal.key}: ${proposal.title}` : proposal.key}
           </Typography>
-          {isDone && <Chip label="Completed" variant="outlined" color="success" size="small" />}
           {hasNotStarted && <Chip label="Not Started" variant="outlined" color="info" size="small" />}
-          {inReview && <Chip label="In Review" variant="outlined" color="info" size="small" />}
           {inProgress && <Chip label="In Progress" variant="outlined" color="warning" size="small" />}
+          {inReview && <Chip label="In Review" variant="outlined" color="secondary" size="small" />}
+          {isDone && <Chip label="Completed" variant="outlined" color="success" size="small" />}
         </Stack>
         <Stack direction="row" justifyContent="space-between" alignItems="center">
           <Typography fontSize={12} fontWeight={500}>

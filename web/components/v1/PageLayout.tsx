@@ -23,7 +23,7 @@ export const PageLayout = (props: PropsLayoutProps) => {
         borderBottom={0.2}
         borderColor="hsl(0, 0%, 24.3%)"
       >
-        <Typography variant="h5" fontWeight={500}>
+        <Typography variant="h5" fontWeight={500} sx={{ cursor: 'default' }}>
           {props.title || 'On-Chain Voting'}
         </Typography>
 

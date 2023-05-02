@@ -13,9 +13,9 @@ const HomePage = () => {
       <Stack direction="row">
         <IntroOverview />
       </Stack>
-      <Grid container>
+      <Grid container gap={1}>
         {proposals.map((proposal) => (
-          <Grid key={proposal.id} item xs sm md>
+          <Grid key={proposal.id} item xs={12} md>
             <ProposalCard proposal={proposal} />
           </Grid>
         ))}

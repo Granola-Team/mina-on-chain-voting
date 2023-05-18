@@ -19,7 +19,7 @@ export const IntroOverview = () => {
         </Typography>
         <Typography variant="subtitle2">
           Please also see this{' '}
-          <Link href="https://youtu.be/sJxUy6cjXqg" target="_blank" rel="noreferrer" color="#FF6739">
+          <Link href="https://youtu.be/R_rG0LMnY1I" target="_blank" rel="noreferrer" color="#FF6739">
             video
           </Link>{' '}
           or read the section How do I vote? in the{' '}

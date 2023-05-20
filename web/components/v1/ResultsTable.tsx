@@ -14,7 +14,7 @@ import {
 
 import { useTheme } from 'components/provider';
 
-import { format, setMinutes, setSeconds } from 'date-fns';
+import { format } from 'date-fns';
 import type { ProposalResultsParserOutcome } from 'models';
 
 import { StatusBubble } from './StatusBubble';
@@ -116,7 +116,7 @@ export const ResultsTable = ({ votes, totalStakeWeight }: ResultsTableProps) => 
                   </TableCell>
                   <TableCell align="center" sx={{ py: 1.2 }}>
                     <Typography fontSize={13} fontWeight={500}>
-                      {format(setMinutes(setSeconds(new Date(vote.timestamp), 0), 3), 'MM/dd/yyyy - HH:mm')}
+                      {format(new Date(vote.timestamp), 'yyyy-MM-dd - HH:mm')}
                     </Typography>
                   </TableCell>
                   <TableCell align="left" sx={{ py: 1.2 }}>

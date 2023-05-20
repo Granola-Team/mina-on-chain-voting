@@ -15,7 +15,7 @@ describe('V1', () => {
       );
 
       expect(screen.getByText('video')).toBeInTheDocument();
-      expect(screen.getByText('video').closest('a')).toHaveAttribute('href', 'https://youtu.be/sJxUy6cjXqg');
+      expect(screen.getByText('video').closest('a')).toHaveAttribute('href', 'https://youtu.be/R_rG0LMnY1I');
     });
   });
 });

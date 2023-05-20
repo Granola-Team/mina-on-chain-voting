@@ -34,14 +34,16 @@ export const ResultsTable = ({ votes, totalStakeWeight }: ResultsTableProps) => 
     setCurrentPage(1);
   }, [votes, rowsPerPage]);
 
+  const sortedVotes = [...votes].sort((a, b) => b.height - a.height);
+
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
   };
 
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const pageVotes = votes.slice(startIndex, endIndex);
-  const pageCount = Math.ceil(votes.length / rowsPerPage);
+  const pageVotes = sortedVotes.slice(startIndex, endIndex);
+  const pageCount = Math.ceil(sortedVotes.length / rowsPerPage);
 
   return (
     <>
@@ -107,49 +109,47 @@ export const ResultsTable = ({ votes, totalStakeWeight }: ResultsTableProps) => 
             )}
 
             {pageVotes.length > 0 &&
-              pageVotes
-                .sort((a, b) => b.height - a.height)
-                .map((vote) => (
-                  <TableRow key={vote.account} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                    <TableCell align="center" sx={{ py: 1.2 }}>
+              pageVotes.map((vote) => (
+                <TableRow key={vote.account} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.height}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {format(new Date(vote.timestamp), 'yyyy-MM-dd - HH:mm')}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="left" sx={{ py: 1.2 }}>
+                    <Stack spacing={1} direction="row" justifyContent="left" alignItems="left">
+                      <TableAvatar seed={vote.account} />
                       <Typography fontSize={13} fontWeight={500}>
-                        {vote.height}
+                        {vote.account}
                       </Typography>
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1.2 }}>
-                      <Typography fontSize={13} fontWeight={500}>
-                        {format(new Date(vote.timestamp), 'yyyy-MM-dd - HH:mm')}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="left" sx={{ py: 1.2 }}>
-                      <Stack spacing={1} direction="row" justifyContent="left" alignItems="left">
-                        <TableAvatar seed={vote.account} />
-                        <Typography fontSize={13} fontWeight={500}>
-                          {vote.account}
-                        </Typography>
-                      </Stack>
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1.2 }}>
-                      <Typography fontSize={13} fontWeight={500}>
-                        {vote.weight === 0 ? 'Stake Delegated' : vote.weight}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1.2 }}>
-                      <Typography fontSize={13} fontWeight={500}>
-                        {vote.weight ? `${((vote.weight / totalStakeWeight) * 100).toFixed(4)}` : 'Stake Delegated'}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1.2 }}>
-                      <Typography fontSize={13} fontWeight={500}>
-                        {vote.memo}
-                      </Typography>
-                    </TableCell>
-                    <TableCell align="center" sx={{ py: 1.2 }}>
-                      {vote.status === 'Canonical' && <StatusBubble type="Canonical" />}
-                      {vote.status === 'Pending' && <StatusBubble type="Pending" />}
-                    </TableCell>
-                  </TableRow>
-                ))}
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.weight === 0 ? 'Stake Delegated' : vote.weight}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.weight ? `${((vote.weight / totalStakeWeight) * 100).toFixed(4)}` : 'Stake Delegated'}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    <Typography fontSize={13} fontWeight={500}>
+                      {vote.memo}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center" sx={{ py: 1.2 }}>
+                    {vote.status === 'Canonical' && <StatusBubble type="Canonical" />}
+                    {vote.status === 'Pending' && <StatusBubble type="Pending" />}
+                  </TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </TableContainer>

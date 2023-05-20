@@ -33,14 +33,16 @@ export const VotesTable = ({ votes }: VotesTableProps) => {
     setCurrentPage(1);
   }, [votes, rowsPerPage]);
 
+  const sortedVotes = [...votes].sort((a, b) => b.height - a.height);
+
   const handlePageChange = (event: React.ChangeEvent<unknown>, page: number) => {
     setCurrentPage(page);
   };
 
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
-  const pageVotes = votes.slice(startIndex, endIndex);
-  const pageCount = Math.ceil(votes.length / rowsPerPage);
+  const pageVotes = sortedVotes.slice(startIndex, endIndex);
+  const pageCount = Math.ceil(sortedVotes.length / rowsPerPage);
 
   return (
     <>

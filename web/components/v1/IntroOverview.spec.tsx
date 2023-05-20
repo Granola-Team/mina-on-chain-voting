@@ -2,7 +2,6 @@ import { render, screen } from 'common/test';
 
 import { IntroOverview } from './IntroOverview';
 
-// tests disply and links
 describe('V1', () => {
   describe(IntroOverview, () => {
     it('renders default state', () => {

@@ -14,8 +14,8 @@ export const VotingResults = ({ total, positive, negative }: VotingResultsProps)
   let positivePercentage = "N/A";
   let negativePercentage = "N/A";
   if( total > 0) {
-    positivePercentage = ((positive / total) * 100).toFixed(2);
-    negativePercentage = ((negative / total) * 100).toFixed(2);
+    positivePercentage = ((positive / total) * 100).toFixed(4).replace(/\.0+$/, '');
+    negativePercentage = ((negative / total) * 100).toFixed(4).replace(/\.0+$/, '');
   }
 
   return (

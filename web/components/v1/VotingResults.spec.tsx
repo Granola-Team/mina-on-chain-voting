@@ -12,9 +12,9 @@ describe('V1', () => {
       render(<VotingResults {...{ total, positive, negative }} />);
       expect(screen.getByText('Voting Results')).toBeInTheDocument();
       expect(screen.getByText('Yes')).toBeInTheDocument();
-      expect(screen.getByText('40.00%')).toBeInTheDocument();
+      expect(screen.getByText('40%')).toBeInTheDocument();
       expect(screen.getByText('No')).toBeInTheDocument();
-      expect(screen.getByText('60.00%')).toBeInTheDocument();
+      expect(screen.getByText('60%')).toBeInTheDocument();
     });
   });
 });

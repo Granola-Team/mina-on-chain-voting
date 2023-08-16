@@ -1,36 +1,17 @@
 import { Fragment, PropsWithChildren } from 'react';
 
-import App, { type AppContext, type AppProps } from 'next/app';
+import type { AppProps } from 'next/app';
 import Head from 'next/head';
-import NextNProgress from 'nextjs-progressbar';
-
-import { CacheProvider } from '@emotion/react';
-import { CssBaseline } from '@mui/material';
-
-import { createEmotionCache } from 'common/mui';
-import { getThemeType } from 'common/theme';
-
-import { ThemeProvider } from 'components/provider';
-import { type ThemeType, DefaultThemeType } from 'components/themes';
 
 import { Provider as JotaiProvider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/react/utils';
 import { queryClientAtom } from 'jotai-tanstack-query';
-import { SnackbarProvider } from 'notistack';
 
 import { QueryClient } from '@tanstack/query-core';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-/**
- * Client-side cache styles, shared for the whole session of the user in the browser.
- */
-const clientSideEmotionCache = createEmotionCache();
-
-interface NextAppProps extends AppProps {
-  renderedTheme: ThemeType;
-  emotionCache?: typeof clientSideEmotionCache;
-}
+import 'styles/globals.css';
 
 /**
  * Initializing single query client to be shared between each queries.
@@ -48,12 +29,7 @@ const HydrateAtoms = ({ children }: PropsWithChildren) => {
   return <Fragment>{children}</Fragment>;
 };
 
-export default function _App({
-  Component,
-  pageProps,
-  emotionCache = clientSideEmotionCache,
-  renderedTheme,
-}: NextAppProps) {
+export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
@@ -65,34 +41,14 @@ export default function _App({
         <title>Mina On-Chain Voting</title>
       </Head>
 
-      <CacheProvider value={emotionCache}>
-        <ThemeProvider value={renderedTheme}>
-          <QueryClientProvider client={queryClient}>
-            <JotaiProvider>
-              <HydrateAtoms>
-                <SnackbarProvider>
-                  <CssBaseline />
-                  <NextNProgress color="#666666" options={{ showSpinner: false }} />
-                  <Component {...pageProps} />
-                </SnackbarProvider>
-              </HydrateAtoms>
-            </JotaiProvider>
-            <ReactQueryDevtools />
-          </QueryClientProvider>
-        </ThemeProvider>
-      </CacheProvider>
+      <QueryClientProvider client={queryClient}>
+        <JotaiProvider>
+          <HydrateAtoms>
+            <Component {...pageProps} />
+          </HydrateAtoms>
+        </JotaiProvider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </>
   );
 }
-
-_App.getInitialProps = async (_ctx: AppContext) => {
-  const appProps = await App.getInitialProps(_ctx);
-  const { ctx } = _ctx;
-
-  const cookie = ctx.req?.headers.cookie;
-
-  return {
-    ...appProps,
-    renderedTheme: getThemeType(cookie ? cookie : DefaultThemeType),
-  };
-};

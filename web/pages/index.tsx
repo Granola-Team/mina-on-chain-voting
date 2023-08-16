@@ -1,27 +1,13 @@
-import { Grid, Stack } from '@mui/material';
+import { Inter } from 'next/font/google';
 
-import { useProposalList } from 'common/store';
+const inter = Inter({ subsets: ['latin'] });
 
-import { PageLayout, ProposalCard } from 'components/v1';
-import { IntroOverview } from 'components/v1/IntroOverview';
-
-const HomePage = () => {
-  const [proposals] = useProposalList();
-
+const Home = () => {
   return (
-    <PageLayout>
-      <Stack direction="row">
-        <IntroOverview />
-      </Stack>
-      <Grid container gap={1}>
-        {proposals.map((proposal) => (
-          <Grid key={proposal.id} item xs={12} md>
-            <ProposalCard proposal={proposal} />
-          </Grid>
-        ))}
-      </Grid>
-    </PageLayout>
+    <main className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}>
+      <h1 className="text-4xl font-bold text-center">Hello, world!</h1>
+    </main>
   );
 };
 
-export default HomePage;
+export default Home;

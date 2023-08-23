@@ -6,6 +6,20 @@ import {
   getProposalResultsSchema,
   getProposalSchema,
   getProposalsSchema,
+  ProposalCategories,
+  ProposalCategory,
+  ProposalCategorySchema,
+  ProposalStatus,
+  ProposalStatuses,
+  ProposalStatusSchema,
+  VoteDirection,
+  VoteDirections,
+  VoteDirectionSchema,
+  VoteMetrics,
+  VoteMetricsSchema,
+  VoteStatus,
+  VoteStatuses,
+  VoteStatusSchema,
 } from './schema';
 
 class ZodParser<T, K extends z.ZodSchema<T>> {
@@ -39,3 +53,20 @@ export type CoreApiInfoParserOutcome = ReturnType<typeof CoreApiInfoParser.parse
 
 export const ProposalListParser = parserFactory(getProposalsSchema);
 export type ProposalListParserOutcome = ReturnType<typeof ProposalListParser.parse>;
+
+export {
+  ProposalStatuses,
+  ProposalStatusSchema,
+  type ProposalStatus,
+  ProposalCategories,
+  ProposalCategorySchema,
+  type ProposalCategory,
+  VoteStatuses,
+  VoteStatusSchema,
+  type VoteStatus,
+  VoteDirections,
+  VoteDirectionSchema,
+  type VoteDirection,
+  VoteMetricsSchema,
+  type VoteMetrics,
+};

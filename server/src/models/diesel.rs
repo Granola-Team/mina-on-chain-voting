@@ -10,6 +10,17 @@ pub(crate) enum ProposalVersion {
     V2,
 }
 
+#[derive(Serialize, Deserialize, Debug, DbEnum)]
+#[ExistingTypePath = "crate::schema::sql_types::ProposalCategory"]
+#[DbValueStyle = "verbatim"]
+pub(crate) enum ProposalCategory {
+    Core,
+    Networking,
+    Interface,
+    ERC,
+    Cryptography,
+}
+
 #[derive(Queryable, Serialize, Deserialize, Debug)]
 pub(crate) struct MinaProposal {
     pub(crate) id: i32,
@@ -17,8 +28,9 @@ pub(crate) struct MinaProposal {
     pub(crate) start_time: i64,
     pub(crate) end_time: i64,
     pub(crate) ledger_hash: Option<String>,
+    pub(crate) category: ProposalCategory,
     pub(crate) version: ProposalVersion,
-    pub(crate) title: Option<String>,
-    pub(crate) description: Option<String>,
-    pub(crate) url: Option<String>,
+    pub(crate) title: String,
+    pub(crate) description: String,
+    pub(crate) url: String,
 }

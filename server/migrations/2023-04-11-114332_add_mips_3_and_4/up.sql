@@ -1,2 +1,0 @@
-INSERT INTO mina_proposals VALUES (3, 'MIP3', 2000000000000, 2000000000000, NULL, 'V2', 'Kimchi, a new proof system', 'Kimchi is an update to the proof system currently used by Mina.', 'https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-kimchi.md'); 
-INSERT INTO mina_proposals VALUES (4, 'MIP4', 2000000000000, 2000000000000, NULL, 'V2', 'Add zkApps to protocol', 'This Mina Improvement Proposal (MIP) adds programmable smart contracts (zkApps) to the Mina protocol.', 'https://github.com/MinaProtocol/MIPs/blob/main/MIPS/mip-zkapps.md')

@@ -6,6 +6,7 @@ import {
   VotingDistribution,
   VotingInstructions,
   VotingPeriod,
+  VotingResults,
   VotingTotal,
   VotingTotalStake,
 } from 'components/votes-metrics-cards';
@@ -34,7 +35,15 @@ export const VotesMetrics = ({ variant, proposal }: Props) => {
         <VotingInstructions memo={proposal.key} />
       )}
 
-      <VotingPeriod startTime={proposal.start_time} endTime={proposal.end_time} status={proposal.status} />
+      {variant === 'results' && proposal.status === 'Completed' ? (
+        <VotingResults
+          total={proposal.total_stake_weight}
+          positive={proposal.positive_stake_weight}
+          negative={proposal.negative_stake_weight}
+        />
+      ) : (
+        <VotingPeriod startTime={proposal.start_time} endTime={proposal.end_time} status={proposal.status} />
+      )}
     </div>
   );
 };

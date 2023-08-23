@@ -3,7 +3,7 @@
 import { useTheme } from 'next-themes';
 
 import { useToast } from 'common/hooks/use-toast';
-import { GetProposalResult } from 'common/store';
+import { GetProposalResult, GetProposalResultsResult } from 'common/store';
 import { ThemePrimaryColor } from 'common/utils';
 
 import { Button } from 'components/button';
@@ -49,6 +49,33 @@ export const VotingPeriod = ({ startTime, endTime, status }: VotingPeriodProps) 
         <div className="flex justify-between items-center">
           <p className="text-xs text-muted-foreground"> {startDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC</p>
           <p className="text-xs text-muted-foreground"> {endDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC</p>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
+interface VotingResultsProps {
+  total: GetProposalResultsResult['total_stake_weight'];
+  positive: GetProposalResultsResult['positive_stake_weight'];
+  negative: GetProposalResultsResult['negative_stake_weight'];
+}
+
+export const VotingResults = ({ total, positive, negative }: VotingResultsProps) => {
+  const positivePercentage = ((positive / total) * 100).toFixed(4).replace(/\.0+$/, '');
+  const negativePercentage = ((negative / total) * 100).toFixed(4).replace(/\.0+$/, '');
+
+  return (
+    <Card className="col-span-2 col-start-4 row-start-2">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0.5">
+        <CardTitle>Voting Results</CardTitle>
+        <span className="text-xs text-muted-foreground">Voting has ended</span>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-1.5 mt-1.5">
+        <Progress className="h-5 rounded-md" value={Number.parseFloat(positivePercentage)} />
+        <div className="flex justify-between items-center">
+          <p className="text-xs text-muted-foreground font-medium">FOR - {positivePercentage}%</p>
+          <p className="text-xs text-muted-foreground font-medium">AGAINST - {negativePercentage}%</p>
         </div>
       </CardContent>
     </Card>

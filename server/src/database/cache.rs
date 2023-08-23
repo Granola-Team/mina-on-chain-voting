@@ -26,7 +26,7 @@ impl CacheManager {
                 .time_to_live(std::time::Duration::from_secs(60 * 5))
                 .build(),
             votes_weighted: VotesWeightedCache::builder()
-                .time_to_live(std::time::Duration::from_secs(60 * 5))
+                .time_to_live(std::time::Duration::from_secs(60 * 60 * 24 * 7))
                 .build(),
             ledger: LedgerCache::builder()
                 .time_to_live(std::time::Duration::from_secs(60 * 60 * 12))

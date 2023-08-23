@@ -136,19 +136,6 @@ async fn get_mina_proposal_result(
         .clone()
         .expect("hash should always be present");
 
-    let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
-        Ledger(cached_ledger.to_vec())
-    } else {
-        let ledger = Ledger::fetch(&hash, ctx.network, &ctx.ledger_storage_path).await?;
-
-        ctx.cache
-            .ledger
-            .insert(hash, Arc::new(ledger.0.clone()))
-            .await;
-
-        ledger
-    };
-
     let votes = if let Some(cached_votes) = ctx.cache.votes_weighted.get(&proposal.key) {
         cached_votes.to_vec()
     } else {
@@ -156,6 +143,19 @@ async fn get_mina_proposal_result(
             fetch_transactions(&ctx.conn_manager, proposal.start_time, proposal.end_time)?;
 
         let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
+
+        let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
+            Ledger(cached_ledger.to_vec())
+        } else {
+            let ledger = Ledger::fetch(&hash, ctx.network, &ctx.ledger_storage_path).await?;
+
+            ctx.cache
+                .ledger
+                .insert(hash, Arc::new(ledger.0.clone()))
+                .await;
+
+            ledger
+        };
 
         let votes = Wrapper(
             transactions

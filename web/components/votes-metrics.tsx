@@ -25,24 +25,33 @@ type Props = Variants;
 
 export const VotesMetrics = ({ variant, proposal }: Props) => {
   return (
-    <div className="grid grid-cols-5 grid-rows-2 gap-1.5">
-      <VotingDistribution data={proposal.metrics} />
-      <VotingTotal total={proposal.votes.length} />
+    <div className="grid gap-1.5 grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-3 xl:grid-cols-5 xl:grid-rows-2">
+      <VotingDistribution className="row-span-2 col-span-2 md:col-span-4 xl:col-span-3" data={proposal.metrics} />
+      <VotingTotal className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-4" total={proposal.votes.length} />
 
       {variant === 'results' && proposal.status === 'Completed' ? (
-        <VotingTotalStake total={proposal.total_stake_weight} />
+        <VotingTotalStake
+          className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-5"
+          total={proposal.total_stake_weight}
+        />
       ) : (
-        <VotingInstructions memo={proposal.key} />
+        <VotingInstructions className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-5" memo={proposal.key} />
       )}
 
       {variant === 'results' && proposal.status === 'Completed' ? (
         <VotingResults
+          className="col-span-2 md:row-start-3 xl:row-start-2 xl:col-start-4"
           total={proposal.total_stake_weight}
           positive={proposal.positive_stake_weight}
           negative={proposal.negative_stake_weight}
         />
       ) : (
-        <VotingPeriod startTime={proposal.start_time} endTime={proposal.end_time} status={proposal.status} />
+        <VotingPeriod
+          className="col-span-2 md:row-start-3 xl:row-start-2 xl:col-start-4"
+          startTime={proposal.start_time}
+          endTime={proposal.end_time}
+          status={proposal.status}
+        />
       )}
     </div>
   );

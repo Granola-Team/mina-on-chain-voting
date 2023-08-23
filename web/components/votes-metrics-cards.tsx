@@ -18,13 +18,17 @@ import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 import { CopyIcon } from '@radix-ui/react-icons';
 
-export type VotingPeriodProps = {
+interface CardProps {
+  className?: string;
+}
+
+export interface VotingPeriodProps extends CardProps {
   startTime: GetProposalResult['start_time'];
   endTime: GetProposalResult['end_time'];
   status: GetProposalResult['status'];
-};
+}
 
-export const VotingPeriod = ({ startTime, endTime, status }: VotingPeriodProps) => {
+export const VotingPeriod = ({ startTime, endTime, status, className }: VotingPeriodProps) => {
   const now = moment(new Date()).utc();
   const startDate = moment(new Date(startTime)).utc();
   const endDate = moment(new Date(endTime)).utc();
@@ -33,7 +37,7 @@ export const VotingPeriod = ({ startTime, endTime, status }: VotingPeriodProps) 
   const percentage = ((nowInMillis - startTime) / (endTime - startTime)) * 100;
 
   return (
-    <Card className="col-span-2 col-start-4 row-start-2">
+    <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0.5">
         <CardTitle>Voting Period</CardTitle>
         <span className="text-xs text-muted-foreground">
@@ -45,7 +49,7 @@ export const VotingPeriod = ({ startTime, endTime, status }: VotingPeriodProps) 
         </span>
       </CardHeader>
       <CardContent className="flex flex-col gap-1.5 mt-1.5">
-        <Progress className="h-5 rounded-md" value={percentage} />
+        <Progress className="h-5 rounded-md" value={percentage === -Infinity ? 0 : percentage} />
         <div className="flex justify-between items-center">
           <p className="text-xs text-muted-foreground"> {startDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC</p>
           <p className="text-xs text-muted-foreground"> {endDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC</p>
@@ -55,18 +59,18 @@ export const VotingPeriod = ({ startTime, endTime, status }: VotingPeriodProps) 
   );
 };
 
-interface VotingResultsProps {
+interface VotingResultsProps extends CardProps {
   total: GetProposalResultsResult['total_stake_weight'];
   positive: GetProposalResultsResult['positive_stake_weight'];
   negative: GetProposalResultsResult['negative_stake_weight'];
 }
 
-export const VotingResults = ({ total, positive, negative }: VotingResultsProps) => {
+export const VotingResults = ({ total, positive, negative, className }: VotingResultsProps) => {
   const positivePercentage = ((positive / total) * 100).toFixed(4).replace(/\.0+$/, '');
   const negativePercentage = ((negative / total) * 100).toFixed(4).replace(/\.0+$/, '');
 
   return (
-    <Card className="col-span-2 col-start-4 row-start-2">
+    <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0.5">
         <CardTitle>Voting Results</CardTitle>
         <span className="text-xs text-muted-foreground">Voting has ended</span>
@@ -82,27 +86,27 @@ export const VotingResults = ({ total, positive, negative }: VotingResultsProps)
   );
 };
 
-interface VotingDistributionProps {
+interface VotingDistributionProps extends CardProps {
   data: Array<VoteMetrics>;
 }
 
-export const VotingDistribution = ({ data }: VotingDistributionProps) => {
+export const VotingDistribution = ({ data, className }: VotingDistributionProps) => {
   const { theme: mode } = useTheme();
   const primaryColor = ThemePrimaryColor[mode === 'dark' ? 'dark' : 'light'];
 
   return (
-    <Card className="col-span-3 row-span-2">
+    <Card className={className}>
       <CardHeader className="pb-0">
         <CardTitle>Voting Distribution</CardTitle>
         <CardDescription>
           Track the distribution of <span className="inline font-semibold">FOR / AGAINST</span> votes.
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="px-3 md:px-6">
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data}>
-              <XAxis dataKey="DATE" height={16} tick={{ fontSize: 12 }} />
+              <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />
               <Area
                 type="linear"
                 dataKey="FOR"
@@ -149,18 +153,18 @@ export const VotingDistribution = ({ data }: VotingDistributionProps) => {
   );
 };
 
-interface VotingInstructionsProps {
+interface VotingInstructionsProps extends CardProps {
   memo: GetProposalResult['key'];
 }
 
-export const VotingInstructions = ({ memo }: VotingInstructionsProps) => {
+export const VotingInstructions = ({ memo, className }: VotingInstructionsProps) => {
   return (
-    <Card className="col-start-5">
+    <Card className={className}>
       <CardHeader className="space-y-0 pb-1">
         <CardTitle className="text-sm font-normal">How do I cast my vote?</CardTitle>
         <p className="text-xs text-muted-foreground">I want to vote...</p>
       </CardHeader>
-      <CardContent className="grid grid-cols-2 gap-4 mt-1.5">
+      <CardContent className="grid grid-cols-2 gap-4 mt-1">
         <VotingInstructionsDialog {...{ memo, variant: 'FOR' }} />
         <VotingInstructionsDialog {...{ memo, variant: 'AGAINST' }} />
       </CardContent>
@@ -168,7 +172,11 @@ export const VotingInstructions = ({ memo }: VotingInstructionsProps) => {
   );
 };
 
-const VotingInstructionsDialog = ({ memo, variant }: VotingInstructionsProps & { variant: VoteDirection }) => {
+interface VotingInstructionsDialogProps {
+  variant: VoteDirection;
+}
+
+const VotingInstructionsDialog = ({ memo, variant }: VotingInstructionsProps & VotingInstructionsDialogProps) => {
   const { toast } = useToast();
 
   const isFor = variant === 'FOR';
@@ -210,36 +218,38 @@ const VotingInstructionsDialog = ({ memo, variant }: VotingInstructionsProps & {
   );
 };
 
-interface VotingTotalProps {
+interface VotingTotalProps extends CardProps {
   total: number;
 }
 
-export const VotingTotal = ({ total }: VotingTotalProps) => {
+export const VotingTotal = ({ total, className }: VotingTotalProps) => {
   return (
-    <Card className="col-start-4">
+    <Card className={className}>
       <CardHeader className="pb-0.5">
         <CardTitle className="text-sm font-normal">Total Votes</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{total.toLocaleString('eu-EU')}</div>
+        <div className="text-xl xl:text-2xl font-bold">{total.toLocaleString('eu-EU')}</div>
         <p className="text-xs text-muted-foreground">Duplicates not included</p>
       </CardContent>
     </Card>
   );
 };
 
-interface VotingTotalStakeProps {
+interface VotingTotalStakeProps extends CardProps {
   total: number;
 }
 
-export const VotingTotalStake = ({ total }: VotingTotalStakeProps) => {
+export const VotingTotalStake = ({ total, className }: VotingTotalStakeProps) => {
   return (
-    <Card className="col-start-5">
+    <Card className={className}>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-0.5">
         <CardTitle className="text-sm font-normal">Total Stake Participated</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="text-2xl font-bold">{Number.parseFloat(total.toFixed(2)).toLocaleString('en-EU')}</div>
+        <div className="text-xl xl:text-2xl font-bold">
+          {Number.parseFloat(total.toFixed(2)).toLocaleString('en-EU')}
+        </div>
         <p className="text-xs text-muted-foreground">± 0.005</p>
       </CardContent>
     </Card>

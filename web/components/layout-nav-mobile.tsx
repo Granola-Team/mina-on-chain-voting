@@ -8,9 +8,9 @@ import { useRouter } from 'next/navigation';
 import { siteConfig } from 'common/config';
 import { cn } from 'common/utils';
 
-import { Button } from 'components/button';
-import { ScrollArea } from 'components/scroll-area';
-import { Sheet, SheetContent, SheetTrigger } from 'components/sheet';
+import { Button } from 'components/core/button';
+import { ScrollArea } from 'components/core/scroll-area';
+import { Sheet, SheetContent, SheetTrigger } from 'components/core/sheet';
 
 import { ViewVerticalIcon } from '@radix-ui/react-icons';
 

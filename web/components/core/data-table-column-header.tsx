@@ -1,13 +1,13 @@
 import { cn } from 'common/utils';
 
-import { Button } from 'components/button';
+import { Button } from 'components/core/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from 'components/dropdown';
+} from 'components/core/dropdown';
 
 import { ArrowDownIcon, ArrowUpIcon, CaretSortIcon, EyeNoneIcon } from '@radix-ui/react-icons';
 import { Column } from '@tanstack/react-table';

@@ -21,7 +21,7 @@ export const Footer = () => {
             rel="noreferrer"
             className="font-medium underline underline-offset-4"
           >
-            GitHub
+            Github
           </a>
           .
         </p>

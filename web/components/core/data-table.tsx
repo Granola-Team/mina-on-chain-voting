@@ -2,10 +2,8 @@
 
 import * as React from 'react';
 
-import { DataTablePagination } from 'components/data-table-pagination';
-import { ProposalTableToolbar } from 'components/proposal-table-toolbar';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'components/table';
-import { VotesTableToolbar } from 'components/votes-table-toolbar';
+import { DataTablePagination } from 'components/core/data-table-pagination';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'components/core/table';
 
 import {
   ColumnDef,
@@ -18,6 +16,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   SortingState,
+  Table as TTable,
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
@@ -29,10 +28,10 @@ interface Props<T, V> {
   data: T[];
   columns: ColumnDef<T, V>[];
   columnVisibility?: VisibilityState;
-  variant?: DataTableVariant;
+  Toolbar: React.ComponentType<{ table: TTable<T> }>;
 }
 
-export const DataTable = <T, V>({ columns, columnVisibility, data, variant = 'proposal' }: Props<T, V>) => {
+export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Props<T, V>) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
@@ -57,8 +56,7 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, variant = 'pr
 
   return (
     <div className="space-y-4">
-      {variant === 'proposal' && <ProposalTableToolbar table={table} />}
-      {variant === 'vote' && <VotesTableToolbar table={table} />}
+      <Toolbar table={table} />
       <div className="rounded-md border">
         <Table>
           <TableHeader>

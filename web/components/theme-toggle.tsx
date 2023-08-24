@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 
-import { Button } from 'components/button';
+import { Button } from 'components/core/button';
 
 import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
 

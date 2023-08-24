@@ -2,7 +2,7 @@
 
 import { useToast } from 'common/hooks/use-toast';
 
-import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from 'components/toast';
+import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from 'components/core/toast';
 
 export const Toaster = () => {
   const { toasts } = useToast();

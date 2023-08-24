@@ -1,9 +1,9 @@
 'use client';
 
-import { Button } from 'components/button';
-import { DataTableDownload } from 'components/data-table-download';
-import { DataTableFilter } from 'components/data-table-filter';
-import { Input } from 'components/input';
+import { Button } from 'components/core/button';
+import { DataTableDownload } from 'components/core/data-table-download';
+import { DataTableFilter } from 'components/core/data-table-filter';
+import { Input } from 'components/core/input';
 import { votesTableDirections, votesTableStatuses } from 'components/votes-table';
 
 import { Cross2Icon } from '@radix-ui/react-icons';

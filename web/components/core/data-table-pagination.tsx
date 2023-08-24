@@ -1,4 +1,4 @@
-import { Button } from 'components/button';
+import { Button } from 'components/core/button';
 
 import { ChevronLeftIcon, ChevronRightIcon, DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
 import { Table } from '@tanstack/react-table';

@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { siteConfig } from 'common/config';
 import { cn } from 'common/utils';
 
-import { buttonVariants } from 'components/button';
-import { Icons } from 'components/icons';
+import { buttonVariants } from 'components/core/button';
+import { Icons } from 'components/core/icons';
 import { NavigationDesktop } from 'components/layout-nav-desktop';
 import { NavigationMobile } from 'components/layout-nav-mobile';
 import { ThemeToggle } from 'components/theme-toggle';

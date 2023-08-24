@@ -4,10 +4,11 @@ import type { ForwardRefExoticComponent, RefAttributes } from 'react';
 
 import { GetProposalResult, GetProposalResultsResult } from 'common/store';
 
-import { Badge } from 'components/badge';
-import { DataTable } from 'components/data-table';
-import { DataTableColumnHeader } from 'components/data-table-column-header';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'components/hover-card';
+import { Badge } from 'components/core/badge';
+import { DataTable } from 'components/core/data-table';
+import { DataTableColumnHeader } from 'components/core/data-table-column-header';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'components/core/hover-card';
+import { VotesTableToolbar } from 'components/votes-table-toolbar';
 
 import { VoteStatus } from 'models';
 import moment from 'moment';
@@ -181,5 +182,5 @@ const columns: ColumnDef<Props['votes'][number]>[] = [
 ];
 
 export const VotesTable = ({ votes }: Props) => {
-  return <DataTable data={votes} columns={columns} variant="vote" />;
+  return <DataTable data={votes} columns={columns} Toolbar={VotesTableToolbar} />;
 };

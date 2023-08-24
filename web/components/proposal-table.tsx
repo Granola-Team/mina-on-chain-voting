@@ -6,11 +6,12 @@ import Link from 'next/link';
 
 import { GetProposalListResult } from 'common/store';
 
-import { Badge } from 'components/badge';
-import { Button } from 'components/button';
-import { DataTable } from 'components/data-table';
-import { DataTableColumnHeader } from 'components/data-table-column-header';
-import { HoverCard, HoverCardContent, HoverCardTrigger } from 'components/hover-card';
+import { Badge } from 'components/core/badge';
+import { Button } from 'components/core/button';
+import { DataTable } from 'components/core/data-table';
+import { DataTableColumnHeader } from 'components/core/data-table-column-header';
+import { HoverCard, HoverCardContent, HoverCardTrigger } from 'components/core/hover-card';
+import { ProposalTableToolbar } from 'components/proposal-table-toolbar';
 
 import { ProposalCategory, ProposalListParserOutcome, ProposalStatus } from 'models';
 import moment from 'moment';
@@ -187,5 +188,12 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
 ];
 
 export const ProposalTable = ({ proposals }: Props) => {
-  return <DataTable columns={columns} columnVisibility={{ category: false }} data={proposals} variant="proposal" />;
+  return (
+    <DataTable
+      data={proposals}
+      columns={columns}
+      columnVisibility={{ category: false }}
+      Toolbar={ProposalTableToolbar}
+    />
+  );
 };

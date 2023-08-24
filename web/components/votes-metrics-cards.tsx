@@ -6,11 +6,18 @@ import { useToast } from 'common/hooks/use-toast';
 import { GetProposalResult, GetProposalResultsResult } from 'common/store';
 import { ThemePrimaryColor } from 'common/utils';
 
-import { Button } from 'components/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'components/card';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from 'components/dialog';
-import { Progress } from 'components/progress';
-import { Separator } from 'components/separator';
+import { Button } from 'components/core/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'components/core/card';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from 'components/core/dialog';
+import { Progress } from 'components/core/progress';
+import { Separator } from 'components/core/separator';
 
 import { VoteDirection, VoteMetrics } from 'models';
 import moment from 'moment';

@@ -6,10 +6,10 @@ import { Inter } from 'next/font/google';
 import { siteConfig } from 'common/config';
 import { cn } from 'common/utils';
 
+import { Toaster } from 'components/core/toaster';
 import { Footer } from 'components/layout-footer';
 import { Header } from 'components/layout-header';
 import { Providers } from 'components/providers';
-import { Toaster } from 'components/toaster';
 
 import './globals.css';
 

@@ -1,6 +1,6 @@
 import { getProposalList } from 'common/store';
 
-import { PageHeader, PageHeaderDescription, PageHeaderHeading } from 'components/layout-page-header';
+import { PageHeader, PageHeaderDescription, PageHeaderHeading } from 'components/core/page-header';
 import { ProposalTable } from 'components/proposal-table';
 
 const Page = async () => {

@@ -1,7 +1,7 @@
 import { getProposalResults } from 'common/store';
 
+import { PageHeader, PageHeaderDescription, PageHeaderHeading } from 'components/core/page-header';
 import { Separator } from 'components/core/separator';
-import { PageHeader, PageHeaderDescription, PageHeaderHeading } from 'components/layout-page-header';
 import { VotesMetrics } from 'components/votes-metrics';
 import { VotesTable } from 'components/votes-table';
 

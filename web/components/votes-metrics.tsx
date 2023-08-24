@@ -2,14 +2,12 @@
 
 import { GetProposalResult, GetProposalResultsResult } from 'common/store';
 
-import {
-  VotingDistribution,
-  VotingInstructions,
-  VotingPeriod,
-  VotingResults,
-  VotingTotal,
-  VotingTotalStake,
-} from 'components/votes-metrics-cards';
+import { VotesMetricsChart } from 'components/votes-metrics-chart';
+import { VotesMetricsInstructions } from 'components/votes-metrics-instructions';
+import { VotesMetricsPeriod } from 'components/votes-metrics-period';
+import { VotesMetricsResults } from 'components/votes-metrics-results';
+import { VotesMetricsTotalStake } from 'components/votes-metrics-total-stake';
+import { VotesMetricsTotalVotes } from 'components/votes-metrics-total-votes';
 
 type Variants =
   | {
@@ -26,27 +24,34 @@ type Props = Variants;
 export const VotesMetrics = ({ variant, proposal }: Props) => {
   return (
     <div className="grid gap-1.5 grid-cols-2 grid-rows-4 md:grid-cols-4 md:grid-rows-3 xl:grid-cols-5 xl:grid-rows-2">
-      <VotingDistribution className="row-span-2 col-span-2 md:col-span-4 xl:col-span-3" data={proposal.metrics} />
-      <VotingTotal className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-4" total={proposal.votes.length} />
+      <VotesMetricsChart className="row-span-2 col-span-2 md:col-span-4 xl:col-span-3" data={proposal.metrics} />
+
+      <VotesMetricsTotalVotes
+        className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-4"
+        total={proposal.votes.length}
+      />
 
       {variant === 'results' && proposal.status === 'Completed' ? (
-        <VotingTotalStake
+        <VotesMetricsTotalStake
           className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-5"
           total={proposal.total_stake_weight}
         />
       ) : (
-        <VotingInstructions className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-5" memo={proposal.key} />
+        <VotesMetricsInstructions
+          className="row-start-4 md:row-start-3 xl:row-start-1 xl:col-start-5"
+          memo={proposal.key}
+        />
       )}
 
       {variant === 'results' && proposal.status === 'Completed' ? (
-        <VotingResults
+        <VotesMetricsResults
           className="col-span-2 md:row-start-3 xl:row-start-2 xl:col-start-4"
           total={proposal.total_stake_weight}
           positive={proposal.positive_stake_weight}
           negative={proposal.negative_stake_weight}
         />
       ) : (
-        <VotingPeriod
+        <VotesMetricsPeriod
           className="col-span-2 md:row-start-3 xl:row-start-2 xl:col-start-4"
           startTime={proposal.start_time}
           endTime={proposal.end_time}

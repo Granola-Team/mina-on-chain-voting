@@ -3,14 +3,14 @@ use std::collections::HashMap;
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery, Response};
 use reqwest::blocking::Client;
 
-use crate::transaction_query::TransactionQueryTransactions;
+use transaction_query::TransactionQueryTransactions;
 
 type DateTime = String;
 
 #[derive(GraphQLQuery)]
 #[graphql(
-    schema_path = "src/transaction_schema.graphql",
-    query_path = "src/transaction_query.graphql",
+    schema_path = "src/database/transaction_schema.graphql",
+    query_path = "src/database/transaction_query.graphql",
     response_derives = "Debug"
 )]
 pub struct TransactionQuery;

@@ -34,7 +34,7 @@ type TransactionQueryInput {
   AND: [TransactionQueryInput!]
 }
 
-enum TransactionSoryByInput {
+enum TransactionSortByInput {
   NONCE_ASC
   NONCE_DESC
 }

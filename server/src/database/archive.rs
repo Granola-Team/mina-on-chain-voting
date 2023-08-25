@@ -96,19 +96,20 @@ use std::collections::HashMap;
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery, Response};
 use reqwest::blocking::Client;
 
-use crate::transaction_query::TransactionQueryTransactions;
+use transaction_query::TransactionQueryTransactions;
 
 type DateTime = String;
 
 #[derive(GraphQLQuery)]
 #[graphql(
-    schema_path = "src/transaction_schema.graphql",
-    query_path = "src/transaction_query.graphql",
+    schema_path = "src/database/transaction_schema.graphql",
+    query_path = "src/database/transaction_query.graphql",
     response_derives = "Debug"
 )]
 pub struct TransactionQuery;
 
-fn main() {
+#[allow(dead_code, clippy::unwrap_used, clippy::upper_case_acronyms)]
+pub(crate) fn fetch_transactions_graphql() {
     let variables = transaction_query::Variables {
         date_time_gte: Some("2023-05-20T06:00:00Z".to_string()),
         date_time_lte: Some("2023-05-28T06:00:00Z".to_string()),

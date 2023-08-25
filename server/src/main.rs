@@ -83,8 +83,8 @@ type DateTime = String;
 
 #[derive(GraphQLQuery)]
 #[graphql(
-    schema_path = "src/database/transaction_schema.graphql",
-    query_path = "src/database/transaction_query.graphql",
+    schema_path = "src/transaction_schema.graphql",
+    query_path = "src/transaction_query.graphql",
     response_derives = "Debug"
 )]
 pub struct TransactionQuery;

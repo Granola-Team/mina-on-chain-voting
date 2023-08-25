@@ -5,6 +5,7 @@ use diesel::{sql_query, QueryableByName, RunQueryDsl};
 use crate::database::DBConnectionManager;
 use crate::models::vote::{ChainStatusType, MinaBlockStatus};
 use crate::prelude::*;
+use time::{OffsetDateTime, UtcOffset};
 
 #[derive(QueryableByName)]
 pub(crate) struct FetchChainTipResult {
@@ -108,11 +109,25 @@ type DateTime = String;
 )]
 pub struct TransactionQuery;
 
-#[allow(dead_code, clippy::unwrap_used, clippy::upper_case_acronyms)]
-pub(crate) fn fetch_transactions_graphql() {
+#[allow(clippy::unwrap_used, clippy::upper_case_acronyms)]
+pub(crate) fn fetch_transactions_graphql(
+    conn_manager: &DBConnectionManager,
+    start_time_millis: i64,
+    end_time_millis: i64,
+    mip_key: &str,
+) {
+    let start_unix_timestamp = start_time_millis / 1000; // Convert milliseconds to seconds
+    let end_unix_timestamp = end_time_millis / 1000;     // Convert milliseconds to seconds
+
+    let start_datetime = OffsetDateTime::from_unix_timestamp(start_unix_timestamp);
+    let end_datetime = OffsetDateTime::from_unix_timestamp(end_unix_timestamp);
+
+    let start_utc_datetime = start_datetime.expect("not a valid time value").to_offset(UtcOffset::UTC);
+    let end_utc_datetime = end_datetime.expect("not a valid time value").to_offset(UtcOffset::UTC);
+
     let variables = transaction_query::Variables {
-        date_time_gte: Some("2023-05-20T06:00:00Z".to_string()),
-        date_time_lte: Some("2023-05-28T06:00:00Z".to_string()),
+        date_time_gte: Some(start_utc_datetime.to_string()),
+        date_time_lte: Some(end_utc_datetime.to_string()),
         memo1: Some("E4YVPwLUR2LrP9tSSi3fjw1svcZys1gJHrGvRefwVTCMbP2NQRqdW".to_string()),
         memo2: Some("E4YVe5wRALCJJ2dGEwRMyH7Z8y1QxzM76M8rXivFo5XbeBJdKryV6".to_string()),
         memo3: Some("E4YbUmaZjNgLgezBD3JzyGKuCn4iugZ5EcXT1JuNTudm5tT4MHvKz".to_string()),

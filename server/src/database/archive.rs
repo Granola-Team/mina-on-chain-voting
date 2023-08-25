@@ -108,7 +108,7 @@ type DateTime = String;
 )]
 pub struct TransactionQuery;
 
-#[allow(dead_code)]
+#[allow(dead_code, clippy::unwrap_used, clippy::upper_case_acronyms)]
 pub(crate) fn fetch_transactions_graphql() {
     let variables = transaction_query::Variables {
         date_time_gte: Some("2023-05-20T06:00:00Z".to_string()),

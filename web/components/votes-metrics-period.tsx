@@ -34,7 +34,10 @@ export const VotesMetricsPeriod = ({ startTime, endTime, status, className }: Pr
         </span>
       </CardHeader>
       <CardContent className="flex flex-col gap-1.5 mt-1.5">
-        <Progress className="h-5 rounded-md" value={percentage === -Infinity ? 0 : percentage} />
+        <Progress
+          className="h-5 rounded-md"
+          value={percentage === -Infinity ? 0 : percentage > 100 ? 100 : percentage}
+        />
         <div className="flex justify-between items-center">
           <p className="text-xs text-muted-foreground"> {startDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC</p>
           <p className="text-xs text-muted-foreground"> {endDate.format('YYYY-MM-DD | hh:mm A').toString()} UTC</p>

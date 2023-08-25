@@ -22,7 +22,10 @@ export default createJestConfig({
   coverageDirectory: 'coverage',
   moduleDirectories: ['node_modules'],
   modulePaths: [compilerOptions.baseUrl],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(compilerOptions.paths),
+    uuid: require.resolve('uuid'),
+  },
   preset: 'ts-jest',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jsdom',

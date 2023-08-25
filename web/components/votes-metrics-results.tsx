@@ -12,8 +12,8 @@ interface Props extends React.ComponentProps<typeof Card> {
 }
 
 export const VotesMetricsResults = ({ total, positive, negative, className }: Props) => {
-  const positivePercentage = ((positive / total) * 100).toFixed(4).replace(/\.0+$/, '');
-  const negativePercentage = ((negative / total) * 100).toFixed(4).replace(/\.0+$/, '');
+  const positivePercentage = total > 0 ? ((positive / total) * 100).toFixed(4).replace(/\.0+$/, '') : '0';
+  const negativePercentage = total > 0 ? ((negative / total) * 100).toFixed(4).replace(/\.0+$/, '') : '0';
 
   return (
     <Card className={className}>

@@ -94,7 +94,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
   },
   {
     accessorKey: 'category',
-    filterFn: (row, id, value) => {
+    filterFn: (row, value) => {
       return value.includes(row.original.category);
     },
   },
@@ -118,11 +118,11 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     accessorKey: 'status',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
-      const status = proposalTableStatuses.find((status) => status.value === row.getValue('status'));
-
-      if (!status) {
-        return null;
-      }
+      const status = proposalTableStatuses.find((status) => status.value === row.getValue('status')) ?? {
+        value: 'Unknown',
+        icon: QuestionMarkCircledIcon,
+        description: 'The status of this proposal is unknown.',
+      };
 
       return (
         <HoverCard openDelay={200} closeDelay={100}>

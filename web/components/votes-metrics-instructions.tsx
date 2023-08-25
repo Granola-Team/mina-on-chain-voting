@@ -62,6 +62,7 @@ const Dialog = ({ memo, variant }: Props & { variant: VoteDirection }) => {
               variant="outline"
               size="lg"
               className="gap-2"
+              test-id="dialog-copy-button"
               onClick={() => {
                 navigator.clipboard.writeText(displayMemo);
                 toast({

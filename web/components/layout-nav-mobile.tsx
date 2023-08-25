@@ -34,17 +34,11 @@ export const NavigationMobile = () => {
         </MobileLink>
         <ScrollArea className="my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
           <div className="flex flex-col space-y-3">
-            {siteConfig.nav?.map((item) =>
-              item.href.includes('https') || item.href.includes('http') ? (
-                <a key={item.href} href={item.href} rel="noreferrer" target="_blank">
-                  {item.title}
-                </a>
-              ) : (
-                <MobileLink key={item.href} href={item.href} onOpenChange={setOpen}>
-                  {item.title}
-                </MobileLink>
-              )
-            )}
+            {siteConfig.nav?.map((item) => (
+              <MobileLink key={item.href} href={item.href} onOpenChange={setOpen}>
+                {item.title}
+              </MobileLink>
+            ))}
           </div>
         </ScrollArea>
       </SheetContent>
@@ -60,6 +54,7 @@ interface MobileLinkProps extends LinkProps {
 
 const MobileLink = ({ href, onOpenChange, className, children, ...props }: MobileLinkProps) => {
   const router = useRouter();
+
   return (
     <Link
       href={href}

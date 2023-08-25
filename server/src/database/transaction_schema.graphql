@@ -1,0 +1,40 @@
+"An ISO-8601 encoded UTC date string."
+scalar DateTime
+
+type Query {
+  transactions(query: TransactionQueryInput, limit: Int = 100, sortBy: TransactionSortByInput): [Transaction]!
+}
+
+type Transaction {
+  amount: Float
+  canonical: Boolean
+  memo: String
+  dateTime: String
+  hash: String
+  blockHeight: Int
+  kind: String
+  to: String
+  from: String
+  none: Int
+}
+
+type TransactionQueryInput {
+  canonical: Boolean
+  memo: String
+  dateTime: DateTime
+  dateTime_gte: DateTime
+  dateTime_lte: DateTime
+  hash: String
+  blockHeight: Int
+  kind: String
+  to: String
+  from: String
+  nonce: Int
+  OR: [TransactionQueryInput!]
+  AND: [TransactionQueryInput!]
+}
+
+enum TransactionSortByInput {
+  NONCE_ASC
+  NONCE_DESC
+}

@@ -1,0 +1,28 @@
+query TransactionQuery(
+  $dateTime_gte: DateTime,
+  $dateTime_lte: DateTime,
+  $memo1: String,
+  $memo2: String,
+  $memo3: String,
+  $memo4: String,
+) {
+  transactions(
+    limit: 1000,
+    query: {
+      canonical: true,
+      kind: "PAYMENT",
+      dateTime_gte: $dateTime_gte,
+      dateTime_lte: $dateTime_lte,
+      OR: [{memo: $memo1},{memo: $memo2},{memo: $memo3},{memo: $memo4}]
+    },
+    sortBy: NONCE_DESC
+  ) {
+    memo
+    canonical
+    from
+    to
+    hash
+    blockHeight
+    dateTime
+  }
+}

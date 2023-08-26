@@ -115,7 +115,7 @@ pub(crate) fn fetch_transactions_graphql(
     start_time_millis: i64,
     end_time_millis: i64,
     mip_key: &str,
-) {
+) -> Result<Vec<FetchTransactionResult>> {
     let start_unix_timestamp = start_time_millis / 1000; // Convert milliseconds to seconds
     let end_unix_timestamp = end_time_millis / 1000;     // Convert milliseconds to seconds
 
@@ -150,6 +150,24 @@ pub(crate) fn fetch_transactions_graphql(
             map
         })
         .into_values()
-        .collect::<Vec<TransactionQueryTransactions>>();
+        .map(|txn: TransactionQueryTransactions| {
+            let timestamp_seconds = match txn.date_time.expect("not a valid time value").parse::<i64>() {
+                Ok(timestamp) => timestamp,
+                Err(_) => 0,
+            };
+            let offset_datetime = OffsetDateTime::from_unix_timestamp(timestamp_seconds);
+
+            FetchTransactionResult {
+                account: txn.to.clone().unwrap(),
+                hash: txn.hash.clone().unwrap(),
+                memo: txn.memo.clone().unwrap(),
+                height: txn.block_height.clone().unwrap(),
+                timestamp: offset_datetime.expect("not a valid time value").unix_timestamp(),
+                status: MinaBlockStatus::Canonical,
+                nonce: 0, // no field `nonce` on type `TransactionQueryTransactions`
+            }
+        })
+        .collect::<Vec<FetchTransactionResult>>();
     println!("{:?}", txns.len());
+    Ok(txns)
 }

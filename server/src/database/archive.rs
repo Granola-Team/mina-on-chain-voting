@@ -111,10 +111,10 @@ pub struct TransactionQuery;
 
 #[allow(clippy::unwrap_used, clippy::upper_case_acronyms)]
 pub(crate) fn fetch_transactions_graphql(
-    conn_manager: &DBConnectionManager,
     start_time_millis: i64,
     end_time_millis: i64,
     mip_key: &str,
+    base_memo: &str, // Pass the base memo as an argument
 ) -> Result<Vec<FetchTransactionResult>> {
     let start_unix_timestamp = start_time_millis / 1000; // Convert milliseconds to seconds
     let end_unix_timestamp = end_time_millis / 1000;     // Convert milliseconds to seconds
@@ -125,13 +125,18 @@ pub(crate) fn fetch_transactions_graphql(
     let start_utc_datetime = start_datetime.expect("not a valid time value").to_offset(UtcOffset::UTC);
     let end_utc_datetime = end_datetime.expect("not a valid time value").to_offset(UtcOffset::UTC);
 
+    let lower_case_memo = base_memo.to_string();
+    let upper_case_memo = base_memo.to_uppercase();
+    let no_lower_case_memo = format!("no {:?}", upper_case_memo);
+    let no_upper_case_memo = format!("NO {:?}", upper_case_memo);
+
     let variables = transaction_query::Variables {
         date_time_gte: Some(start_utc_datetime.to_string()),
         date_time_lte: Some(end_utc_datetime.to_string()),
-        memo1: Some("E4YVPwLUR2LrP9tSSi3fjw1svcZys1gJHrGvRefwVTCMbP2NQRqdW".to_string()),
-        memo2: Some("E4YVe5wRALCJJ2dGEwRMyH7Z8y1QxzM76M8rXivFo5XbeBJdKryV6".to_string()),
-        memo3: Some("E4YbUmaZjNgLgezBD3JzyGKuCn4iugZ5EcXT1JuNTudm5tT4MHvKz".to_string()),
-        memo4: Some("E4YbUmaZZqAoUdTZYvZkSmLjHfccTMbb5RnTQHixwRWq2YqLdLZyE".to_string()),
+        memo1: Some(lower_case_memo),
+        memo2: Some(upper_case_memo),
+        memo3: Some(no_lower_case_memo),
+        memo4: Some(no_upper_case_memo),
     };
     let client = Client::new();
     let response_body: Response<transaction_query::ResponseData> =

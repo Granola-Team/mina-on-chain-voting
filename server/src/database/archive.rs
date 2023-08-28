@@ -131,13 +131,19 @@ pub(crate) fn fetch_transactions_graphql(
     let no_lower_case_memo = format!("no {:?}", upper_case_memo);
     let no_upper_case_memo = format!("NO {:?}", upper_case_memo);
 
+    let lower_case_memo_b58 = bs58::encode(lower_case_memo).into_string();
+    let upper_case_memo_b58 = bs58::encode(upper_case_memo).into_string();
+    let no_lower_case_memo_b58 = bs58::encode(no_lower_case_memo).into_string();
+    let no_upper_case_memo_b58 = bs58::encode(no_upper_case_memo).into_string();
+
+
     let variables = transaction_query::Variables {
         date_time_gte: Some(start_utc_datetime.to_string()),
         date_time_lte: Some(end_utc_datetime.to_string()),
-        memo1: Some(lower_case_memo),
-        memo2: Some(upper_case_memo),
-        memo3: Some(no_lower_case_memo),
-        memo4: Some(no_upper_case_memo),
+        memo1: Some(lower_case_memo_b58),
+        memo2: Some(upper_case_memo_b58),
+        memo3: Some(no_lower_case_memo_b58),
+        memo4: Some(no_upper_case_memo_b58),
     };
     let client = Client::new();
     let response_body: Response<transaction_query::ResponseData> =

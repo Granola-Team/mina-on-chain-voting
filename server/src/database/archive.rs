@@ -110,11 +110,11 @@ type DateTime = String;
 )]
 pub struct TransactionQuery;
 
-#[allow(clippy::unwrap_used, clippy::upper_case_acronyms)]
+#[allow(dead_code, clippy::unwrap_used, clippy::upper_case_acronyms)]
 pub(crate) fn fetch_transactions_graphql(
     start_time_millis: i64,
     end_time_millis: i64,
-    mip_key: &str,
+    _mip_key: &str,
     base_memo: &str,
 ) -> Result<Vec<FetchTransactionResult>> {
     let start_duration = Duration::from_millis(start_time_millis.try_into().unwrap());
@@ -128,8 +128,8 @@ pub(crate) fn fetch_transactions_graphql(
 
     let lower_case_memo = base_memo.to_string();
     let upper_case_memo = base_memo.to_uppercase();
-    let no_lower_case_memo = format!("no {:?}", upper_case_memo);
-    let no_upper_case_memo = format!("NO {:?}", upper_case_memo);
+    let no_lower_case_memo = format!("{upper_case_memo:?}");
+    let no_upper_case_memo = format!("NO {upper_case_memo:?}");
 
     let lower_case_memo_b58 = bs58::encode(lower_case_memo).into_string();
     let upper_case_memo_b58 = bs58::encode(upper_case_memo).into_string();
@@ -163,20 +163,17 @@ pub(crate) fn fetch_transactions_graphql(
         })
         .into_values()
         .map(|txn: TransactionQueryTransactions| {
-            let timestamp_seconds = match txn.date_time.expect("not a valid time value").parse::<i64>() {
-                Ok(timestamp) => timestamp,
-                Err(_) => 0,
-            };
+            let timestamp_seconds = txn.date_time.expect("not a valid time value").parse::<i64>().unwrap_or(0);
             let offset_datetime = OffsetDateTime::from_unix_timestamp(timestamp_seconds);
 
             FetchTransactionResult {
                 account: txn.to.clone().unwrap(),
                 hash: txn.hash.clone().unwrap(),
                 memo: txn.memo.clone().unwrap(),
-                height: txn.block_height.clone().unwrap(),
+                height: txn.block_height.unwrap(),
                 timestamp: offset_datetime.expect("not a valid time value").unix_timestamp(),
                 status: MinaBlockStatus::Canonical,
-                nonce: txn.nonce.clone().unwrap(),
+                nonce: txn.nonce.unwrap(),
             }
         })
         .collect::<Vec<FetchTransactionResult>>();

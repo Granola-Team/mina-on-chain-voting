@@ -115,7 +115,7 @@ pub(crate) fn fetch_transactions_graphql(
     start_time_millis: i64,
     end_time_millis: i64,
     mip_key: &str,
-    base_memo: &str, // Pass the base memo as an argument
+    base_memo: &str,
 ) -> Result<Vec<FetchTransactionResult>> {
     let start_duration = Duration::from_millis(start_time_millis.try_into().unwrap());
     let end_duration = Duration::from_millis(end_time_millis.try_into().unwrap());
@@ -176,7 +176,7 @@ pub(crate) fn fetch_transactions_graphql(
                 height: txn.block_height.clone().unwrap(),
                 timestamp: offset_datetime.expect("not a valid time value").unix_timestamp(),
                 status: MinaBlockStatus::Canonical,
-                nonce: 0, // no field `nonce` on type `TransactionQueryTransactions`
+                nonce: txn.nonce.clone().unwrap(),
             }
         })
         .collect::<Vec<FetchTransactionResult>>();

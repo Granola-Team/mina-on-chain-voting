@@ -116,7 +116,7 @@ pub(crate) fn fetch_transactions_graphql(
     end_time_millis: i64,
     _mip_key: &str,
     base_memo: &str,
-) -> Result<Vec<FetchTransactionResult>> {
+) -> Vec<FetchTransactionResult> {
     let start_duration = Duration::from_millis(start_time_millis.try_into().unwrap());
     let end_duration = Duration::from_millis(end_time_millis.try_into().unwrap());
 
@@ -178,5 +178,5 @@ pub(crate) fn fetch_transactions_graphql(
         })
         .collect::<Vec<FetchTransactionResult>>();
     println!("{:?}", txns.len());
-    Ok(txns)
+    txns
 }

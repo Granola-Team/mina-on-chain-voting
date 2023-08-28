@@ -15,7 +15,7 @@ type Transaction {
   kind: String
   to: String
   from: String
-  none: Int
+  nonce: Int
 }
 
 type TransactionQueryInput {

@@ -93,6 +93,7 @@ pub(crate) fn fetch_transactions(
 }
 
 use std::collections::HashMap;
+use std::time::Duration;
 
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery, Response};
 use reqwest::blocking::Client;
@@ -116,14 +117,14 @@ pub(crate) fn fetch_transactions_graphql(
     mip_key: &str,
     base_memo: &str, // Pass the base memo as an argument
 ) -> Result<Vec<FetchTransactionResult>> {
-    let start_unix_timestamp = start_time_millis / 1000; // Convert milliseconds to seconds
-    let end_unix_timestamp = end_time_millis / 1000;     // Convert milliseconds to seconds
+    let start_duration = Duration::from_millis(start_time_millis.try_into().unwrap());
+    let end_duration = Duration::from_millis(end_time_millis.try_into().unwrap());
 
-    let start_datetime = OffsetDateTime::from_unix_timestamp(start_unix_timestamp);
-    let end_datetime = OffsetDateTime::from_unix_timestamp(end_unix_timestamp);
+    let start_datetime = OffsetDateTime::UNIX_EPOCH + start_duration;
+    let end_datetime = OffsetDateTime::UNIX_EPOCH + end_duration;
 
-    let start_utc_datetime = start_datetime.expect("not a valid time value").to_offset(UtcOffset::UTC);
-    let end_utc_datetime = end_datetime.expect("not a valid time value").to_offset(UtcOffset::UTC);
+    let start_utc_datetime = start_datetime.to_offset(UtcOffset::UTC);
+    let end_utc_datetime = end_datetime.to_offset(UtcOffset::UTC);
 
     let lower_case_memo = base_memo.to_string();
     let upper_case_memo = base_memo.to_uppercase();

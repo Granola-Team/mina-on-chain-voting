@@ -9,19 +9,38 @@ use time::{OffsetDateTime, UtcOffset};
 
 #[derive(QueryableByName)]
 pub(crate) struct FetchChainTipResult {
+    #[allow(dead_code)]
     #[diesel(sql_type = BigInt)]
     pub(crate) max: i64,
 }
 
-pub(crate) fn fetch_chain_tip(conn_manager: &DBConnectionManager) -> Result<i64> {
-    let connection = &mut conn_manager
-        .archive
-        .get()
-        .context("failed to get archive db connection")?;
+#[derive(GraphQLQuery)]
+#[graphql(
+    schema_path = "src/database/block_schema.graphql",
+    query_path = "src/database/block_query.graphql",
+    response_derives = "Debug"
+)]
+pub struct BlockQuery;
 
-    let result = sql_query("SELECT MAX(height) FROM blocks")
-        .get_result::<FetchChainTipResult>(connection)?;
-    Ok(result.max)
+pub(crate) fn fetch_chain_tip() -> i64 {
+    let client = Client::new();
+    let variables = block_query::Variables {};
+    let response_body: Response<block_query::ResponseData> =
+        post_graphql::<BlockQuery, _>(&client, "https://graphql.minaexplorer.com", variables)
+            .unwrap();
+
+    match response_body.data.unwrap().blocks.first() {
+        Some(Some(block_data)) => {
+            let block_height = block_data.block_height;
+            println!("Chain Tip or Highest Block Height: {:?}", block_height);
+            block_height.unwrap()
+        }
+        _ => {
+            println!("No blocks found");
+            // Return a default value, such as -1, to indicate no blocks found
+            -1
+        }
+    }
 }
 
 #[derive(QueryableByName)]
@@ -101,7 +120,6 @@ pub(crate) fn fetch_transactions(
     let upper_case_memo_b58 = bs58::encode(upper_case_memo).into_string();
     let no_lower_case_memo_b58 = bs58::encode(no_lower_case_memo).into_string();
     let no_upper_case_memo_b58 = bs58::encode(no_upper_case_memo).into_string();
-
 
     let variables = transaction_query::Variables {
         date_time_gte: Some(start_utc_datetime.to_string()),

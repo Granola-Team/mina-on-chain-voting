@@ -1,0 +1,7 @@
+query BlockQuery {
+  blocks(limit: 1, sortBy: BLOCKHEIGHT_DESC) {
+    blockHeight
+    canonical
+    dateTime
+  }
+}

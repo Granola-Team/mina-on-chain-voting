@@ -1,11 +1,13 @@
 use anyhow::Context;
+use chrono::NaiveDateTime;
+use chrono::SecondsFormat;
+use chrono::Utc;
 use diesel::sql_types::{BigInt, Text};
 use diesel::{sql_query, QueryableByName, RunQueryDsl};
 
 use crate::database::DBConnectionManager;
 use crate::models::vote::{ChainStatusType, MinaBlockStatus};
 use crate::prelude::*;
-use time::{OffsetDateTime, UtcOffset};
 
 #[derive(QueryableByName)]
 pub(crate) struct FetchChainTipResult {
@@ -80,7 +82,9 @@ pub(crate) struct FetchTransactionResult {
 }
 
 use std::collections::HashMap;
-use std::time::Duration;
+use std::error;
+use std::io;
+use std::io::ErrorKind;
 
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery, Response};
 use reqwest::blocking::Client;
@@ -97,34 +101,56 @@ type DateTime = String;
 )]
 pub struct TransactionQuery;
 
+pub fn encode_memo(s: impl AsRef<[u8]>) -> Result<String, Box<dyn error::Error>> {
+    const USER_COMMAND_MEMO: u8 = 0x14;
+
+    const DIGEST_LEN: usize = 32;
+    const MAX_INPUT_STRING_LENGTH: usize = DIGEST_LEN;
+    const MEMO_LEN: usize = DIGEST_LEN + 2;
+    const TAG_INDEX: usize = 0;
+    const LEN_INDEX: usize = 1;
+    const BYTES_TAG: u8 = 1;
+    let s = s.as_ref();
+    if s.len() > MAX_INPUT_STRING_LENGTH {
+        return Err(Box::new(io::Error::new(ErrorKind::Other, "oh no!")));
+    }
+    let mut v = vec![0; MEMO_LEN];
+    v[TAG_INDEX] = BYTES_TAG;
+    v[LEN_INDEX] = s.len() as u8;
+    for (i, &b) in s.iter().enumerate() {
+        v[i + 2] = b;
+    }
+    let hash = bs58::encode(v)
+        .with_check_version(USER_COMMAND_MEMO)
+        .into_string();
+    Ok(hash)
+}
+
 #[allow(clippy::unwrap_used, clippy::upper_case_acronyms)]
 pub(crate) fn fetch_transactions(
     start_time_millis: i64,
     end_time_millis: i64,
     base_memo: &str,
 ) -> Vec<FetchTransactionResult> {
-    let start_duration = Duration::from_millis(start_time_millis.try_into().unwrap());
-    let end_duration = Duration::from_millis(end_time_millis.try_into().unwrap());
+    let start_dt = NaiveDateTime::from_timestamp_millis(start_time_millis).unwrap();
+    let start_time_utc = chrono::DateTime::<Utc>::from_utc(start_dt, Utc);
 
-    let start_datetime = OffsetDateTime::UNIX_EPOCH + start_duration;
-    let end_datetime = OffsetDateTime::UNIX_EPOCH + end_duration;
+    let end_dt = NaiveDateTime::from_timestamp_millis(end_time_millis).unwrap();
+    let end_time_utc = chrono::DateTime::<Utc>::from_utc(end_dt, Utc);
 
-    let start_utc_datetime = start_datetime.to_offset(UtcOffset::UTC);
-    let end_utc_datetime = end_datetime.to_offset(UtcOffset::UTC);
-
-    let lower_case_memo = base_memo.to_string();
+    let lower_case_memo = base_memo.to_string().to_lowercase();
     let upper_case_memo = base_memo.to_uppercase();
-    let no_lower_case_memo = format!("{upper_case_memo:?}");
-    let no_upper_case_memo = format!("NO {upper_case_memo:?}");
+    let no_lower_case_memo = format!("no {}", lower_case_memo);
+    let no_upper_case_memo = format!("no {}", upper_case_memo);
 
-    let lower_case_memo_b58 = bs58::encode(lower_case_memo).into_string();
-    let upper_case_memo_b58 = bs58::encode(upper_case_memo).into_string();
-    let no_lower_case_memo_b58 = bs58::encode(no_lower_case_memo).into_string();
-    let no_upper_case_memo_b58 = bs58::encode(no_upper_case_memo).into_string();
+    let lower_case_memo_b58 = encode_memo(lower_case_memo.as_bytes()).unwrap();
+    let upper_case_memo_b58 = encode_memo(upper_case_memo.as_bytes()).unwrap();
+    let no_lower_case_memo_b58 = encode_memo(no_lower_case_memo.as_bytes()).unwrap();
+    let no_upper_case_memo_b58 = encode_memo(no_upper_case_memo.as_bytes()).unwrap();
 
     let variables = transaction_query::Variables {
-        date_time_gte: Some(start_utc_datetime.to_string()),
-        date_time_lte: Some(end_utc_datetime.to_string()),
+        date_time_gte: Some(start_time_utc.to_rfc3339_opts(SecondsFormat::Millis, true)),
+        date_time_lte: Some(end_time_utc.to_rfc3339_opts(SecondsFormat::Millis, true)),
         memo1: Some(lower_case_memo_b58),
         memo2: Some(upper_case_memo_b58),
         memo3: Some(no_lower_case_memo_b58),
@@ -134,7 +160,6 @@ pub(crate) fn fetch_transactions(
     let response_body: Response<transaction_query::ResponseData> =
         post_graphql::<TransactionQuery, _>(&client, "https://graphql.minaexplorer.com", variables)
             .unwrap();
-
     let txns = response_body.data.unwrap().transactions;
 
     let txns = txns
@@ -148,15 +173,20 @@ pub(crate) fn fetch_transactions(
         })
         .into_values()
         .map(|txn: TransactionQueryTransactions| {
-            let timestamp_seconds = txn.date_time.expect("not a valid time value").parse::<i64>().unwrap_or(0);
-            let offset_datetime = OffsetDateTime::from_unix_timestamp(timestamp_seconds);
+            let timestamp = txn
+                .date_time
+                .map(|s| match chrono::DateTime::parse_from_rfc3339(&s) {
+                    Ok(dt) => dt.timestamp_millis(),
+                    Err(_) => 0,
+                })
+                .unwrap();
 
             FetchTransactionResult {
                 account: txn.to.clone().unwrap(),
                 hash: txn.hash.clone().unwrap(),
                 memo: txn.memo.clone().unwrap(),
                 height: txn.block_height.unwrap(),
-                timestamp: offset_datetime.expect("not a valid time value").unix_timestamp(),
+                timestamp: timestamp,
                 status: MinaBlockStatus::Canonical,
                 nonce: txn.nonce.unwrap(),
             }

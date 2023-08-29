@@ -71,8 +71,7 @@ async fn get_mina_proposal(
         return Ok((StatusCode::OK, Json(response)).into_response());
     }
 
-    let transactions =
-        fetch_transactions(&ctx.conn_manager, proposal.start_time, proposal.end_time)?;
+    let transactions = fetch_transactions(proposal.start_time, proposal.end_time, &proposal.key);
 
     let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
@@ -140,7 +139,7 @@ async fn get_mina_proposal_result(
         cached_votes.to_vec()
     } else {
         let transactions =
-            fetch_transactions(&ctx.conn_manager, proposal.start_time, proposal.end_time)?;
+            fetch_transactions(proposal.start_time, proposal.end_time, &proposal.key);
 
         let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 

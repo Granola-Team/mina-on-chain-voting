@@ -59,39 +59,6 @@ pub(crate) struct FetchTransactionResult {
     pub(crate) nonce: i64,
 }
 
-pub(crate) fn fetch_transactions(
-    conn_manager: &DBConnectionManager,
-    start_time: i64,
-    end_time: i64,
-) -> Result<Vec<FetchTransactionResult>> {
-    let connection = &mut conn_manager
-        .archive
-        .get()
-        .context("failed to get archive db connection")?;
-
-    let results = sql_query(
-        "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
-        FROM user_commands AS uc
-        JOIN blocks_user_commands AS buc
-        ON uc.id = buc.user_command_id
-        JOIN blocks AS b
-        ON buc.block_id = b.id
-        JOIN public_keys AS pk
-        ON uc.source_id = pk.id
-        WHERE uc.type = 'payment'
-        AND uc.source_id = uc.receiver_id
-        AND uc.token = 1
-        AND NOT b.chain_status = 'orphaned'
-        AND buc.status = 'applied'
-        AND b.timestamp BETWEEN $1 AND $2"
-        );
-    let results = results
-        .bind::<BigInt, _>(start_time)
-        .bind::<BigInt, _>(end_time)
-        .get_results(connection)?;
-    Ok(results)
-}
-
 use std::collections::HashMap;
 use std::time::Duration;
 
@@ -110,11 +77,10 @@ type DateTime = String;
 )]
 pub struct TransactionQuery;
 
-#[allow(dead_code, clippy::unwrap_used, clippy::upper_case_acronyms)]
-pub(crate) fn fetch_transactions_graphql(
+#[allow(clippy::unwrap_used, clippy::upper_case_acronyms)]
+pub(crate) fn fetch_transactions(
     start_time_millis: i64,
     end_time_millis: i64,
-    _mip_key: &str,
     base_memo: &str,
 ) -> Vec<FetchTransactionResult> {
     let start_duration = Duration::from_millis(start_time_millis.try_into().unwrap());

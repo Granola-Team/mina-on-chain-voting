@@ -11,7 +11,6 @@ pub mod sql_types {
 }
 
 diesel::table! {
-    #[allow(clippy::wildcard_imports)]
     use diesel::sql_types::*;
     use super::sql_types::ProposalCategory;
     use super::sql_types::ProposalVersion;

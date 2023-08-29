@@ -73,7 +73,7 @@ async fn get_mina_proposal(
 
     let transactions = fetch_transactions(proposal.start_time, proposal.end_time, &proposal.key);
 
-    let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
+    let chain_tip = fetch_chain_tip();
 
     let votes = Wrapper(
         transactions
@@ -141,7 +141,7 @@ async fn get_mina_proposal_result(
         let transactions =
             fetch_transactions(proposal.start_time, proposal.end_time, &proposal.key);
 
-        let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
+        let chain_tip = fetch_chain_tip();
 
         let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
             Ledger(cached_ledger.to_vec())

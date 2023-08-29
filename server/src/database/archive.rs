@@ -22,6 +22,7 @@ pub(crate) struct FetchChainTipResult {
 )]
 pub struct BlockQuery;
 
+#[allow(clippy::unwrap_used, clippy::single_match_else)]
 pub(crate) fn fetch_chain_tip() -> i64 {
     let client = Client::new();
     let variables = block_query::Variables {};
@@ -32,7 +33,7 @@ pub(crate) fn fetch_chain_tip() -> i64 {
     match response_body.data.unwrap().blocks.first() {
         Some(Some(block_data)) => {
             let block_height = block_data.block_height;
-            println!("Chain Tip or Highest Block Height: {:?}", block_height);
+            println!("Chain Tip or Highest Block Height: {block_height:?}");
             block_height.unwrap()
         }
         _ => {

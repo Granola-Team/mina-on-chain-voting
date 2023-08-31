@@ -12,7 +12,6 @@ module.exports = {
         groups: [
           ['^react'],
           ['^next'],
-          ['^@mui|@emotion|@storybook'],
           ['^common'],
           ['^components'],
           ['reflect-metadata$'],

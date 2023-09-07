@@ -1,4 +1,4 @@
-import { env } from './env.js';
+import { env } from './env.mjs';
 
 type EnvType = typeof env;
 

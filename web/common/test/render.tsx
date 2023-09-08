@@ -1,21 +1,14 @@
 import type { ReactElement, ReactNode } from 'react';
 
-import { memoryRouter } from 'next-router-mock';
-import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider';
-import { ThemeProvider } from 'next-themes';
+import { MemoryRouterProvider } from 'next-router-mock/dist/MemoryRouterProvider/next-12';
+
+import { ThemeProvider } from 'components/provider';
+import { DefaultThemeType } from 'components/themes';
+
+import { SnackbarProvider } from 'notistack';
 
 import { render, RenderOptions } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-// workaround for missing Next 13 support in next-router-mock
-// PR: https://github.com/scottrippey/next-router-mock/pull/103
-const MockNextNavigation = {
-  router: memoryRouter,
-  useRouter: () => memoryRouter,
-  usePathname: () => memoryRouter.asPath,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  useSearchParams: () => new URLSearchParams(memoryRouter.query as any),
-};
 
 type MemoryRouterProviderOptions = typeof MemoryRouterProvider.defaultProps;
 
@@ -30,11 +23,11 @@ type GlobalRenderProviderProps = {
 
 const GlobalRenderProvider = ({ children, memoryRouterProps }: GlobalRenderProviderProps) => {
   return (
-    <MemoryRouterProvider {...memoryRouterProps}>
-      <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-        {children}
-      </ThemeProvider>
-    </MemoryRouterProvider>
+    <ThemeProvider value={DefaultThemeType}>
+      <MemoryRouterProvider {...memoryRouterProps}>
+        <SnackbarProvider>{children}</SnackbarProvider>
+      </MemoryRouterProvider>
+    </ThemeProvider>
   );
 };
 
@@ -54,4 +47,6 @@ const customRender = (ui: ReactElement, options?: CustomRenderOptions) => {
 
 export * from '@testing-library/react';
 export { customRender as render };
-export { MockNextNavigation };
+
+export * from './msw';
+export { rest } from 'msw';

@@ -59,12 +59,13 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
-- If not installed, install [Rust](https://www.rust-lang.org/) - [Cargo-Make](https://github.com/sagiegurari/cargo-make) - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
+- If not installed, install [Rust](https://www.rust-lang.org/) - [Cargo-Make](https://github.com/sagiegurari/cargo-make) - [Typeshare-CLI](https://github.com/1Password/typeshare) - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
 
   ```bash
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # install rust
   cargo install --force cargo-make # install cargo-make
   cargo install diesel_cli --no-default-features --features postgres # install diesel-cli
+  cargo install typeshare-cli # install typeshare-cli
 
   ```
 
@@ -83,6 +84,14 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   ```bash
   pnpm clean && pnpm install
   ```
+
+### Generated files and types
+
+This project relies on [Typeshare-CLI](https://github.com/1Password/typeshare) to generate `web/models/generated.ts` containing .ts types.</br>
+These files are **required** for running, testing, and deploying the application.</br>
+
+Typeshare needs to be run manually run via `pnpm cargo:generate`.</br>
+If you're encountering errors with missing references, re-run the generator.
 
 ### Running in Docker
 

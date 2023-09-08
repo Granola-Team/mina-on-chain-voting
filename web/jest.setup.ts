@@ -1,8 +1,11 @@
-import { LocalStorageMock } from 'common/test/localStorage';
-
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
+import 'mock-match-media/jest-setup';
 
 jest.mock('next/router', () => require('next-router-mock'));
 
-Object.defineProperty(global.self, 'localStorage', { value: new LocalStorageMock() });
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));

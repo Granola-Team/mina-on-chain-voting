@@ -10,6 +10,7 @@ pub(crate) enum ProposalVersion {
     V2,
 }
 
+#[allow(clippy::upper_case_acronyms)]
 #[derive(Serialize, Deserialize, Debug, DbEnum)]
 #[ExistingTypePath = "crate::schema::sql_types::ProposalCategory"]
 #[DbValueStyle = "verbatim"]

@@ -3,6 +3,8 @@ import { getProposalList } from 'common/store';
 import { PageHeader, PageHeaderDescription, PageHeaderHeading } from 'components/core/page-header';
 import { ProposalTable } from 'components/proposal-table';
 
+export const dynamic = 'force-dynamic';
+
 const Page = async () => {
   const proposals = await getProposalList();
 

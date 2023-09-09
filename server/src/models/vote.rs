@@ -5,7 +5,7 @@ use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::collections::{hash_map::Entry, HashMap};
 
-use crate::database::archive::FetchTransactionResult;
+use crate::database::FetchTransactionResult;
 use crate::models::diesel::MinaProposal;
 use crate::models::ledger::Ledger;
 use crate::prelude::*;

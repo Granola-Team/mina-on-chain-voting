@@ -1,34 +1,57 @@
 use diesel::prelude::*;
 use diesel::r2d2::ConnectionManager;
 use diesel::r2d2::Pool;
+use diesel::sql_types::BigInt;
+use diesel::sql_types::Text;
 
-use crate::config::Config;
+use crate::models::diesel::MinaProposal;
+use crate::models::vote::ChainStatusType;
+use crate::models::vote::MinaBlockStatus;
+use crate::prelude::*;
 
-pub(crate) mod archive;
 pub(crate) mod cache;
+pub(crate) mod postgres;
 
 pub(crate) type PgConnectionPool = Pool<ConnectionManager<PgConnection>>;
 
-pub(crate) struct DBConnectionManager {
-    pub(crate) main: PgConnectionPool,
-    pub(crate) archive: PgConnectionPool,
+pub(crate) trait DBConnectionManager: Send + Sync + 'static {
+    fn fetch_chain_tip(&self) -> Result<i64>;
+    fn fetch_latest_slot(&self) -> Result<i64>;
+    fn fetch_transactions(
+        &self,
+        start_time: i64,
+        end_time: i64,
+    ) -> Result<Vec<FetchTransactionResult>>;
+    fn fetch_mina_proposals(&self) -> Result<Vec<MinaProposal>>;
+    fn fetch_mina_proposal(&self, path: i32) -> Result<MinaProposal>;
 }
 
-impl DBConnectionManager {
-    pub(crate) fn get_connections(cfg: &Config) -> DBConnectionManager {
-        let main_manager = ConnectionManager::<PgConnection>::new(&cfg.database_url);
-        let archive_manager = ConnectionManager::<PgConnection>::new(&cfg.archive_database_url);
+#[derive(QueryableByName)]
+pub(crate) struct FetchChainTipResult {
+    #[diesel(sql_type = BigInt)]
+    pub(crate) max: i64,
+}
 
-        DBConnectionManager {
-            main: Pool::builder()
-                .test_on_check_out(true)
-                .build(main_manager)
-                .unwrap_or_else(|_| panic!("Error: failed to build `main` connection pool")),
+#[derive(QueryableByName)]
+pub(crate) struct FetchLatestSlotResult {
+    #[diesel(sql_type = BigInt)]
+    pub(crate) max: i64,
+}
 
-            archive: Pool::builder()
-                .test_on_check_out(true)
-                .build(archive_manager)
-                .unwrap_or_else(|_| panic!("Error: failed to build `archive` connection pool")),
-        }
-    }
+#[derive(QueryableByName)]
+pub(crate) struct FetchTransactionResult {
+    #[diesel(sql_type = Text)]
+    pub(crate) account: String,
+    #[diesel(sql_type = Text)]
+    pub(crate) hash: String,
+    #[diesel(sql_type = Text)]
+    pub(crate) memo: String,
+    #[diesel(sql_type = BigInt)]
+    pub(crate) height: i64,
+    #[diesel(sql_type = ChainStatusType)]
+    pub(crate) status: MinaBlockStatus,
+    #[diesel(sql_type = BigInt)]
+    pub(crate) timestamp: i64,
+    #[diesel(sql_type = BigInt)]
+    pub(crate) nonce: i64,
 }

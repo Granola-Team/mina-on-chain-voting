@@ -15,7 +15,7 @@ use crate::prelude::*;
 #[derive(Clone)]
 pub(crate) struct Context {
     pub(crate) cache: Arc<CacheManager>,
-    pub(crate) conn_manager: Arc<DBConnectionManager>,
+    pub(crate) conn_manager: Arc<Box<dyn DBConnectionManager>>,
     pub(crate) network: NetworkConfig,
     pub(crate) ledger_storage_path: Option<String>,
 }

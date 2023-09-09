@@ -1,16 +1,12 @@
-use anyhow::Context;
 use axum::extract::Path;
 use axum::http::StatusCode;
 use axum::response::IntoResponse;
 use axum::routing::get;
 use axum::{Extension, Json, Router};
-use diesel::prelude::*;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 
-use crate::database::archive::fetch_chain_tip;
-use crate::database::archive::fetch_transactions;
 use crate::models::diesel::MinaProposal;
 use crate::models::ledger::Ledger;
 use crate::models::vote::MinaVote;
@@ -26,18 +22,7 @@ pub(crate) fn router() -> Router {
 
 #[allow(clippy::unused_async)]
 async fn get_mina_proposals(ctx: Extension<crate::Context>) -> Result<impl IntoResponse> {
-    use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
-
-    let conn = &mut ctx
-        .conn_manager
-        .main
-        .get()
-        .context("failed to get primary db connection")?;
-
-    let proposals: Vec<MinaProposal> = mina_proposal_dsl::mina_proposals
-        .order(mina_proposal_dsl::id.desc())
-        .load(conn)?;
-
+    let proposals = ctx.conn_manager.fetch_mina_proposals()?;
     Ok((StatusCode::OK, Json(proposals)).into_response())
 }
 
@@ -52,15 +37,7 @@ async fn get_mina_proposal(
     ctx: Extension<crate::Context>,
     Path(id): Path<i32>,
 ) -> Result<impl IntoResponse> {
-    use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
-
-    let conn = &mut ctx
-        .conn_manager
-        .main
-        .get()
-        .context("failed to get primary db connection")?;
-
-    let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
+    let proposal = ctx.conn_manager.fetch_mina_proposal(id)?;
 
     if let Some(cached) = ctx.cache.votes.get(&proposal.key) {
         let response = GetMinaProposalResponse {
@@ -71,10 +48,11 @@ async fn get_mina_proposal(
         return Ok((StatusCode::OK, Json(response)).into_response());
     }
 
-    let transactions =
-        fetch_transactions(&ctx.conn_manager, proposal.start_time, proposal.end_time)?;
+    let transactions = ctx
+        .conn_manager
+        .fetch_transactions(proposal.start_time, proposal.end_time)?;
 
-    let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
+    let chain_tip = ctx.conn_manager.fetch_chain_tip()?;
 
     let votes = Wrapper(
         transactions
@@ -111,16 +89,7 @@ async fn get_mina_proposal_result(
     ctx: Extension<crate::Context>,
     Path(id): Path<i32>,
 ) -> Result<impl IntoResponse> {
-    use crate::schema::mina_proposals::dsl as mina_proposal_dsl;
-
-    let conn = &mut ctx
-        .conn_manager
-        .main
-        .get()
-        .context("failed to get primary db connection")?;
-
-    let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
-
+    let proposal = ctx.conn_manager.fetch_mina_proposal(id)?;
     if proposal.ledger_hash.is_none() {
         let response = GetMinaProposalResultResponse {
             proposal,
@@ -139,10 +108,11 @@ async fn get_mina_proposal_result(
     let votes = if let Some(cached_votes) = ctx.cache.votes_weighted.get(&proposal.key) {
         cached_votes.to_vec()
     } else {
-        let transactions =
-            fetch_transactions(&ctx.conn_manager, proposal.start_time, proposal.end_time)?;
+        let transactions = ctx
+            .conn_manager
+            .fetch_transactions(proposal.start_time, proposal.end_time)?;
 
-        let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
+        let chain_tip = ctx.conn_manager.fetch_chain_tip()?;
 
         let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
             Ledger(cached_ledger.to_vec())

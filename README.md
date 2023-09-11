@@ -108,6 +108,11 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
   docker-compose --profile server-db up
   ```
 
+- In another terminal window, run the server.
+  ```sh
+  diesel pnpm cargo run --release
+  ```
+
 - Run migrations.
 
   ```sh

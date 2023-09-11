@@ -110,7 +110,7 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 
 - In another terminal window, run the server.
   ```sh
-  diesel pnpm cargo run --release
+  pnpm cargo run --release
   ```
 
 - Run migrations.

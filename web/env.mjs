@@ -1,8 +1,7 @@
-// @ts-check
 import { z } from 'zod';
 
 /**
- * Main environment variable schema.
+ * Environment variable schema.
  * By default, environment variables are only available in the Node environment.
  * In order to expose a variable to the browser - prefix the variable with NEXT_PUBLIC.
  */

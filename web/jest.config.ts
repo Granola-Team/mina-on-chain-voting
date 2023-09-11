@@ -11,25 +11,26 @@ const createJestConfig = nextJest({
 
 export default createJestConfig({
   clearMocks: true,
-  collectCoverage: true,
   collectCoverageFrom: [
     '<rootDir>/**/*.{ts,tsx}',
-    '!<rootDir>/**/{common,pages}/**',
+    '!<rootDir>/**/{models,common,pages,app}/**',
     '!<rootDir>/**/{storybook,.storybook}/**',
-    '!<rootDir>/components/{themes,provider}/**',
+    '!<rootDir>/components/{themes,provider,core}/**',
     '!<rootDir>/**/*.{generated,stories,d}.{ts,tsx}',
-    '!<rootDir>/**/{index.ts,middleware.ts,jest.*.{js,ts}}',
+    '!<rootDir>/**/{index.ts,middleware.ts,*.config.{js,ts},jest.*.{js,ts}}',
   ],
   coverageDirectory: 'coverage',
-  coverageProvider: 'v8',
-  moduleDirectories: ['node_modules', 'shared'],
+  moduleDirectories: ['node_modules'],
   modulePaths: [compilerOptions.baseUrl],
-  moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths),
-  resolver: '',
+  moduleNameMapper: {
+    ...pathsToModuleNameMapper(compilerOptions.paths),
+    uuid: require.resolve('uuid'),
+  },
   preset: 'ts-jest',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testEnvironment: 'jsdom',
   testPathIgnorePatterns: ['/node_modules/'],
+  resolver: '',
   globals: {
     'ts-jest': {
       tsconfig: 'tsconfig.jest.json',

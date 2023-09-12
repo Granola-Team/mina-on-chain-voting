@@ -76,7 +76,7 @@ describe(TestVariant.Component, () => {
       expect(screen.getByRole('button', { name: /Download/i })).toBeVisible();
 
       proposals.forEach((item) => {
-        expect(screen.getByText(`${item.id} - ${item.key}`)).toBeVisible();
+        expect(screen.getByText(`${item.key}`)).toBeVisible();
         expect(screen.getByText(item.category)).toBeVisible();
         expect(screen.getByText(item.title)).toBeVisible();
         expect(screen.getByText(item.status)).toBeVisible();

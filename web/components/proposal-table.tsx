@@ -172,7 +172,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
       const buttonText =
         row.getValue('status') === 'Completed'
           ? 'Results'
-          : 'Vote Now';
+          : 'Go Vote';
 
       return (
         <Link

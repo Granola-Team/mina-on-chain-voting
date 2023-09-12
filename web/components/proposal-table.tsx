@@ -87,7 +87,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Key" className="pl-2.5" />,
     cell: ({ row }) => (
       <div className="flex pl-2.5">
-        <span className="whitespace-nowrap">{`${row.getValue('id')} - ${row.original.key}`}</span>
+        <span className="whitespace-nowrap">{`${row.original.key}`}</span>
       </div>
     ),
     enableHiding: false,

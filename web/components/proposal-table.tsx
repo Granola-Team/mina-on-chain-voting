@@ -182,7 +182,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
               : `/proposal/${row.getValue('id')}`
           }
         >
-        <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+        <Button variant="ghost" className="flex h-8 w-auto p-0 data-[state=open]:bg-muted">
           <div className="flex items-center">
             <span className="ml-1 whitespace-nowrap">{buttonText}</span>
             <ExternalLinkIcon className="h-4 w-4" />

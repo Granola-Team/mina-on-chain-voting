@@ -1,5 +1,5 @@
 ### track dependencies
-FROM rust as planner
+FROM rust:bullseye as planner
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY ./server .
 RUN cargo chef prepare --recipe-path recipe.json
 
 ### build dependencies
-FROM rust as cacher
+FROM rust:bullseye as cacher
 
 WORKDIR /app
 
@@ -21,7 +21,7 @@ COPY --from=planner /app/recipe.json recipe.json
 RUN cargo chef cook --release --recipe-path recipe.json
 
 ### build server
-FROM rust as builder
+FROM rust:bullseye as builder
 
 ENV USER=mina
 ENV UID=1001

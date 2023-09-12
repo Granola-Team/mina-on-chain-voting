@@ -16,6 +16,7 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "paths": {
       "common/*": ["./common/*"],
       "components/*": ["./components/*"],

@@ -87,7 +87,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Key" className="pl-2.5" />,
     cell: ({ row }) => (
       <div className="flex pl-2.5">
-        <span className="whitespace-nowrap">{`${row.getValue('id')} - ${row.original.key}`}</span>
+        <span className="whitespace-nowrap">{`${row.original.key}`}</span>
       </div>
     ),
     enableHiding: false,
@@ -169,6 +169,11 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
   {
     id: 'actions',
     cell: ({ row }) => {
+      const buttonText =
+        row.getValue('status') === 'Completed'
+          ? 'Results'
+          : 'Go Vote';
+
       return (
         <Link
           href={
@@ -177,10 +182,13 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
               : `/proposal/${row.getValue('id')}`
           }
         >
-          <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
+        <Button variant="ghost" className="flex h-8 w-auto p-0 data-[state=open]:bg-muted">
+          <div className="flex items-center">
+            <span className="ml-1 whitespace-nowrap">{buttonText}</span>
             <ExternalLinkIcon className="h-4 w-4" />
-            <span className="sr-only">Open menu</span>
-          </Button>
+          </div>
+          <span className="sr-only">Open menu</span>
+        </Button>
         </Link>
       );
     },

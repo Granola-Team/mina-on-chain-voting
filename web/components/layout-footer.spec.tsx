@@ -17,10 +17,6 @@ describe(TestVariant.Component, () => {
       const gLink = screen.getByRole('link', { name: /Granola/i });
       expect(gLink).toHaveAttribute('href', siteConfig.links.granola);
       expect(gLink).toBeVisible();
-
-      const ghLink = screen.getByRole('link', { name: /Github/i });
-      expect(ghLink).toHaveAttribute('href', siteConfig.links.github);
-      expect(ghLink).toBeVisible();
     });
   });
 });

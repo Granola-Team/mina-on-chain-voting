@@ -30,7 +30,8 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
           <AreaChart
-            data={data
+            data={data && Array.isArray(data)
+              ? data
               .map((item) => ({
                 ...item,
                 DATE: moment(item.DATE, 'DD-MM').toDate(),
@@ -40,6 +41,7 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
                 ...item,
                 DATE: moment(item.DATE).format('MMM DD'),
               }))
+              : []
             }
             >
               <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />

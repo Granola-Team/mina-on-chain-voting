@@ -1,43 +1,29 @@
 use serde::Deserialize;
 
-use crate::models::vote::MinaBlockStatus;
-
 use super::{DBConnectionManager, FetchTransactionResult};
 
 pub struct MockConnectionManager;
 
 #[derive(Deserialize)]
 struct TxGQLSource {
-    account: String,
+    _account: String,
 }
 #[derive(Deserialize)]
 struct TxGQLResult {
     #[serde(rename = "blockHeight")]
-    block_height: i64,
-    canonical: bool,
+    _block_height: i64,
+    _canonical: bool,
     #[serde(rename = "dateTime")]
-    date_time: String,
-    hash: String,
-    memo: String,
-    nonce: i64,
-    source: TxGQLSource,
+    _date_time: String,
+    _hash: String,
+    _memo: String,
+    _nonce: i64,
+    _source: TxGQLSource,
 }
 
-impl Into<FetchTransactionResult> for TxGQLResult {
-    fn into(self) -> FetchTransactionResult {
-        FetchTransactionResult {
-            account: self.source.account,
-            hash: self.hash,
-            memo: self.memo,
-            height: self.block_height,
-            status: if self.canonical {
-                MinaBlockStatus::Canonical
-            } else {
-                MinaBlockStatus::Pending
-            },
-            timestamp: 0,
-            nonce: self.nonce,
-        }
+impl From<TxGQLResult> for FetchTransactionResult {
+    fn from(_value: TxGQLResult) -> Self {
+        todo!()
     }
 }
 
@@ -52,18 +38,10 @@ impl DBConnectionManager for MockConnectionManager {
 
     fn fetch_transactions(
         &self,
-        start_time: i64,
-        end_time: i64,
+        _start_time: i64,
+        _end_time: i64,
     ) -> crate::prelude::Result<Vec<super::FetchTransactionResult>> {
-        Ok(vec![FetchTransactionResult {
-            account: todo!(),
-            hash: todo!(),
-            memo: todo!(),
-            height: todo!(),
-            status: todo!(),
-            timestamp: todo!(),
-            nonce: todo!(),
-        }])
+        todo!()
     }
 
     fn fetch_mina_proposals(
@@ -74,7 +52,7 @@ impl DBConnectionManager for MockConnectionManager {
 
     fn fetch_mina_proposal(
         &self,
-        path: i32,
+        _path: i32,
     ) -> crate::prelude::Result<crate::models::diesel::MinaProposal> {
         todo!()
     }

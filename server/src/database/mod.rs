@@ -10,6 +10,7 @@ use crate::models::vote::MinaBlockStatus;
 use crate::prelude::*;
 
 pub(crate) mod cache;
+pub(crate) mod mock;
 pub(crate) mod postgres;
 
 pub(crate) type PgConnectionPool = Pool<ConnectionManager<PgConnection>>;

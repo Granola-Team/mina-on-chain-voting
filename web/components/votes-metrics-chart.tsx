@@ -7,6 +7,7 @@ import { ThemePrimaryColor } from 'common/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'components/core/card';
 
 import { VoteMetrics } from 'models';
+import moment from 'moment';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 interface Props extends React.ComponentProps<typeof Card> {
@@ -28,7 +29,10 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
       <CardContent className="px-3 md:px-6">
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data}>
+          <AreaChart data={data.map((item) => ({
+              ...item,
+              DATE: moment(item.DATE, 'DD-MM').format('MMM DD'),
+            }))}>
               <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />
               <Area
                 type="linear"

@@ -14,6 +14,7 @@ export const Footer = () => {
           >
             Granola
           </a>
+          .
         </p>
       </div>
     </footer>

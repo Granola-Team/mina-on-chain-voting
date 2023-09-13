@@ -31,6 +31,8 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ## Development
 
+### Make sure to have the necessary installations and dependencies
+
 - If not installed, install [`nvm`](https://github.com/nvm-sh/nvm)
 
   ```bash
@@ -68,6 +70,8 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
   ```
 
+### Start developing
+
 - Checkout this repository via `git` or the [Github CLI](https://cli.github.com/)
 
   ```bash
@@ -84,9 +88,14 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   pnpm clean && pnpm install
   ```
 
+- Make sure your .env file is set-up correctly
+- Please see the [`.env.example`](./.env.example) file in the root of our project for more details
+
 ### Running in Docker
 
 Run `docker-compose up` or `pnpm docker` to mount the cluster, and then run all pending migrations.
+
+- Make sure the DATABASE_URL, the connection URL for the application database, and ARCHIVE_DATABASE_URL, the connection URL for the archive in your .env file correspond to those in Docker, especially if you are changing these environment variables.
 
 > **IMPORTANT:**
 When running locally, modify the respective `.env` variables to point to `db` and `server` (the internal Docker host).
@@ -98,7 +107,7 @@ You can run the web-app in console and mount the database and server in Docker t
 > **IMPORTANT:** When running this way, the database URL in the `.env` file has to point to `localhost`.</br>
 See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` env var.
 
-- Mount the database and server in Docker.
+- Mount the database and server in Docker. The db and backend should be up and running now.
 
   ```sh
   pnpm docker:server-db
@@ -114,7 +123,7 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
   diesel migration run
   ```
 
-- Run the app in development mode.
+- Run the app (frontend) in development mode.
 
   ```sh
   pnpm web dev

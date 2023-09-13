@@ -10,7 +10,7 @@ export const Footer = () => {
             href={siteConfig.links.granola}
             target="_blank"
             rel="noreferrer"
-            className="font-medium underline underline-offset-4"
+            className="font-medium underline underline-offset-4 text-logoOrange"
           >
             Granola
           </a>

@@ -13,8 +13,6 @@ pub(crate) mod cache;
 pub(crate) mod mock;
 pub(crate) mod postgres;
 
-pub(crate) type PgConnectionPool = Pool<ConnectionManager<PgConnection>>;
-
 pub(crate) trait DBConnectionManager: Send + Sync + 'static {
     fn fetch_chain_tip(&self) -> Result<i64>;
     fn fetch_latest_slot(&self) -> Result<i64>;

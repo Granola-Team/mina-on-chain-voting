@@ -5,11 +5,13 @@ use diesel::ExpressionMethods;
 use diesel::{sql_query, PgConnection, QueryDsl, RunQueryDsl};
 use r2d2::Pool;
 
-use super::{FetchChainTipResult, FetchLatestSlotResult, FetchTransactionResult, PgConnectionPool};
+use super::{FetchChainTipResult, FetchLatestSlotResult, FetchTransactionResult};
 use crate::config::Config;
 use crate::database::DBConnectionManager;
 use crate::models::diesel::MinaProposal;
 use crate::prelude::*;
+
+pub(crate) type PgConnectionPool = Pool<ConnectionManager<PgConnection>>;
 
 pub(crate) struct PostgresConnectionManager {
     pub(crate) main: PgConnectionPool,

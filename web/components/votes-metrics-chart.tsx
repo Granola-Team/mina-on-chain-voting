@@ -29,10 +29,19 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
       <CardContent className="px-3 md:px-6">
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data.map((item) => ({
-              ...item,
-              DATE: moment(item.DATE, 'DD-MM').format('MMM DD'),
-            }))}>
+          <AreaChart
+            data={data
+              .map((item) => ({
+                ...item,
+                DATE: moment(item.DATE, 'DD-MM').toDate(), // Convert to JavaScript Date object
+              }))
+              .sort((a, b) => a.DATE.getTime() - b.DATE.getTime()) // Sort by date
+              .map((item) => ({
+                ...item,
+                DATE: moment(item.DATE).format('MMM DD'), // Format the date as needed
+              }))
+            }
+            >
               <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />
               <Area
                 type="linear"

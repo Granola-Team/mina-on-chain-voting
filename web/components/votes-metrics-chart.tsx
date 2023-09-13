@@ -33,12 +33,12 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
             data={data
               .map((item) => ({
                 ...item,
-                DATE: moment(item.DATE, 'DD-MM').toDate(), // Convert to JavaScript Date object
+                DATE: moment(item.DATE, 'DD-MM').toDate(),
               }))
-              .sort((a, b) => a.DATE.getTime() - b.DATE.getTime()) // Sort by date
+              .sort((a, b) => a.DATE.getTime() - b.DATE.getTime())
               .map((item) => ({
                 ...item,
-                DATE: moment(item.DATE).format('MMM DD'), // Format the date as needed
+                DATE: moment(item.DATE).format('MMM DD'),
               }))
             }
             >

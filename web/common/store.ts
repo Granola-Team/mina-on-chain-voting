@@ -81,7 +81,7 @@ const processVotes = <T extends ProposalParserOutcome['votes'][number]>(
   const sortedVotes = [...votes].sort((a, b) => b.height - a.height);
 
   const processedVotes = sortedVotes.map((vote) => {
-    const voteDate = moment(new Date(vote.timestamp)).utc().format('DD-MM');
+    const voteDate = moment(new Date(vote.timestamp)).utc().format('MMM DD');
     const isFor = !vote.memo.toLocaleLowerCase().includes('no');
     const direction = isFor ? 'FOR' : 'AGAINST';
 
@@ -99,7 +99,7 @@ const processVotes = <T extends ProposalParserOutcome['votes'][number]>(
 
   return {
     votes: processedVotes,
-    metrics: Object.values(groupedVotes),
+    metrics: Object.values(groupedVotes).reverse(),
   };
 };
 

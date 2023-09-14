@@ -44,11 +44,11 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   ```
 
   ```bash
-  nvm install 16
+  nvm install 18
 
   # and ...
 
-  nvm use default v16
+  nvm use default v18
   ```
 
 - If not installed, install [`pnpm`](https://pnpm.io/)

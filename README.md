@@ -61,7 +61,8 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
-- If not installed, install 'libpq'. This is accomplish, for example, by issuing:
+- If not installed, install 'libpq' (which is required by Diesel). On some
+  Linux distros, this is accomplished, for example, by issuing:
 
   ```bash
   sudo apt-get install libpq-dev

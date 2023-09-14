@@ -96,7 +96,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
   {
     accessorKey: 'category',
     filterFn: (row, _id, value) => {
-    return value.includes(row.original.category);
+      return value.includes(row.original.category);
     },
   },
   {

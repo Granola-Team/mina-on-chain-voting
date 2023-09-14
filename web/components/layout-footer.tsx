@@ -10,18 +10,9 @@ export const Footer = () => {
             href={siteConfig.links.granola}
             target="_blank"
             rel="noreferrer"
-            className="font-medium underline underline-offset-4"
+            className="font-medium underline underline-offset-4 text-logoOrange"
           >
             Granola
-          </a>
-          . The source code is available on{' '}
-          <a
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className="font-medium underline underline-offset-4"
-          >
-            Github
           </a>
           .
         </p>

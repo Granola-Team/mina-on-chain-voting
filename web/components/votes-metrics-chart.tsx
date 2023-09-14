@@ -2,8 +2,6 @@
 
 import { useTheme } from 'next-themes';
 
-import { ThemePrimaryColor } from 'common/utils';
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'components/core/card';
 
 import { VoteMetrics } from 'models';
@@ -14,8 +12,7 @@ interface Props extends React.ComponentProps<typeof Card> {
 }
 
 export const VotesMetricsChart = ({ data, className }: Props) => {
-  const { theme: mode } = useTheme();
-  const primaryColor = ThemePrimaryColor[mode === 'dark' ? 'dark' : 'light'];
+  useTheme();
 
   return (
     <Card className={className}>
@@ -28,23 +25,16 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
       <CardContent className="px-3 md:px-6">
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data}>
+          <AreaChart data={data}>
               <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />
-              <Area
-                type="linear"
-                dataKey="FOR"
-                strokeOpacity={0.4}
-                stroke="grey"
-                fillOpacity={1}
-                fill={`hsl(${primaryColor})`}
-              />
+              <Area type="linear" dataKey="FOR" strokeOpacity={0.4} stroke="grey" fillOpacity={1} fill="#EDA13A" />
               <Area
                 type="linear"
                 dataKey="AGAINST"
                 strokeOpacity={0.25}
                 stroke="grey"
                 fillOpacity={0.75}
-                fill={`hsl(${primaryColor}) / 0.2`}
+                fill="#EDA13A bg-opacity-75"
               />
               <Tooltip
                 content={({ active, payload }) => {

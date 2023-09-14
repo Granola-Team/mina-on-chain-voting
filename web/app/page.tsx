@@ -11,12 +11,12 @@ const Page = async () => {
   return (
     <div className="container relative">
       <PageHeader className="hidden md:block pb-6">
-        <PageHeaderHeading>Mina Improvement Proposals</PageHeaderHeading>
+        <PageHeaderHeading>Mina On-Chain Voting</PageHeaderHeading>
         <PageHeaderDescription>View and track the progress of Mina Improvement Proposals (MIPs).</PageHeaderDescription>
       </PageHeader>
 
       <PageHeader className="block md:hidden pb-6 text-center">
-        <PageHeaderHeading className="text-2xl">Mina Improvement Proposals</PageHeaderHeading>
+        <PageHeaderHeading className="text-2xl">Mina On-Chain Voting</PageHeaderHeading>
         <PageHeaderDescription>View and track the progress of Mina Improvement Proposals (MIPs).</PageHeaderDescription>
       </PageHeader>
 

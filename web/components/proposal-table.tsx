@@ -94,6 +94,12 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: 'category',
+    filterFn: (row, _id, value) => {
+    return value.includes(row.original.category);
+    },
+  },
+  {
     accessorKey: 'title',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Title" />,
     cell: ({ row }) => {

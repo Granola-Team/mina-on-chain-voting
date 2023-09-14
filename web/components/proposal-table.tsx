@@ -86,11 +86,9 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     accessorKey: 'id',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Key" className="pl-2.5" />,
     cell: ({ row }) => (
-      <><Link href={`/proposal/${row.original.id}`} passHref>
       <div className="flex pl-2.5">
-        <span className="whitespace-nowrap ml-2.5">{`${row.original.key}`}</span>
+        <span className="whitespace-nowrap">{`${row.original.key}`}</span>
       </div>
-      </Link></>
     ),
     enableHiding: false,
   },
@@ -105,14 +103,12 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Title" />,
     cell: ({ row }) => {
       return (
-        <Link href={`/proposal/${row.original.id}`} passHref>
         <div className="flex space-x-2 min-w-[350px]">
           <Badge variant="outline" className="bg-gray-200/10 dark:bg-gray-500/10">
             {row.original.category}
           </Badge>
           <span className="truncate font-medium">{row.getValue('title')}</span>
         </div>
-        </Link>
       );
     },
     enableHiding: false,
@@ -129,7 +125,6 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
       };
 
       return (
-        <Link href={`/proposal/${row.original.id}`} passHref>
         <HoverCard openDelay={200} closeDelay={100}>
           <HoverCardTrigger>
             <div className="flex w-[100px] items-center gap-1.5">
@@ -143,7 +138,6 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
             </div>
           </HoverCardContent>
         </HoverCard>
-        </Link>
       );
     },
     filterFn: (row, id, value) => {
@@ -157,13 +151,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Voting Start" />,
     cell: ({ row }) => {
       const startDate = moment(new Date(row.getValue('start_time'))).utc();
-      return (
-        <Link href={`/proposal/${row.original.id}`} passHref>
-          <div className="whitespace-nowrap">
-            {startDate.format('YYYY-MM-DD - hh:mm').toString()}
-          </div>
-        </Link>
-      )
+      return <span className="whitespace-nowrap">{startDate.format('YYYY-MM-DD - hh:mm').toString()}</span>;
     },
     enableHiding: false,
     enableSorting: false,
@@ -173,13 +161,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Voting End" />,
     cell: ({ row }) => {
       const endDate = moment(new Date(row.getValue('end_time'))).utc();
-      return (
-        <Link href={`/proposal/${row.original.id}`} passHref>
-          <div className="whitespace-nowrap">
-            {endDate.format('YYYY-MM-DD - hh:mm').toString()}
-          </div>
-        </Link>
-      )
+      return <span className="whitespace-nowrap">{endDate.format('YYYY-MM-DD - hh:mm').toString()}</span>;
     },
     enableHiding: false,
     enableSorting: false,
@@ -192,13 +174,14 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
           ? 'Results'
           : 'Go Vote';
 
-      const linkHref =
-      row.getValue('status') === 'Completed'
-        ? `/proposal/${row.getValue('id')}/results`
-        : `/proposal/${row.getValue('id')}`;
-
       return (
-        <Link href={linkHref} passHref>
+        <Link
+          href={
+            row.getValue('status') === 'Completed'
+              ? `/proposal/${row.getValue('id')}/results`
+              : `/proposal/${row.getValue('id')}`
+          }
+        >
         <Button variant="ghost" className="flex h-8 w-auto p-0 data-[state=open]:bg-muted">
           <div className="flex items-center">
             <span className="ml-1 whitespace-nowrap">{buttonText}</span>

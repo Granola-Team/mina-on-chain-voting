@@ -91,12 +91,7 @@ const columns: ColumnDef<ProposalListParserOutcome[number]>[] = [
       </div>
     ),
     enableHiding: false,
-    },
-    {
-    accessorKey: 'category',
-    filterFn: (row, _id, value) => {
-      return value.includes(row.original.category);
-    },
+    enableSorting: false,
   },
   {
     accessorKey: 'title',

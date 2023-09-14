@@ -95,7 +95,41 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   ```
 
 - Make sure your .env file is set-up correctly
-- Please see the [`.env.example`](./.env.example) file in the root of our project for more details
+
+  Please see the [`.env.example`](./.env.example) file in the root of the project for more details.
+
+### Building, Linting, and Testing
+
+Linting the Rust code:
+
+```bash
+pnpm cargo:audit
+pnpm cargo:clippy
+```
+
+Lint-and-unit-test the Rust code:
+
+```bash
+pnpm cargo:make
+```
+
+Lint the front end (web):
+
+```bash
+pnpm web ts-lint
+```
+
+Test the front end (web):
+
+```bash
+pnpm web test
+```
+
+Building the front end (web):
+
+```bash
+pnpm web build
+```
 
 ### Running in Docker
 

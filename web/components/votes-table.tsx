@@ -69,6 +69,7 @@ const columns: ColumnDef<Props['votes'][number]>[] = [
       );
     },
     enableHiding: false,
+    enableSorting: false,
   },
   {
     accessorKey: 'timestamp',

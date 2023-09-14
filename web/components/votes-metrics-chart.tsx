@@ -5,7 +5,6 @@ import { useTheme } from 'next-themes';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from 'components/core/card';
 
 import { VoteMetrics } from 'models';
-import moment from 'moment';
 import { Area, AreaChart, ResponsiveContainer, Tooltip, XAxis } from 'recharts';
 
 interface Props extends React.ComponentProps<typeof Card> {
@@ -26,21 +25,7 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
       <CardContent className="px-3 md:px-6">
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={data && Array.isArray(data)
-              ? data
-              .map((item) => ({
-                ...item,
-                DATE: moment(item.DATE, 'DD-MM').toDate(),
-              }))
-              .sort((a, b) => a.DATE.getTime() - b.DATE.getTime())
-              .map((item) => ({
-                ...item,
-                DATE: moment(item.DATE).format('MMM DD'),
-              }))
-              : []
-            }
-            >
+          <AreaChart data={data}>
               <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />
               <Area type="linear" dataKey="FOR" strokeOpacity={0.4} stroke="grey" fillOpacity={1} fill="#EDA13A" />
               <Area

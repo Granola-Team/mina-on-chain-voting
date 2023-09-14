@@ -31,6 +31,8 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ## Development
 
+### Make sure to have the necessary installations and dependencies
+
 - If not installed, install [`nvm`](https://github.com/nvm-sh/nvm)
 
   ```bash
@@ -42,11 +44,11 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   ```
 
   ```bash
-  nvm install 16
+  nvm install 18
 
   # and ...
 
-  nvm use default v16
+  nvm use default v18
   ```
 
 - If not installed, install [`pnpm`](https://pnpm.io/)
@@ -59,6 +61,13 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
+- If not installed, install 'libpq' (which is required by Diesel). On some
+  Linux distros, this is accomplished, for example, by issuing:
+
+  ```bash
+  sudo apt-get install libpq-dev
+  ```
+
 - If not installed, install [Rust](https://www.rust-lang.org/) - [Cargo-Make](https://github.com/sagiegurari/cargo-make) - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
 
   ```bash
@@ -67,6 +76,8 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   cargo install diesel_cli --no-default-features --features postgres # install diesel-cli
 
   ```
+
+### Start developing
 
 - Checkout this repository via `git` or the [Github CLI](https://cli.github.com/)
 
@@ -84,9 +95,48 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   pnpm clean && pnpm install
   ```
 
+- Make sure your .env file is set-up correctly
+
+  Please see the [`.env.example`](./.env.example) file in the root of the project for more details.
+
+### Building, Linting, and Testing
+
+Linting the Rust code:
+
+```bash
+pnpm cargo:audit
+pnpm cargo:clippy
+```
+
+Lint-and-unit-test the Rust code:
+
+```bash
+pnpm cargo:make
+```
+
+Lint the front end (web):
+
+```bash
+pnpm web ts-lint
+```
+
+Test the front end (web):
+
+```bash
+pnpm web test
+```
+
+Building the front end (web):
+
+```bash
+pnpm web build
+```
+
 ### Running in Docker
 
 Run `docker-compose up` or `pnpm docker` to mount the cluster, and then run all pending migrations.
+
+- Make sure the DATABASE_URL, the connection URL for the application database, and ARCHIVE_DATABASE_URL, the connection URL for the archive in your .env file correspond to those in Docker, especially if you are changing these environment variables.
 
 > **IMPORTANT:**
 When running locally, modify the respective `.env` variables to point to `db` and `server` (the internal Docker host).
@@ -98,7 +148,7 @@ You can run the web-app in console and mount the database and server in Docker t
 > **IMPORTANT:** When running this way, the database URL in the `.env` file has to point to `localhost`.</br>
 See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` env var.
 
-- Mount the database and server in Docker.
+- Mount the database and server in Docker. The db and backend should be up and running now.
 
   ```sh
   pnpm docker:server-db
@@ -114,7 +164,7 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
   diesel migration run
   ```
 
-- Run the app in development mode.
+- Run the app (frontend) in development mode.
 
   ```sh
   pnpm web dev

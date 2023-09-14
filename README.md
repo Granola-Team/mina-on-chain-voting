@@ -61,6 +61,12 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
+- If not installed, install 'libpq'. This is accomplish, for example, by issuing:
+
+  ```bash
+  sudo apt-get install libpq-dev
+  ```
+
 - If not installed, install [Rust](https://www.rust-lang.org/) - [Cargo-Make](https://github.com/sagiegurari/cargo-make) - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
 
   ```bash

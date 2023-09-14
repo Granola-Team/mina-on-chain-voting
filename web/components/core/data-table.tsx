@@ -20,6 +20,7 @@ import {
   useReactTable,
   VisibilityState,
 } from '@tanstack/react-table';
+import Link from 'next/link';
 
 export const DataTableVariants = ['proposal', 'vote'] as const;
 export type DataTableVariant = (typeof DataTableVariants)[number];
@@ -75,11 +76,13 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
-                  ))}
-                </TableRow>
+                <Link key={row.id} href={`/proposal/${row.original.id}`} passHref>
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
+                    ))}
+                  </TableRow>
+                  </Link>
               ))
             ) : (
               <TableRow>

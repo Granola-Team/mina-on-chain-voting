@@ -136,7 +136,8 @@ point to `db` and `server` (the internal Docker host).
 
 ### Running in the console
 
-You can run the web-app in console and mount the database and server in Docker to exercise more authority over the environment.
+You can run the web-app in console and mount only both the database and the
+server in Docker when developing the web app locally.
 
 > **IMPORTANT:** When running this way, the database URL in the `.env` file has to point to `localhost`.</br>
 See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` env var.

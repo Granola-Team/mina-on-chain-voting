@@ -26,7 +26,7 @@ module.exports = {
           foreground: 'hsl(var(--secondary-foreground))',
         },
         logoOrange: {
-          DEFAULT: "#EDA13A",
+          DEFAULT: '#EDA13A',
         },
         destructive: {
           DEFAULT: 'hsl(var(--destructive))',

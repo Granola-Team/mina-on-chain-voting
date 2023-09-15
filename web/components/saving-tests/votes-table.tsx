@@ -1,3 +1,4 @@
+// should be votes-table.spec.tsx
 import * as React from 'react';
 
 import { cleanup, render, screen, TestVariant } from 'common/test';

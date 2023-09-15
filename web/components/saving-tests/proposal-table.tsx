@@ -1,3 +1,4 @@
+// should be proposal-table.spec.tsx
 import * as React from 'react';
 
 import { cleanup, render, screen, TestVariant } from 'common/test';
@@ -6,6 +7,12 @@ import { ProposalTable } from 'components/proposal-table';
 
 import { mockDeep } from 'jest-mock-extended';
 import moment from 'moment';
+
+// new code here to help with routing issues
+jest.mock('./mockNextRouter', () => ({
+  __esModule: true,
+  useRouter: jest.fn().mockReturnValueOnce(true),
+}));
 
 type Proposal = React.ComponentProps<typeof ProposalTable>['proposals'][number];
 

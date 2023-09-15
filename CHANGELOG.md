@@ -2,6 +2,7 @@
 
 ## 2023-Sep-14
 
+- Removed unused Playwright functionality
 - Clarify and improve build instructions
 
 ## [Unreleased]

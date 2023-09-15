@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { DataTablePagination } from 'components/core/data-table-pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'components/core/table';
 
@@ -35,6 +37,8 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
+  const router = useRouter();
+
   const table = useReactTable({
     data,
     columns,
@@ -53,6 +57,12 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
     getFacetedRowModel: getFacetedRowModel(),
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
+
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleRowClick = (row: any) => {
+    router.push(`/proposal/${row.original.id}/results/`);
+  };
 
   return (
     <div className="space-y-4">
@@ -75,7 +85,9 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow key={row.id}
+                onClick={() => handleRowClick(row)}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}

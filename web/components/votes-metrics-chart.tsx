@@ -25,7 +25,7 @@ export const VotesMetricsChart = ({ data, className }: Props) => {
       <CardContent className="px-3 md:px-6">
         <div className="h-40">
           <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data}>
+            <AreaChart data={data}>
               <XAxis dataKey="DATE" height={16} className="text-xs text-muted-foreground" />
               <Area type="linear" dataKey="FOR" strokeOpacity={0.4} stroke="grey" fillOpacity={1} fill="#EDA13A" />
               <Area

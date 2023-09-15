@@ -33,24 +33,6 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ### Make sure to have the necessary installations and dependencies
 
-- If not installed, install [`nvm`](https://github.com/nvm-sh/nvm)
-
-  ```bash
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
-  # or ...
-
-  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-  ```
-
-  ```bash
-  nvm install 18
-
-  # and ...
-
-  nvm use default v18
-  ```
-
 - If not installed, install [`pnpm`](https://pnpm.io/)
 
   ```bash
@@ -61,6 +43,12 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   curl -fsSL https://get.pnpm.io/install.sh | sh -
   ```
 
+- Set the NodeJS version to be used:
+
+  ```bash
+  pnpm env use --global 18
+  ```
+
 - If not installed, install 'libpq' (which is required by Diesel). On some
   Linux distros, this is accomplished, for example, by issuing:
 
@@ -68,12 +56,17 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   sudo apt-get install libpq-dev
   ```
 
-- If not installed, install [Rust](https://www.rust-lang.org/) - [Cargo-Make](https://github.com/sagiegurari/cargo-make) - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
+- If not installed, install each of these as shown below:
+  - [Rust](https://www.rust-lang.org/)
+  - [Cargo-Make](https://github.com/sagiegurari/cargo-make)
+  - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
+  - Cargo-Audit
 
   ```bash
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # install rust
-  cargo install --force cargo-make # install cargo-make
-  cargo install diesel_cli --no-default-features --features postgres # install diesel-cli
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  cargo install --force cargo-make
+  cargo install diesel_cli --no-default-features --features postgres
+  cargo install cargo-audit
 
   ```
 
@@ -101,17 +94,22 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ### Building, Linting, and Testing
 
-Linting the Rust code:
+To audit the Rust code:
 
 ```bash
-pnpm cargo:audit
-pnpm cargo:clippy
+cargo audit
 ```
 
-Lint-and-unit-test the Rust code:
+To lint the Rust code, from the `server` directory:
 
 ```bash
-pnpm cargo:make
+cargo make clippy
+```
+
+Lint-and-unit-test the Rust code, from the `server` directory:
+
+```bash
+cargo make --profile ci-flow
 ```
 
 Lint the front end (web):
@@ -134,16 +132,22 @@ pnpm web build
 
 ### Running in Docker
 
-Run `docker-compose up` or `pnpm docker` to mount the cluster, and then run all pending migrations.
+Run `docker-compose --profile all up` to mount the cluster, and then run all
+pending migrations.
 
-- Make sure the DATABASE_URL, the connection URL for the application database, and ARCHIVE_DATABASE_URL, the connection URL for the archive in your .env file correspond to those in Docker, especially if you are changing these environment variables.
+- Make sure the `DATABASE_URL`, the connection URL for the application
+  database, and `ARCHIVE_DATABASE_URL`, the connection URL for the archive in
+  your .env file correspond to those in Docker, especially if you are changing
+  these environment variables.
 
 > **IMPORTANT:**
-When running locally, modify the respective `.env` variables to point to `db` and `server` (the internal Docker host).
+When running locally, modify the respective variables in the `.env` file to
+point to `db` and `server` (the internal Docker host).
 
 ### Running in the console
 
-You can run the web-app in console and mount the database and server in Docker to exercise more authority over the environment.
+You can run the web-app in console and mount only both the database and the
+server in Docker when developing the web app locally.
 
 > **IMPORTANT:** When running this way, the database URL in the `.env` file has to point to `localhost`.</br>
 See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` env var.
@@ -151,10 +155,6 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 - Mount the database and server in Docker. The db and backend should be up and running now.
 
   ```sh
-  pnpm docker:server-db
-
-  # or ...
-
   docker-compose --profile server-db up
   ```
 

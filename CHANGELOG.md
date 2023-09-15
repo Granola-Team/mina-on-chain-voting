@@ -1,5 +1,9 @@
 # Changelog
 
+## 2023-Sep-14
+
+- Clarify and improve build instructions
+
 ## [Unreleased]
 
 ### Added

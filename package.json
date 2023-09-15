@@ -1,6 +1,9 @@
 {
   "name": "mina-ocv",
   "private": true,
+  "workspaces": [
+    "web/*"
+  ],
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.6.0"

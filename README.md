@@ -33,24 +33,6 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ### Make sure to have the necessary installations and dependencies
 
-- If not installed, install [`nvm`](https://github.com/nvm-sh/nvm)
-
-  ```bash
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-
-  # or ...
-
-  wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-  ```
-
-  ```bash
-  nvm install 18
-
-  # and ...
-
-  nvm use default v18
-  ```
-
 - If not installed, install [`pnpm`](https://pnpm.io/)
 
   ```bash
@@ -59,6 +41,12 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   # or ...
 
   curl -fsSL https://get.pnpm.io/install.sh | sh -
+  ```
+
+- Set the NodeJS version to be used:
+
+  ```bash
+  pnpm env use --global 18
   ```
 
 - If not installed, install 'libpq' (which is required by Diesel). On some
@@ -134,12 +122,17 @@ pnpm web build
 
 ### Running in Docker
 
-Run `docker-compose up` or `pnpm docker` to mount the cluster, and then run all pending migrations.
+Run `docker-compose --profile all up` to mount the cluster, and then run all
+pending migrations.
 
-- Make sure the DATABASE_URL, the connection URL for the application database, and ARCHIVE_DATABASE_URL, the connection URL for the archive in your .env file correspond to those in Docker, especially if you are changing these environment variables.
+- Make sure the `DATABASE_URL`, the connection URL for the application
+  database, and `ARCHIVE_DATABASE_URL`, the connection URL for the archive in
+  your .env file correspond to those in Docker, especially if you are changing
+  these environment variables.
 
 > **IMPORTANT:**
-When running locally, modify the respective `.env` variables to point to `db` and `server` (the internal Docker host).
+When running locally, modify the respective variables in the `.env` file to
+point to `db` and `server` (the internal Docker host).
 
 ### Running in the console
 
@@ -151,10 +144,6 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 - Mount the database and server in Docker. The db and backend should be up and running now.
 
   ```sh
-  pnpm docker:server-db
-
-  # or ...
-
   docker-compose --profile server-db up
   ```
 

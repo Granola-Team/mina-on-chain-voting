@@ -56,12 +56,17 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
   sudo apt-get install libpq-dev
   ```
 
-- If not installed, install [Rust](https://www.rust-lang.org/) - [Cargo-Make](https://github.com/sagiegurari/cargo-make) - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
+- If not installed, install each of these as shown below:
+  - [Rust](https://www.rust-lang.org/)
+  - [Cargo-Make](https://github.com/sagiegurari/cargo-make)
+  - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
+  - Cargo-Audit
 
   ```bash
-  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh # install rust
-  cargo install --force cargo-make # install cargo-make
-  cargo install diesel_cli --no-default-features --features postgres # install diesel-cli
+  curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+  cargo install --force cargo-make
+  cargo install diesel_cli --no-default-features --features postgres
+  cargo install cargo-audit
 
   ```
 
@@ -89,17 +94,22 @@ This flow chart illustrates the process of voting for a specific MIP on Mina blo
 
 ### Building, Linting, and Testing
 
-Linting the Rust code:
+To audit the Rust code:
 
 ```bash
-pnpm cargo:audit
-pnpm cargo:clippy
+cargo audit
 ```
 
-Lint-and-unit-test the Rust code:
+To lint the Rust code, from the `server` directory:
 
 ```bash
-pnpm cargo:make
+cargo make clippy
+```
+
+Lint-and-unit-test the Rust code, from the `server` directory:
+
+```bash
+cargo make --profile ci-flow
 ```
 
 Lint the front end (web):

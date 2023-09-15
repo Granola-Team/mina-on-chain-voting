@@ -10,12 +10,6 @@
   },
   "scripts": {
     "clean": "find . -type d \\( -name node_modules -o -name .next -o -name .swc -o -name .storybook-dist -o -name target \\) -exec rm -rf {} +",
-    "cargo:audit": "cargo install cargo-audit && cargo audit",
-    "cargo:clippy": "cargo make --cwd ./server clippy",
-    "cargo:make": "cargo make --cwd ./server --profile ci-flow",
-    "cargo:run": "cargo run --bin mina-ocv-server --release",
-    "cargo:test": "cargo make --cwd ./server test",
-    "lint": "cargo audit && cargo make --cwd ./server clippy",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "playwright": "pnpx playwright test",
     "web": "dotenv -- pnpm --filter mina-ocv-web $1"

@@ -10,6 +10,7 @@ export const siteConfig = {
   links: {
     github: 'https://github.com/Granola-Team/mina-on-chain-voting',
     granola: 'https://granola.team',
+    FAQ: 'https://forums.minaprotocol.com/t/on-chain-voting-frequently-asked-questions-faq/5959',
   },
 };
 

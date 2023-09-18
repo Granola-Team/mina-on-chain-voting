@@ -31,9 +31,10 @@ interface Props<T extends { id: number }, V> {
   columns: ColumnDef<T, V>[];
   columnVisibility?: VisibilityState;
   Toolbar: React.ComponentType<{ table: TTable<T> }>;
+  variant: DataTableVariant;
 }
 
-export const DataTable = <T extends { id: number }, V>({columns, columnVisibility, data, Toolbar }: Props<T, V>) => {
+export const DataTable = <T extends { id: number }, V>({columns, columnVisibility, data, Toolbar, variant }: Props<T, V>) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
@@ -79,7 +80,13 @@ export const DataTable = <T extends { id: number }, V>({columns, columnVisibilit
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} onClick={() => router.push(`/proposal/${row.original.id}/results/`)}
+                <TableRow
+                  key={row.id}
+                  onClick={
+                    variant === 'proposal'
+                    ? () => router.push(`/proposal/${row.original.id}/results/`)
+                    : undefined // No click behavior for 'vote' variant
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>

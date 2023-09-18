@@ -93,8 +93,8 @@ dependencies:
     specifier: 2.7.3
     version: 2.7.3(prop-types@15.8.1)(react-dom@18.2.0)(react@18.2.0)
   zod:
-    specifier: ^3.20.2
-    version: 3.20.2
+    specifier: ^3.20.4
+    version: 3.21.4
 
 devDependencies:
   '@testing-library/jest-dom':
@@ -7756,10 +7756,6 @@ packages:
       archiver-utils: 3.0.4
       compress-commons: 4.1.2
       readable-stream: 3.6.2
-    dev: false
-
-  /zod@3.20.2:
-    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
     dev: false
 
   /zod@3.21.4:

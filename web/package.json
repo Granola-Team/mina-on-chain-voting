@@ -2,7 +2,13 @@
   "name": "mina-ocv-web",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.6.0"
+  },
   "scripts": {
+    "clean": "find . -type d \\( -name node_modules -o -name .next -o -name .swc -o -name .storybook-dist -o -name target \\) -exec rm -rf {} +",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "build": "next build",
     "dev": "next dev",
     "lint:fix": "next lint --no-cache --fix",
@@ -41,7 +47,7 @@
     "react-dom": "18.2.0",
     "react-wrap-balancer": "1.1.0",
     "recharts": "2.7.3",
-    "zod": "^3.20.2"
+    "zod": "^3.20.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
@@ -54,12 +60,19 @@
     "autoprefixer": "10.4.15",
     "cssnano": "6.0.1",
     "eslint": "8.31.0",
+    "eslint-config-next": "13.4.16",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-plugin-react": "7.33.1",
+    "eslint-plugin-simple-import-sort": "8.0.0",
+    "eslint-plugin-storybook": "0.6.8",
+    "eslint-plugin-unused-imports": "2.0.0",
     "jest": "^29.3.1",
     "jest-environment-jsdom": "^29.3.1",
     "jest-mock-extended": "^3.0.5",
     "mock-match-media": "^0.4.3",
     "next-router-mock": "^0.9.9",
     "postcss": "8.4.28",
+    "prettier": "^2.8.3",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.6",

@@ -1,9 +1,6 @@
-# misc
 .DS_Store
 .*.swp
 .idea/
 *.pem
 .pg
-
-# Vercel
-.vercel
+.vercel/

@@ -40,7 +40,8 @@ For more details, see:
 
 ## Software Development
 
-See the [DEVELOPER.md](./docs/DEVELOPER.md) document.
+See the [server DEVELOPER.md](./server/DEVELOPER.md) and the
+[web DEVELOPER.md](./web/DEVELOPER.md) documents.
 
 
 ## License

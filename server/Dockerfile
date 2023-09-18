@@ -1,23 +1,10 @@
 ### track dependencies
-FROM rust:bullseye as planner
-
-WORKDIR /app
-
-RUN cargo install cargo-chef
-
-COPY ./server .
-
-RUN cargo chef prepare --recipe-path recipe.json
-
-### build dependencies
 FROM rust:bullseye as cacher
 
 WORKDIR /app
-
 RUN cargo install cargo-chef
-
-COPY --from=planner /app/recipe.json recipe.json
-
+COPY . .
+RUN cargo chef prepare --recipe-path recipe.json
 RUN cargo chef cook --release --recipe-path recipe.json
 
 ### build server
@@ -35,11 +22,9 @@ RUN adduser \
     --uid "${UID}" \
     "${USER}"
 
-COPY ./server /app
-
 WORKDIR /app
-
-COPY --from=cacher /app/target target
+COPY . .
+COPY --from=cacher /app/server/target target
 COPY --from=cacher /usr/local/cargo /usr/local/cargo
 
 RUN cargo build --release

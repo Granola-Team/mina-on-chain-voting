@@ -1,0 +1,6 @@
+.gitignore
+Dockerfile
+.dockerignore
+target
+*.DS_Store
+.*.swp

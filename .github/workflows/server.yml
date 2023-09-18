@@ -32,6 +32,7 @@ jobs:
 
       - name: Install rust
         uses: actions-rs/toolchain@v1
+        working-directory: ./server
         with:
           toolchain: ${{ matrix.rust }}
           profile: minimal

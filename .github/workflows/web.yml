@@ -54,16 +54,21 @@ jobs:
             ${{ runner.os }}-pnpm-store-
 
       - name: Install dependencies
+        working-directory: ./web
         run: pnpm install
 
       - name: Run TSC
-        run: pnpm web ts-lint
+        working-directory: ./web
+        run: pnpm ts-lint
 
       - name: Run lint
-        run: pnpm web lint
+        working-directory: ./web
+        run: pnpm lint
 
       - name: Run tests (Jest)
-        run: pnpm web test
+        working-directory: ./web
+        run: pnpm test
 
       - name: Run build
-        run: pnpm web build
+        working-directory: ./web
+        run: pnpm build

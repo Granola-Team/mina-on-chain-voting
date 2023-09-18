@@ -1,4 +1,3 @@
-.gitignore
 Dockerfile
 .dockerignore
 target

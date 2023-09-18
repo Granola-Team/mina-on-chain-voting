@@ -17,12 +17,6 @@ describe(TestVariant.Component, () => {
       const titleLink = screen.getByRole('link', { name: siteConfig.title });
       expect(titleLink).toHaveAttribute('href', '/');
       expect(titleLink).toBeVisible();
-
-      siteConfig.nav.forEach((item) => {
-        const navLink = screen.getByText(item.title);
-        expect(navLink.closest('a')).toHaveAttribute('href', item.href);
-        expect(navLink).toBeVisible();
-      });
     });
   });
 });

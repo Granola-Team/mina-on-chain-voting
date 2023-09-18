@@ -58,12 +58,6 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
     getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleRowClick = (row: any) => {
-    router.push(`/proposal/${row.original.id}/results/`);
-  };
-
   return (
     <div className="space-y-4">
       <Toolbar table={table} />
@@ -85,8 +79,7 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}
-                onClick={() => handleRowClick(row)}
+                <TableRow key={row.id} onClick={() => router.push(`/proposal/${row.original.id}/results/`)}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>

@@ -27,6 +27,7 @@ jobs:
           override: true
 
       - name: Install Cargo Audit
+        working-directory: ./server
         run: cargo install cargo-audit
 
       - name: Run Cargo Audit Check

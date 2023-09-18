@@ -149,8 +149,8 @@ devDependencies:
     specifier: ^29.3.1
     version: 29.3.1(@types/node@20.5.0)(ts-node@10.9.1)
   jest-environment-jsdom:
-    specifier: ^29.3.1
-    version: 29.3.1
+    specifier: ^29.7.0
+    version: 29.7.0
   jest-mock-extended:
     specifier: ^3.0.5
     version: 3.0.5(jest@29.3.1)(typescript@5.1.6)
@@ -5023,8 +5023,8 @@ packages:
       pretty-format: 29.7.0
     dev: true
 
-  /jest-environment-jsdom@29.3.1:
-    resolution: {integrity: sha512-G46nKgiez2Gy4zvYNhayfMEAFlVHhWfncqvqS6yCd0i+a4NsSUD2WtrKSaYQrYiLQaupHXxCRi8xxVL2M9PbhA==}
+  /jest-environment-jsdom@29.7.0:
+    resolution: {integrity: sha512-k9iQbsf9OyOfdzWH8HDmrRT0gSIcX+FLNW7IQq94tFX0gynPwqDTW0Ho6iMVNjGz/nb+l/vW3dWM2bbLLpkbXA==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       canvas: ^2.5.0

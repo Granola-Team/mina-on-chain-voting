@@ -8,26 +8,25 @@ blockchain.
 
 The On-Chain Voting Protocol is designed to provide community members with a
 transparent and secure method of participating in the decision-making process
-for the Mina blockchain. The aim for this protocol is to provide stake holders
-with the ability to vote on MIPs (Mina Improvement Proposals) in a clear and
-concise way.
+for the Mina blockchain. The aim for this protocol is to provide stakeholders
+with the ability to vote on MIPs (Mina Improvement Proposals) with ease.
 
-Individual MIPs should be created by following the process described on the
-[GitHub repository](https://github.com/MinaProtocol/MIPs).
+(Individual MIPs should be created by following the process described on the
+[GitHub repository](https://github.com/MinaProtocol/MIPs).)
 
 
 ### Voting on a MIP
 
-To cast a vote on a particular MIP, users must send a transaction to the
-**themselves** with a specific content memo field. The memo field must adhere
-to the following convention.
+To cast a vote on a particular MIP, a user must send a transaction to
+**themselves** with a specially-constructed memo field. The memo field must
+adhere to the following convention.
 
 **For example:**
 
 ```
-To vote in favor of 'MIP1', the memo field would be populated with: 'MIP1'
-Similarly - if your intent is to vote against 'MIP1', the memo field would
-contain: 'no MIP1'
+To vote in favor of 'MIP1', the memo field must be populated with: 'MIP1'
+Similarly, if the intent is to vote against 'MIP1', the memo field must
+contain: 'no MIP1'.
 ```
 
 **The transaction amount must be 0, with the user only paying for the

@@ -63,6 +63,10 @@
 
 ## Building, Linting, and Testing
 
+### Rust
+
+Rust code is in the './server' directory. From that directory:
+
 To audit the Rust code:
 
 ```bash
@@ -80,6 +84,8 @@ Lint-and-unit-test the Rust code, from the `server` directory:
 ```bash
 cargo make --profile ci-flow
 ```
+
+### Front End 
 
 Lint the front end (web):
 
@@ -127,7 +133,7 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
   docker-compose --profile server-db up
   ```
 
-- Run migrations.
+- Run migrations from the `server` directory.
 
   ```sh
   diesel migration run
@@ -142,7 +148,8 @@ See [`.env.example`](./.env.example) for more information on the `DATABASE_URL` 
 ## Managing the database and migrations
 
 The development database is mounted in Docker and managed via the
-[Diesel CLI](https://diesel.rs/guides/getting-started)
+[Diesel CLI](https://diesel.rs/guides/getting-started) from the `server`
+directory.
 
 - `diesel database reset` — reset the database (**all data will be wiped out!**)
 

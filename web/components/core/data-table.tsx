@@ -26,14 +26,14 @@ import {
 export const DataTableVariants = ['proposal', 'vote'] as const;
 export type DataTableVariant = (typeof DataTableVariants)[number];
 
-interface Props<T, V> {
+interface Props<T extends { id: number }, V> {
   data: T[];
   columns: ColumnDef<T, V>[];
   columnVisibility?: VisibilityState;
   Toolbar: React.ComponentType<{ table: TTable<T> }>;
 }
 
-export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Props<T, V>) => {
+export const DataTable = <T extends { id: number }, V>({columns, columnVisibility, data, Toolbar }: Props<T, V>) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
 

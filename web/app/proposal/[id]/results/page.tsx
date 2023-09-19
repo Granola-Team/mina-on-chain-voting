@@ -18,7 +18,9 @@ const Page = async ({ params }: { params: PageParams }) => {
         <PageHeaderHeading>{proposal.title}</PageHeaderHeading>
         <PageHeaderDescription>{proposal.description}</PageHeaderDescription>
         <PageHeaderDescription className="text-base">
-          Authoritative document: <a href={proposal.url} target="_blank" rel="noopener noreferrer">{proposal.url}</a>
+          <span className="overflow-hidden text-ellipsis" style={{ maxWidth: '100%' }}>
+            Authoritative document: <a href={proposal.url} target="_blank" rel="noopener noreferrer">{proposal.url}</a>
+          </span>
         </PageHeaderDescription>
       </PageHeader>
 
@@ -26,7 +28,9 @@ const Page = async ({ params }: { params: PageParams }) => {
         <PageHeaderHeading className="text-2xl">{proposal.title}</PageHeaderHeading>
         <PageHeaderDescription className="text-base">{proposal.description}</PageHeaderDescription>
         <PageHeaderDescription className="text-base">
-          Authoritative document: <a href={proposal.url} target="_blank" rel="noopener noreferrer">{proposal.url}</a>
+          <span className="overflow-hidden text-ellipsis" style={{ maxWidth: '100%' }}>
+            Authoritative document: <a href={proposal.url} target="_blank" rel="noopener noreferrer">{proposal.url}</a>
+          </span>
         </PageHeaderDescription>
       </PageHeader>
 

@@ -57,7 +57,7 @@ export const votesTableDirections = [
   },
 ] satisfies VotesTableDirection[];
 
-const columns: ColumnDef<Props['votes'][number]>[] = [
+const columns: ColumnDef<Props['votes'][number] & { id: number }>[] = [
   {
     accessorKey: 'height',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Height" className="pl-2.5" />,
@@ -183,5 +183,6 @@ const columns: ColumnDef<Props['votes'][number]>[] = [
 ];
 
 export const VotesTable = ({ votes }: Props) => {
-  return <DataTable data={votes} columns={columns} Toolbar={VotesTableToolbar} />;
+  const votesWithIds = votes.map((vote, index) => ({ ...vote, id: index }));
+  return <DataTable data={votesWithIds} columns={columns} Toolbar={VotesTableToolbar} variant="vote" />;
 };

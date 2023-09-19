@@ -17,7 +17,7 @@ const Page = async ({ params }: { params: PageParams }) => {
       <PageHeader className="hidden md:block pb-6">
         <PageHeaderHeading>{proposal.title}</PageHeaderHeading>
         <PageHeaderDescription>{proposal.description}</PageHeaderDescription>
-        <SmallerPageHeaderDescription className="text-base max-w-[2000px]">
+        <SmallerPageHeaderDescription className="text-base max-w-[1000px]">
           Authoritative document: {' '}
           <a
             href={proposal.url}
@@ -33,7 +33,7 @@ const Page = async ({ params }: { params: PageParams }) => {
       <PageHeader className="block md:hidden pb-6 text-center">
         <PageHeaderHeading className="text-2xl">{proposal.title}</PageHeaderHeading>
         <PageHeaderDescription className="text-base">{proposal.description}</PageHeaderDescription>
-        <SmallerPageHeaderDescription className="text-base max-w-[2000px]">
+        <SmallerPageHeaderDescription className="text-base max-w-[1000px]">
           Authoritative document: {' '}
             <a
               href={proposal.url}

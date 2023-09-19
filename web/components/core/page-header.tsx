@@ -27,8 +27,4 @@ function SmallerPageHeaderDescription({ className, ...props }: React.HTMLAttribu
   return <Balance className={cn('max-w-[750px] text-base text-muted-foreground sm:text-base', className)} {...props} />;
 }
 
-function SingleLineText({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
-  return <Balance className={cn('max-w-[750px] whitespace-nowrap overflow-hidden overflow-ellipsis text-base text-muted-foreground sm:text-base', className)} {...props} />;
-}
-
-export { PageHeader, PageHeaderHeading, PageHeaderDescription, SmallerPageHeaderDescription, SingleLineText };
+export { PageHeader, PageHeaderHeading, PageHeaderDescription, SmallerPageHeaderDescription };

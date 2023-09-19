@@ -1,6 +1,6 @@
 import { getProposalResults } from 'common/store';
 
-import { PageHeader, PageHeaderDescription, PageHeaderHeading, SingleLineText, SmallerPageHeaderDescription } from 'components/core/page-header';
+import { PageHeader, PageHeaderDescription, PageHeaderHeading, SmallerPageHeaderDescription } from 'components/core/page-header';
 import { Separator } from 'components/core/separator';
 import { VotesMetrics } from 'components/votes-metrics';
 import { VotesTable } from 'components/votes-table';
@@ -18,15 +18,31 @@ const Page = async ({ params }: { params: PageParams }) => {
         <PageHeaderHeading>{proposal.title}</PageHeaderHeading>
         <PageHeaderDescription>{proposal.description}</PageHeaderDescription>
         <SmallerPageHeaderDescription className="text-base max-w-[2000px]">
-          Authoritative document: <SingleLineText className="text-blue-500">{proposal.url}</SingleLineText>
-        </SmallerPageHeaderDescription>
+          Authoritative document: {' '}
+          <a
+            href={proposal.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500"
+          >
+            {proposal.url}
+          </a>
+         </SmallerPageHeaderDescription>
       </PageHeader>
 
       <PageHeader className="block md:hidden pb-6 text-center">
         <PageHeaderHeading className="text-2xl">{proposal.title}</PageHeaderHeading>
         <PageHeaderDescription className="text-base">{proposal.description}</PageHeaderDescription>
         <SmallerPageHeaderDescription className="text-base max-w-[2000px]">
-          Authoritative document: <SingleLineText className="text-blue-500">{proposal.url}</SingleLineText>
+          Authoritative document: {' '}
+            <a
+              href={proposal.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-blue-500"
+            >
+              {proposal.url}
+            </a>
         </SmallerPageHeaderDescription>
       </PageHeader>
 

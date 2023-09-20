@@ -78,10 +78,10 @@ env var.
   diesel migration run
   ```
 
-- Run the app (frontend) in development mode.
+- Run the app (frontend) in development mode from the `web` directory.
 
   ```sh
-  pnpm web dev
+  pnpm dev
   ```
 
 ## Resources

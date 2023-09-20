@@ -36,10 +36,10 @@ To lint the Rust code:
 cargo make clippy
 ```
 
-Lint-and-unit-test the Rust code, from the `server` directory:
+Build and unit-test the Rust code:
 
 ```bash
-cargo make --profile ci-flow
+cargo make
 ```
 
 ## Running in Docker

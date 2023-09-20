@@ -60,4 +60,4 @@ jobs:
 
       - name: Run CI
         working-directory: ./server
-        run: cargo make --profile ci-flow
+        run: cargo make

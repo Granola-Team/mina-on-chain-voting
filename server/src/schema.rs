@@ -11,7 +11,7 @@ pub mod sql_types {
 }
 
 diesel::table! {
-    use diesel::sql_types::{Int4, Int8, Nullable, Text};
+    use diesel::sql_types::*;
     use super::sql_types::ProposalCategory;
     use super::sql_types::ProposalVersion;
 

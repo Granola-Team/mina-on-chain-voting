@@ -1,18 +1,7 @@
-### track dependencies
-FROM rust:bullseye as cacher
-
-WORKDIR /app
-RUN cargo install cargo-chef
-COPY . .
-RUN cargo chef prepare --recipe-path recipe.json
-RUN cargo chef cook --release --recipe-path recipe.json
-
 ### build server
 FROM rust:bullseye as builder
-
 ENV USER=mina
 ENV UID=1001
-
 RUN adduser \
     --disabled-password \
     --gecos "" \
@@ -21,19 +10,14 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     "${USER}"
-
 WORKDIR /app
 COPY . .
-COPY --from=cacher /app/server/target target
-COPY --from=cacher /usr/local/cargo /usr/local/cargo
-
 RUN cargo build --release
 
-FROM debian:bullseye
 
-RUN cd /tmp && \
-    apt-get update && \
-    apt-get download \
+FROM debian:bullseye
+RUN apt-get update && \
+    apt-get install -y \
     libpq5 \
     libffi7 \
     libgmp10 \
@@ -51,23 +35,11 @@ RUN cd /tmp && \
     libldap-2.4-2 \
     libunistring2 \
     libkrb5support0 \
-    libgssapi-krb5-2 \
-    && \
-    mkdir -p /dpkg/var/lib/dpkg/status.d/ && \
-    for deb in *.deb; do \
-    package_name=$(dpkg-deb -I ${deb} | awk '/^ Package: .*$/ {print $2}'); \ 
-    echo "Process: ${package_name}"; \
-    dpkg --ctrl-tarfile $deb | tar -Oxvf - ./control > /dpkg/var/lib/dpkg/status.d/${package_name}; \
-    dpkg --extract $deb /dpkg || exit 10; \
-    done 
-
+    libgssapi-krb5-2
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
-
-COPY --from=builder /app/target/release/mina-ocv-server /app/mina-ocv-server
-
+COPY --from=builder /app/server/target/release/mina-ocv-server /app/mina-ocv-server
 WORKDIR /app
-
 USER mina:mina
 
 # start the server

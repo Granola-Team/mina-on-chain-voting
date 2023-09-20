@@ -2,11 +2,11 @@ version: '3.8'
 services:
   web:
     container_name: web
-    profiles: ['all']
+    profiles: ['all', 'web']
     build:
-      context: .
-      dockerfile: Dockerfile.web
-    env_file: .env
+      context: ./web
+      dockerfile: Dockerfile
+    env_file: ./web/.env
     environment:
       - API_BASE_URL=http://server:8080
       - RELEASE_STAGE=production
@@ -14,11 +14,11 @@ services:
       - 3000:3000
   server:
     container_name: server
-    profiles: ['all', 'server-db']
+    profiles: ['all', 'server-db', 'server']
     build:
-      context: .
-      dockerfile: Dockerfile.server
-    env_file: .env
+      context: ./server
+      dockerfile: Dockerfile
+    env_file: ./server/.env
     environment:
       - DATABASE_URL=postgres://user:pass@db:5432/db
     ports:
@@ -27,10 +27,10 @@ services:
       - db
   db:
     container_name: postgres
-    profiles: ['all', 'server-db']
+    profiles: ['all', 'server-db', 'db']
     image: postgres:15.2
     ports:
-      - '5432:5432'
+      - 5432:5432
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: pass

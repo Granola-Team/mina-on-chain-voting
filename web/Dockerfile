@@ -8,4 +8,4 @@ COPY . .
 RUN pnpm i
 RUN pnpm build
 # start the app
-CMD ["NODE_ENV=production pnpm start"]
+CMD ["/usr/bin/env", "NODE_ENV=production", "pnpm", "start"]

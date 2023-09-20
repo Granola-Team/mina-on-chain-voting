@@ -29,8 +29,7 @@ COPY --from=cacher /usr/local/cargo /usr/local/cargo
 
 RUN cargo build --release
 
-### extract debian dependencies
-FROM debian:bullseye AS deb_extractor
+FROM debian:bullseye
 
 RUN cd /tmp && \
     apt-get update && \
@@ -61,11 +60,6 @@ RUN cd /tmp && \
     dpkg --ctrl-tarfile $deb | tar -Oxvf - ./control > /dpkg/var/lib/dpkg/status.d/${package_name}; \
     dpkg --extract $deb /dpkg || exit 10; \
     done 
-
-### copy binary and deps to runtime
-FROM gcr.io/distroless/cc-debian11 as runtime
-
-COPY --from=deb_extractor /dpkg /
 
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group

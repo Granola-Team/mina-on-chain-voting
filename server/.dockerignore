@@ -3,3 +3,4 @@ Dockerfile
 target
 *.DS_Store
 .*.swp
+.env

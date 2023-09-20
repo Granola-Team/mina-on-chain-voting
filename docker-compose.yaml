@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     env_file: ./server/.env
     environment:
-      - DATABASE_URL=postgres://user:pass@db:5432/db
+      - DATABASE_URL=postgresql://user:pass@db:5432/db
     ports:
       - 8080:8080
     depends_on:

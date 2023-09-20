@@ -23,7 +23,7 @@ const Page = async ({ params }: { params: PageParams }) => {
             href={proposal.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-500"
+            className="text-logoOrange"
           >
             {proposal.url}
           </a>
@@ -39,7 +39,7 @@ const Page = async ({ params }: { params: PageParams }) => {
               href={proposal.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500"
+              className="text-logoOrange"
             >
               {proposal.url}
             </a>

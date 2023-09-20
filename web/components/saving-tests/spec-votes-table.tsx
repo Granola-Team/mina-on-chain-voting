@@ -1,3 +1,11 @@
+jest.mock("next/router", () => ({
+  useRouter() {
+    return {
+      prefetch: () => null
+    };
+  }
+}));
+
 import * as React from 'react';
 
 import { cleanup, render, screen, TestVariant } from 'common/test';

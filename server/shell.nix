@@ -38,11 +38,15 @@ in pkgs.mkShell {
   buildInputs = [
     dockerCompat
     pkgs.podman  # Docker compat
-    pkgs.runc  # Container runtime
-    pkgs.conmon  # Container runtime monitor
+
+    # Not on Darwin:
+    #
+    # pkgs.runc  # Container runtime
+    # pkgs.conmon  # Container runtime monitor
+    # pkgs.slirp4netns  # User-mode networking for unprivileged namespaces
+    # pkgs.fuse-overlayfs  # CoW for images, much faster than default vfs
+
     pkgs.skopeo  # Interact with container registry
-    pkgs.slirp4netns  # User-mode networking for unprivileged namespaces
-    pkgs.fuse-overlayfs  # CoW for images, much faster than default vfs
     pkgs.clippy
     pkgs.cargo-make
     pkgs.openssl

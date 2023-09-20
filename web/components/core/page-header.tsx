@@ -23,4 +23,8 @@ function PageHeaderDescription({ className, ...props }: React.HTMLAttributes<HTM
   return <Balance className={cn('max-w-[750px] text-lg text-muted-foreground sm:text-lg', className)} {...props} />;
 }
 
-export { PageHeader, PageHeaderHeading, PageHeaderDescription };
+function SmallerPageHeaderDescription({ className, ...props }: React.HTMLAttributes<HTMLParagraphElement>) {
+  return <Balance className={cn('max-w-[750px] text-base text-muted-foreground sm:text-base', className)} {...props} />;
+}
+
+export { PageHeader, PageHeaderHeading, PageHeaderDescription, SmallerPageHeaderDescription };

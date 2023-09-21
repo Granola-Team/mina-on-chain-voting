@@ -47,17 +47,39 @@ build-images: image-build-web image-build-server
 
 # Build the container image for 'web'
 image-build-web: lint-web
-  podman build ./web
+  podman build -t mina-ocv-web ./web
 
 # Build the container image for 'server'
 image-build-server: lint-server
-  podman build ./server
+  podman build -t mina-ocv-server ./server
 
-run-pg:
+destroy name:
+  podman stop {{name}} || true
+  podman container rm {{name}} || true
+
+launch-db: (destroy "db")
   podman run \
+    --name db \
     -e POSTGRES_DB=db \
     -e POSTGRES_USER=granola \
     -e POSTGRES_PASSWORD=systems \
     --expose 5432 \
     --network host \
-    postgres:15.2
+    postgres:15.2 &
+
+run-migrations:
+  cd server && sleep 2 && diesel migration run
+  @echo "Migrations succeeded."
+
+launch-server: (destroy "server") (image-build-server)
+  podman run \
+    --name server \
+    --env-file .env \
+    -e DATABASE_URL=postgresql://granola:systems@db:5432/db \
+    --expose 8080 \
+    --network host \
+    localhost/mina-ocv-server:latest
+
+destroy-all: (destroy "db") (destroy "server")
+
+run-all: launch-db run-migrations launch-server

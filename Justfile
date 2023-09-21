@@ -65,21 +65,24 @@ launch-db: (destroy "db")
     -e POSTGRES_PASSWORD=systems \
     --expose 5432 \
     --network host \
-    postgres:15.2 &
+    postgres:15.2 \
+    > container-logs/db.out \
+    2> container-logs/db.err &
 
 run-migrations:
   cd server && sleep 2 && diesel migration run
+  # Undo the change that 'diesel migration run' creates!
+  git restore -- server/src/schema.rs
   @echo "Migrations succeeded."
 
-launch-server: (destroy "server") (image-build-server)
+launch-server: (destroy "server") (image-build-server) launch-db run-migrations
   podman run \
     --name server \
     --env-file .env \
-    -e DATABASE_URL=postgresql://granola:systems@db:5432/db \
     --expose 8080 \
     --network host \
-    localhost/mina-ocv-server:latest
+    localhost/mina-ocv-server:latest \
+    > container-logs/server.out \
+    2> container-logs/server.err &
 
 destroy-all: (destroy "db") (destroy "server")
-
-run-all: launch-db run-migrations launch-server

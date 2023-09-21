@@ -1,7 +1,18 @@
-.DS_Store
+# Editor Droppings
 .*.swp
 .idea/
+
+# MacOS BS
+.DS_Store
+
+# Secrets
 *.pem
+
+# PostgreSQL config
 .pg
+
+# Vercel configs
 .vercel/
+
+# Crucial! Do not check in this file, as it may have credentials.
 .env

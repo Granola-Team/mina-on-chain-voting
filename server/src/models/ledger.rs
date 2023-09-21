@@ -50,7 +50,7 @@ impl Ledger {
                     "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json"
                 ))
                 .await
-                .with_context(|| f!("failed to fetch ledger {hash}"))?
+                .with_context(|| f!("failed to fetch ledger {hash} for network {network}"))?
                 .bytes()
                 .await
                 .with_context(|| f!("failed to parse ledger response body {hash}"))?;

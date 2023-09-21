@@ -3,7 +3,7 @@
 default:
   @just --list --justfile {{justfile()}}
 
-build: build-web build-server image-build
+build: build-web build-server build-images
 
 clean: clean-web clean-server
 
@@ -35,7 +35,7 @@ test-server:
 
 lint: lint-web lint-server
 
-lint-web:
+lint-web: install-web
   cd web && pnpm ts-lint
 
 lint-server:
@@ -43,14 +43,14 @@ lint-server:
   cd server && cargo make clippy
 
 # Build all container images
-image-build: image-build-web image-build-server
+build-images: image-build-web image-build-server
 
 # Build the container image for 'web'
-image-build-web:
+image-build-web: lint-web
   podman build ./web
 
 # Build the container image for 'server'
-image-build-server:
+image-build-server: lint-server
   podman build ./server
 
 run-pg:

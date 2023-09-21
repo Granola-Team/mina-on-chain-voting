@@ -1,11 +1,24 @@
 # Changelog
 
-## 2023-Sep-14
+## [Post-MIP] as of 2023-Sep-21
 
-- Removed unused Playwright functionality
+### Added
+- Updated Results button to be a ternary operator with either Results or Go Vote appearing next to the button icon
+
+### Improvements or Migrations
 - Clarify and improve build instructions
+- Improve precision by extending to 4 decimal places from 2 and remove any unnecessary trailing zeros
+- Migrated to Next 13's app router with a redesigned UI
+- Migrated components to Tailwind & Radix
+- Migrated pages to Next 13's app router
+- Migrated & extended tests to increase coverage
+- Updated MIP key to be just MIP# vs # - MIP#
 
-## [Unreleased]
+### Deprecated or Removed
+- Removed unused Playwright functionality
+- Remove unused features (MUI - Storybook - Typeshare)
+
+## [Pre-MIP4] - 2023-05-20
 
 ### Added
 - Database migration script to make global_slot numbers i64 in Mina Proposals

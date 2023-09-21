@@ -6,7 +6,7 @@ services:
     build:
       context: ./web
       dockerfile: Dockerfile
-    env_file: ./web/.env
+    env_file: .env
     environment:
       - API_BASE_URL=http://server:8080
       - RELEASE_STAGE=production
@@ -18,7 +18,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    env_file: ./server/.env
+    env_file: .env
     environment:
       - DATABASE_URL=postgresql://granola:systems@db:5432/db
     ports:

@@ -24,6 +24,8 @@ in pkgs.mkShell {
   buildInputs = [
     pkgs.cargo-make
     pkgs.clippy
+    pkgs.just
+    pkgs.nodejs
     pkgs.openssl
     pkgs.pkg-config
     pkgs.podman

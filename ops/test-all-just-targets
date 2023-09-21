@@ -1,0 +1,22 @@
+#! /bin/sh
+
+set -e
+
+just
+just clean-server
+just clean-web
+just install-web
+just lint-web
+just lint-server
+just lint
+just build-web-clean
+just build-web
+just build-server
+just build
+just test-web
+just test-server
+just test
+just image-build-web
+just image-build-server
+just build-images
+just clean

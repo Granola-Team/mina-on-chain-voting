@@ -164,8 +164,8 @@ devDependencies:
     specifier: 8.4.30
     version: 8.4.30
   prettier:
-    specifier: ^2.8.3
-    version: 2.8.3
+    specifier: ^3.0.3
+    version: 3.0.3
   tailwind-merge:
     specifier: ^1.14.0
     version: 1.14.0
@@ -6510,9 +6510,9 @@ packages:
     engines: {node: '>= 0.8.0'}
     dev: true
 
-  /prettier@2.8.3:
-    resolution: {integrity: sha512-tJ/oJ4amDihPoufT5sM0Z1SKEuKay8LfVAMlbbhnnkvt6BUserZylqo2PN+p9KeljLr0OHa2rXHU1T8reeoTrw==}
-    engines: {node: '>=10.13.0'}
+  /prettier@3.0.3:
+    resolution: {integrity: sha512-L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==}
+    engines: {node: '>=14'}
     hasBin: true
     dev: true
 

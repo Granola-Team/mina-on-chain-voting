@@ -99,10 +99,15 @@ pub(crate) fn init_cors(cfg: &Config) -> CorsLayer {
 }
 
 pub(crate) fn init_tracing() {
+    let server_log_level = std::env::var("SERVER_LOG_LEVEL")
+    .unwrap_or_else(|_| "warn".to_string());
+    let tower_log_level = std::env::var("TOWER_HTTP_LOG_LEVEL")
+    .unwrap_or_else(|_| "warn".to_string());
+
     tracing_subscriber::fmt::Subscriber::builder()
-        .with_env_filter(EnvFilter::new(
-            "mina_governance_server=warn,tower_http=warn",
-        ))
+        .with_env_filter(EnvFilter::new(format!(
+            "mina_governance_server={server_log_level},tower_http={tower_log_level}"
+        )))
         .with_writer(std::io::stderr)
         .compact()
         .init();

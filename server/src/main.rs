@@ -34,6 +34,36 @@ async fn main() -> Result<()> {
     let cache = CacheManager::build();
     let cors = config::init_cors(&config);
 
+    // Log an error message using the log crate's macro
+    tracing::error!(
+        target: MINA_GOVERNANCE_SERVER,
+        "This is an error message."
+    );
+
+    // Log a warning message using the log crate's macro
+    tracing::warn!(
+        target: MINA_GOVERNANCE_SERVER,
+        "This is a warning message."
+    );
+
+    // Log an info message using the log crate's macro
+    tracing::info!(
+        target: MINA_GOVERNANCE_SERVER,
+        "This is an info message."
+    );
+
+    // Log a debug message using the log crate's macro
+    tracing::debug!(
+        target: MINA_GOVERNANCE_SERVER,
+        "This is a debug message."
+    );
+
+    // Log a trace message using the log crate's macro
+    tracing::trace!(
+        target: MINA_GOVERNANCE_SERVER,
+        "This is a trace message."
+    );
+
     tracing::info!(
         target: MINA_GOVERNANCE_SERVER,
         "Initializing database connection pools..."

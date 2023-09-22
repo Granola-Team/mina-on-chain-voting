@@ -21,6 +21,8 @@ services:
     env_file: .env
     environment:
       - DATABASE_URL=postgresql://granola:systems@db:5432/db
+      - SERVER_LOG_LEVEL=trace # This sets the highest level for logging allowed
+      - TOWER_HTTP_LOG_LEVEL=trace # This sets the highest level for logging allowed
     ports:
       - 8080:8080
     depends_on:

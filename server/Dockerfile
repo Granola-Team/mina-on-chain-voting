@@ -18,6 +18,7 @@ RUN cargo build --release
 FROM debian:bullseye
 RUN apt-get update && \
     apt-get install -y \
+    curl \
     libpq5 \
     libffi7 \
     libgmp10 \

@@ -47,7 +47,7 @@ impl Ledger {
             }
             None => {
                 let ledger_url = format!(
-                    "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{}/{}.json", network, hash);
+                    "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json");
 
                 let ledger_response = reqwest::get(&ledger_url)
                     .await

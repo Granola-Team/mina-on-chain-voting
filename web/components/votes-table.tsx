@@ -183,5 +183,5 @@ const columns: ColumnDef<Props['votes'][number]>[] = [
 ];
 
 export const VotesTable = ({ votes }: Props) => {
-  return <DataTable data={votes} columns={columns} Toolbar={VotesTableToolbar} />;
+  return <DataTable data={votes} columns={columns} Toolbar={VotesTableToolbar} variant="vote" />;
 };

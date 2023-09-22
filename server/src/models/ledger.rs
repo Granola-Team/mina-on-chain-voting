@@ -47,14 +47,11 @@ impl Ledger {
             }
             None => {
                 let ledger_url = format!(
-                    "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{}/{hash}.json",
-                    network,
-                    hash = hash
-                );
+                    "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{}/{}.json", network, hash);
 
                 let ledger_response = reqwest::get(&ledger_url)
                     .await
-                    .with_context(|| format!("failed to fetch ledger from URL: {}", ledger_url))?;
+                    .with_context(|| format!("failed to fetch ledger from URL: {ledger_url}"))?;
 
                 let ledger_bytes = ledger_response
                     .bytes()
@@ -63,7 +60,7 @@ impl Ledger {
 
                 Ok(Ledger(
                     serde_json::from_slice(&ledger_bytes).with_context(|| {
-                        format!("failed to deserialize ledger data from URL: {}", ledger_url)
+                        format!("failed to deserialize ledger data from URL: {ledger_url}")
                     })?
                 ))
             }

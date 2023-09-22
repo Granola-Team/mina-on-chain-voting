@@ -35,7 +35,8 @@ RUN apt-get update && \
     libldap-2.4-2 \
     libunistring2 \
     libkrb5support0 \
-    libgssapi-krb5-2
+    libgssapi-krb5-2 \
+    ca-certificates
 COPY --from=builder /etc/passwd /etc/passwd
 COPY --from=builder /etc/group /etc/group
 COPY --from=builder /app/server/target/release/mina-ocv-server /app/mina-ocv-server

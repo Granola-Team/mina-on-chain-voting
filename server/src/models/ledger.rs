@@ -58,11 +58,9 @@ impl Ledger {
                     .await
                     .with_context(|| "failed to parse ledger response body")?;
 
-                Ok(Ledger(
-                    serde_json::from_slice(&ledger_bytes).with_context(|| {
-                        format!("failed to deserialize ledger data from URL: {ledger_url}")
-                    })?
-                ))
+                Ok(Ledger(serde_json::from_slice(&ledger_bytes).with_context(
+                    || format!("failed to deserialize ledger data from URL: {ledger_url}"),
+                )?))
             }
         }
     }

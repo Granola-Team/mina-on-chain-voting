@@ -55,7 +55,7 @@ impl Ledger {
 
                 if let Err(error) = ledger_response {
                     // Print the error message to the console
-                    eprintln!("Failed to fetch ledger from URL: {:?}", error);
+                    eprintln!("Failed to fetch ledger from URL: {error:?}");
 
                     // Return an error
                     return Err(error.into());

@@ -100,9 +100,7 @@ pub(crate) fn init_cors(cfg: &Config) -> CorsLayer {
 
 pub(crate) fn init_tracing() {
     tracing_subscriber::fmt::Subscriber::builder()
-        .with_env_filter(EnvFilter::new(
-            "mina_governance_server=trace,tower_http=trace",
-        ))
+        .with_env_filter(EnvFilter::from_default_env())
         .with_writer(std::io::stderr)
         .compact()
         .init();

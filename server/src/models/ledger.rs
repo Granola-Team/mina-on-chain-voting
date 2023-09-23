@@ -61,9 +61,8 @@ impl Ledger {
                     return Err(error.into());
                 }
 
-                let ledger_response = ledger_response.unwrap();
-
                 let ledger_bytes = ledger_response
+                    .unwrap()
                     .bytes()
                     .await
                     .with_context(|| "failed to parse ledger response body")?;

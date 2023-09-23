@@ -43,6 +43,6 @@ COPY --from=builder /etc/group /etc/group
 COPY --from=builder /app/server/target/release/mina-ocv-server /app/mina-ocv-server
 WORKDIR /app
 USER mina:mina
-ENV RUST_LOG "mina_governance_server=debug,tower_http=trace"
+
 # start the server
 CMD ["./mina-ocv-server"]

@@ -35,19 +35,15 @@ in pkgs.mkShell {
     pkgs.nodejs      # Required for running 'web'.
     pkgs.openssl     # Required for compiling.
     pkgs.pkg-config  # Required for compiling.
-    pkgs.podman      # Required for testing with containers.
     pkgs.postgresql  # Required for compiling against libpq.
     pkgs.skopeo
-
+  ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
     # Not on Darwin:
     #
-    # pkgs.runc  # Container runtime
-    # pkgs.conmon  # Container runtime monitor
+    # pkgs.runc     # Container runtime
+    # pkgs.conmon   # Container runtime monitor
     pkgs.slirp4netns  # User-mode networking for unprivileged namespaces
-
-    # CoW for images, much faster than vfs, but default "overlay" is faster
-    # still.
-    # pkgs.fuse-overlayfs  # CoW for images, much faster than vfs, but default
+    pkgs.podman       # Required for testing with containers.
   ];
 
   shellHook = ''

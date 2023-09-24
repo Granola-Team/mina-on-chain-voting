@@ -1,0 +1,17 @@
+#!/bin/sh
+
+set -ex
+
+# Wait for up to 1 minute for the database instance to be ready.
+pg_isready \
+  -h "$DB_HOST" \
+  -p "$DB_PORT" \
+  -d "$DB_NAME" \
+  -U "$DB_USER" \
+  -t 60
+
+# Run the migrations
+diesel migration run
+
+# Start the server
+exec ./server/target/release/mina-ocv-server

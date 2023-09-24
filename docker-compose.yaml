@@ -20,6 +20,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     environment:
+      - DB_HOST=db
       - DATABASE_URL=postgresql://granola:systems@db:5432/db
     ports:
       - 8080:8080

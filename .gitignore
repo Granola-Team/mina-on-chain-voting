@@ -12,10 +12,10 @@
 .pg
 
 # Vercel configs
-.vercel/
+/.vercel/
 
 # Crucial! Do not check in this file, as it may have credentials.
-.env
+/.env
 
 # Logs for the container network
 /container-logs/

@@ -9,6 +9,7 @@ services:
     env_file: .env
     environment:
       - API_BASE_URL=http://server:8080
+      - NEXT_PUBLIC_API_BASE_URL=http://server:8080
       - RELEASE_STAGE=production
     ports:
       - 3000:3000
@@ -20,6 +21,7 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     environment:
+      - DB_HOST=db
       - DATABASE_URL=postgresql://granola:systems@db:5432/db
     ports:
       - 8080:8080

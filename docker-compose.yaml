@@ -9,6 +9,7 @@ services:
     env_file: .env
     environment:
       - API_BASE_URL=http://server:8080
+      - NEXT_PUBLIC_API_BASE_URL=http://server:8080
       - RELEASE_STAGE=production
     ports:
       - 3000:3000

@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:18.18-alpine3.18
 RUN apk add --no-cache libc6-compat
 
 WORKDIR /src
@@ -12,9 +12,10 @@ RUN pnpm build
 WORKDIR /app
 RUN cp -a /src/.next/standalone/. .
 RUN cp -a /src/.next/static .next/
+RUN cp -a /src/start .
 ENV NODE_ENV=production
 ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 EXPOSE 3000
 
-CMD ["node", "server.js"]
+ENTRYPOINT ["/app/start"]

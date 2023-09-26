@@ -34,10 +34,20 @@ interface Props<T, V> {
   variant: DataTableVariant;
 }
 
+const useSafeRouter = () => {
+  try {
+    return useRouter();
+  } catch (error) {
+    return {
+      push: () => {},
+    };
+  }
+};
+
 export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar, variant }: Props<T, V>) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
-  const router = useRouter();
+  const router = useSafeRouter();
 
   const table = useReactTable({
     data,
@@ -81,8 +91,18 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar, vari
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
+                  className={variant === 'proposal' ? 'cursor-pointer' : undefined}
                   onClick={
-                    variant === 'proposal' ? () => router.push(`/proposal/${row.getValue('id')}/results`) : undefined
+                    variant === 'proposal'
+                      ? () => {
+                          const proposalId = row.getValue('id');
+                          router.push(
+                            row.getValue('status') === 'Completed'
+                              ? `/proposal/${proposalId}/results`
+                              : `/proposal/${proposalId}`
+                          );
+                        }
+                      : undefined
                   }
                 >
                   {row.getVisibleCells().map((cell) => (

@@ -62,7 +62,7 @@ async fn get_mina_proposal(
 
     let proposal: MinaProposal = mina_proposal_dsl::mina_proposals.find(id).first(conn)?;
 
-    if let Some(cached) = ctx.cache.votes.get(&proposal.key) {
+    if let Some(cached) = ctx.cache.votes.get(&proposal.key).await {
         let response = GetMinaProposalResponse {
             proposal,
             votes: cached.to_vec(),
@@ -136,7 +136,7 @@ async fn get_mina_proposal_result(
         .clone()
         .expect("hash should always be present");
 
-    let votes = if let Some(cached_votes) = ctx.cache.votes_weighted.get(&proposal.key) {
+    let votes = if let Some(cached_votes) = ctx.cache.votes_weighted.get(&proposal.key).await {
         cached_votes.to_vec()
     } else {
         let transactions =
@@ -144,7 +144,7 @@ async fn get_mina_proposal_result(
 
         let chain_tip = fetch_chain_tip(&ctx.conn_manager)?;
 
-        let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash) {
+        let ledger = if let Some(cached_ledger) = ctx.cache.ledger.get(&hash).await {
             Ledger(cached_ledger.to_vec())
         } else {
             let ledger = Ledger::fetch(&hash, ctx.network, &ctx.ledger_storage_path).await?;

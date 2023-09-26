@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { DataTablePagination } from 'components/core/data-table-pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'components/core/table';
 
@@ -29,11 +31,23 @@ interface Props<T, V> {
   columns: ColumnDef<T, V>[];
   columnVisibility?: VisibilityState;
   Toolbar: React.ComponentType<{ table: TTable<T> }>;
+  variant: DataTableVariant;
 }
 
-export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Props<T, V>) => {
+const useSafeRouter = () => {
+  try {
+    return useRouter();
+  } catch (error) {
+    return {
+      push: () => {},
+    };
+  }
+};
+
+export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar, variant }: Props<T, V>) => {
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = React.useState<SortingState>([]);
+  const router = useSafeRouter();
 
   const table = useReactTable({
     data,
@@ -75,7 +89,22 @@ export const DataTable = <T, V>({ columns, columnVisibility, data, Toolbar }: Pr
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id}>
+                <TableRow
+                  key={row.id}
+                  className={variant === 'proposal' ? 'cursor-pointer' : undefined}
+                  onClick={
+                    variant === 'proposal'
+                      ? () => {
+                          const proposalId = row.getValue('id');
+                          router.push(
+                            row.getValue('status') === 'Completed'
+                              ? `/proposal/${proposalId}/results`
+                              : `/proposal/${proposalId}`
+                          );
+                        }
+                      : undefined
+                  }
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                   ))}

@@ -10,12 +10,6 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     "${USER}"
-WORKDIR /app
-COPY . .
-RUN cargo build --release
-
-
-FROM debian:bullseye
 RUN apt-get update && \
     apt-get install -y \
     curl \
@@ -36,12 +30,14 @@ RUN apt-get update && \
     libldap-2.4-2 \
     libunistring2 \
     libkrb5support0 \
-    libgssapi-krb5-2
-COPY --from=builder /etc/passwd /etc/passwd
-COPY --from=builder /etc/group /etc/group
-COPY --from=builder /app/server/target/release/mina-ocv-server /app/mina-ocv-server
-WORKDIR /app
+    libgssapi-krb5-2 \
+    postgresql-client \
+    ca-certificates
 USER mina:mina
+WORKDIR /app
+RUN cargo install diesel_cli --no-default-features --features postgres
+COPY --chown=mina:mina . .
+RUN cargo build --release
 
 # start the server
-CMD ["./mina-ocv-server"]
+CMD ["./start"]

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -ex
+
+# Debug info
+echo DB_HOST="$DB_HOST"
+echo DB_PORT="$DB_PORT"
+echo DB_NAME="$DB_NAME"
+echo DB_USER="$DB_USER"
+echo DATABASE_URL="$DATABASE_URL"
+
+# Wait for the other container to start, and have its networking configured.
+sleep 5
+
+# Wait for up to 1 minute for the database instance to be ready.
+pg_isready \
+  -h "$DB_HOST" \
+  -p "$DB_PORT" \
+  -d "$DB_NAME" \
+  -U "$DB_USER" \
+  -t 60
+
+# Run the migrations
+diesel migration run
+
+# Start the server
+exec ./server/target/release/mina-ocv-server

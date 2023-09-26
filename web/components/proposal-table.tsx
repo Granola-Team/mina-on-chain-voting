@@ -200,6 +200,7 @@ export const ProposalTable = ({ proposals }: Props) => {
       columns={columns}
       columnVisibility={{ category: false }}
       Toolbar={ProposalTableToolbar}
+      variant="proposal"
     />
   );
 };

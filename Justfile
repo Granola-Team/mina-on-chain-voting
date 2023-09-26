@@ -1,7 +1,13 @@
 # Justfile
+#
+# The command 'just' will give usage information.
+# See https://github.com/casey/just for more.
 
 default:
   @just --list --justfile {{justfile()}}
+
+# Set the environment variables defined in the '.env' file.
+set dotenv-load
 
 build: build-web build-server build-images
 
@@ -19,19 +25,27 @@ install-web:
 build-web-clean: clean-web install-web build-web
   cd web && pnpm build
 
-build-web: install-web
+build-web: lint-web
   cd web && pnpm build
-
-build-server:
-  cd server && cargo build
-
-test: test-web test-server
-
-test-web:
   cd web && pnpm test
 
-test-server:
+build-server: lint-server
+  cd server && cargo build
   cd server && cargo make
+
+test: test-web
+
+test-web: launch-server build-web
+
+test-server: launch-server
+  sleep 5  # Wait for server to launch.
+  curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
+  grep DEBUG container-logs/server.err
+  curl http://127.0.0.1:8080/api/proposals \
+    | grep 'jw8dXuUqXVgd6NvmpryGmFLnRv1176oozHAro8gMFwj8yuvhBeS'
+  grep "status.*200.*/api/proposals" container-logs/server.err
+  curl http://127.0.0.1:8080/api/proposal/4/results | grep 'MIP4'
+  grep "status.*200.*/api/proposal/4/result" container-logs/server.err
 
 lint: lint-web lint-server
 
@@ -53,10 +67,15 @@ image-build-web: lint-web
 image-build-server: lint-server
   podman build -t mina-ocv-server ./server
 
+# Stop and destroy the named container.
 destroy name:
-  podman stop {{name}} || true
-  podman container rm {{name}} || true
+  -podman stop {{name}}
+  -podman container rm {{name}}
 
+# Stop and destroy all known containers.
+destroy-all: (destroy "db") (destroy "server")
+
+# Run the database container with migrations applied.
 launch-db: (destroy "db")
   podman run \
     --name db \
@@ -68,14 +87,13 @@ launch-db: (destroy "db")
     postgres:15.2 \
     > container-logs/db.out \
     2> container-logs/db.err &
-
-run-migrations:
   cd server && sleep 2 && diesel migration run
-  # Undo the change that 'diesel migration run' creates!
-  git restore -- server/src/schema.rs
-  @echo "Migrations succeeded."
 
-launch-server: (destroy "server") (image-build-server) launch-db run-migrations
+  # Running 'diesel migration run' actually makes changes to the source files!
+  # WTF! This undoes that change.
+  git restore -- server/src/schema.rs
+
+launch-server: (destroy "server") (image-build-server) launch-db
   podman run \
     --name server \
     --env-file .env \
@@ -84,5 +102,3 @@ launch-server: (destroy "server") (image-build-server) launch-db run-migrations
     localhost/mina-ocv-server:latest \
     > container-logs/server.out \
     2> container-logs/server.err &
-
-destroy-all: (destroy "db") (destroy "server")

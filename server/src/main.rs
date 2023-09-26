@@ -81,7 +81,7 @@ async fn main() -> Result<()> {
     serve(router.clone(), config.port).await;
 
     // Wait for the fetch task to complete before exiting
-    fetch_task.await;
+    let _ = fetch_task.await;
 
     Ok(())
 }

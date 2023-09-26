@@ -36,7 +36,7 @@ RUN apt-get update && \
 USER mina:mina
 WORKDIR /app
 RUN cargo install diesel_cli --no-default-features --features postgres
-COPY . .
+COPY --chown=mina:mina . .
 RUN cargo build --release
 
 # start the server

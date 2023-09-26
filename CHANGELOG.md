@@ -1,18 +1,31 @@
 # Changelog
 
-## [Post-MIP] as of 2023-Sep-21
+## [Post-MIP] as of 2023-Sep-26
 
 ### Added
+- We streamlined development and deployment using Nix, Just, and Podman: for building, following best open-source practices and enhancements, being able to build with one command, and not reliant on Docker
+    - Nix ensures reproducibility and isolation by defining precise dependencies
+    - Just simplifies and automates common tasks with single-command actions
+    - Podman offers enhanced security and flexibility for containerization
 - Updated Results button to be a ternary operator with either Results or Go Vote appearing next to the button icon
+- Adding corresponding, respective URL links and matching text with the database
+- Control log level functionality from an .env file
+- Added customized code and fix for the next-router-mock given lack of support from Next 13 and this customization fixes broken tests in CI
 
 ### Improvements or Migrations
 - Clarify and improve build instructions
-- Improve precision by extending to 4 decimal places from 2 and remove any unnecessary trailing zeros
 - Migrated to Next 13's app router with a redesigned UI
 - Migrated components to Tailwind & Radix
 - Migrated pages to Next 13's app router
 - Migrated & extended tests to increase coverage
-- Updated MIP key to be just MIP# vs # - MIP#
+- Improve precision by extending to 4 decimal places from 2 and remove any unnecessary trailing zeros
+- Improve Docker build and integration between postgres and server
+- Improve .env.example file for better networking options and ports suggested
+- Improve various frontend and UI changes regarding filtering and sorting on tables, title, nav bar, footer, coloring, MIP key to be just MIP# vs # - MIP#
+- Fix graph dates display, order of dates, and overall display
+- Update multiple dependencies across the repo (some advised by dependabot)
+- Extend README to DEVELOPER docs and splits across the server and web directories
+- Improve GitHub CI configuration
 
 ### Deprecated or Removed
 - Removed unused Playwright functionality

@@ -140,89 +140,20 @@ impl Ledger {
         }
     }
 
-    #[allow(dead_code)] // will remove this method is called from the frontend
-    pub(crate) fn calculate_total_stake(
-        &self,
-        version: &ProposalVersion,
-        map: &Wrapper<HashMap<String, MinaVote>>,
-    ) -> Result<Decimal> {
-        let total_stake =
-            match version {
-                ProposalVersion::V1 => {
-                    self.0
-                        .iter()
-                        .map(|account| {
-                            if account.delegate != account.pk {
-                                Decimal::new(0, LEDGER_BALANCE_SCALE)
-                            } else {
-                                let delegators = self
-                                    .0
-                                    .iter()
-                                    .filter(|d| d.delegate == account.pk && d.pk != account.pk)
-                                    .collect::<Vec<&LedgerAccount>>();
+    #[allow(dead_code)] // will remove this method when called from the frontend
+    pub(crate) fn calculate_total_stake(&self, version: &ProposalVersion, map: &Wrapper<HashMap<String, MinaVote>>) -> Result<Decimal> {
+        let total_stake = self.0.iter().map(|account| {
+            let is_delegate = account.delegate == account.pk;
+            let is_in_voting_map = *version == ProposalVersion::V2 && map.0.contains_key(&account.pk);
 
-                                if delegators.is_empty() {
-                                    account
-                                        .balance
-                                        .parse::<Decimal>()
-                                        .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE))
-                                } else {
-                                    let stake_weight = delegators.iter().fold(
-                                        Decimal::new(0, LEDGER_BALANCE_SCALE),
-                                        |acc, x| {
-                                            x.balance.parse::<Decimal>().unwrap_or_else(|_| {
-                                                Decimal::new(0, LEDGER_BALANCE_SCALE)
-                                            }) + acc
-                                        },
-                                    );
-
-                                    stake_weight
-                                        + account.balance.parse::<Decimal>().unwrap_or_else(|_| {
-                                            Decimal::new(0, LEDGER_BALANCE_SCALE)
-                                        })
-                                }
-                            }
-                        })
-                        .sum()
-                }
-                ProposalVersion::V2 => {
-                    self.0
-                        .iter()
-                        .map(|account| {
-                            if account.delegate != account.pk || map.0.contains_key(&account.pk) {
-                                Decimal::new(0, LEDGER_BALANCE_SCALE)
-                            } else {
-                                let delegators = self
-                                    .0
-                                    .iter()
-                                    .filter(|d| d.delegate == account.pk && d.pk != account.pk)
-                                    .collect::<Vec<&LedgerAccount>>();
-
-                                if delegators.is_empty() {
-                                    account
-                                        .balance
-                                        .parse::<Decimal>()
-                                        .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE))
-                                } else {
-                                    let stake_weight = delegators.iter().fold(
-                                        Decimal::new(0, LEDGER_BALANCE_SCALE),
-                                        |acc, x| {
-                                            x.balance.parse::<Decimal>().unwrap_or_else(|_| {
-                                                Decimal::new(0, LEDGER_BALANCE_SCALE)
-                                            }) + acc
-                                        },
-                                    );
-
-                                    stake_weight
-                                        + account.balance.parse::<Decimal>().unwrap_or_else(|_| {
-                                            Decimal::new(0, LEDGER_BALANCE_SCALE)
-                                        })
-                                }
-                            }
-                        })
-                        .sum()
-                }
-            };
+            if is_delegate && (!is_in_voting_map || *version == ProposalVersion::V1) {
+                account.balance
+                    .parse::<Decimal>()
+                    .unwrap_or_else(|_| Decimal::new(0, LEDGER_BALANCE_SCALE))
+            } else {
+                Decimal::new(0, LEDGER_BALANCE_SCALE)
+            }
+        }).sum();
 
         Ok(total_stake)
     }

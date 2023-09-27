@@ -62,7 +62,7 @@ impl Ledger {
                 }
 
                 let ledger_bytes = ledger_response
-                    .unwrap()
+                    .expect("Failed to fetch ledger response")
                     .bytes()
                     .await
                     .with_context(|| "failed to parse ledger response body")?;

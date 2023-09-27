@@ -54,7 +54,6 @@ async fn main() -> Result<()> {
     );
 
     serve(router.clone(), config.port).await;
-
     Ok(())
 }
 

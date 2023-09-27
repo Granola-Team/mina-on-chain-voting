@@ -141,7 +141,7 @@ impl Ledger {
     }
 
     #[allow(dead_code)] // will remove this method when called from the frontend
-    pub(crate) fn calculate_total_stake(&self, version: &ProposalVersion, map: &Wrapper<HashMap<String, MinaVote>>) -> Result<Decimal> {
+    pub(crate) fn calculate_total_stake(&self, version: &ProposalVersion, map: &Wrapper<HashMap<String, MinaVote>>) -> Decimal {
         let total_stake = self.0.iter().map(|account| {
             let is_delegate = account.delegate == account.pk;
             let is_in_voting_map = *version == ProposalVersion::V2 && map.0.contains_key(&account.pk);
@@ -155,7 +155,7 @@ impl Ledger {
             }
         }).sum();
 
-        Ok(total_stake)
+        total_stake
     }
 }
 

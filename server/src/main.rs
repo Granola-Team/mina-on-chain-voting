@@ -31,11 +31,9 @@ fn fetch_url_and_print_response() -> Result<(), reqwest::Error> {
     let response = reqwest::blocking::get(url)?;
 
     if response.status().is_success() {
-        // Successful response, print the response text
         let body = response.text()?;
         println!("Response:\n{body}");
     } else {
-        // If there's an error response, print the status code
         println!("Error: Status Code {:?}", response.status());
     }
 

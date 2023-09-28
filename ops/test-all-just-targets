@@ -29,3 +29,4 @@ just clean
 just test-server
 just test-web
 just test
+just destroy-all

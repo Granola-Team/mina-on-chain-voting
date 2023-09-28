@@ -50,25 +50,22 @@ impl Ledger {
                 let ledger_url = format!(
                     "https://raw.githubusercontent.com/Granola-Team/mina-ledger/main/{network}/{hash}.json");
 
-                let ledger_response = reqwest::get(&ledger_url)
-                    .await
-                    .with_context(|| format!("failed to fetch ledger from URL: {ledger_url}"));
+                match reqwest::get(&ledger_url).await {
+                    Ok(ledger_response) => {
+                        let ledger_bytes = ledger_response
+                            .bytes()
+                            .await
+                            .with_context(|| "failed to parse ledger response body")?;
 
-                if let Err(error) = ledger_response {
-                    error!("The reason fetching ledger from URL failed: {error:?}");
-
-                    return Err(error.into());
+                        Ok(Ledger(serde_json::from_slice(&ledger_bytes).with_context(
+                            || format!("failed to deserialize ledger data from URL: {ledger_url}"),
+                        )?))
+                    }
+                    Err(error) => {
+                        error!("The reason fetching ledger from URL failed: {error:?}");
+                        Err(error.into())
+                    }
                 }
-
-                let ledger_bytes = ledger_response
-                    .expect("Failed to fetch ledger response")
-                    .bytes()
-                    .await
-                    .with_context(|| "failed to parse ledger response body")?;
-
-                Ok(Ledger(serde_json::from_slice(&ledger_bytes).with_context(
-                    || format!("failed to deserialize ledger data from URL: {ledger_url}"),
-                )?))
             }
         }
     }

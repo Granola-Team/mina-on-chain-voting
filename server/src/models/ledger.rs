@@ -55,7 +55,7 @@ impl Ledger {
                     .with_context(|| format!("failed to fetch ledger from URL: {ledger_url}"));
 
                 if let Err(error) = ledger_response {
-                    error!("Failed to fetch ledger from URL: {:?}", error);
+                    error!("The reason fetching ledger from URL failed: {error:?}");
 
                     return Err(error.into());
                 }

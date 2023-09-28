@@ -46,7 +46,7 @@ test-server: launch-server
   mkdir -p container-logs
   sleep 10  # Wait for server to launch.
   curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
-  grep DEBUG container-logs/server.err
+  grep DEBUG container-logs/server.err  # Ensure DEBUG info being logged.
   curl http://127.0.0.1:8080/api/proposals \
     | grep 'jw8dXuUqXVgd6NvmpryGmFLnRv1176oozHAro8gMFwj8yuvhBeS'
   grep "status.*200.*/api/proposals" container-logs/server.err
@@ -158,8 +158,8 @@ launch-server: destroy-server image-build-server launch-db
 launch-web: destroy-all
   mkdir -p container-logs
   docker-compose --profile=all up \
-    > container-logs/server.out \
-    2> container-logs/server.err &
+    > container-logs/web.out \
+    2> container-logs/web.err &
 
 [linux]
 launch-web: destroy-all image-build-web launch-server launch-db

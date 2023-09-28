@@ -22,6 +22,11 @@ clean-server:
 install-web:
   cd web && pnpm install
 
+install-server:
+  cargo install cargo-make
+  cargo install diesel_cli --no-default-features --features postgres
+  cargo install cargo-audit
+
 build-web-clean: clean-web install-web build-web
   cd web && pnpm build
 
@@ -29,7 +34,7 @@ build-web: lint-web
   cd web && pnpm build
   cd web && pnpm test
 
-build-server: lint-server
+build-server: lint-server install-server
   cd server && cargo build
   cd server && cargo make
 
@@ -60,23 +65,49 @@ lint-server:
 build-images: image-build-web image-build-server
 
 # Build the container image for 'web'
+[macos]
 image-build-web: lint-web
-  podman build -t mina-ocv-web ./web
+  docker build -t mina-ocv-web ./web
+
+# Build the container image for 'web'
+[linux]
+image-build-web: lint-web
+  docker build -t mina-ocv-web ./web
 
 # Build the container image for 'server'
+[macos]
+image-build-server: lint-server
+  docker build -t mina-ocv-server ./server
+
+# Build the container image for 'server'
+[linux]
 image-build-server: lint-server
   podman build -t mina-ocv-server ./server
 
-# Stop and destroy the named container.
-destroy name:
-  -podman stop {{name}}
-  -podman container rm {{name}}
+[macos]
+destroy-db:
+  docker-compose --profile=db down
+
+[linux]
+destroy-db:
+  -podman stop db
+  -podman container rm db
+
+[macos]
+destroy-server:
+  docker-compose --profile=server-db down
+
+[linux]
+destroy-server:
+  -podman stop server
+  -podman container rm server
 
 # Stop and destroy all known containers.
-destroy-all: (destroy "db") (destroy "server")
+destroy-all: destroy-db destroy-server
 
 # Run the database container with migrations applied.
-launch-db: (destroy "db")
+[linux]
+launch-db: destroy-db
   podman run \
     --name db \
     -e POSTGRES_DB=db \
@@ -93,7 +124,12 @@ launch-db: (destroy "db")
   # WTF! This undoes that change.
   git restore -- server/src/schema.rs
 
-launch-server: (destroy "server") (image-build-server) launch-db
+[macos]
+launch-server: destroy-server
+  docker-compose --profile=server-db up
+
+[linux]
+launch-server: destroy-server image-build-server launch-db
   podman run \
     --name server \
     --env-file .env \

@@ -5,6 +5,7 @@ use anyhow::anyhow;
 use anyhow::Context;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use tracing::error;
 
 use crate::config::NetworkConfig;
 use crate::models::diesel::ProposalVersion;
@@ -54,7 +55,7 @@ impl Ledger {
                     .with_context(|| format!("failed to fetch ledger from URL: {ledger_url}"));
 
                 if let Err(error) = ledger_response {
-                    eprintln!("Failed to fetch ledger from URL: {error:?}");
+                    error!("Failed to fetch ledger from URL: {:?}", error);
 
                     return Err(error.into());
                 }

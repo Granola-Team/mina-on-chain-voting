@@ -2,6 +2,12 @@
 
 set -e
 
+is_darwin () {
+  [ "$(uname -s)" == 'Darwin' ]
+}
+
+is_darwin
+
 just
 just destroy-db
 just destroy-server
@@ -19,7 +25,7 @@ just build-server
 just build-web-clean
 just build-web
 just build
-just launch-db
+just launch-db || is_darwin
 just launch-server
 just clean
 just test-server

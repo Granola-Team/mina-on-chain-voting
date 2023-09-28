@@ -40,10 +40,11 @@ build-server: lint-server install-server
 
 test: test-web
 
-test-web: launch-server build-web
+test-web: launch-server launch-web
 
 test-server: launch-server
-  sleep 5  # Wait for server to launch.
+  mkdir -p container-logs
+  sleep 10  # Wait for server to launch.
   curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
   grep DEBUG container-logs/server.err
   curl http://127.0.0.1:8080/api/proposals \
@@ -102,12 +103,22 @@ destroy-server:
   -podman stop server
   -podman container rm server
 
+[macos]
+destroy-web:
+  docker-compose --profile=all down
+
+[linux]
+destroy-web:
+  -podman stop web
+  -podman container rm web
+
 # Stop and destroy all known containers.
-destroy-all: destroy-db destroy-server
+destroy-all: destroy-db destroy-server destroy-web
 
 # Run the database container with migrations applied.
 [linux]
 launch-db: destroy-db
+  mkdir -p container-logs
   podman run \
     --name db \
     -e POSTGRES_DB=db \
@@ -126,10 +137,14 @@ launch-db: destroy-db
 
 [macos]
 launch-server: destroy-server
-  docker-compose --profile=server-db up
+  mkdir -p container-logs
+  docker-compose --profile=server-db up \
+    > container-logs/server.out \
+    2> container-logs/server.err &
 
 [linux]
 launch-server: destroy-server image-build-server launch-db
+  mkdir -p container-logs
   podman run \
     --name server \
     --env-file .env \
@@ -138,3 +153,22 @@ launch-server: destroy-server image-build-server launch-db
     localhost/mina-ocv-server:latest \
     > container-logs/server.out \
     2> container-logs/server.err &
+
+[macos]
+launch-web: destroy-all
+  mkdir -p container-logs
+  docker-compose --profile=all up \
+    > container-logs/server.out \
+    2> container-logs/server.err &
+
+[linux]
+launch-web: destroy-all image-build-web launch-server launch-db
+  mkdir -p container-logs
+  podman run \
+    --name web \
+    --env-file .env \
+    --expose 3000 \
+    --network host \
+    localhost/mina-ocv-web:latest \
+    > container-logs/web.out \
+    2> container-logs/web.err &

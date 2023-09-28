@@ -3,10 +3,8 @@
 set -e
 
 is_darwin () {
-  [ "$(uname -s)" == 'Darwin' ]
+  [ "$(uname -s)" = 'Darwin' ]
 }
-
-is_darwin
 
 just
 just destroy-db

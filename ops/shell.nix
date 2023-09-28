@@ -60,11 +60,11 @@ in pkgs.mkShell {
     pkgs.libiconv    # Required for compiling Rust tools.
     pkgs.llvmPackages.bintools
     pkgs.nodejs      # Required for running 'web'.
+    pkgs.openssl     # Required for compiling.
+    pkgs.pkg-config  # Required for compiling.
     pkgs.postgresql  # Required for compiling against libpq.
     pkgs.rustup
     # pkgs.skopeo
-    # pkgs.openssl     # Required for compiling?
-    # pkgs.pkg-config  # Required for compiling?
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
     # pkgs.runc     # Container runtime
     # pkgs.conmon   # Container runtime monitor

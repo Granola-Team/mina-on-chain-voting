@@ -73,7 +73,7 @@ image-build-web: lint-web
 # Build the container image for 'web'
 [linux]
 image-build-web: lint-web
-  docker build -t mina-ocv-web ./web
+  podman build -t mina-ocv-web ./web
 
 # Build the container image for 'server'
 [macos]

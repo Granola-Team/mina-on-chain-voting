@@ -5,6 +5,7 @@ use anyhow::anyhow;
 use anyhow::Context;
 use rust_decimal::Decimal;
 use serde::{Deserialize, Serialize};
+use tracing::error;
 
 use crate::config::NetworkConfig;
 use crate::models::diesel::ProposalVersion;
@@ -51,9 +52,16 @@ impl Ledger {
 
                 let ledger_response = reqwest::get(&ledger_url)
                     .await
-                    .with_context(|| format!("failed to fetch ledger from URL: {ledger_url}"))?;
+                    .with_context(|| format!("failed to fetch ledger from URL: {ledger_url}"));
+
+                if let Err(error) = ledger_response {
+                    error!("The reason fetching ledger from URL failed: {error:?}");
+
+                    return Err(error.into());
+                }
 
                 let ledger_bytes = ledger_response
+                    .expect("Failed to fetch ledger response")
                     .bytes()
                     .await
                     .with_context(|| "failed to parse ledger response body")?;

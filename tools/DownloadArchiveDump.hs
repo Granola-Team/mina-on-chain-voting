@@ -28,7 +28,7 @@ import Tools.Lib.ArchiveDump
   )
 import Tools.Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
 import Network.Curl (CurlOption, CurlResponse_ (respBody), URLString, curlGetResponse_, withCurlDo)
-import System.Directory (doesFileExist, removeFile)
+import System.Directory (doesFileExist, removeFile, doesDirectoryExist, createDirectory)
 import System.Exit (ExitCode (ExitSuccess), exitSuccess, exitWith)
 import System.IO (IOMode (WriteMode), hClose, hPutStrLn, openBinaryFile, stdout, withBinaryFile, withFile)
 import Text.Megaparsec
@@ -108,6 +108,8 @@ main = do
   putStrLn $ "donwloading archive dump " ++ targetKey ++ "..."
   archiveDumpCompressed <- fetchArchiveDump targetKey
   let archiveDump = decompress . fromStrict $ archiveDumpCompressed
+
+  createDirectory "database_dumps/"
 
   putStrLn "writing archive file..."
   withBinaryFile

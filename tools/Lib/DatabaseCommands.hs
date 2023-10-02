@@ -1,4 +1,4 @@
-module Lib.DatabaseCommands where
+module Tools.Lib.DatabaseCommands where
 import System.Process (createProcess, CreateProcess (CreateProcess), callCommand)
 
 restoreDatabaseBackup :: String -> IO ()

@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module DownloadArchiveDump where
+module Tools.DownloadArchiveDump where
 
 import Codec.Archive.Tar (extract)
 import Codec.Compression.GZip (decompress)
@@ -22,11 +22,11 @@ import Data.Void (Void)
 import Database.PostgreSQL.Simple (close, connectPostgreSQL, execute_)
 import Database.Postgres.Temp (Config (..), DirectoryType (Permanent), defaultConfig, toConnectionString, with)
 import Distribution.Compat.CharParsing (digit)
-import Lib.ArchiveDump
+import Tools.Lib.ArchiveDump
   ( ArchiveDump (ArchiveDump, dumpMetadata),
     parseDumps, MinaNetwork(..), ArchiveDumpMetadata (dumpNetwork),
   )
-import Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
+import Tools.Lib.Fetchers (fetchArchiveDump, fetchDatabaseDumpIndex)
 import Network.Curl (CurlOption, CurlResponse_ (respBody), URLString, curlGetResponse_, withCurlDo)
 import System.Directory (doesFileExist, removeFile)
 import System.Exit (ExitCode (ExitSuccess), exitSuccess, exitWith)

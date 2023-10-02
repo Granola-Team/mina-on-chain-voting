@@ -6,7 +6,7 @@
 {-# LANGUAGE UndecidableInstances #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module TemporaryArchiveDatabase where
+module Tools.TemporaryArchiveDatabase where
 
 import Control.Monad (forever, guard, void, when)
 import Control.Monad.Catch (bracket)
@@ -24,9 +24,9 @@ import Database.Postgres.Temp (CommandLineArgs (keyBased), Config (connectionOpt
 import System.Directory
     ( getDirectoryContents, removeDirectoryRecursive, removeDirectory )
 import System.IO (IOMode (ReadMode), withFile)
-import Lib.ArchiveDump
+import Tools.Lib.ArchiveDump
     ( ArchiveDump(ArchiveDump, dumpMetadata), parseDumps, MinaNetwork, ArchiveDumpMetadata (dumpNetwork) )
-import Lib.DatabaseCommands (restoreDatabaseBackup)
+import Tools.Lib.DatabaseCommands (restoreDatabaseBackup)
 import System.Environment (getEnv)
 import Data.Kind (Type)
 import Data.Int (Int64)

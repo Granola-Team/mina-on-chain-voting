@@ -17,13 +17,12 @@ clean-web:
   cd web && pnpm clean
 
 clean-server:
-  cd server && rm -fr ./server
+  cd server && rm -fr ./target
 
 install-web:
   cd web && pnpm install
 
 install-server:
-  cargo install cargo-make
   cargo install diesel_cli --no-default-features --features postgres
   cargo install cargo-audit
 
@@ -36,7 +35,7 @@ build-web: lint-web
 
 build-server: lint-server install-server
   cd server && cargo build
-  cd server && cargo make
+  cd server && cargo test
 
 test: test-web
 
@@ -60,7 +59,7 @@ lint-web: install-web
 
 lint-server:
   cd server && cargo audit
-  cd server && cargo make clippy
+  cd server && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
 
 # Build all container images
 build-images: image-build-web image-build-server

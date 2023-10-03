@@ -9,13 +9,11 @@
 
 - If not installed, install each of these as shown below:
   - [Rust](https://www.rust-lang.org/)
-  - [Cargo-Make](https://github.com/sagiegurari/cargo-make)
   - [Diesel-CLI](https://crates.io/crates/diesel_cli/2.0.1)
   - Cargo-Audit
 
   ```bash
   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-  cargo install --force cargo-make
   cargo install diesel_cli --no-default-features --features postgres
   cargo install cargo-audit
 
@@ -33,13 +31,14 @@ cargo audit
 To lint the Rust code:
 
 ```bash
-cargo make clippy
+cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
 ```
 
 Build and unit-test the Rust code:
 
 ```bash
-cargo make
+cargo build
+cargo test
 ```
 
 ## Running in Docker

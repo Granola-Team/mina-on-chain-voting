@@ -24,4 +24,4 @@ pg_isready \
 diesel migration run
 
 # Start the server
-exec ./server/target/release/mina-ocv-server
+exec ./target/release/mina-ocv-server

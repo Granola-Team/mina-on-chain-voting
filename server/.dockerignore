@@ -1,7 +1,5 @@
 Dockerfile
 .dockerignore
-target
 *.DS_Store
 .*.swp
-.env
-/server/
+/target/

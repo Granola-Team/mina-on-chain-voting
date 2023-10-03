@@ -1,5 +1,5 @@
 {-# LANGUAGE ScopedTypeVariables #-}
-module Tools.Lib.Fetchers where
+module Lib.Fetchers where
 import Text.XML.Light (Content, parseXML)
 import Network.Curl (CurlResponse_ (respBody), withCurlDo, curlGetResponse_, URLString, CurlOption)
 import Data.ByteString ( ByteString )

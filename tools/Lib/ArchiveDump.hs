@@ -1,4 +1,4 @@
-module Tools.Lib.ArchiveDump where
+module Lib.ArchiveDump where
 import Text.Megaparsec (Parsec, MonadParsec (try), (<|>), many, runParser)
 import Data.Void (Void)
 import Text.Megaparsec.Char (string, digitChar, char)

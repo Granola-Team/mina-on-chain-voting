@@ -33,13 +33,14 @@ cargo audit
 To lint the Rust code:
 
 ```bash
-cargo make clippy
+cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
 ```
 
 Build and unit-test the Rust code:
 
 ```bash
-cargo make
+cargo build
+cargo test
 ```
 
 ## Running in Docker

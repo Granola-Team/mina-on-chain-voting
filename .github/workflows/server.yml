@@ -50,8 +50,12 @@ jobs:
 
       - name: Run clippy
         working-directory: ./server
-        run: cargo install clippy && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
+        run: >
+          rustup component add clippy-preview
+          cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
 
       - name: Run CI
         working-directory: ./server
-        run: cargo build && cargo test
+        run: >
+          cargo build
+          cargo test

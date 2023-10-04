@@ -58,8 +58,9 @@ lint-web: install-web
   cd web && pnpm ts-lint
 
 lint-server:
-  cd server && cargo audit
   cd server && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
+  cd server && cargo audit
+
 
 # Build all container images
 build-images: image-build-web image-build-server

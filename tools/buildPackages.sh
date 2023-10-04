@@ -4,6 +4,7 @@ buildPhase() {
   echo "building archive node tools..."
   buildArchiveDatabase
   buildArchiveDumpDownloader
+  buildDatabaseRestoration
   cleanup
 }
 

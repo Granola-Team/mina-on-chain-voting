@@ -6,10 +6,8 @@ use tokio::signal;
 use tower::ServiceBuilder;
 use tower_http::trace::TraceLayer;
 
-use crate::config::Config;
-use crate::config::Context;
-use crate::database::cache::CacheManager;
-use crate::database::DBConnectionManager;
+use crate::config::{Context, Config};
+use crate::database::{cache::CacheManager, DBConnectionManager};
 use crate::prelude::*;
 use crate::routes::Build;
 
@@ -27,7 +25,6 @@ pub(crate) const MINA_GOVERNANCE_SERVER: &str = "mina_governance_server";
 
 #[tokio::main]
 async fn main() -> Result<()> {
-    dotenvy::dotenv().ok();
     config::init_tracing();
 
     let config = Config::parse();

@@ -7,7 +7,7 @@ pkgs.mkShell {
     geos gdal
     (postgresql.withPackages (p: [ p.postgis ]))
     (haskellPackages.ghcWithPackages (self: with haskellPackages; [
-      effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process hlint
+      effectful curl xml tar zlib megaparsec bytestring directory tmp-postgres json process hlint optparse-applicative
     ]))
   ];
 

@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE ScopedTypeVariables #-}
 
-module Tools.DownloadArchiveDump where
+module Main (main) where
 
 import Codec.Archive.Tar (extract)
 import Codec.Compression.GZip (decompress)

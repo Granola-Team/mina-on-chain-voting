@@ -35,8 +35,6 @@ jobs:
           override: true
           components: rustfmt, clippy
 
-      - uses: davidB/rust-cargo-make@v1
-
       - name: Set up cargo cache
         uses: actions/cache@v3
         continue-on-error: false
@@ -52,8 +50,14 @@ jobs:
 
       - name: Run clippy
         working-directory: ./server
-        run: cargo make clippy
+        run: |
+          set -e
+          rustup component add clippy-preview
+          cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
 
       - name: Run CI
         working-directory: ./server
-        run: cargo make
+        run: |
+          set -e
+          cargo build
+          cargo test

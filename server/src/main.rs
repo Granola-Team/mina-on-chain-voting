@@ -88,8 +88,8 @@ async fn shutdown() {
     let terminate = std::future::pending::<()>();
 
     tokio::select! {
-        _ = windows => {},
-        _ = unix => {},
+        _ = windows => (),
+        _ = unix => (),
     }
 
     println!("Signal received - starting graceful shutdown...");

@@ -5,7 +5,6 @@ buildPhase() {
   buildArchiveDatabase
   buildArchiveDumpDownloader
   buildDatabaseRestoration
-  cleanup
 }
 
 buildArchiveDatabase() {
@@ -24,13 +23,6 @@ installPhase() {
   mkdir -p $out/bin
   cp archive-database $out/bin
   cp download-archive-dump $out/bin
-}
-
-cleanup() {
-  rm ./**/*.o
-  rm ./**/*.hi
-  rm *.hi
-  rm *.o
 }
 
 genericBuild

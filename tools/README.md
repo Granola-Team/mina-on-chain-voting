@@ -8,14 +8,14 @@ Some tools to make working with Mina Archive Nodes and their SQL dumps provided 
 
 ## Download Archive Dump
 
-downloads the latest archive dump for your selected network
+downloads the latest archive dump for your selected network from Mina's `network_block_data` google cloud bucket
 
 * build: `nix-build`
 * run: `./result/bin/download-archive-dump --help`
 
 ## Run Archive Node from Archive Dump
 
-create a new postgres instance and initialize it using a Mina archive dump
+Initialize a new PostgreSQL instance, restore it with a downloaded Archive Dump, and run it using libpq. The database isntance is initialized in a folder specified by a command line argument and can be set to be deleted or retained on shutdown
 
 * build: `nix-build`
 * run: `./result/bin/archive-database --help`

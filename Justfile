@@ -33,7 +33,7 @@ build-web: lint-web
   cd web && pnpm build
   cd web && pnpm test
 
-build-server: lint-server install-server
+build-server: lint-server
   cd server && cargo build
   cd server && cargo test
 
@@ -57,9 +57,10 @@ lint: lint-web lint-server
 lint-web: install-web
   cd web && pnpm ts-lint
 
-lint-server:
-  cd server && cargo audit
+lint-server: install-server
   cd server && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
+  cd server && cargo audit
+
 
 # Build all container images
 build-images: image-build-web image-build-server

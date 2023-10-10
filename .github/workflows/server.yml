@@ -17,12 +17,6 @@ defaults:
 jobs:
   ci:
     runs-on: ubuntu-latest
-    # runs-on: ${{ matrix.os }}
-    # strategy:
-    #   fail-fast: false
-    #   matrix:
-    #     rust: [stable, beta, nightly]
-    #     os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -30,10 +24,14 @@ jobs:
       - name: Install rust
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: ${{ matrix.rust }}
+          toolchain: stable
           profile: minimal
           override: true
-          components: rustfmt, clippy
+
+      - name: Install just
+        uses: extractions/setup-just@v1
+        with:
+          just-version: 1.13
 
       - name: Set up cargo cache
         uses: actions/cache@v3
@@ -48,16 +46,10 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-
 
-      - name: Run clippy
+      - name: lint-server
         working-directory: ./server
-        run: |
-          set -e
-          rustup component add clippy-preview
-          cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
+        run: just lint-server
 
-      - name: Run CI
+      - name: build and test
         working-directory: ./server
-        run: |
-          set -e
-          cargo build
-          cargo test
+        run: just build-server

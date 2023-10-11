@@ -69,7 +69,9 @@ docs.](https://crates.io/crates/diesel_cli).
 
 ## Contributing
 
-This project uses [C4(Collective Code Construction Contract)](https://rfc.zeromq.org/spec/42/) process for contributions.
+Contributions are welcome! This project uses the
+[C4 (Collective Code Construction Contract)](https://rfc.zeromq.org/spec/42/)
+process for contributions.
 
 
 ## License

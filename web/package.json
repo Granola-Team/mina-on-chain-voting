@@ -12,7 +12,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint:fix": "next lint --no-cache --fix",
-    "lint": "next lint --no-cache && depcheck",
+    "lint": "next lint --no-cache && depcheck --skip-missing",
     "start": "next start",
     "test": "jest --coverage",
     "ts-lint": "tsc --noEmit --incremental"

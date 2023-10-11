@@ -56,8 +56,8 @@ Without Nix, you will need to install, most notably:
 - podman/Docker
 - pnpm (and issue `pnpm env use --global 18`)
 
-Issue `just` development options. Examine 'Justfile' to see how they work.
-Issue `just install` to install yet more dependencies.
+Issue `just` to see the options. Examine [Justfile](./Justfile) to see how they
+work.  Issue `just install` to install yet more dependencies.
 
 Configure your `.env` file. See the [`.env.example`](./.env.example).
 

@@ -55,7 +55,7 @@ test-server: launch-server
 lint: lint-web lint-server
 
 lint-web: install-web
-  cd web && pnpm ts-lint
+  cd web && pnpm ts-lint && pnpm lint
 
 lint-server: install-server
   cd server && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used

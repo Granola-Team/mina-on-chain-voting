@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import { cn } from 'common/utils';
 
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva,type VariantProps } from 'class-variance-authority';
 
 import * as SheetPrimitive from '@radix-ui/react-dialog';
 import { Cross2Icon } from '@radix-ui/react-icons';

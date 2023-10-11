@@ -19,20 +19,27 @@ clean-web:
 clean-server:
   cd server && rm -fr ./target
 
+# Install prerequisite packages for 'web' development.
 install-web:
   cd web && pnpm install
 
+# Install prerequisite packages for 'server' development.
 install-server:
   cargo install diesel_cli --no-default-features --features postgres
   cargo install cargo-audit
 
+# Install prerequisite packages.
+install: install-web install-server
+
 build-web-clean: clean-web install-web build-web
   cd web && pnpm build
 
+# Build, lint, and unit-test the web component.
 build-web: lint-web
   cd web && pnpm build
   cd web && pnpm test
 
+# Build, lint, and unit-test the server component.
 build-server: lint-server
   cd server && cargo build
   cd server && cargo test

@@ -12,7 +12,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint:fix": "next lint --no-cache --fix",
-    "lint": "depcheck && next lint --no-cache",
+    "lint": "next lint --no-cache && depcheck",
     "start": "next start",
     "test": "jest --coverage",
     "ts-lint": "tsc --noEmit --incremental"
@@ -57,7 +57,6 @@
     "@types/jest": "29.5.5",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
-    "autoprefixer": "10.4.16",
     "depcheck": "^1.4.6",
     "eslint": "8.50.0",
     "eslint-config-next": "13.5.4",

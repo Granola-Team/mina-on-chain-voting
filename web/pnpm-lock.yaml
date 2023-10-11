@@ -130,9 +130,6 @@ devDependencies:
   eslint-config-prettier:
     specifier: 9.0.0
     version: 9.0.0(eslint@8.50.0)
-  eslint-plugin-react:
-    specifier: 7.33.2
-    version: 7.33.2(eslint@8.50.0)
   eslint-plugin-simple-import-sort:
     specifier: 10.0.0
     version: 10.0.0(eslint@8.50.0)

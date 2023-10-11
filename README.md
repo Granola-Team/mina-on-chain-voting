@@ -40,7 +40,7 @@ For more details, see:
 
 ## Software Development
 
-Install [Nix](https://nixos.org/install) and [direnv](https://direnv.net/docs/installation.html).
+Install [Nix](https://nixos.org/download) and [direnv](https://direnv.net/docs/installation.html).
 
 The `.envrc` will instruct `direnv` to use Nix to install the prerequisites for development on this repo.
 
@@ -56,10 +56,12 @@ Without Nix, you will need to install, most notably:
 - podman/Docker
 - pnpm (and issue `pnpm env use --global 18`)
 
-Issue `just` to see the options. Examine [Justfile](./Justfile) to see how they
-work.  Issue `just install` to install yet more dependencies.
-
 Configure your `.env` file. See the [`.env.example`](./.env.example).
+
+Optionally issue `just install` to install yet more dependencies.
+
+Issue `just` to see the possible development actions. Examine
+[Justfile](./Justfile) to see how they work.
 
 For more information about Diesel and database migrations, see [the official
 docs.](https://crates.io/crates/diesel_cli).
@@ -67,7 +69,9 @@ docs.](https://crates.io/crates/diesel_cli).
 
 ## Contributing
 
-This project uses [C4(Collective Code Construction Contract)](https://rfc.zeromq.org/spec/42/) process for contributions.
+Contributions are welcome! This project uses the
+[C4 (Collective Code Construction Contract)](https://rfc.zeromq.org/spec/42/)
+process for contributions.
 
 
 ## License

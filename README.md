@@ -54,9 +54,12 @@ Without Nix, you will need to install, most notably:
 - nodejs
 - pkg-config
 - podman/Docker
+- pnpm (and issue `pnpm env use --global 18`)
 
 Issue `just` development options. Examine 'Justfile' to see how they work.
 Issue `just install` to install yet more dependencies.
+
+Configure your `.env` file. See the [`.env.example`](./.env.example).
 
 For more information about Diesel and database migrations, see [the official
 docs.](https://crates.io/crates/diesel_cli).

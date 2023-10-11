@@ -44,6 +44,11 @@ See the [server DEVELOPER.md](./server/DEVELOPER.md) and the
 [web DEVELOPER.md](./web/DEVELOPER.md) documents.
 
 
+## Contributing
+
+This project uses [C4(Collective Code Construction Contract)](https://rfc.zeromq.org/spec/42/) process for contributions.
+
+
 ## License
 
 This project is licensed under the Mozilla Public License 2.0. See the

@@ -1,6 +1,7 @@
 # Editor Droppings
 .*.swp
 .idea/
+tools/.vscode
 
 # MacOS BS
 .DS_Store
@@ -19,3 +20,6 @@
 
 # Logs for the container network
 /container-logs/
+
+# Build directories
+tools/result

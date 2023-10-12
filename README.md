@@ -40,8 +40,38 @@ For more details, see:
 
 ## Software Development
 
-See the [server DEVELOPER.md](./server/DEVELOPER.md) and the
-[web DEVELOPER.md](./web/DEVELOPER.md) documents.
+Install [Nix](https://nixos.org/download) and [direnv](https://direnv.net/docs/installation.html).
+
+The `.envrc` will instruct `direnv` to use Nix to install the prerequisites for development on this repo.
+
+Without Nix, you will need to install, most notably:
+
+- [just](https://just.systems/man/en/)
+- libpq
+- rustup
+- libiconv
+- llvm
+- nodejs
+- pkg-config
+- podman/Docker
+- pnpm (and issue `pnpm env use --global 18`)
+
+Configure your `.env` file. See the [`.env.example`](./.env.example).
+
+Optionally issue `just install` to install yet more dependencies.
+
+Issue `just` to see the possible development actions. Examine
+[Justfile](./Justfile) to see how they work.
+
+For more information about Diesel and database migrations, see [the official
+docs.](https://crates.io/crates/diesel_cli).
+
+
+## Contributing
+
+Contributions are welcome! This project uses the
+[C4 (Collective Code Construction Contract)](https://rfc.zeromq.org/spec/42/)
+process for contributions.
 
 
 ## License

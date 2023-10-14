@@ -1,4 +1,4 @@
-teps:
+steps:
   - label: "Prereqs"
     command: |
       . /etc/profile

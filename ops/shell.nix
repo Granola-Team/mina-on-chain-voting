@@ -59,7 +59,7 @@ in pkgs.mkShell {
     pkgs.just        # For running the build tool.
     pkgs.libiconv    # Required for compiling Rust tools.
     pkgs.llvmPackages.bintools
-    pkgs.nodejs      # Required for running 'web'.
+    pkgs.nodePackages.pnpm
     pkgs.openssl     # Required for compiling.
     pkgs.pkg-config  # Required for compiling.
     pkgs.postgresql  # Required for compiling against libpq.

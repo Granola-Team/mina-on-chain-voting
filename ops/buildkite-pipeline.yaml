@@ -1,0 +1,28 @@
+teps:
+  - label: "Prereqs"
+    command: |
+      . /etc/profile
+      echo $PATH
+      nix-shell ops/shell.nix --run just
+    key: build
+  - label: ":hammer: Build server"
+    command: |
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just build-server"
+    key: build
+
+  - label: ":hammer: Build web"
+    command: |
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just build-web"
+    key: build
+
+  - label: ":test_tube: Test"
+    command: "scripts/test.sh"
+    key: test
+    depends_on: build
+
+  - label: ":rocket: Deploy"
+    command: "scripts/deploy.sh"
+    key: deploy
+    depends_on: test

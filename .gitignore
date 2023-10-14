@@ -16,6 +16,7 @@
 
 # Crucial! Do not check in this file, as it may have credentials.
 /.env
+/.env.local
 
 # Logs for the container network
 /container-logs/

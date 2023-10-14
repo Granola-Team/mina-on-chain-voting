@@ -6,10 +6,7 @@
 default:
   @just --list --justfile {{justfile()}}
 
-# Set the environment variables defined in the '.env' file.
-set dotenv-load
-
-build: build-web build-server build-images
+build: build-web build-server
 
 clean: clean-web clean-server
 
@@ -36,8 +33,8 @@ build-web-clean: clean-web install-web build-web
 
 # Build, lint, and unit-test the web component.
 build-web: lint-web
-  cd web && pnpm build
-  cd web && pnpm test
+  cd web && NEXT_PUBLIC_RELEASE_STAGE=development pnpm build
+  cd web && NEXT_PUBLIC_RELEASE_STAGE=development pnpm test
 
 # Build, lint, and unit-test the server component.
 build-server: lint-server
@@ -62,7 +59,7 @@ test-server: launch-server
 lint: lint-web lint-server
 
 lint-web: install-web
-  cd web && pnpm ts-lint && pnpm lint
+  cd web && pnpm ts-lint && NEXT_PUBLIC_RELEASE_STAGE=development pnpm lint
 
 lint-server: install-server
   cd server && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used
@@ -70,7 +67,7 @@ lint-server: install-server
 
 
 # Build all container images
-build-images: image-build-web image-build-server
+image-build: image-build-web image-build-server
 
 # Build the container image for 'web'
 [macos]

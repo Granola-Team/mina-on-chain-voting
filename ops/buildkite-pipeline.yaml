@@ -23,7 +23,7 @@ steps:
   - label: ":hammer: Build images"
     command: |
       . /etc/profile
-      nix-shell ops/shell.nix --run "just build-images"
+      nix-shell ops/shell.nix --run "just image-build"
     key: build-images
     depends_on:
       - build-web

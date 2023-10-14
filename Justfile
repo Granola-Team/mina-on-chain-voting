@@ -152,7 +152,8 @@ launch-db: destroy-db
     > container-logs/db.out \
     2> container-logs/db.err &
   sleep 2
-  cd server && DATABASE_URL={{ DATABASE_URL }} diesel migration run
+  cd server && \
+    DATABASE_URL={{ DATABASE_URL }} diesel migration run
 
   # Running 'diesel migration run' actually makes changes to the source files!
   # WTF! This undoes that change.

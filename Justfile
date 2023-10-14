@@ -6,6 +6,13 @@
 default:
   @just --list --justfile {{justfile()}}
 
+DB_HOST := "127.0.0.1"
+DB_PORT := "5432"
+DB_NAME := "db"
+DB_USER := "granola"
+DB_PASS := "systems"
+DATABASE_URL := "postgresql://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME
+
 build: build-web build-server
 
 clean: clean-web clean-server
@@ -135,15 +142,17 @@ launch-db: destroy-db
   mkdir -p container-logs
   podman run \
     --name db \
-    -e POSTGRES_DB=db \
-    -e POSTGRES_USER=granola \
-    -e POSTGRES_PASSWORD=systems \
-    --expose 5432 \
+    -e POSTGRES_DB={{ DB_NAME }} \
+    -e POSTGRES_USER={{ DB_USER }} \
+    -e POSTGRES_PASSWORD={{ DB_PASS }} \
+    -e DATABASE_URL={{ DATABASE_URL }} \
+    --expose {{ DB_PORT }} \
     --network host \
     postgres:15.2 \
     > container-logs/db.out \
     2> container-logs/db.err &
-  cd server && sleep 2 && diesel migration run
+  sleep 2
+  cd server && DATABASE_URL={{ DATABASE_URL }} diesel migration run
 
   # Running 'diesel migration run' actually makes changes to the source files!
   # WTF! This undoes that change.
@@ -176,7 +185,7 @@ launch-web: destroy-all
     2> container-logs/web.err &
 
 [linux]
-launch-web: destroy-all image-build-web launch-server launch-db
+launch-web: destroy-all image-build-web launch-server
   mkdir -p container-logs
   podman run \
     --name web \

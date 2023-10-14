@@ -11,17 +11,30 @@ steps:
       . /etc/profile
       nix-shell ops/shell.nix --run "just build-server"
     key: build-server
+    depends_on: prereqs
 
   - label: ":hammer: Build web"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just build-web"
     key: build-web
+    depends_on: prereqs
+
+  - label: ":hammer: Build images"
+    command: |
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just build-images"
+    key: build-images
+    depends_on:
+      - build-web
+      - build-server
 
   - label: ":test_tube: Test"
-    command: "scripts/test.sh"
+    command:
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just test"
     key: test
-    depends_on: build-web
+    depends_on: build-images
 
   - label: ":rocket: Deploy"
     command: "scripts/deploy.sh"

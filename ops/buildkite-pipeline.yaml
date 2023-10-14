@@ -21,7 +21,7 @@ steps:
   - label: ":test_tube: Test"
     command: "scripts/test.sh"
     key: test
-    depends_on: build-web, build-server
+    depends_on: build-web
 
   - label: ":rocket: Deploy"
     command: "scripts/deploy.sh"

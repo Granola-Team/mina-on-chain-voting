@@ -64,9 +64,9 @@ in pkgs.mkShell {
     pkgs.pkg-config  # Required for compiling.
     pkgs.postgresql  # Required for compiling against libpq.
     pkgs.rustup
-    # pkgs.skopeo
+    pkgs.skopeo
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
-    # pkgs.runc     # Container runtime
+    pkgs.runc     # Container runtime
     # pkgs.conmon   # Container runtime monitor
     pkgs.slirp4netns  # User-mode networking for unprivileged namespaces
     pkgs.podman       # Required for testing with containers.

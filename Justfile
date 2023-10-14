@@ -18,7 +18,7 @@ build: build-web build-server
 clean: clean-web clean-server
 
 clean-web:
-  cd web && pnpm clean && rm -fr coverage && rm tsconfig.tsbuildinfo
+  cd web && pnpm clean && rm -fr coverage && rm -f tsconfig.tsbuildinfo
 
 clean-server:
   cd server && rm -fr ./target

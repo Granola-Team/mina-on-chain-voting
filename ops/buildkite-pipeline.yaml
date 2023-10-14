@@ -4,23 +4,24 @@ steps:
       . /etc/profile
       echo $PATH
       nix-shell ops/shell.nix --run just
-    key: build
+    key: prereqs
+
   - label: ":hammer: Build server"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just build-server"
-    key: build
+    key: build-server
 
   - label: ":hammer: Build web"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just build-web"
-    key: build
+    key: build-web
 
   - label: ":test_tube: Test"
     command: "scripts/test.sh"
     key: test
-    depends_on: build
+    depends_on: build-web, build-server
 
   - label: ":rocket: Deploy"
     command: "scripts/deploy.sh"

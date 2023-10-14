@@ -18,7 +18,7 @@ build: build-web build-server
 clean: clean-web clean-server
 
 clean-web:
-  cd web && pnpm clean
+  cd web && pnpm clean && rm -fr coverage && rm tsconfig.tsbuildinfo
 
 clean-server:
   cd server && rm -fr ./target
@@ -88,22 +88,22 @@ image-build: image-build-web image-build-server
 
 # Build the container image for 'web'
 [macos]
-image-build-web: lint-web
+image-build-web: clean-web
   docker build -t mina-ocv-web ./web
 
 # Build the container image for 'web'
 [linux]
-image-build-web: lint-web
+image-build-web: clean-web
   podman build -t mina-ocv-web ./web
 
 # Build the container image for 'server'
 [macos]
-image-build-server: lint-server
+image-build-server: clean-server
   docker build -t mina-ocv-server ./server
 
 # Build the container image for 'server'
 [linux]
-image-build-server: lint-server
+image-build-server: clean-server
   podman build -t mina-ocv-server ./server
 
 [macos]

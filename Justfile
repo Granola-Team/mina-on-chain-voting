@@ -33,8 +33,14 @@ build-web-clean: clean-web install-web build-web
 
 # Build, lint, and unit-test the web component.
 build-web: lint-web
-  cd web && NEXT_PUBLIC_RELEASE_STAGE=development pnpm build
-  cd web && NEXT_PUBLIC_RELEASE_STAGE=development pnpm test
+  cd web && \
+    NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8080 \
+    NEXT_PUBLIC_RELEASE_STAGE=development \
+    pnpm build
+  cd web && \
+    NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8080 \
+    NEXT_PUBLIC_RELEASE_STAGE=development \
+    pnpm test
 
 # Build, lint, and unit-test the server component.
 build-server: lint-server
@@ -59,7 +65,11 @@ test-server: launch-server
 lint: lint-web lint-server
 
 lint-web: install-web
-  cd web && pnpm ts-lint && NEXT_PUBLIC_RELEASE_STAGE=development pnpm lint
+  cd web && pnpm ts-lint
+  cd web && \
+    NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8080 \
+    NEXT_PUBLIC_RELEASE_STAGE=development \
+    pnpm lint
 
 lint-server: install-server
   cd server && cargo clippy -- -D warnings -D clippy::pedantic -D clippy::unwrap_used

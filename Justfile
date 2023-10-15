@@ -3,9 +3,13 @@
 # The command 'just' will give usage information.
 # See https://github.com/casey/just for more.
 
+# Default build target. Shows menu of targets which user runs 'just'.
+#
 default:
   @just --list --justfile {{justfile()}}
 
+# Variables
+#
 DB_HOST := env_var_or_default('DB_HOST', "127.0.0.1")
 DB_PORT := env_var_or_default('DB_PORT', "5432")
 DB_NAME := env_var_or_default('DB_NAME', "db")
@@ -14,13 +18,11 @@ DB_PASS := env_var_or_default('DB_PASS', "systems")
 DATABASE_URL := env_var_or_default(
   'DATABASE_URL',
   "postgresql://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME)
-ARCHIVE_DATABASE_URL := env_var_or_default(
-  'ARCHIVE_DATABASE_URL',
-  "postgresql://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME)
-SERVER_ALLOWED_ORIGINS := env_var_or_default('SERVER_ALLOWED_ORIGINS', "*")
-MINA_NETWORK := env_var_or_default('MINA_NETWORK', "mainnet")
-
 container_log_dir := `mktemp -d "${TMPDIR:-/tmp}"/container-logs-XXX`
+
+#
+# Targets
+#
 
 build: build-web build-server
 
@@ -176,11 +178,6 @@ launch-server: destroy-server image-build-server
 launch-server: destroy-server image-build-server launch-db
   podman run \
     --name server \
-    -e DB_HOST={{ DB_HOST }} \
-    -e DB_PORT={{ DB_PORT }} \
-    -e DB_NAME={{ DB_NAME }} \
-    -e DB_USER={{ DB_USER }} \
-    -e DATABASE_URL={{ DATABASE_URL }} \
     --env-file .env \
     --expose 8080 \
     --network host \

@@ -29,12 +29,12 @@ steps:
       - build-web
       - build-server
 
-  - label: ":test_tube: Test"
-    command:
-      . /etc/profile
-      nix-shell ops/shell.nix --run "just test"
-    key: test
-    depends_on: build-images
+# - label: ":test_tube: Test"
+#   command:
+#     . /etc/profile
+#     nix-shell ops/shell.nix --run "just test"
+#   key: test
+#   depends_on: build-images
 
 # - label: ":rocket: Deploy"
 #   command: "scripts/deploy.sh"

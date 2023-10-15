@@ -18,7 +18,7 @@ ARCHIVE_DATABASE_URL := env_var_or_default(
   'ARCHIVE_DATABASE_URL',
   "postgresql://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME)
 SERVER_ALLOWED_ORIGINS := env_var_or_default('SERVER_ALLOWED_ORIGINS', "*")
-MINA_NETWORK := env_var_or_default('MINA_NETWORK', mainnet)
+MINA_NETWORK := env_var_or_default('MINA_NETWORK', "mainnet")
 
 container_log_dir := `mktemp -d "${TMPDIR}"/container-logs-XXX`
 

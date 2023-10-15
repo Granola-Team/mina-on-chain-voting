@@ -20,7 +20,7 @@ ARCHIVE_DATABASE_URL := env_var_or_default(
 SERVER_ALLOWED_ORIGINS := env_var_or_default('SERVER_ALLOWED_ORIGINS', "*")
 MINA_NETWORK := env_var_or_default('MINA_NETWORK', "mainnet")
 
-container_log_dir := `mktemp -d "${TMPDIR}"/container-logs-XXX`
+container_log_dir := `mktemp -d "${TMPDIR:-/tmp}"/container-logs-XXX`
 
 build: build-web build-server
 

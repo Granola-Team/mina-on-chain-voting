@@ -1,3 +1,6 @@
+agents:
+  kvm: "true"
+
 steps:
   - label: "Prereqs"
     command: |

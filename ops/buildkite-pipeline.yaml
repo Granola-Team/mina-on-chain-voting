@@ -36,7 +36,7 @@ steps:
     key: test
     depends_on: build-images
 
-  - label: ":rocket: Deploy"
-    command: "scripts/deploy.sh"
-    key: deploy
-    depends_on: test
+# - label: ":rocket: Deploy"
+#   command: "scripts/deploy.sh"
+#   key: deploy
+#   depends_on: test

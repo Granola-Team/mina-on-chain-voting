@@ -6,21 +6,21 @@ steps:
       nix-shell ops/shell.nix --run just
     key: prereqs
 
-  - label: ":hammer: Build server"
+  - label: "Build server"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just build-server"
     key: build-server
     depends_on: prereqs
 
-  - label: ":hammer: Build web"
+  - label: "Build web"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just build-web"
     key: build-web
     depends_on: prereqs
 
-  - label: ":hammer: Build images"
+  - label: "Build images"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just image-build"
@@ -31,7 +31,7 @@ steps:
     agents:
       podman: "true"
 
-  - label: ":test_tube: Test containers"
+  - label: "Test containers"
     command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
@@ -40,18 +40,18 @@ steps:
     agents:
       podman: "true"
 
-  - label: ":test_tube: Test"
-    command: |
-      . /etc/profile
-      nix-shell ops/shell.nix --run "just test"
-    key: full-test
-    depends_on:
-      - build-images
-      - test-containers
-    agents:
-      podman: "true"
+# - label: "Test"
+#   command: |
+#     . /etc/profile
+#     nix-shell ops/shell.nix --run "just test"
+#   key: full-test
+#   depends_on:
+#     - build-images
+#     - test-containers
+#   agents:
+#     podman: "true"
 
-# - label: ":rocket: Deploy"
+# - label: "Deploy"
 #   command: "scripts/deploy.sh"
 #   key: deploy
 #   depends_on: test

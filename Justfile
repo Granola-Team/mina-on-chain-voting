@@ -106,11 +106,14 @@ destroy-web:
 # Stop and destroy all known containers.
 destroy-all:
   docker-compose down
+  podman network ls
 
 launch-db:
+  podman network ls
   docker-compose up -d db
 
 test-db: destroy-all launch-db && destroy-db
+  podman network ls
   docker-compose logs db \
     | grep "database system is ready to accept connections"
 

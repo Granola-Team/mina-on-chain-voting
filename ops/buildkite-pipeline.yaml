@@ -3,6 +3,7 @@ steps:
   command: |
     . /etc/profile
     echo $PATH
+    cp .env.example .env
     nix-shell ops/shell.nix --run just
   key: prereqs
 
@@ -36,6 +37,7 @@ steps:
     . /etc/profile
     nix-shell ops/shell.nix --run "just test-db"
   key: test-db-container
+  depends_on: prereqs
   agents:
     podman: "true"
 

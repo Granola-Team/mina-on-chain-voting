@@ -35,7 +35,7 @@ steps:
     command:
       . /etc/profile
       nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
-    key: test
+    key: test-containers
     depends_on: build-images
     agents:
       podman: "true"
@@ -44,8 +44,10 @@ steps:
     command:
       . /etc/profile
       nix-shell ops/shell.nix --run "just test"
-    key: test
-    depends_on: build-images
+    key: full-test
+    depends_on:
+      - build-images
+      - test-containers
     agents:
       podman: "true"
 

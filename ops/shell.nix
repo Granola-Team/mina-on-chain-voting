@@ -27,6 +27,13 @@ let
     fi
   '';
 
+  # Provides fake "docker" and "docker-compose" binaries.
+  dockerCompat = pkgs.runCommandNoCC "docker-podman-compat" {} ''
+    mkdir -p $out/bin
+    ln -s ${pkgs.podman}/bin/podman $out/bin/docker
+    ln -s ${pkgs.podman-compose}/bin/podman-compose $out/bin/docker-compose
+  '';
+
 in pkgs.mkShell {
 
   RUSTC_VERSION = pkgs.lib.readFile ../rust-toolchain;
@@ -66,10 +73,12 @@ in pkgs.mkShell {
     pkgs.rustup
     pkgs.skopeo
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
-    pkgs.runc     # Container runtime
-    # pkgs.conmon   # Container runtime monitor
-    pkgs.slirp4netns  # User-mode networking for unprivileged namespaces
-    pkgs.podman       # Required for testing with containers.
+    pkgs.runc            # Container runtime
+    # pkgs.conmon        # Container runtime monitor
+    pkgs.slirp4netns     # User-mode networking for unprivileged namespaces
+    pkgs.podman          # Required for testing with containers.
+    pkgs.podman-compose  # Required for testing with containers.
+    dockerCompat
   ] ++ pkgs.lib.optionals (pkgs.stdenv.isDarwin) [
     pkgs.darwin.apple_sdk.frameworks.Security
     pkgs.darwin.apple_sdk.frameworks.SystemConfiguration

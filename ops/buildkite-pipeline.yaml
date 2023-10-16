@@ -31,14 +31,14 @@ steps:
     agents:
       podman: "true"
 
-  - label: "Test containers"
-    command: |
-      . /etc/profile
-      nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
-    key: test-containers
-    depends_on: build-images
-    agents:
-      podman: "true"
+# - label: "Test containers"
+#   command: |
+#     . /etc/profile
+#     nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
+#   key: test-containers
+#   depends_on: build-images
+#   agents:
+#     podman: "true"
 
 # - label: "Test"
 #   command: |

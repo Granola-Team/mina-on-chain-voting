@@ -106,9 +106,11 @@ destroy-web:
 # Stop and destroy all known containers.
 destroy-all:
   docker-compose down
+  sleep 2
   podman network ls
 
 launch-db:
+  sleep 2
   podman network ls
   docker-compose up -d db
 

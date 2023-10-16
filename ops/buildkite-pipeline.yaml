@@ -32,7 +32,7 @@ steps:
       podman: "true"
 
   - label: ":test_tube: Test containers"
-    command:
+    command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
     key: test-containers
@@ -41,7 +41,7 @@ steps:
       podman: "true"
 
   - label: ":test_tube: Test"
-    command:
+    command: |
       . /etc/profile
       nix-shell ops/shell.nix --run "just test"
     key: full-test

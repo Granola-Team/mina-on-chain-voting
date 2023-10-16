@@ -40,14 +40,14 @@ steps:
     agents:
       podman: "true"
 
-# - label: ":test_tube: Test"
-#   command:
-#     . /etc/profile
-#     nix-shell ops/shell.nix --run "just test"
-#   key: test
-#   depends_on: build-images
-#   agents:
-#     podman: "true"
+  - label: ":test_tube: Test"
+   command:
+     . /etc/profile
+     nix-shell ops/shell.nix --run "just test"
+   key: test
+   depends_on: build-images
+   agents:
+     podman: "true"
 
 # - label: ":rocket: Deploy"
 #   command: "scripts/deploy.sh"

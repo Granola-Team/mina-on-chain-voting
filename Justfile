@@ -106,6 +106,8 @@ destroy-web:
 # Stop and destroy all known containers.
 destroy-all:
   docker-compose down
+  podman network ls
+  docker network prune -f
   sleep 2
   podman network ls
 

@@ -1,43 +1,43 @@
 steps:
-  - label: "Prereqs"
-    command: |
-      . /etc/profile
-      echo $PATH
-      nix-shell ops/shell.nix --run just
-    key: prereqs
+- label: "Prereqs"
+  command: |
+    . /etc/profile
+    echo $PATH
+    nix-shell ops/shell.nix --run just
+  key: prereqs
 
-  - label: "Build server"
-    command: |
-      . /etc/profile
-      nix-shell ops/shell.nix --run "just build-server"
-    key: build-server
-    depends_on: prereqs
+- label: "Build server"
+  command: |
+    . /etc/profile
+    nix-shell ops/shell.nix --run "just build-server"
+  key: build-server
+  depends_on: prereqs
 
-  - label: "Build web"
-    command: |
-      . /etc/profile
-      nix-shell ops/shell.nix --run "just build-web"
-    key: build-web
-    depends_on: prereqs
+- label: "Build web"
+  command: |
+    . /etc/profile
+    nix-shell ops/shell.nix --run "just build-web"
+  key: build-web
+  depends_on: prereqs
 
-  - label: "Build images"
-    command: |
-      . /etc/profile
-      nix-shell ops/shell.nix --run "just image-build"
-    key: build-images
-    depends_on:
-      - build-web
-      - build-server
-    agents:
-      podman: "true"
+- label: "Build images"
+  command: |
+    . /etc/profile
+    nix-shell ops/shell.nix --run "just image-build"
+  key: build-images
+  depends_on:
+    - build-web
+    - build-server
+  agents:
+    podman: "true"
 
- - label: "Test db container"
-   command: |
-     . /etc/profile
-     nix-shell ops/shell.nix --run "just test-db"
-   key: test-containers
-   agents:
-     podman: "true"
+- label: "Test db container"
+  command: |
+    . /etc/profile
+    nix-shell ops/shell.nix --run "just test-db"
+  key: test-db-container
+  agents:
+    podman: "true"
 
 # - label: "Test"
 #   command: |

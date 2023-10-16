@@ -1,0 +1,57 @@
+steps:
+  - label: "Prereqs"
+    command: |
+      . /etc/profile
+      echo $PATH
+      nix-shell ops/shell.nix --run just
+    key: prereqs
+
+  - label: "Build server"
+    command: |
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just build-server"
+    key: build-server
+    depends_on: prereqs
+
+  - label: "Build web"
+    command: |
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just build-web"
+    key: build-web
+    depends_on: prereqs
+
+  - label: "Build images"
+    command: |
+      . /etc/profile
+      nix-shell ops/shell.nix --run "just image-build"
+    key: build-images
+    depends_on:
+      - build-web
+      - build-server
+    agents:
+      podman: "true"
+
+# - label: "Test containers"
+#   command: |
+#     . /etc/profile
+#     nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
+#   key: test-containers
+#   depends_on: build-images
+#   agents:
+#     podman: "true"
+
+# - label: "Test"
+#   command: |
+#     . /etc/profile
+#     nix-shell ops/shell.nix --run "just test"
+#   key: full-test
+#   depends_on:
+#     - build-images
+#     - test-containers
+#   agents:
+#     podman: "true"
+
+# - label: "Deploy"
+#   command: "scripts/deploy.sh"
+#   key: deploy
+#   depends_on: test

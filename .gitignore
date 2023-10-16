@@ -18,8 +18,5 @@ tools/.vscode
 # Crucial! Do not check in this file, as it may have credentials.
 /.env
 
-# Logs for the container network
-/container-logs/
-
 # Build directories
 tools/result

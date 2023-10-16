@@ -67,7 +67,7 @@ build-server: lint-server
 
 test: test-web
 
-test-web: launch-web
+test-web: destroy-all launch-web && destroy-web
 
 lint: lint-web lint-server
 
@@ -110,14 +110,14 @@ destroy-all:
 launch-db:
   docker-compose up -d db
 
-test-db: launch-db && destroy-db
+test-db: destroy-all launch-db && destroy-db
   docker-compose logs db \
     | grep "database system is ready to accept connections"
 
 launch-server:
   docker-compose up -d server
 
-test-server: launch-server && destroy-server
+test-server: destroy-all launch-server && destroy-server
   sleep 10  # Wait for server to launch.
   curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
   docker-compose logs server 2>&1 \

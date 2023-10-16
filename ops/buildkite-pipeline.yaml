@@ -1,6 +1,3 @@
-agents:
-  kvm: "true"
-
 steps:
   - label: "Prereqs"
     command: |
@@ -31,6 +28,8 @@ steps:
     depends_on:
       - build-web
       - build-server
+    agents:
+      podman: "true"
 
   - label: ":test_tube: Test containers"
     command:
@@ -38,6 +37,8 @@ steps:
       nix-shell ops/shell.nix --run "just launch-db && just destroy-db"
     key: test
     depends_on: build-images
+    agents:
+      podman: "true"
 
 # - label: ":test_tube: Test"
 #   command:
@@ -45,6 +46,8 @@ steps:
 #     nix-shell ops/shell.nix --run "just test"
 #   key: test
 #   depends_on: build-images
+#   agents:
+#     podman: "true"
 
 # - label: ":rocket: Deploy"
 #   command: "scripts/deploy.sh"

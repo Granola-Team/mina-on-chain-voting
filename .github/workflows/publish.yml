@@ -1,0 +1,83 @@
+name: publish
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  ECR_REPOSITORY_URL: 673156464838.dkr.ecr.us-west-2.amazonaws.com
+  ECR_REPOSITORY_NAME: on-chain-voting
+
+jobs:
+  publish-server-image:
+    name: Build and Push Docker Image
+    runs-on: minafoundation-default-runners
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+      - name: 🦀 Get on-chain-voting server version from Cargo.toml.
+        id: ocv-server
+        uses: dante-signal31/rust-app-version@v1.2.0
+        with:
+          cargo_toml_folder: ./server/
+      - name: 🏷️ Generate Tag
+        run: echo "TAG_SERVER=server-${{ steps.ocv-server.outputs.app_version }}-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+      - name: 🔑 ECR Login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: 🔍 Check if Tag already exists
+        id: checktag
+        uses: tyriis/docker-image-tag-exists@main
+        with:
+          registry: ${{ env.ECR_REPOSITORY_URL}}
+          repository: ${{ env.ECR_REPOSITORY_NAME }}
+          tag: ${{ env.TAG_SERVER }}
+      - name: 🛠️ Build on-chain-voting server Docker Image
+        if: steps.checktag.outputs.tag == 'not found'
+        working-directory: ./server/
+        run: DOCKER_BUILDKIT=1 docker build -t ${{ env.ECR_REPOSITORY_URL}}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.TAG_SERVER }} .
+      - name: 🚚 Push on-chain-voting server Docker Image
+        if: steps.checktag.outputs.tag == 'not found'
+        run: docker push ${{ env.ECR_REPOSITORY_URL}}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.TAG_SERVER }}
+      - name: 📝 Release Notes
+        run: |
+          echo "Generate Release Notes"
+          echo "TODO: Generate Release Notes (https://github.com/MinaProtocol/mf-devops-workflows/issues/23)"
+
+  publish-web-image:
+    name: Build and Push Docker Image
+    runs-on: minafoundation-default-runners
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+      - name: 🦀 Get on-chain-voting web version from package.json
+        id: ocv-web
+        uses: martinbeentjes/npm-get-version-action@v1.3.1
+        with:
+          path: web
+      - name: 🏷️ Generate Tag
+        run: echo "TAG_WEB=web-${{ steps.ocv-web.outputs.current-version }}-$(echo $GITHUB_SHA | cut -c1-7)" >> $GITHUB_ENV
+      - name: 🔑 ECR Login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+      - name: 🔍 Check if Tag already exists
+        id: checktag
+        uses: tyriis/docker-image-tag-exists@main
+        with:
+          registry: ${{ env.ECR_REPOSITORY_URL}}
+          repository: ${{ env.ECR_REPOSITORY_NAME }}
+          tag: ${{ env.TAG_WEB }}
+      - name: 🛠️ Build on-chain-voting web Docker Image
+        if: steps.checktag.outputs.tag == 'not found'
+        working-directory: ./web/
+        run: DOCKER_BUILDKIT=1 docker build -t ${{ env.ECR_REPOSITORY_URL}}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.TAG_WEB }} .
+      - name: 🚚 Push on-chain-voting web Docker Image
+        if: steps.checktag.outputs.tag == 'not found'
+        run: docker push ${{ env.ECR_REPOSITORY_URL}}/${{ env.ECR_REPOSITORY_NAME }}:${{ env.TAG_WEB }}
+      - name: 📝 Release Notes
+        run: |
+          echo "Generate Release Notes"
+          echo "TODO: Generate Release Notes (https://github.com/MinaProtocol/mf-devops-workflows/issues/23)"

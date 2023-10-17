@@ -34,6 +34,8 @@ steps:
 - label: "Test db container"
   command: |
     . /etc/profile
+    echo $PATH
+    echo $HOME
     cp .env.example .env
     nix-shell ops/shell.nix --run "just test-db"
   key: test-db-container

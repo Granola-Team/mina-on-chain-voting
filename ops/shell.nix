@@ -73,9 +73,6 @@ in pkgs.mkShell {
     pkgs.rustup
     pkgs.skopeo
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
-    pkgs.runc            # Container runtime
-    # pkgs.conmon        # Container runtime monitor
-    pkgs.slirp4netns     # User-mode networking for unprivileged namespaces
     pkgs.podman          # Required for testing with containers.
     pkgs.podman-compose  # Required for testing with containers.
     dockerCompat

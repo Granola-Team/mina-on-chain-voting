@@ -3,22 +3,8 @@
 # The command 'just' will give usage information.
 # See https://github.com/casey/just for more.
 
-# Default build target. Shows menu of targets which user runs 'just'.
-#
 default:
   @just --list --justfile {{justfile()}}
-
-# Variables
-#
-DB_HOST := env_var_or_default('DB_HOST', "127.0.0.1")
-DB_PORT := env_var_or_default('DB_PORT', "5432")
-DB_NAME := env_var_or_default('DB_NAME', "db")
-DB_USER := env_var_or_default('DB_USER', "granola")
-DB_PASS := env_var_or_default('DB_PASS', "systems")
-DATABASE_URL := env_var_or_default(
-  'DATABASE_URL',
-  "postgresql://" + DB_USER + ":" + DB_PASS + "@" + DB_HOST + ":" + DB_PORT + "/" + DB_NAME)
-container_log_dir := `mktemp -d "${TMPDIR:-/tmp}"/container-logs-XXX`
 
 #
 # Targets
@@ -118,6 +104,7 @@ launch-db:
 
 test-db: destroy-all launch-db && destroy-db
   podman network ls
+  sleep 3  # Wait for db to become ready. TODO: use pg_isready.
   docker-compose logs db \
     | grep "database system is ready to accept connections"
 

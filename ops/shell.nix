@@ -86,5 +86,6 @@ in pkgs.mkShell {
     export PATH=$PATH:''${RUSTUP_HOME:-~/.rustup}/toolchains/$RUSTC_VERSION-x86_64-unknown-linux-gnu/bin/
     # Install required configuration
     ${podmanSetupScript}
+    export TMPDIR=/var/tmp
   '';
 }

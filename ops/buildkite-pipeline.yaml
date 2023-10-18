@@ -2,7 +2,9 @@ steps:
 - label: "Prereqs"
   command: |
     . /etc/profile
+    echo $HOME
     echo $PATH
+    echo $TMPDIR
     nix-shell ops/shell.nix --run just
   key: prereqs
 

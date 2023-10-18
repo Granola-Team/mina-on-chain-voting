@@ -94,18 +94,13 @@ destroy-web:
 # Stop and destroy all known containers.
 destroy-all:
   docker-compose down
-  podman network ls
   docker network prune -f
-  sleep 2
-  podman network ls
 
 launch-db:
   sleep 2
-  podman network ls
   docker-compose up -d db
 
 test-db: destroy-all launch-db && destroy-db
-  podman network ls
   # Wait for the container to attach to the port.
   sleep 2
   # Wait for up to 1 minute for the database instance to be ready.

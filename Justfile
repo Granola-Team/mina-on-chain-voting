@@ -104,7 +104,7 @@ launch-db:
 
 test-db: destroy-all launch-db && destroy-db
   podman network ls
-  sleep 3  # Wait for db to become ready. TODO: use pg_isready.
+  sleep 20  # Wait for db to become ready. TODO: use pg_isready.
   docker-compose logs db \
     | grep "database system is ready to accept connections"
 

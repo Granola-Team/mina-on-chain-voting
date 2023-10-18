@@ -13,7 +13,8 @@ let
     storageConf = pkgs.writeText "storage.conf" ''
       [storage]
       driver = "overlay"
-      runRoot = "$TMPDIR/container-storage-runroot"
+      graphRoot = "$HOME/containers/graphRoot"
+      runRoot = "$HOME/containers/runRoot"
     '';
   in pkgs.writeScript "podman-setup" ''
     #!${pkgs.runtimeShell}

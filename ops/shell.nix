@@ -69,7 +69,7 @@ in pkgs.mkShell {
     pkgs.nodePackages.pnpm
     pkgs.openssl     # Required for compiling.
     pkgs.pkg-config  # Required for compiling.
-    pkgs.postgresql  # Required for compiling against libpq.
+    pkgs.postgresql  # Required for compiling against libpq, and for pg_isready.
     pkgs.rustup
     pkgs.skopeo
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [

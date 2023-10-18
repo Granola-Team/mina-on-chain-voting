@@ -6,6 +6,8 @@
 default:
   @just --list --justfile {{justfile()}}
 
+set dotenv-load
+
 #
 # Targets
 #
@@ -104,7 +106,15 @@ launch-db:
 
 test-db: destroy-all launch-db && destroy-db
   podman network ls
-  sleep 20  # Wait for db to become ready. TODO: use pg_isready.
+  # Wait for the container to attach to the port.
+  sleep 2
+  # Wait for up to 1 minute for the database instance to be ready.
+  pg_isready \
+    -h "$DB_HOST" \
+    -p "$DB_PORT" \
+    -d "$DB_NAME" \
+    -U "$DB_USER" \
+    -t 60
   docker-compose logs db \
     | grep "database system is ready to accept connections"
 

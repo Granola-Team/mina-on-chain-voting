@@ -55,7 +55,7 @@ build-server: lint-server
 
 test: test-web
 
-test-web: destroy-all launch-web && destroy-web
+test-web: destroy-all launch-web && destroy-all
 
 lint: lint-web lint-server
 
@@ -97,10 +97,9 @@ destroy-all:
   docker network prune -f
 
 launch-db:
-  sleep 2
   docker-compose up -d db
 
-test-db: destroy-all launch-db && destroy-db
+test-db: destroy-all launch-db && destroy-all
   # Wait for the container to attach to the port.
   sleep 2
   # Wait for up to 1 minute for the database instance to be ready.
@@ -116,8 +115,8 @@ test-db: destroy-all launch-db && destroy-db
 launch-server:
   docker-compose up -d server
 
-test-server: destroy-all launch-server && destroy-server
-  sleep 10  # Wait for server to launch.
+test-server: destroy-all launch-server && destroy-all
+  sleep 20  # Wait for server to launch.
   curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
   docker-compose logs server 2>&1 \
     | grep DEBUG  # Ensure DEBUG info being logged.

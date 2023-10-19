@@ -1,4 +1,4 @@
-{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/261abe8a44a7e8392598d038d2e01f7b33cf26d0.tar.gz") {}
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/12bdeb01ff9e2d3917e6a44037ed7df6e6c3df9d.tar.gz") {}
 }:
 
 let
@@ -13,6 +13,8 @@ let
     storageConf = pkgs.writeText "storage.conf" ''
       [storage]
       driver = "overlay"
+      graphRoot = "$HOME/containers/graphRoot"
+      runRoot = "$HOME/containers/runRoot"
     '';
   in pkgs.writeScript "podman-setup" ''
     #!${pkgs.runtimeShell}
@@ -25,6 +27,13 @@ let
     if ! test -f ~/.config/containers/storage.conf; then
       install -Dm555 ${storageConf} ~/.config/containers/storage.conf
     fi
+  '';
+
+  # Provides fake "docker" and "docker-compose" binaries.
+  dockerCompat = pkgs.runCommandNoCC "docker-podman-compat" {} ''
+    mkdir -p $out/bin
+    ln -s ${pkgs.podman}/bin/podman $out/bin/docker
+    ln -s ${pkgs.podman-compose}/bin/podman-compose $out/bin/docker-compose
   '';
 
 in pkgs.mkShell {
@@ -62,14 +71,13 @@ in pkgs.mkShell {
     pkgs.nodePackages.pnpm
     pkgs.openssl     # Required for compiling.
     pkgs.pkg-config  # Required for compiling.
-    pkgs.postgresql  # Required for compiling against libpq.
+    pkgs.postgresql  # Required for compiling against libpq, and for pg_isready.
     pkgs.rustup
     pkgs.skopeo
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
-    pkgs.runc     # Container runtime
-    # pkgs.conmon   # Container runtime monitor
-    pkgs.slirp4netns  # User-mode networking for unprivileged namespaces
-    pkgs.podman       # Required for testing with containers.
+    pkgs.podman          # Required for testing with containers.
+    pkgs.podman-compose  # Required for testing with containers.
+    dockerCompat
   ] ++ pkgs.lib.optionals (pkgs.stdenv.isDarwin) [
     pkgs.darwin.apple_sdk.frameworks.Security
     pkgs.darwin.apple_sdk.frameworks.SystemConfiguration
@@ -80,5 +88,6 @@ in pkgs.mkShell {
     export PATH=$PATH:''${RUSTUP_HOME:-~/.rustup}/toolchains/$RUSTC_VERSION-x86_64-unknown-linux-gnu/bin/
     # Install required configuration
     ${podmanSetupScript}
+    export TMPDIR=/var/tmp
   '';
 }

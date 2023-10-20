@@ -101,7 +101,7 @@ launch-db:
 
 test-db: destroy-all launch-db && destroy-all
   # Wait for the container to attach to the port.
-  sleep 2
+  sleep 5
   # Wait for up to 1 minute for the database instance to be ready.
   pg_isready \
     -h "$DB_HOST" \

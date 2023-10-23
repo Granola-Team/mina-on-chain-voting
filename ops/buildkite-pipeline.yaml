@@ -1,7 +1,6 @@
 steps:
 - label: "Prereqs"
   command: |
-    . /etc/profile
     echo $HOME
     echo $PATH
     echo $TMPDIR
@@ -10,21 +9,18 @@ steps:
 
 - label: "Build server"
   command: |
-    . /etc/profile
     nix-shell ops/shell.nix --run "just build-server"
   key: build-server
   depends_on: prereqs
 
 - label: "Build web"
   command: |
-    . /etc/profile
     nix-shell ops/shell.nix --run "just build-web"
   key: build-web
   depends_on: prereqs
 
 - label: "Build images"
   command: |
-    . /etc/profile
     nix-shell ops/shell.nix --run "just image-build"
   key: build-images
   depends_on:
@@ -35,13 +31,10 @@ steps:
 
 - label: "Test db container"
   command: |
-    . /etc/profile
-    echo $PATH
-    echo $HOME
     cp .env.example .env
     nix-shell ops/shell.nix --run "just test-db"
   key: test-db-container
-  depends_on: prereqs
+  depends_on: build-images
   agents:
     podman: "true"
 
@@ -50,9 +43,7 @@ steps:
 #     . /etc/profile
 #     nix-shell ops/shell.nix --run "just test"
 #   key: full-test
-#   depends_on:
-#     - build-images
-#     - test-containers
+#   depends_on: test-db-container
 #   agents:
 #     podman: "true"
 

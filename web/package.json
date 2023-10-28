@@ -44,6 +44,7 @@
     "nextjs-toploader": "1.4.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-spinners": "^0.13.8",
     "react-wrap-balancer": "1.1.0",
     "recharts": "2.8.0",
     "zod": "^3.22.4"

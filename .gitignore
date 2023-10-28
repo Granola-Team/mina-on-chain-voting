@@ -20,3 +20,6 @@ tools/.vscode
 
 # Build directories
 tools/result
+
+# Node modules
+node_modules/

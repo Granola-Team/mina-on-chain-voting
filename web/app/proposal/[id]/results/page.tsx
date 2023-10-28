@@ -11,7 +11,7 @@ interface PageParams {
 
 const Page = async ({ params }: { params: PageParams }) => {
   const proposal = await getProposalResults(params.id);
-
+  
   return (
     <div className="container relative">
       <PageHeader className="hidden md:block pb-6">

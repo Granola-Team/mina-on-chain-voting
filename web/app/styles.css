@@ -1,0 +1,71 @@
+.skeleton-loader-light {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+.skeleton-loader-dark {
+  background: linear-gradient(90deg, #2c2c2c 25%, #464646 50%, #2c2c2c 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+.skeleton-loader-orange {
+  background: linear-gradient(90deg, #f7e0b2 25%, #e6b15a 50%, #f7e0b2 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+  
+@keyframes loading {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.load-balls {
+  width: 48px;
+  height: 48px;
+  display: block;
+  margin:15px auto;
+  position: relative;
+  color: #EDA13A;
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+}
+.load-balls::after,
+.load-balls::before {
+  content: '';  
+  box-sizing: border-box;
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 50%;
+  left: 50%;
+  transform: scale(0.5) translate(0, 0);
+  background-color: #EDA13A;
+  border-radius: 50%;
+  animation: animloader 1s infinite ease-in-out;
+}
+.load-balls::before {
+  background-color: #EDA13A;
+  transform: scale(0.5) translate(-48px, -48px);
+}
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+@keyframes animloader {
+    50% {
+      transform: scale(1) translate(-50%, -50%);
+}
+}
+  
+  

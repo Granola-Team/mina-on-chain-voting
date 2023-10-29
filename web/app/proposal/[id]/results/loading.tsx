@@ -1,7 +1,7 @@
 'use client';
 import { useTheme } from 'next-themes';
-import '../../../styles.css'
 
+import '../../../styles.css'
 
 export default function PageLoading() {
     const { theme } = useTheme();
@@ -109,4 +109,3 @@ function TableLoadingElement() {
     );
 }
   
-// ${theme === 'dark' ? 'dark-load': 'light-load'}

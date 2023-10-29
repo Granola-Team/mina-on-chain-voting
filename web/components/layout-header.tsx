@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-
 import { siteConfig } from 'common/config';
 import { cn } from 'common/utils';
 

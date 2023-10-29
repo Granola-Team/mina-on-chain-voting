@@ -15,8 +15,6 @@ services:
       - RELEASE_STAGE=production
     ports:
       - 3000:3000
-    volumes:
-      - ./web/app:/src
     networks:
       - mina-ocv
     depends_on:

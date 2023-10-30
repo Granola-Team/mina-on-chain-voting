@@ -56,6 +56,9 @@ build-server: lint-server
 test: test-web
 
 test-web: destroy-all launch-web && destroy-all
+  sleep 20  # Wait for server to launch.
+  curl http://127.0.0.1:3000/ | grep 'Granola'
+  docker-compose logs web 2>&1 | grep 'Ready'
 
 lint: lint-web lint-server
 

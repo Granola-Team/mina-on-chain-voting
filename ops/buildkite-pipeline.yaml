@@ -38,14 +38,21 @@ steps:
   agents:
     podman: "true"
 
-# - label: "Test"
-#   command: |
-#     . /etc/profile
-#     nix-shell ops/shell.nix --run "just test"
-#   key: full-test
-#   depends_on: test-db-container
-#   agents:
-#     podman: "true"
+- label: "Test server container"
+  command: |
+    nix-shell ops/shell.nix --run "just test-server"
+  key: test-server-container
+  depends_on: test-db-container
+  agents:
+    podman: "true"
+
+- label: "Full test"
+  command: |
+    nix-shell ops/shell.nix --run "just test"
+  key: full-test
+  depends_on: test-server-container
+  agents:
+    podman: "true"
 
 # - label: "Deploy"
 #   command: "scripts/deploy.sh"

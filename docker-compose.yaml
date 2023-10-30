@@ -19,6 +19,7 @@ services:
       - mina-ocv
     depends_on:
       - db
+      - server
   server:
     container_name: server
     build:

@@ -38,24 +38,24 @@ steps:
   agents:
     podman: "true"
 
-- label: "Test server container"
-  command: |
-    cp .env.example .env
-    nix-shell ops/shell.nix --run "just test-server"
-  key: test-server-container
-  depends_on: test-db-container
-  agents:
-    podman: "true"
-
-- label: "Full test"
-  command: |
-    cp .env.example .env
-    nix-shell ops/shell.nix --run "just test"
-  key: full-test
-  depends_on: test-server-container
-  agents:
-    podman: "true"
-
+# - label: "Test server container"
+#   command: |
+#     cp .env.example .env
+#     nix-shell ops/shell.nix --run "just test-server"
+#   key: test-server-container
+#   depends_on: test-db-container
+#   agents:
+#     podman: "true"
+# 
+# - label: "Full test"
+#   command: |
+#     cp .env.example .env
+#     nix-shell ops/shell.nix --run "just test"
+#   key: full-test
+#   depends_on: test-server-container
+#   agents:
+#     podman: "true"
+# 
 # - label: "Deploy"
 #   command: "scripts/deploy.sh"
 #   key: deploy

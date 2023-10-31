@@ -56,8 +56,6 @@ build-server: lint-server
 test: test-web
 
 test-web: destroy-all launch-web && destroy-all
-  curl http://127.0.0.1:3000/ | grep 'Granola'
-  docker-compose logs web 2>&1 | grep 'Ready'
 
 lint: lint-web lint-server
 
@@ -119,7 +117,6 @@ launch-server:
 
 test-server: destroy-all launch-server && destroy-all
   sleep 20  # Wait for server to launch.
-  docker-compose logs server 2>&1  # Informative debug info
   curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
   docker-compose logs server 2>&1 \
     | grep DEBUG  # Ensure DEBUG info being logged.

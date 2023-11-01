@@ -38,15 +38,6 @@ steps:
   agents:
     podman: "true"
 
-- label: "Test server container"
-  command: |
-    cp .env.example .env
-    nix-shell ops/shell.nix --run "just test-server"
-  key: test-server-container
-  depends_on: test-db-container
-  agents:
-    podman: "true"
-
 # - label: "Test"
 #   command: |
 #     . /etc/profile

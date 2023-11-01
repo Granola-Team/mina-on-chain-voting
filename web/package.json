@@ -36,7 +36,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
     "cmdk": "0.2.0",
-    "exceljs": "^4.3.0",
+    "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "moment": "^2.29.4",
     "next": "13.5.2",

@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 dependencies:
   '@radix-ui/react-checkbox':
     specifier: ^1.0.4
@@ -71,8 +75,8 @@ dependencies:
     specifier: 0.2.1
     version: 0.2.1(next@13.5.2)(react-dom@18.2.0)(react@18.2.0)
   nextjs-toploader:
-    specifier: 1.4.2
-    version: 1.4.2(next@13.5.2)(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.6.4
+    version: 1.6.4(next@13.5.2)(react-dom@18.2.0)(react@18.2.0)
   react:
     specifier: 18.2.0
     version: 18.2.0
@@ -2350,8 +2354,8 @@ packages:
     resolution: {integrity: sha512-Vvycsc9FQdwhxE3y3DzeIxuEJbWGDsnrxvMADzTDF/lcdR9/K+AQIeAghTQsHtotg/q0j3WEOYS/jQgSdWue3w==}
     dev: true
 
-  /@types/nprogress@0.2.0:
-    resolution: {integrity: sha512-1cYJrqq9GezNFPsWTZpFut/d4CjpZqA0vhqDUPFWYKF1oIyBz5qnoYMzR+0C/T96t3ebLAC1SSnwrVOm5/j74A==}
+  /@types/nprogress@0.2.2:
+    resolution: {integrity: sha512-2wLrSJXLztGmr7wXwM0hA/wuIOY9DznVdd+ZFofHOiXcj9JnVt+2ZeLRJ7v5ZVlmheSkUOSg3Q3O4Ce7yji79A==}
     dev: false
 
   /@types/parse-json@4.0.0:
@@ -6109,14 +6113,14 @@ packages:
       - '@babel/core'
       - babel-plugin-macros
 
-  /nextjs-toploader@1.4.2(next@13.5.2)(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-FS5+zCdNHLq0YA+SijkbDifOMFNayKfxkCLTiM6TIrvSaf6kAzCGlNjwgVpoG3zpampVMQSVf5L/jrWFJgs23g==}
+  /nextjs-toploader@1.6.4(next@13.5.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-KYLQ+0MvGdFk9JwOQfRtaYBAsyuX67Ca5QTa51RGNO4gQx64KLSE+ryHjUQ5LcDczHotp0l32GgksQW9vucUkw==}
     peerDependencies:
       next: '>= 6.0.0'
       react: '>= 16.0.0'
       react-dom: '>= 16.0.0'
     dependencies:
-      '@types/nprogress': 0.2.0
+      '@types/nprogress': 0.2.2
       next: 13.5.2(@babel/core@7.22.20)(react-dom@18.2.0)(react@18.2.0)
       nprogress: 0.2.0
       prop-types: 15.8.1
@@ -8158,7 +8162,3 @@ packages:
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
     dev: false
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false

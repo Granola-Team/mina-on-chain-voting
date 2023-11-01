@@ -5,9 +5,7 @@ networks:
 services:
   web:
     container_name: web
-    build:
-      context: ./web
-      dockerfile: Dockerfile
+    image: mina-ocv-web:latest
     env_file: .env
     environment:
       - API_BASE_URL=http://server:8080
@@ -19,11 +17,10 @@ services:
       - mina-ocv
     depends_on:
       - db
+      - server
   server:
     container_name: server
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: mina-ocv-server:latest
     env_file: .env
     environment:
       - DB_HOST=db

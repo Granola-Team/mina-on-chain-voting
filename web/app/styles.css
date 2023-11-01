@@ -63,9 +63,9 @@
   }
 } 
 @keyframes animloader {
-    50% {
-      transform: scale(1) translate(-50%, -50%);
-}
+  50% {
+    transform: scale(1) translate(-50%, -50%);
+  }
 }
   
   

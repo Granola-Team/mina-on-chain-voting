@@ -15,6 +15,7 @@ interface PageParams {
 
 const Page = async ({ params }: { params: PageParams }) => {
   const proposal = await getProposalResults(params.id);
+  
   return (
     <div className="container relative">
       <Suspense fallback={<PageLoading/>}>

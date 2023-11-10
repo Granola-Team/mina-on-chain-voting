@@ -58,6 +58,31 @@ export const getProposalResults = async (id: number | string) => {
   };
 };
 
+export type GetProposalVotes = Awaited<ReturnType<typeof getProposalVotes>>;
+
+export const getProposalVotes = async (id: number | string) => { 
+  const res = await safeFetch(`/api/proposal/${id}/results`);
+  const data = ProposalResultsParser.parse(QueryKeys.PROPOSAL_RESULT, res);
+  const processedVotes = processVotes(data.votes);
+
+  return {
+    votes: processedVotes.votes,
+    metrics: processedVotes.metrics,
+  };
+}
+
+export type GetProposalData = Awaited<ReturnType<typeof getProposalData>>;
+
+export const getProposalData = async (id: number | string) => {
+  const res = await safeFetch(`/api/proposal/${id}/results`);
+  const data = ProposalResultsParser.parse(QueryKeys.PROPOSAL_RESULT, res);
+  const processedProposal = processProposal(data);
+
+  return {
+    ...processedProposal,
+  };
+};
+
 export type GetProposalResultsResult = Awaited<ReturnType<typeof getProposalResults>>;
 
 export const getProposalList = async () => {

@@ -11,8 +11,14 @@
   animation: loading 2s infinite;
 }
 
-.skeleton-loader-orange {
+.skeleton-loader-orange-light {
   background: linear-gradient(90deg, #f7e0b2 25%, #e6b15a 50%, #f7e0b2 75%);
+  background-size: 200% 100%;
+  animation: loading 2s infinite;
+}
+
+.skeleton-loader-orange-dark {
+  background: linear-gradient(90deg, #e6a85a 25%, #d18b2a 50%, #e6a85a 75%);
   background-size: 200% 100%;
   animation: loading 2s infinite;
 }

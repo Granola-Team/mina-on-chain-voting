@@ -13,7 +13,7 @@ just image-build-web
 just image-build-server
 just clean-server
 just clean-web
-just build-images
+just image-build
 just install
 just install-server
 just install-web
@@ -27,6 +27,7 @@ just build
 just launch-db || is_darwin
 just launch-server
 just clean
+just test-db
 just test-server
 just test-web
 just test

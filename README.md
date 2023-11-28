@@ -1,3 +1,5 @@
+[![Build status](https://badge.buildkite.com/521caf4796d8f12a30ce6ca712f917715db81be9bbc265b6df.svg)](https://buildkite.com/granola/mina-on-chain-voting)
+
 # Mina On-Chain Voting
 
 On-Chain Voting is a protocol developed to help with governing the Mina L1

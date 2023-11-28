@@ -1,11 +1,11 @@
 version: '3.8'
+networks:
+  mina-ocv:
+    name: "mina-ocv${BUILDKITE_BUILD_NUMBER-}"
 services:
   web:
     container_name: web
-    profiles: ['all', 'web']
-    build:
-      context: ./web
-      dockerfile: Dockerfile
+    image: mina-ocv-web:latest
     env_file: .env
     environment:
       - API_BASE_URL=http://server:8080
@@ -13,26 +13,32 @@ services:
       - RELEASE_STAGE=production
     ports:
       - 3000:3000
+    networks:
+      - mina-ocv
+    depends_on:
+      - db
+      - server
   server:
     container_name: server
-    profiles: ['all', 'server-db', 'server']
-    build:
-      context: ./server
-      dockerfile: Dockerfile
+    image: mina-ocv-server:latest
     env_file: .env
     environment:
       - DB_HOST=db
       - DATABASE_URL=postgresql://granola:systems@db:5432/db
     ports:
       - 8080:8080
+    networks:
+      - mina-ocv
     depends_on:
       - db
   db:
     container_name: postgres
-    profiles: ['all', 'server-db', 'db']
     image: postgres:15.2
+    env_file: .env
     ports:
       - 5432:5432
+    networks:
+      - mina-ocv
     environment:
       POSTGRES_USER: granola
       POSTGRES_PASSWORD: systems

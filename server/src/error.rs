@@ -1,7 +1,7 @@
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 
-use crate::log_target;
+use crate::LOG_TARGET;
 
 #[derive(thiserror::Error, Debug)]
 pub enum Error {
@@ -29,11 +29,11 @@ impl IntoResponse for Error {
     fn into_response(self) -> Response {
         match self {
             Self::Diesel(ref error) => {
-                tracing::error!(target: log_target, "Error: {error}");
+                tracing::error!(target: LOG_TARGET, "Error: {error}");
             }
 
             Self::Anyhow(ref error) => {
-                tracing::error!(target: log_target, "Error: {error}");
+                tracing::error!(target: LOG_TARGET, "Error: {error}");
             }
         }
 

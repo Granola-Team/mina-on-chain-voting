@@ -24,7 +24,7 @@ clean-server:
 
 # Install prerequisite packages for 'web' development.
 install-web:
-  cd web && pnpm install
+  cd web && pnpm install && pnpm config set strict-ssl=false
 
 # Install prerequisite packages for 'server' development.
 install-server:

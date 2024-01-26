@@ -15,7 +15,7 @@ steps:
 
 - label: "Build web"
   command: |
-    nix-shell ops/shell.nix --pure --run "just build-web"
+    nix-shell ops/shell.nix --run "just build-web"
   key: build-web
   depends_on: prereqs
 

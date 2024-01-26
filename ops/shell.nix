@@ -1,4 +1,4 @@
-{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/2281c1ca636ae9164b00e33f01190a01895282fc.tar.gz") {}
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/4430d6e3a94c8eb4240a955153f4a6ad4558e45e.tar.gz") {}
 }:
 
 let
@@ -38,8 +38,6 @@ let
 
 in pkgs.mkShell {
 
-  RUSTC_VERSION = pkgs.lib.readFile ../rust-toolchain;
-
   # See https://github.com/rust-lang/rust-bindgen#environment-variables
 
   LIBCLANG_PATH = pkgs.lib.makeLibraryPath [ pkgs.llvmPackages_latest.libclang.lib ];
@@ -72,7 +70,8 @@ in pkgs.mkShell {
     pkgs.openssl     # Required for compiling.
     pkgs.pkg-config  # Required for compiling.
     pkgs.postgresql  # Required for compiling against libpq, and for pg_isready.
-    pkgs.rustup
+    pkgs.cargo
+    pkgs.clippy
     pkgs.skopeo
   ] ++ pkgs.lib.optionals (!pkgs.stdenv.isDarwin) [
     pkgs.podman          # Required for testing with containers.
@@ -85,7 +84,6 @@ in pkgs.mkShell {
 
   shellHook = ''
     export PATH=$PATH:''${CARGO_HOME:-~/.cargo}/bin
-    export PATH=$PATH:''${RUSTUP_HOME:-~/.rustup}/toolchains/$RUSTC_VERSION-x86_64-unknown-linux-gnu/bin/
     # Install required configuration
     ${podmanSetupScript}
     export TMPDIR=/var/tmp

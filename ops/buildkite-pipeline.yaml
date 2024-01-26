@@ -4,12 +4,12 @@ steps:
     echo $HOME
     echo $PATH
     echo $TMPDIR
-    nix-shell ops/shell.nix --run just
+    nix-shell ops/shell.nix --pure --run just
   key: prereqs
 
 - label: "Build server"
   command: |
-    nix-shell ops/shell.nix --run "just build-server"
+    nix-shell ops/shell.nix --pure --run "just build-server"
   key: build-server
   depends_on: prereqs
 
@@ -21,7 +21,7 @@ steps:
 
 - label: "Build images"
   command: |
-    nix-shell ops/shell.nix --run "just image-build"
+    nix-shell ops/shell.nix --pure --run "just image-build"
   key: build-images
   depends_on:
     - build-web
@@ -32,7 +32,7 @@ steps:
 - label: "Test db container"
   command: |
     cp .env.example .env
-    nix-shell ops/shell.nix --run "just test-db"
+    nix-shell ops/shell.nix --pure --run "just test-db"
   key: test-db-container
   depends_on: build-images
   agents:

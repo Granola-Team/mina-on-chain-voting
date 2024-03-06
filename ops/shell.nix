@@ -1,4 +1,5 @@
-{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/4430d6e3a94c8eb4240a955153f4a6ad4558e45e.tar.gz") {}
+# See status.nixos.org for options for this commit.
+{ pkgs ? import (fetchTarball "https://github.com/NixOS/nixpkgs/archive/311a4be96d940a0c673e88bd5bc83ea4f005cc02.tar.gz") {}
 }:
 
 let
@@ -83,7 +84,6 @@ in pkgs.mkShell {
   ];
 
   shellHook = ''
-    export PATH=$PATH:''${CARGO_HOME:-~/.cargo}/bin
     # Install required configuration
     ${podmanSetupScript}
     export TMPDIR=/var/tmp

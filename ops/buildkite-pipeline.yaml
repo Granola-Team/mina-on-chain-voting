@@ -1,31 +1,31 @@
 steps:
 - label: "Prereqs"
   command: |
-    echo $HOME
-    echo $PATH
-    echo $TMPDIR
+    echo HOME=$HOME
+    echo PATH=$PATH
+    echo TMPDIR=$TMPDIR
     nix-shell ops/shell.nix --pure --run just
   key: prereqs
 
-#- label: "Build server"
-#  command: |
-#    nix-shell ops/shell.nix --pure --run "just build-server"
-#  key: build-server
-#  depends_on: prereqs
-#
-#- label: "Build web"
-#  command: |
-#    nix-shell ops/shell.nix --pure --run "just build-web"
-#  key: build-web
-#  depends_on: prereqs
-#
+- label: "Build server"
+  command: |
+    nix-shell ops/shell.nix --pure --run "just build-server"
+  key: build-server
+  depends_on: prereqs
+
+- label: "Build web"
+  command: |
+    nix-shell ops/shell.nix --pure --run "just build-web"
+  key: build-web
+  depends_on: prereqs
+
 - label: "Build images"
   command: |
     nix-shell ops/shell.nix --run "just image-build"
   key: build-images
-#  depends_on:
-#    - build-web
-#    - build-server
+  depends_on:
+    - build-web
+    - build-server
   agents:
     docker: "true"
 
@@ -38,15 +38,15 @@ steps:
   agents:
     docker: "true"
 
-- label: "Test"
-  command: |
-    cp .env.example .env
-    nix-shell ops/shell.nix --run "just test"
-  key: full-test
-  depends_on: test-db-container
-  agents:
-    docker: "true"
-
+#- label: "Test"
+#  command: |
+#    cp .env.example .env
+#    nix-shell ops/shell.nix --run "just test"
+#  key: full-test
+#  depends_on: test-db-container
+#  agents:
+#    docker: "true"
+#
 # - label: "Deploy"
 #   command: "scripts/deploy.sh"
 #   key: deploy

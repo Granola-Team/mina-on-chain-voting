@@ -7,25 +7,27 @@ steps:
     nix-shell ops/shell.nix --pure --run just
   key: prereqs
 
-- label: "Build server"
-  command: |
-    nix-shell ops/shell.nix --pure --run "just build-server"
-  key: build-server
-  depends_on: prereqs
-
-- label: "Build web"
-  command: |
-    nix-shell ops/shell.nix --run "just build-web"
-  key: build-web
-  depends_on: prereqs
+#- label: "Build server"
+#  command: |
+#    nix-shell ops/shell.nix --pure --run "just build-server"
+#  key: build-server
+#  depends_on: prereqs
+#
+#- label: "Build web"
+#  command: |
+#    nix-shell ops/shell.nix --run "just build-web"
+#  key: build-web
+#  depends_on: prereqs
 
 - label: "Build images"
   command: |
-    nix-shell ops/shell.nix --run "command -v newuidmap && echo HOME=$HOME && just image-build"
+    nix-shell ops/shell.nix --run "command -v newuidmap || true"
+    nix-shell ops/shell.nix --run "echo $PATH"
+    nix-shell ops/shell.nix --run "just image-build"
   key: build-images
-  depends_on:
-    - build-web
-    - build-server
+#  depends_on:
+#    - build-web
+#    - build-server
   agents:
     docker: "true"
 

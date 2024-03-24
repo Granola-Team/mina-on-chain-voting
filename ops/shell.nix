@@ -63,6 +63,7 @@ in pkgs.mkShell {
 #    ];
 
   buildInputs = [
+    pkgs.cacert
     pkgs.clang
     pkgs.just        # For running the build tool.
     pkgs.libiconv    # Required for compiling Rust tools.

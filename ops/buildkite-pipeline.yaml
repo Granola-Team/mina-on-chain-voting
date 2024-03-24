@@ -27,7 +27,7 @@ steps:
     - build-web
     - build-server
   agents:
-    podman: "true"
+    docker: "true"
 
 - label: "Test db container"
   command: |
@@ -36,7 +36,7 @@ steps:
   key: test-db-container
   depends_on: build-images
   agents:
-    podman: "true"
+    docker: "true"
 
 # - label: "Test"
 #   command: |
@@ -45,7 +45,7 @@ steps:
 #   key: full-test
 #   depends_on: test-db-container
 #   agents:
-#     podman: "true"
+#     docker: "true"
 
 # - label: "Deploy"
 #   command: "scripts/deploy.sh"

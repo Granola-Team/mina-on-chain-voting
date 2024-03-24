@@ -55,7 +55,7 @@ Without Nix, you will need to install, most notably:
 - llvm
 - nodejs
 - pkg-config
-- podman/Docker
+- Docker
 - pnpm (and issue `pnpm env use --global 18`)
 
 Configure your `.env` file. See the [`.env.example`](./.env.example).

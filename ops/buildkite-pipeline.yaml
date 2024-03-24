@@ -40,7 +40,7 @@ steps:
 
 - label: "Test"
   command: |
-    . /etc/profile
+    cp .env.example .env
     nix-shell ops/shell.nix --run "just test"
   key: full-test
   depends_on: test-db-container

@@ -21,7 +21,7 @@ steps:
 
 - label: "Build images"
   command: |
-    nix-shell ops/shell.nix --pure --run "just image-build"
+    nix-shell ops/shell.nix --run "command -v newuidmap && echo HOME=$HOME && just image-build"
   key: build-images
   depends_on:
     - build-web

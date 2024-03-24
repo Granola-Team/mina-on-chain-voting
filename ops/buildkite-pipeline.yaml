@@ -21,7 +21,7 @@ steps:
 #
 - label: "Build images"
   command: |
-    nix-shell ops/shell.nix --run "just image-build"
+    nix-shell ops/shell.nix --pure --run "just image-build"
   key: build-images
 #  depends_on:
 #    - build-web
@@ -38,14 +38,14 @@ steps:
   agents:
     docker: "true"
 
-# - label: "Test"
-#   command: |
-#     . /etc/profile
-#     nix-shell ops/shell.nix --run "just test"
-#   key: full-test
-#   depends_on: test-db-container
-#   agents:
-#     docker: "true"
+- label: "Test"
+  command: |
+    . /etc/profile
+    nix-shell ops/shell.nix --run "just test"
+  key: full-test
+  depends_on: test-db-container
+  agents:
+    docker: "true"
 
 # - label: "Deploy"
 #   command: "scripts/deploy.sh"

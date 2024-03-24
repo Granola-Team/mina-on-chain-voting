@@ -76,8 +76,6 @@ image-build: image-build-web image-build-server
 
 # Build the container image for 'web'
 image-build-web: clean-web
-  echo PATH="$PATH"
-  command -v docker
   docker build -t mina-ocv-web ./web
 
 # Build the container image for 'server'

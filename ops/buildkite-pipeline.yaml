@@ -1,9 +1,9 @@
 steps:
 - label: "Prereqs"
   command: |
-    echo $HOME
-    echo $PATH
-    echo $TMPDIR
+    echo HOME=$HOME
+    echo PATH=$PATH
+    echo TMPDIR=$TMPDIR
     nix-shell ops/shell.nix --pure --run just
   key: prereqs
 
@@ -15,38 +15,38 @@ steps:
 
 - label: "Build web"
   command: |
-    nix-shell ops/shell.nix --run "just build-web"
+    nix-shell ops/shell.nix --pure --run "just build-web"
   key: build-web
   depends_on: prereqs
 
 - label: "Build images"
   command: |
-    nix-shell ops/shell.nix --pure --run "just image-build"
+    nix-shell ops/shell.nix --run "just image-build"
   key: build-images
   depends_on:
     - build-web
     - build-server
   agents:
-    podman: "true"
+    docker: "true"
 
 - label: "Test db container"
   command: |
     cp .env.example .env
-    nix-shell ops/shell.nix --pure --run "just test-db"
+    nix-shell ops/shell.nix --run "just test-db"
   key: test-db-container
   depends_on: build-images
   agents:
-    podman: "true"
+    docker: "true"
 
-# - label: "Test"
-#   command: |
-#     . /etc/profile
-#     nix-shell ops/shell.nix --run "just test"
-#   key: full-test
-#   depends_on: test-db-container
-#   agents:
-#     podman: "true"
-
+#- label: "Test"
+#  command: |
+#    cp .env.example .env
+#    nix-shell ops/shell.nix --run "just test"
+#  key: full-test
+#  depends_on: test-db-container
+#  agents:
+#    docker: "true"
+#
 # - label: "Deploy"
 #   command: "scripts/deploy.sh"
 #   key: deploy

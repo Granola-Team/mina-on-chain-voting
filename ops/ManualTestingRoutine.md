@@ -1,4 +1,4 @@
-## Mina Governance - Observation Routine
+## Mina On-Chain Voting - Observation Routine
 
 ### Check the Dashboard
 

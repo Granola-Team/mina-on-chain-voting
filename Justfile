@@ -55,7 +55,7 @@ build-server: lint-server
 
 test: test-web
 
-test-web: destroy-all launch-web && destroy-all
+test-web: destroy-all test-server image-build-web launch-web && destroy-all
 
 lint: lint-web lint-server
 
@@ -115,7 +115,7 @@ test-db: destroy-all launch-db && destroy-all
 launch-server:
   docker-compose up -d server
 
-test-server: destroy-all launch-server && destroy-all
+test-server: destroy-all image-build-server launch-server && destroy-all
   sleep 20  # Wait for server to launch.
   curl http://127.0.0.1:8080/api/info | grep 'chain_tip'
   docker-compose logs server 2>&1 \

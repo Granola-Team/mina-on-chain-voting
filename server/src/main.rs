@@ -21,7 +21,7 @@ mod schema;
 
 extern crate tracing;
 
-pub(crate) const MINA_GOVERNANCE_SERVER: &str = "mina_governance_server";
+pub(crate) const LOG_TARGET: &str = "mina_on_chain_voting_api";
 
 #[tokio::main]
 async fn main() -> Result<()> {
@@ -32,7 +32,7 @@ async fn main() -> Result<()> {
     let cors = config::init_cors(&config);
 
     tracing::info!(
-        target: MINA_GOVERNANCE_SERVER,
+        target: LOG_TARGET,
         "Initializing database connection pools..."
     );
 
@@ -58,7 +58,7 @@ async fn serve(router: axum::Router, port: u16) {
     let addr = SocketAddr::from(([0, 0, 0, 0], port));
 
     tracing::info!(
-        target: MINA_GOVERNANCE_SERVER,
+        target: LOG_TARGET,
         "Started server on {addr} - http://{addr}"
     );
 

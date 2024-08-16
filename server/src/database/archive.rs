@@ -69,7 +69,7 @@ pub(crate) fn fetch_transactions(
         .context("failed to get archive db connection")?;
 
     let results = sql_query(
-        "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp as timestamp
+        "SELECT DISTINCT pk.value as account, uc.memo as memo, uc.nonce as nonce, uc.hash as hash, b.height as height, b.chain_status as status, b.timestamp::bigint as timestamp
         FROM user_commands AS uc
         JOIN blocks_user_commands AS buc
         ON uc.id = buc.user_command_id
@@ -77,13 +77,12 @@ pub(crate) fn fetch_transactions(
         ON buc.block_id = b.id
         JOIN public_keys AS pk
         ON uc.source_id = pk.id
-        WHERE uc.type = 'payment'
+        WHERE uc.command_type = 'payment'
         AND uc.source_id = uc.receiver_id
-        AND uc.token = 1
         AND NOT b.chain_status = 'orphaned'
         AND buc.status = 'applied'
-        AND b.timestamp BETWEEN $1 AND $2"
-        );
+        AND b.timestamp::bigint BETWEEN $1 AND $2"
+    );
     let results = results
         .bind::<BigInt, _>(start_time)
         .bind::<BigInt, _>(end_time)

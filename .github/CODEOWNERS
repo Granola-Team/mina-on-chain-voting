@@ -1,5 +1,7 @@
 # .github/CODEOWNERS
 
-*  @robinbb @trevorbernard @52 @jstavh @jenr24G
+# The last matching rule takes precedence.
 
-.github/CODEOWNERS  @robinbb @trevorbernard
+*  @robinbb @jhult
+
+.github/CODEOWNERS  @robinbb
